@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_popup_window"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <EditText
+        android:id="@+id/et_sentence_grammar_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#8e8e8e"
+        android:hint="输入句式"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorTextContent"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tv_sentence_grammar_edit_commit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="8dp"
+        android:text="完成"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"/>
+
+</LinearLayout>

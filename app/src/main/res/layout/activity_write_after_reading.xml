@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <com.dace.textreader.view.StatusBarHeightView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_gradient_blue_light"
+        app:use_type="use_padding_top">
+
+        <TextView
+            android:id="@+id/tv_dialog_after_reading_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="取消"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="15sp"/>
+
+    </com.dace.textreader.view.StatusBarHeightView>
+
+    <EditText
+        android:id="@+id/edit_input_after_reading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorWhite"
+        android:gravity="left"
+        android:hint="说你想说的..."
+        android:letterSpacing="0.1"
+        android:lineSpacingMultiplier="1.5"
+        android:padding="10dp"
+        android:scrollbars="vertical"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_operate_write_after_reading_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorDailySentenceBg"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <LinearLayout
+            android:id="@+id/ll_after_reading_type_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_after_reading_type_dialog"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_thought_open"/>
+
+            <TextView
+                android:id="@+id/tv_after_reading_type_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="公开"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_content_number_after_reading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="5dp"
+            android:text="800"
+            android:textColor="@color/colorTextNormal"
+            android:textSize="16sp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_dialog_after_reading_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selector_comment_commit_bg"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="发送"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

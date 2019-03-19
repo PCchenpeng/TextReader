@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_basis_item_annotate"
+        android:icon="@drawable/words_line"
+        android:title="划线"/>
+
+    <item
+        android:id="@+id/action_basis_item_grammar"
+        android:icon="@drawable/words_grammar"
+        android:title="语法"/>
+
+    <item
+        android:id="@+id/action_basis_item_note"
+        android:icon="@drawable/words_note_popup"
+        android:title="笔记"/>
+
+    <item
+        android:id="@+id/action_basis_item_copy"
+        android:icon="@drawable/words_copy"
+        android:title="复制"/>
+
+</menu>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@drawable/operate_popup_window_background"
+              android:orientation="horizontal"
+              android:paddingLeft="5dp"
+              android:paddingRight="5dp">
+
+    <LinearLayout
+        android:id="@+id/ll_under_line_popup"
+        style="@style/OperateTextView"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/words_line"/>
+
+        <TextView
+            style="@style/OperateTextView"
+            android:text="@string/under_line"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorWhite"/>
+
+    <LinearLayout
+        android:id="@+id/ll_grammar_popup"
+        style="@style/OperateTextView"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/words_grammar"/>
+
+        <TextView
+            style="@style/OperateTextView"
+            android:text="@string/grammar"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorWhite"/>
+
+    <LinearLayout
+        android:id="@+id/ll_note_popup"
+        style="@style/OperateTextView"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/words_note_popup"/>
+
+        <TextView
+            style="@style/OperateTextView"
+            android:text="@string/note"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorWhite"/>
+
+    <LinearLayout
+        android:id="@+id/ll_copy_popup"
+        style="@style/OperateTextView"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/words_copy"/>
+
+        <TextView
+            style="@style/OperateTextView"
+            android:text="@string/copy"/>
+
+    </LinearLayout>
+
+</LinearLayout>

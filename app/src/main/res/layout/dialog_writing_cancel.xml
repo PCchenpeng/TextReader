@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_dialog_writing_cancel"
+                android:paddingBottom="24dp"
+                android:paddingTop="24dp">
+
+    <TextView
+        android:id="@+id/tv_cancel_tips_writing_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:text="是否保存进草稿箱"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/btn_give_up_writing_draft_dialog"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/tv_cancel_tips_writing_dialog"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/shape_orange_storke"
+        android:gravity="center"
+        android:text="放弃"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="14sp"/>
+
+    <Button
+        android:id="@+id/btn_save_writing_draft_dialog"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tv_cancel_tips_writing_dialog"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/shape_orange_round_bg"
+        android:text="保存"
+        android:textColor="@color/colorWritingWhite"
+        android:textSize="14sp"/>
+
+</RelativeLayout>

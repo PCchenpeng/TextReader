@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="238dp"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_voice_writing_operate"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
+        android:layout_marginTop="18dp">
+
+        <com.dace.textreader.view.WaveView
+            android:id="@+id/wave_view_voice_writing_operate"
+            android:layout_width="144dp"
+            android:layout_height="144dp"/>
+
+        <ImageView
+            android:id="@+id/iv_voice_writing_operate"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_write_bottom_voice_input"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_voice_writing_operate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="语音输入"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="14sp"/>
+
+</LinearLayout>

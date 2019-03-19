@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:layout_marginLeft="7dp"
+    android:layout_marginRight="8dp">
+
+    <TextView
+        android:id="@+id/tv_date_home_sentence_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="14sp"/>
+
+    <me.biubiubiu.justifytext.library.JustifyTextView
+        android:id="@+id/tv_content_home_sentence_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_date_home_sentence_item"
+        android:letterSpacing="0.1"
+        android:lineSpacingMultiplier="1.5"
+        android:maxLines="2"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="15sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tv_content_home_sentence_item"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="36dp"
+            android:layout_height="1dp"
+            android:background="@color/colorLineLight"/>
+
+        <TextView
+            android:id="@+id/tv_author_home_sentence_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextContent"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <include layout="@layout/top_back_title_layout"/>
+
+    <com.dace.textreader.view.tab.SmartTabLayout
+        android:id="@+id/tab_layout_card"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:stl_defaultTabTextColor="@drawable/color_tab_text"
+        app:stl_defaultTabTextSize="15sp"
+        app:stl_distributeEvenly="true"
+        app:stl_dividerColor="@color/colorTransparent"
+        app:stl_dividerThickness="0dp"
+        app:stl_indicatorColor="@color/colorOrange"
+        app:stl_indicatorCornerRadius="2dp"
+        app:stl_indicatorThickness="4dp"
+        app:stl_indicatorWidth="20dp"
+        app:stl_titleOffset="auto_center"
+        app:stl_underlineColor="@color/colorTransparent"
+        app:stl_underlineThickness="0dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLineLight"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="310dp"
+                android:layout_height="461dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="121dp"
+        android:src="@drawable/image_invite_friend_bg"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginTop="111dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:src="@drawable/image_invite_bg"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_user_invite_student_dialog"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/shape_white_60dp_bg">
+
+                <ImageView
+                    android:id="@+id/iv_user_invite_student_dialog"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_user_invite_student_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textColor="#E07A13"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/tv_content_invite_student_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:lineSpacingMultiplier="1.5"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_submit_invite_student_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="27dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/image_invite"/>
+
+                <TextView
+                    android:id="@+id/tv_submit_invite_student_dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:letterSpacing="0.1"
+                    android:paddingBottom="6dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25sp"
+                    android:textStyle="bold"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

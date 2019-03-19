@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorVoiceBg"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_score_voice_evaluation_speech_left_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="50sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="满分100分"
+            android:textColor="@color/colorTextNormal"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_error_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="错字："
+                android:textColor="@color/colorDarkRedImportant"
+                android:textSize="15sp"/>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorTextContent"/>
+
+            <TextView
+                android:id="@+id/tv_duration_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用时："
+                android:textColor="@color/colorDarkRedImportant"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_vocal_score_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="声韵分"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="15sp"/>
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/ratingBar_vocal_score_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                app:srb_drawableEmpty="@drawable/icon_star_dark_red_unselected"
+                app:srb_drawableFilled="@drawable/icon_star_dark_red_selected"
+                app:srb_isIndicator="true"
+                app:srb_numStars="5"
+                app:srb_starHeight="15dp"
+                app:srb_starPadding="5dp"
+                app:srb_starWidth="15dp"
+                app:srb_stepSize="0.5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_smooth_score_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="流畅分"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="15sp"/>
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/ratingBar_smooth_score_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                app:srb_drawableEmpty="@drawable/icon_star_dark_red_unselected"
+                app:srb_drawableFilled="@drawable/icon_star_dark_red_selected"
+                app:srb_isIndicator="true"
+                app:srb_numStars="5"
+                app:srb_starHeight="15dp"
+                app:srb_starPadding="5dp"
+                app:srb_starWidth="15dp"
+                app:srb_stepSize="0.5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_moderation_score_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="调型分"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="15sp"/>
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/ratingBar_moderation_score_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                app:srb_drawableEmpty="@drawable/icon_star_dark_red_unselected"
+                app:srb_drawableFilled="@drawable/icon_star_dark_red_selected"
+                app:srb_isIndicator="true"
+                app:srb_numStars="5"
+                app:srb_starHeight="15dp"
+                app:srb_starPadding="5dp"
+                app:srb_starWidth="15dp"
+                app:srb_stepSize="0.5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_complete_score_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="完整分"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="15sp"/>
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/ratingBar_complete_score_voice_evaluation_speech_left_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                app:srb_drawableEmpty="@drawable/icon_star_dark_red_unselected"
+                app:srb_drawableFilled="@drawable/icon_star_dark_red_selected"
+                app:srb_isIndicator="true"
+                app:srb_numStars="5"
+                app:srb_starHeight="15dp"
+                app:srb_starPadding="5dp"
+                app:srb_starWidth="15dp"
+                app:srb_stepSize="0.5"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_issue_voice_evaluation_speech_left_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="评估及建议"
+            android:textColor="@color/colorDarkRedNormal"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_content_voice_evaluation_speech_left_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="18dp"
+            android:lineSpacingMultiplier="1.7"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

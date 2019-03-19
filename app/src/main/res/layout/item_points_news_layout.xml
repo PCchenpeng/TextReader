@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite">
+
+    <ImageView
+        android:id="@+id/iv_user_image_points_news_item"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_user_name_points_news_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_user_image_points_news_item"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_user_image_points_news_item"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="13sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_duration_points_news_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_user_name_points_news_item"
+        android:layout_below="@id/tv_user_name_points_news_item"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="11sp"/>
+
+    <TextView
+        android:id="@+id/tv_tips_points_news_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/iv_user_image_points_news_item"
+        android:layout_below="@id/iv_user_image_points_news_item"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_title_points_news_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_tips_points_news_item"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="14dp"
+        android:background="@color/colorWritingBottomBg"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="15sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/tv_title_points_news_item"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWritingBottomBg"/>
+
+</RelativeLayout>

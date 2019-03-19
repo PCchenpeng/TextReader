@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
+
+    <ImageView
+        android:id="@+id/iv_essay_material_list_item"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/tv_title_material_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_essay_material_list_item"
+        android:layout_marginRight="112dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="17sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_type_material_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title_material_list_item"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/radius_text_layout"
+        android:paddingBottom="1dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="1dp"
+        android:textColor="@color/colorTextOrange"
+        android:textSize="11sp"/>
+
+    <TextView
+        android:id="@+id/tv_score_material_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title_material_list_item"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="112dp"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/tv_type_material_list_item"
+        android:paddingBottom="1dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="1dp"
+        android:textColor="@color/colorTextOrange"
+        android:textSize="11sp"/>
+
+    <TextView
+        android:id="@+id/tv_time_material_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/iv_essay_material_list_item"
+        android:layout_marginRight="112dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="11sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@id/iv_essay_material_list_item"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorLineLight"/>
+
+</RelativeLayout>

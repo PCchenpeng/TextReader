@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/css/base.css">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/css/pythe_app.css">
+    <script type="text/javascript"
+            src="file:///android_asset/js/jquery-1-d2ec4c1e27.7.2.min.js"></script>
+    <script type="text/javascript" src="file:///android_asset/js/vue.js"></script>
+    <script type="text/javascript" src="file:///android_asset/js/compositionDetail.js"></script>
+    <title>派知-全文笔记</title>
+    <style type="text/css">
+   html{background-color: #FF8159;}
+   body{background:linear-gradient(to bottom,#FFA76D 20%,#FF8159);}
+
+    </style>
+</head>
+<body>
+<div class="app_all_notes" id='app_all_notes' v-cloak>
+
+    <ul class="fix_notes_nav">
+        <li class="fix_notes_tab">
+            <a href="#newWord_li" data-tomodel='0' class="fix_notes_navBtn current_notesNav">生词</a>
+        </li>
+
+        <li class="fix_notes_tab">
+            <a href="#grammer_li" data-tomodel='1' class="fix_notes_navBtn">语法</a>
+        </li>
+
+        <li class="fix_notes_tab">
+            <a href="#writeNote_li" data-tomodel='2' class="fix_notes_navBtn">摘抄</a>
+        </li>
+
+        <li class="fix_notes_tab">
+            <a href="#thinks_li" data-tomodel='3' class="fix_notes_navBtn">想法</a>
+        </li>
+
+        <li class="fix_notes_tab">
+            <a href="#feelings_li" data-tomodel='4' class="fix_notes_navBtn">读后感</a>
+        </li>
+
+        <li class="fix_notes_tab">
+            <a href="#book_txt" data-tomodel='5' class="fix_notes_navBtn">原文</a>
+        </li>
+
+    </ul>
+
+    <img src="file:///android_asset/images/app_note_bg.png" alt="" class="note_img">
+
+    <div class="app_all_notesContain">
+        <ul class="app_notes_contain">
+            <!-- 生词 -->
+            <li class="note_type_con" id='newWord_li'>
+                <div class="notes_type_li">
+                    <h1 class="app_notes_type">生词<span
+                            class="notes_type_quantity">（{{newWordNum}}）</span>
+                        <i class="app_notes_fold" v-on:click='getNewWord()' v-if='wordSet==1'></i>
+                        <i class="app_notes_fold unfold_note" v-on:click='getNewWord()' v-else></i>
+                    </h1>
+
+                    <div class="is_fold" v-if='wordSet==1'>
+                        <ul class="notes_type_newWord" v-if='newWord.length>0'>
+                            <li class="notes_newWord_li" v-for='item in newWord'
+                                v-on:click='searchWordExplain(item)'>{{item}}
+                            </li>
+
+                        </ul>
+                        <div class="notes_type_none" v-else>{{newWordMsg}}</div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- 语法 -->
+            <li class="note_type_con" id='grammer_li'>
+                <div class="notes_type_li">
+                    <h1 class="app_notes_type">语法<span
+                            class="notes_type_quantity">（{{grammerNum}}）</span>
+                        <i class="app_notes_fold" v-on:click='getgrammer' v-if='grammerSet==1'></i>
+                        <i class="app_notes_fold unfold_note" v-on:click='getgrammer' v-else></i>
+                    </h1>
+
+                    <div class="is_fold" v-if='grammerSet==1'>
+                        <ul class="notes_type_grammar" v-if='grammarNote.length>0'>
+                            <li class="notes_grammar_li" v-for='item in grammarNote'>
+                                <h1 class="grammar_title">{{item.grammar}}</h1>
+                                <div class="notes_grammar_txt" v-html='item.content'></div>
+                            </li>
+                        </ul>
+                        <div class="notes_type_none" v-else>{{grammarMsg}}</div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- 摘抄 -->
+            <li class="note_type_con" id='writeNote_li'>
+                <div class="notes_type_li">
+                    <h1 class="app_notes_type">摘抄<span
+                            class="notes_type_quantity">（{{writeNum}}）</span>
+                        <i class="app_notes_fold" v-on:click='getWriteNote'
+                           v-if='writeNoteSet==1'></i>
+                        <i class="app_notes_fold unfold_note" v-on:click='getWriteNote' v-else></i>
+                    </h1>
+
+                    <div class="is_fold" v-if='writeNoteSet==1'>
+                        <ul class="notes_type_write" v-if='writeNote.length>0'>
+                            <li class="notes_write_li" v-for='item in writeNote'>
+                                <div class="notes_write_txt" v-html='item.summary'></div>
+                            </li>
+                        </ul>
+                        <div class="notes_type_none" v-else>{{writeMsg}}</div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- 想法 -->
+            <li class="note_type_con" id='thinks_li'>
+                <div class="notes_type_li">
+                    <h1 class="app_notes_type">想法<span
+                            class="notes_type_quantity">（{{thinkNum}}）</span>
+                        <i class="app_notes_fold" v-on:click='getThinksNote'
+                           v-if='thinksSet==1'></i>
+                        <i class="app_notes_fold unfold_note" v-on:click='getThinksNote' v-else></i>
+                    </h1>
+
+                    <div class="is_fold" v-if='thinksSet==1'>
+                        <ul class="notes_type_thinks" v-if='thinksNote.length>0'>
+                            <li class="notes_thinks_li" v-for='item in thinksNote'>
+                                <div class="thinks_for_book" v-html='item.content'></div>
+
+                                <div class="thinks_write" v-html='item.note'></div>
+                            </li>
+                        </ul>
+                        <div class="notes_type_none" v-else>{{thinksMsg}}</div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- 读后感 -->
+            <li class="note_type_con" id='feelings_li'>
+                <div class="notes_type_li">
+                    <h1 class="app_notes_type">读后感<span
+                            class="notes_type_quantity">（{{feelNum}}）</span>
+                        <i class="app_notes_fold" v-on:click='getFeelsNote' v-if='feelsSet==1'></i>
+                        <i class="app_notes_fold unfold_note" v-on:click='getFeelsNote' v-else></i>
+                    </h1>
+
+                    <div class="is_fold" v-if='feelsSet==1'>
+                        <ul class="notes_type_feels" v-if='feelsNote.length>0'
+                            style='padding-bottom:0;'>
+                            <li class="notes_feels_li" v-html='feelsNote'></li>
+                        </ul>
+
+                        <div class="notes_type_none" v-else>{{feelsMsg}}</div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- 原文 -->
+            <li class="note_type_con" id='book_txt'>
+                <div class="notes_type_li">
+                    <h1 class="app_notes_type">原文
+                        <i class="app_notes_fold" v-on:click='getBookText'
+                           v-if='bookTextSet==1'></i>
+                        <i class="app_notes_fold unfold_note" v-on:click='getBookText' v-else></i>
+                    </h1>
+
+                    <ul class="notes_type_feels" v-if='bookTextSet==1'>
+                        <li class="notes_feels_li" v-html='bookText'></li>
+                    </ul>
+
+                    <!-- <div class="notes_type_none" style='display: none;'>暂无原文</div> -->
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+ var validInfoObj={},essayId,studentId,type,materialId;        
+ function handleUrl(){
+   var documentUrl=document.URL;
+   if(documentUrl.indexOf('?')!=-1){
+     documentUrl=documentUrl.split('?')[1];
+     documentUrl=documentUrl.split('&');
+     for(var i=0;i<documentUrl.length;i++){
+      validInfoObj[(documentUrl[i].split('='))[0]] =(documentUrl[i].split('='))[1];
+     };
+     materialId=validInfoObj.materialId;	            
+  };
+};
+handleUrl();
+
+  function getMoreInfo(){
+     $.ajax({
+              url:publicURL+'/pythe-rest/rest/get/material/size',
+              type:'GET',
+              dataType:'json',
+              contentType:'application/json',
+              async:false,
+              data:{
+               materialId:materialId,
+             },
+             success:function(res){
+               if(200==res.status){
+                  essayId= res.data.essayid;
+                  studentId= res.data.studentid;
+                  type=res.data.type;
+                  title=decodeURI(res.data.title);
+
+                  newWordNum=res.data.rawSize;
+                  grammerNum=res.data.grammarSize;
+                  writeNum=res.data.summarySize;
+                  thinkNum=res.data.noteSize;
+                  feelNum=res.data.feelingSize;
+
+                  var param =res.data.title;
+                  location.href='app://material/param?title='+param;
+               }
+             },
+    })
+  };
+  getMoreInfo();
+
+var bookNotes=new Vue({
+  el:'#app_all_notes',
+  data:{
+   newWordNum:newWordNum,
+   grammerNum:grammerNum,
+   writeNum:writeNum,
+   thinkNum:thinkNum,
+   feelNum:feelNum,
+
+    			newWord:[], //生词
+    			wordSet:0,
+    			grammarNote:[], //语法
+    			grammerSet:0,
+    			writeNote:[], //摘抄
+    			writeNoteSet:0,
+    			thinksNote:[], //想法
+    			thinksSet:0,
+    			feelsNote:'', //读后感
+    			feelsSet:0,
+    			bookText:'', //原文
+          bookTextSet:0,
+
+          newWordMsg:'加载中...',
+          grammarMsg:'加载中...',
+          writeMsg:'加载中...',
+          thinksMsg:'加载中...',
+          feelsMsg:'加载中...',
+        },
+
+        methods:{
+    			// 获取生词
+          getNewWord:function(){
+           var that=this;           
+           if(that.wordSet==0){
+            that.wordSet=1;
+            if(that.newWord.length<=0){
+             $.ajax({
+              url:publicURL+'/pythe-rest/rest/material/raw',
+              type:'GET',
+              dataType:'json',
+              contentType:'application/json',
+              data:{
+               studentId:studentId,
+               essayId:essayId
+             },
+             success:function(res){
+               if(200==res.status){
+                 var handleData=((res.data[0].words).substring(1,res.data[0].words.length-1)).replace(/"([^"]*)"/g,'$1');
+                 that.newWord=handleData.split(',');     
+               }else{
+                 that.newWordMsg='暂无生词';
+               }
+             },
+             error:function(err){
+               that.newWordMsg='发生错误';
+             }
+           })
+           }   
+         }else{
+          that.wordSet=0;
+
+        }
+      },
+
+                // 获取语法 
+                getgrammer:function(){
+                	var that=this;           
+                	if(that.grammerSet==0){
+                    that.grammerSet=1;
+                    if(that.grammarNote.length<=0){
+                     $.ajax({
+                      url:publicURL+'/pythe-rest/rest/material/grammar',
+                      type:'GET',
+                      dataType:'json',
+                      contentType:'application/json',
+                      data:{
+                       studentId:studentId,
+                       essayId:essayId
+                     },
+                     success:function(res){
+                       if(200==res.status){
+                        that.grammarNote=res.data  ; 
+                      }else{
+                        that.grammarMsg='暂无语法';
+                      }
+                    },
+                    error:function(err){
+                      that.grammarMsg='暂无语法';
+                    }
+                  })
+                   }   
+                 }else{
+                  that.grammerSet=0;
+
+                }
+              },
+
+                // 摘抄
+                getWriteNote:function(){
+                  var that=this;           
+                  if(that.writeNoteSet==0){
+                    that.writeNoteSet=1;
+                    if(that.writeNote.length<=0){
+                     $.ajax({
+                      url:publicURL+'/pythe-rest/rest/material/summary',
+                      type:'GET',
+                      dataType:'json',
+                      contentType:'application/json',
+                      data:{
+                       studentId:studentId,
+                       essayId:essayId
+                     },
+                     success:function(res){
+                       if(200==res.status){
+                        that.writeNote=res.data  ; 
+                      }else{
+                        that.writeMsg='暂无摘抄';
+                      }
+                    },
+                    error:function(err){
+                      that.writeMsg='暂无摘抄';
+                    }
+                  })
+                   }   
+                 }else{
+                  that.writeNoteSet=0;
+
+                }
+              },
+
+                // 想法
+                getThinksNote:function(){
+                	var that=this;           
+                	if(that.thinksSet==0){
+                    that.thinksSet=1;
+                    if(that.thinksNote.length<=0){
+                     $.ajax({
+                      url:publicURL+'/pythe-rest/rest/personal/note/essay',
+                      type:'GET',
+                      dataType:'json',
+                      contentType:'application/json',
+                      data:{
+                       studentId:studentId,
+                       essayId:essayId
+                     },
+                     success:function(res){
+                       if(200==res.status){
+                        that.thinksNote=res.data  ; 
+                      }else{
+                        that.thinksMsg='暂无想法';
+                      }
+                    },
+                    error:function(err){
+                     that.thinksMsg='暂无想法';
+                   }
+                 })
+                   }   
+                 }else{
+                  that.thinksSet=0;
+
+                }
+              },
+
+                // 读后感
+                getFeelsNote:function(){
+                	var that=this;           
+                	if(that.feelsSet==0){
+                    that.feelsSet=1;
+                    if(that.feelsNote.length<=0){
+                     $.ajax({
+                      url:publicURL+'/pythe-rest/rest/material/feeling',
+                      type:'GET',
+                      dataType:'json',
+                      contentType:'application/json',
+                      data:{
+                       studentId:studentId,
+                       essayId:essayId
+                     },
+                     success:function(res){
+                       if(200==res.status){
+                        that.feelsNote=res.data.feeling ; 
+                      }else{
+                        that.feelsMsg='暂无读后感';
+                      }
+                    },
+                    error:function(err){
+                      that.feelsMsg='暂无读后感';                      
+                    }
+                  })
+                   }   
+                 }else{
+                  that.feelsSet=0;
+
+                }
+              },
+
+                // 原文
+                getBookText:function(){
+                	var that=this;           
+                	if(that.bookTextSet==0){
+                    that.bookTextSet=1;
+                    if(that.bookText.length<=0){
+                     $.ajax({
+                      url:publicURL+'/pythe-rest/rest/material/essay',
+                      type:'GET',
+                      dataType:'json',
+                      contentType:'application/json',
+                      data:{
+                       studentId:studentId,
+                       essayId:essayId
+                     },
+                     success:function(res){
+                       if(200==res.status){
+                        that.bookText=res.data.content; 
+                      }
+                    },
+                    error:function(err){
+                     console.log(err);
+
+                   }
+                 })
+                   }   
+                 }else{
+                  that.bookTextSet=0;
+
+                }
+              },
+
+              searchWordExplain:function(word){
+                  var userAgentInfo = navigator.userAgent.toLowerCase();
+                  var param={};
+                  param.essayId=essayId; 
+                  param.type=type; 
+                  param.title=title; 
+                  param.status=1; 
+                  param.word=word; 
+                  param =JSON.stringify(param);
+                  console.log(param)
+                  if (userAgentInfo.indexOf('iphone') > 0){
+                        window.location = param;
+                  }else{
+                        location.href='app://material/param?param='+param;
+                  }
+              }
+            },
+
+            mounted:function(){
+
+            }
+          });
+
+        // 鼠标滚轮事件
+        $(document).scroll(function(){
+        	if($(window).scrollTop()>150){
+           $('.fix_notes_nav').fadeIn(300);
+           $('.fix_notes_nav').addClass('scrollFixNav');
+         }else{
+           $('.fix_notes_nav').fadeOut(300);
+           $('.fix_notes_nav').removeClass('scrollFixNav');
+
+         }
+        });
+
+        $('.fix_notes_navBtn').click(function(){
+          $(this).addClass('current_notesNav');
+          $(this).parent('.fix_notes_tab').siblings('.fix_notes_tab').children('.fix_notes_navBtn').removeClass('current_notesNav')
+          var getDataLI=parseInt($(this).attr('data-tomodel'));
+          switch(getDataLI){                      
+            case 0:
+            bookNotes.getNewWord();	             
+            bookNotes.wordSet=1;
+            break;
+            case 1:
+            bookNotes.getgrammer();	             	        
+            bookNotes.grammerSet=1;
+            break;
+            case 2:
+            bookNotes.getWriteNote();	             	        
+            bookNotes.writeNoteSet=1;
+            break;
+            case 3:
+            bookNotes.getThinksNote();	             	        
+            bookNotes.thinksSet=1;
+            break;
+            case 4:
+            bookNotes.getFeelsNote();	             	        
+            bookNotes.feelsSet=1;
+            break;
+            case 5:
+            bookNotes.getBookText();	             	        
+            bookNotes.bookTextSet=1;
+            break;
+          };
+        })
+
+
+</script>
+</body>
+</html>

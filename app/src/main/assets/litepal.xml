@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="home"></dbname>
+
+    <version value="1"></version>
+
+    <list>
+        <mapping class="com.dace.textreader.bean.BannerBean"></mapping>
+        <mapping class="com.dace.textreader.bean.ReaderSortBean"></mapping>
+        <mapping class="com.dace.textreader.bean.TypeBean"></mapping>
+        <mapping class="com.dace.textreader.bean.LevelBean"></mapping>
+        <mapping class="com.dace.textreader.bean.Article"></mapping>
+        <mapping class="com.dace.textreader.bean.HomeRecommendationBean"></mapping>
+        <mapping class="com.dace.textreader.bean.AutoSaveWritingBean"></mapping>
+        <mapping class="com.dace.textreader.bean.SearchHistoryBean"></mapping>
+    </list>
+</litepal>

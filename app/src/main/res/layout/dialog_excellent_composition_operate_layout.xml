@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/colorWhite"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_order_excellent_operate_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="订单详情"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="17sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorArticleDetailBg"/>
+
+    <TextView
+        android:id="@+id/tv_editor_excellent_operate_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="编辑"
+        android:textColor="@color/colorRedDark"
+        android:textSize="17sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/colorArticleDetailBg"/>
+
+    <TextView
+        android:id="@+id/tv_cancel_excellent_operate_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="17sp"/>
+
+</LinearLayout>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="320dp"
+              android:layout_height="200dp"
+              android:background="@drawable/shape_white_bg"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_one_delete_article_dialog"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:background="@drawable/selector_delete_article_text_bg"
+            android:gravity="center"
+            android:text="内容太差"
+            android:textColor="@drawable/selector_delete_article_text_color"
+            android:textSize="14sp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_two_delete_article_dialog"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:background="@drawable/selector_delete_article_text_bg"
+            android:gravity="center"
+            android:text="太简单"
+            android:textColor="@drawable/selector_delete_article_text_color"
+            android:textSize="14sp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_three_delete_article_dialog"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:background="@drawable/selector_delete_article_text_bg"
+            android:gravity="center"
+            android:text="太难了"
+            android:textColor="@drawable/selector_delete_article_text_color"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_four_delete_article_dialog"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/selector_delete_article_text_bg"
+            android:gravity="center"
+            android:text="不感兴趣"
+            android:textColor="@drawable/selector_delete_article_text_color"
+            android:textSize="14sp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_five_delete_article_dialog"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:background="@drawable/selector_delete_article_text_bg"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@drawable/selector_delete_article_text_color"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_six_delete_article_dialog"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:background="@drawable/selector_delete_article_text_bg"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@drawable/selector_delete_article_text_color"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_other_delete_article_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_edittext_storke_bg"
+        android:gravity="center_vertical"
+        android:hint="输入其他原因"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:textColor="@color/colorTextImportant"
+        android:textColorHint="@color/colorTextNormal"
+        android:textSize="14sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择理由，为您优化"
+            android:textColor="@color/colorTextNormal"
+            android:textSize="12sp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_commit_delete_article_dialog"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/selector_delete_article_commit_bg"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@drawable/selector_recharge_text_color"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

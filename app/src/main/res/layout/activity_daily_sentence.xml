@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorDailySentenceBg">
+
+    <include layout="@layout/top_back_title_layout"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_share_daily_sentence"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+        <RelativeLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bottom_share"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_collection_daily_sentence"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/rl_share_daily_sentence">
+
+        <RelativeLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <ImageView
+                android:id="@+id/iv_collection_daily_sentence"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bottom_collection_unselected"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="70dp"
+        android:layout_marginLeft="15sp"
+        android:layout_marginRight="15sp"
+        android:layout_marginTop="100dp"
+        android:background="@color/colorWhite"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp">
+
+        <TextView
+            android:id="@+id/tv_date_daily_sentence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="50dp"
+            android:textColor="@color/colorTextNormal"
+            android:textSize="11sp"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tv_date_daily_sentence"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="40dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <me.biubiubiu.justifytext.library.JustifyTextView
+                    android:id="@+id/tv_content_daily_sentence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:letterSpacing="0.1"
+                    android:lineSpacingMultiplier="2"
+                    android:textColor="@color/colorTextImportant"
+                    android:textSize="16sp"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_author_daily_sentence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="36dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorTextContent"/>
+
+                    <TextView
+                        android:id="@+id/tv_author_daily_sentence"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:textColor="@color/colorTextContent"/>
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/icon_daily_sentence_author"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/iv_practice_daily_sentence"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/icon_practice"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_tips_daily_sentence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:background="@color/colorNoteTipsTextBg"
+        android:paddingBottom="2dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="2dp"
+        android:text="左右滑动查看"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignTop="@id/tv_tips_daily_sentence"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/tv_tips_daily_sentence"
+        android:src="@drawable/icon_tips_notes"/>
+
+    <FrameLayout
+        android:id="@+id/frame_daily_sentence"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp"
+        android:background="@color/colorDailySentenceBg"
+        android:visibility="gone"/>
+
+</RelativeLayout>

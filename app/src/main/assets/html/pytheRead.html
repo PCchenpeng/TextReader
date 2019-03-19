@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/css/base.css">
+    <link rel="stylesheet" type="text/css"
+          href="file:///android_asset/css/pytheChinese.css">
+    <script type="text/javascript"
+            src="file:///android_asset/js/jquery-1-d2ec4c1e27.7.2.min.js"></script>
+    <title>阅读</title>
+</head>
+<body>
+<div class="pythe-read">
+    <div class="pythe-read-center">
+        <div class="micro-composition" id="kenei">
+            <div class="micro-ctop"
+                 style='background-image:url(file:///android_asset/images/read_banner_inclass.png);'>
+                <!-- <p>小学初中高中语文课文同步在线阅读学习</p> -->
+            </div>
+
+        </div>
+
+
+        <!-- <div class="micro-composition"  onclick="alert(this.getAttribute('id'));" id ="kewai"> -->
+
+        <div class="micro-composition" id="kewai">
+            <div class="micro-ctop"
+                 style='background-image:url(file:///android_asset/images/read_banner_outclass.png);'>
+                <!-- <p>海量课外阅读文章学习</p> -->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+               $('.pythe-read').css('min-height',$(window).height());
+    	 	   var contentWidth= $('.micro-composition').width();
+    	 	   $('.micro-ctop').height(contentWidth*9/16);
+
+			//跳转处理逻辑
+			var userAgentInfo = navigator.userAgent.toLowerCase();
+
+			document.getElementById("kenei").addEventListener("click", function() {
+				 var param = 0;
+				       if (userAgentInfo.indexOf('iphone') > 0)
+                        {
+							 //window.wekit.messageHandlers.AppModel.postMessage({body:param});
+							 window.location = param;
+                        }else{
+                            location.href='app://reading/param?type='+param;
+                        }
+				
+			}, false);
+			document.getElementById("kewai").addEventListener("click", function() {
+				var param = 1;
+						if (userAgentInfo.indexOf('iphone') > 0)
+                        {
+							 //window.wekit.messageHandlers.AppModel.postMessage({body:param});
+							 window.location = param;
+                        }else{
+                            location.href='app://reading/param?type='+param;
+                        }
+			}, false);
+
+
+    </script>
+</div>
+</body>
+</html>

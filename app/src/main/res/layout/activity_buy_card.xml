@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/rl_root_buy_card"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <include layout="@layout/top_back_title_layout"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
+
+            <ImageView
+                android:id="@+id/iv_buy_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingRight="15dp"
+                android:text="购买月卡 优省便捷"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_buy_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingRight="15dp"
+                android:text="支付方式"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="12sp"/>
+
+            <LinearLayout
+                android:id="@+id/ll_pay_way_wechat_buy_card"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="15dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_pay_way_wechat"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="微信支付"
+                    android:textColor="@color/colorTextImportant"
+                    android:textSize="14sp"/>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/iv_wechat_status_buy_card"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/icon_edit_selected"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_pay_way_ali_buy_card"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="15dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_pay_alipay"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="支付宝支付"
+                    android:textColor="@color/colorTextImportant"
+                    android:textSize="14sp"/>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/iv_ali_status_buy_card"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/icon_edit_unselected"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_tips_buy_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="30dp"
+                android:letterSpacing="0.1"
+                android:lineSpacingMultiplier="1.5"
+                android:paddingRight="15dp"
+                android:textColor="@color/colorTextNormal"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_commit_buy_card"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorOrange"
+        android:gravity="center"
+        android:text="确认支付"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp"/>
+
+</LinearLayout>

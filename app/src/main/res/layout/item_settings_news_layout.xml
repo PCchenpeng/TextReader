@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_settings_news_item"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/icon_news_system"/>
+
+    <View
+        android:id="@+id/view_status_settings_news_item"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_alignTop="@id/iv_settings_news_item"
+        android:layout_toRightOf="@id/iv_settings_news_item"
+        android:background="@drawable/shape_news_count"/>
+
+    <TextView
+        android:id="@+id/tv_title_settings_news_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/iv_settings_news_item"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tv_content_settings_news_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title_settings_news_item"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/iv_settings_news_item"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="17sp"/>
+
+    <TextView
+        android:id="@+id/tv_time_settings_news_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/tv_title_settings_news_item"
+        android:layout_marginRight="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="12sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/tv_content_settings_news_item"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/colorLines"/>
+
+</RelativeLayout>

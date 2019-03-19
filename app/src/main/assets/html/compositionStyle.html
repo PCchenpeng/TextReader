@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/css/base.css">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/css/composition.css">
+    <script type="text/javascript"
+            src="file:///android_asset/js/jquery-1-d2ec4c1e27.7.2.min.js"></script>
+    <script type="text/javascript" src="file:///android_asset/js/vue.js"></script>
+    <script type="text/javascript" src="file:///android_asset/js/compositionDetail.js"></script>
+    <title></title>
+</head>
+<body>
+<div class="composition" id='composition' v-cloak>
+    <!-- 模板1 -->
+    <div class="composition_part template1" v-if='compositionContent.format==1'>
+        <div class="composition_title"><span class="">{{compositionContent.article}}</span></div>
+        <h3 class="composition_updateTime" v-if='compositionContent.format==1'><span
+                class="composition_updateTime_span">{{compositionContent.saveTime}}</span></h3>
+        <div class="composition_detailInfo">
+            <img v-bind:src="compositionContent.cover" alt="">
+            <div class="composition_other"></div>
+        </div>
+
+    </div>
+
+    <!-- 模板2 -->
+    <div class="composition_part template2" v-else-if='compositionContent.format==2'>
+        <div class="com_aboutComDetail clearFix">
+            <div class="left_authorAndTime clearFix">
+                <h3 class="left_authorAndTime_icon left_time">{{compositionContent.saveTime}}</h3>
+                <h3 class="left_authorAndTime_icon left_author">{{compositionContent.username}}</h3>
+            </div>
+
+            <div class="right_comTitle">
+                <div class="right_aboutTitle clearFix">
+                    <h1 class="right_comtitle_h1 right_comtitle_right" v-html='articleTitle1'></h1>
+                    <h1 class="right_comtitle_h1 right_comtitle_left"
+                        v-if='compositionContent.article.length>8' v-html='articleTitle2'></h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="composition_detailInfo">
+            <img v-bind:src="compositionContent.cover" alt="">
+            <div class="composition_other">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 模板3 -->
+    <div class="composition_part template3" v-else-if='compositionContent.format==3'>
+        <div class="com_aboutComDetail clearFix">
+            <div class="template3_leftTitle clearFix">
+                <h1 class="template3_comTitle" v-html='articleTitle1'></h1>
+                <h1 class="template3_comTitle template3_comTitle_right"
+                    v-if='compositionContent.article.length>8' v-html='articleTitle2'></h1>
+            </div>
+
+            <div class="template3_rightAuthorAndTime clearFix">
+                <h3 class="template3_detail template3_author">{{compositionContent.username}}<span
+                        class="author_icon">著</span></h3>
+                <h3 class="template3_detail template3_comTime">{{compositionContent.saveTime}}</h3>
+            </div>
+        </div>
+
+        <div class="composition_detailInfo">
+            <img v-bind:src="compositionContent.cover" alt="">
+            <div class="composition_other">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 模板4 -->
+    <div class="composition_part template4" v-else-if='compositionContent.format==4'>
+        <div class="com_aboutComDetail clearFix">
+
+            <div class="template4_rightAuthorAndTime clearFix">
+                <h3 class="template4_detail template4_author">{{compositionContent.username}}</h3>
+                <h3 class="template4_detail template4_comTime">{{compositionContent.saveTime}}</h3>
+            </div>
+
+            <div class="template4_leftTitle">
+                <div class="template4_centerTitle" v-bind:style="{width:template4TitleWidth+'rem'}">
+                    <div class="clearFix template4_icon">
+                        <h1 class="template4_comTitle " v-html='articleTitle1'></h1>
+                        <h1 class="template4_comTitle template4_comTitle_right"
+                            v-if='compositionContent.article.length>8' v-html='articleTitle2'></h1>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="composition_detailInfo">
+            <img v-bind:src="compositionContent.cover" alt="">
+            <div class="composition_other">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 模板5 -->
+    <div class="composition_part template5" v-else-if='compositionContent.format==5'>
+        <div class="composition_detailInfo">
+            <div class="template5_cover" v-bind:style='templateCoverImg' v-if='compositionContent.cover!=null'></div>
+            <div class="composition_other">
+
+            </div>
+        </div>
+
+        <div class="template5_otherDetail">
+            <h3 class="template5_author"><span class="composition_updateTime_span">{{compositionContent.username}}</span>
+            </h3>
+            <h3 class="template5_comTime">{{compositionContent.saveTime}}</h3>
+        </div>
+
+        <div class="template5_title composition_title"><span>{{compositionContent.article}}</span>
+        </div>
+
+
+    </div>
+    <!-- 模板5 结束-->
+
+    <!-- 模板6 -->
+    <div class="composition_part template6" v-else-if='compositionContent.format==6'>
+        <div class="composition_detailInfo">
+            <div class="template6_cover" v-bind:style="{height:templateCoverHeight+'px'}">
+                <div class="template6_cover_img" v-bind:style='templateCoverImg'>
+                    <h1 class="template6_cover_title"><span>{{compositionContent.article}}</span>
+                    </h1>
+                </div>
+            </div>
+            <div class="composition_other">
+            </div>
+        </div>
+
+        <div class="template5_otherDetail">
+            <h3 class="template5_author"><span class="composition_updateTime_span">{{compositionContent.username}}</span>
+            </h3>
+            <h3 class="template5_comTime">{{compositionContent.saveTime}}</h3>
+        </div>
+
+
+    </div>
+    <!-- 模板6 结束-->
+
+    <!--  <div class="bottom_comContain">
+       <div class="compositionContent_contain"></div>
+
+    </div> -->
+
+    <!-- 蒙层 -->
+    <div class="layout-con">
+        <div class="layout-box">
+            <div class="layout-content">
+                <h1 class="layoutTilte">老师批注：</h1>
+                <div class="teacher-write">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+      var getValidInfo=decodeURI(document.URL);
+      var validInfoObj={},article,saveTime,username,cover,format;
+      var userAgentInfo = navigator.userAgent.toLowerCase();
+      $('.layout-con').css({'width':$(window).width(),'height':$(window).height()})
+      function getValidInfoFun(){
+        if(getValidInfo.indexOf('?')!=-1){
+              getValidInfo=getValidInfo.split('?')[1];
+              getValidInfo=getValidInfo.split('&');
+              for(var i=0;i<getValidInfo.length;i++){
+                 validInfoObj[(getValidInfo[i].split('='))[0]] =(getValidInfo[i].split('='))[1];
+              };
+             article =validInfoObj.article;
+             saveTime =validInfoObj.saveTime;
+             username =validInfoObj.username;
+             cover=validInfoObj.cover;
+             format=validInfoObj.format;
+        };
+      };
+     getValidInfoFun();
+
+     var composition=new Vue({
+        "el":"#composition",
+        data:{
+           // compositionTemplate:6  , 
+           templateCoverHeight:0 ,
+           compositionContent:{
+                article:article,
+                username:username,
+                saveTime:saveTime,
+                cover:cover,
+                format:format
+           },
+           
+           articleTitle:'',
+           articleTitle1:'',
+           articleTitle2:'',
+           templateCoverImg:'background:url(file:///android_asset/images/compositionCover.png) no-repeat 50% 50%;background-size:cover;',
+           template4TitleWidth:0
+        },
+
+        methods:{
+             getComPositionDetail:function(){
+                  var that=this;
+                  // that.format=1;
+                   var compositionContent=that.compositionContent;
+                   // alert(JSON.stringify(that.compositionContent));
+                   // 处理标题
+                   if(compositionContent.format==4){
+                      if(compositionContent.article.length>8){
+                          that.template4TitleWidth=0.6;
+                      }else{
+                          that.template4TitleWidth=0.22;                
+                      }
+                   };
+                   that.articleTitle=compositionContent.article;
+                   var newString='';
+                   var newString1='';
+                   if(compositionContent.format==2 || compositionContent.format==3 || compositionContent.format==4){
+                         // 标题数组
+                         var comTit=(compositionContent.article).split('');
+
+                         // 当标题文字小于等于8个字时
+                         if(comTit.length<=8){
+                           for(var i=0;i<comTit.length;i++){
+                              newString= newString+'<span>'+comTit[i]+'</span>';
+                           };
+                           that.articleTitle1=newString;
+                         }else{   //当标题文字大于8个字时
+                           for(var i=0;i<8;i++){
+                              newString= newString+'<span>'+comTit[i]+'</span>';
+                           };
+
+                           for(var i=8;i<comTit.length;i++){
+                               newString1=newString1+'<span>'+comTit[i]+'</span>';
+                           };
+                           that.articleTitle1=newString;
+                           that.articleTitle2=newString1;
+                         }
+                   };
+
+                   that.templateCoverImg='background-image:url('+compositionContent.cover+')'
+
+                   // 处理时间
+                   var currentYear=(new Date()).getFullYear();   
+                   if(compositionContent.format==2 || compositionContent.format==3 || compositionContent.format==4){
+                        
+                          var resDate=new Date(parseInt(compositionContent.saveTime));                                                   
+                          var resDateYear=resDate.getFullYear();
+                          var resDateYearOne=parseInt(resDateYear.toString().substring(0,1));
+                          switch(resDateYearOne){
+                              case 0:resDateYearOne='零';break;
+                              case 1:resDateYearOne='壹';break;
+                              case 2:resDateYearOne='贰';break;
+                              case 3:resDateYearOne='叁';break;
+                              case 4:resDateYearOne='肆';break;
+                              case 5:resDateYearOne='伍';break;
+                              case 6:resDateYearOne='陆';break;
+                              case 7:resDateYearOne='柒';break;
+                              case 8:resDateYearOne='捌';break;
+                              case 9:resDateYearOne='玖';break;
+                          };
+
+                          var resDateYearTwo=parseInt(resDateYear.toString().substring(1,2));
+                          switch(resDateYearTwo){
+                              case 0:resDateYearTwo='零';break;
+                              case 1:resDateYearTwo='壹';break;
+                              case 2:resDateYearTwo='贰';break;
+                              case 3:resDateYearTwo='叁';break;
+                              case 4:resDateYearTwo='肆';break;
+                              case 5:resDateYearTwo='伍';break;
+                              case 6:resDateYearTwo='陆';break;
+                              case 7:resDateYearTwo='柒';break;
+                              case 8:resDateYearTwo='捌';break;
+                              case 9:resDateYearTwo='玖';break;
+                          };
+
+                          var resDateYearThree=parseInt(resDateYear.toString().substring(2,3));
+                          switch(resDateYearThree){
+                              case 0:resDateYearThree='零';break;
+                              case 1:resDateYearThree='壹';break;
+                              case 2:resDateYearThree='贰';break;
+                              case 3:resDateYearThree='叁';break;
+                              case 4:resDateYearThree='肆';break;
+                              case 5:resDateYearThree='伍';break;
+                              case 6:resDateYearThree='陆';break;
+                              case 7:resDateYearThree='柒';break;
+                              case 8:resDateYearThree='捌';break;
+                              case 9:resDateYearThree='玖';break;
+                          };
+
+                          var resDateYearFour=parseInt(resDateYear.toString().substring(3,4));
+                          switch(resDateYearFour){
+                              case 0:resDateYearFour='零';break;
+                              case 1:resDateYearFour='壹';break;
+                              case 2:resDateYearFour='贰';break;
+                              case 3:resDateYearFour='叁';break;
+                              case 4:resDateYearFour='肆';break;
+                              case 5:resDateYearFour='伍';break;
+                              case 6:resDateYearFour='陆';break;
+                              case 7:resDateYearFour='柒';break;
+                              case 8:resDateYearFour='捌';break;
+                              case 9:resDateYearFour='玖';break;
+                          };                                  
+
+                          var resDateMonth=parseInt(resDate.getMonth())+1;
+                          switch(resDateMonth){
+                            case 1:resDateMonth='壹';break;
+                            case 2:resDateMonth='贰';break;
+                            case 3:resDateMonth='叁';break;
+                            case 4:resDateMonth='肆';break;
+                            case 5:resDateMonth='伍';break;
+                            case 6:resDateMonth='陆';break;
+                            case 7:resDateMonth='柒';break;
+                            case 8:resDateMonth='捌';break;
+                            case 9:resDateMonth='玖';break;
+                            case 10:resDateMonth='拾';break;
+                            case 11:resDateMonth='拾壹';break;
+                            case 12:resDateMonth='拾贰';break;
+                          };
+
+                          var resDateDay=resDate.getDate();                   
+                          if(resDateDay>10){
+                              var resDateFirst=parseInt(resDateDay/10);
+                              var resDateSecond=resDateDay%10; 
+                              var resDateDayFirst='',resDateDaySecond=''
+                              switch(resDateFirst){
+                                case 0:resDateDayFirst='零';break;
+                                case 1:resDateDayFirst='拾';break;
+                                case 2:resDateDayFirst='贰拾';break;
+                                case 3:resDateDayFirst='叁拾';break;
+                              } ;
+
+                              switch(resDateSecond){
+                                case 0:resDateDaySecond='';break;
+                                case 1:resDateDaySecond='壹';break;
+                                case 2:resDateDaySecond='贰';break;
+                                case 3:resDateDaySecond='叁';break;
+                                case 4:resDateDaySecond='肆';break;
+                                case 5:resDateDaySecond='伍';break;
+                                case 6:resDateDaySecond='陆';break;
+                                case 7:resDateDaySecond='柒';break;
+                                case 8:resDateDaySecond='捌';break;
+                                case 9:resDateDaySecond='玖';break;
+                                // case 10:resDateDay='拾';break;
+                              } ;
+
+                              resDateDay=resDateDayFirst+resDateDaySecond;
+                          }else{
+                              switch(resDateDay){
+                                case 1:resDateDay='壹';break;
+                                case 2:resDateDay='贰';break;
+                                case 3:resDateDay='叁';break;
+                                case 4:resDateDay='肆';break;
+                                case 5:resDateDay='伍';break;
+                                case 6:resDateDay='陆';break;
+                                case 7:resDateDay='柒';break;
+                                case 8:resDateDay='捌';break;
+                                case 9:resDateDay='玖';break;
+                                case 10:resDateDay='拾';break;
+                              }
+                              resDateDay=resDateDay+'日';
+                          };
+                          
+                          if(currentYear==resDateYear){
+                              compositionContent.saveTime=resDateMonth+'月'+resDateDay+'日';
+                          }else{
+                            resDateYear=resDateYearOne+resDateYearTwo+resDateYearThree+resDateYearFour;
+
+                            compositionContent.saveTime=resDateYear+'年'+resDateMonth+'月'+resDateDay+'日';
+                          }
+                   }else{
+                  
+                      var resDate=new Date(parseInt(compositionContent.saveTime));
+                      
+                      var resDateYear=resDate.getFullYear();
+                      var resDateMonth=resDate.getMonth()+1;
+                      if(resDateMonth<=9){
+                         resDateMonth='0'+resDateMonth;
+                      };
+                      var resDateDate=resDate.getDate();
+                      if(resDateDate<=9){
+                         resDateDate='0'+resDateDate;
+                      };
+
+                      compositionContent.saveTime=resDateYear+'-'+resDateMonth+'-'+resDateDate;
+                      
+                   } 
+
+                   that.compositionContent=compositionContent;
+                   console.log(that.compositionContent)
+             }
+        },
+
+        mounted:function(){
+           var that=this;
+           that.templateCoverHeight=9*document.body.clientWidth/16;
+           that.getComPositionDetail();
+        }
+     });
+     
+     function compositionTxt(){
+         $.ajax({
+            url:publicURL+'/pythe-rest/rest/writing/select/new',
+            type:'POST',
+            dataType:'json',
+            contentType:'application/json',
+            data:JSON.stringify({
+              "id":composId,
+              "studentId":studentId
+            }),
+            timeout:4000,
+
+            success:function(res){
+                if(res.status==200){
+                   var compositionText=res.data.writing.content;  
+                   $('.compositionContent_contain').html(compositionText);
+                   $('.compositionContent_contain').css({'font-size':fontSize+'px','line-height':lineHeight});
+                };
+            },
+            error:function(err){
+              if (status == 'timeout') {
+                 ajaxTimeOut.abort(); //取消请求
+                 pytheLayOutObj2.pytheLayOutFun2({
+                   setTime:2000,
+                   tips:err.msg
+                 })
+              }
+            },
+
+            complete:function(status){
+              if (status == 'timeout') {
+                   ajaxTimeOut.abort(); //取消请求
+                   pytheLayOutObj2.pytheLayOutFun2({
+                     setTime:2000,
+                     tips:'请求超时'
+                   })
+                }
+            }
+         })
+     };
+     // compositionTxt();
+
+     $('.markLine,.markBgc,.markBlueBgc,.markBlueLine').live('click',function(){          
+         $('.layout-con').show();
+         $('.teacher-write').html($(this).attr('data-marktxt'));
+         var commentStatus=$(this).attr('class');
+         if(commentStatus=='markBgc' || commentStatus=='markLine'){
+            $('.teacher-write').css('background-image','url(file:///android_asset/images/write_composition_detail_mark_good.png)');
+         }else{
+            $('.teacher-write').css('background-image','url(file:///android_asset/images/write_composition_detail_mark_bad.png)');
+
+         }
+    });
+    $('.layout-con').click(function(){
+       $(this).hide();
+    })
+
+
+
+
+</script>
+</body>
+</html>

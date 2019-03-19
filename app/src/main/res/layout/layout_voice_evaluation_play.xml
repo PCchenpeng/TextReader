@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/rl_voice_evaluation_play"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+    <SeekBar
+        android:id="@+id/seek_bar_voice_evaluation_play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="3dp"
+        android:minHeight="3dp"
+        android:progressDrawable="@drawable/seek_bar_progress_dark_red"
+        android:thumb="@drawable/seek_bar_thumb_press_dark_red"/>
+
+    <TextView
+        android:id="@+id/tv_left_voice_evaluation_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/seek_bar_voice_evaluation_play"
+        android:layout_below="@id/seek_bar_voice_evaluation_play"
+        android:layout_marginLeft="16dp"
+        android:text="00:00"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tv_right_voice_evaluation_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/seek_bar_voice_evaluation_play"
+        android:layout_below="@id/seek_bar_voice_evaluation_play"
+        android:layout_marginRight="16dp"
+        android:text="00:00"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="12sp"/>
+
+</RelativeLayout>

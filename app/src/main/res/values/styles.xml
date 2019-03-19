@@ -1,0 +1,91 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--ToolBar颜色-->
+        <item name="colorPrimary">@color/colorToolBarBg</item>
+        <!--系统状态栏颜色-->
+        <item name="colorPrimaryDark">@color/colorSystemStatusBarBg</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Startup" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/image_startup</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="NewMainTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="GuideActivityTheme" parent="AppTheme">
+    </style>
+
+    <style name="NotesActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="NiceDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="DefaultAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/exit_anim</item>
+    </style>
+
+    <style name="OperateTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="WritingEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorWritingTextLight</item>
+        <item name="colorControlActivated">@color/colorWritingTextLight</item>
+    </style>
+
+    <style name="ImageTranslucentTheme" parent="AppTheme">
+        <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
+    </style>
+
+    <style name="ReaderTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/colorOrange</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabTextAppearance">@style/ReaderTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/colorTextOrange</item>
+    </style>
+
+    <style name="ReaderTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorTextImportant</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="Translucent" parent="AppTheme">
+        <item name="android:windowBackground">@color/colorTransparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+    </style>
+
+
+    <!--去掉toolbar的阴影效果-->
+    <style name="NoAppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="elevation">0dp</item>
+    </style>
+
+</resources>

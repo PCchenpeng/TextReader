@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/rl_root_image_to_text"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite">
+
+    <ScrollView
+        android:id="@+id/scroll_view_image_to_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlack">
+
+        <ImageView
+            android:id="@+id/iv_image_to_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="40dp"/>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/frame_image_to_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAlphaBlack">
+
+        <ImageView
+            android:id="@+id/iv_line_image_to_text"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/image_scan_line"/>
+
+        <TextView
+            android:id="@+id/tv_restart_image_to_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_orange_round_bg"
+            android:paddingBottom="6dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="6dp"
+            android:text="重新识别"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_tips_image_to_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:text="文字提取识别中..."
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_result_image_to_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <LinearLayout
+                android:id="@+id/ll_move_image_to_text"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/shape_top_orange_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_move_image_to_text"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/icon_move_to_down"/>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/tv_commit_image_to_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/shape_white_bg"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="19dp"
+                    android:paddingRight="19dp"
+                    android:paddingTop="6dp"
+                    android:text="完成"
+                    android:textColor="@color/colorTextOrange"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/shape_orange_50dp_bg">
+
+                <ImageView
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/shape_white_60dp_bg"
+                    android:src="@drawable/icon_whale"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_result_image_to_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="60dp"
+                android:text="按住此处可上下拖动"
+                android:textColor="@color/colorWhite"
+                android:textSize="12sp"/>
+
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/et_result_image_to_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:gravity="left|top"
+            android:letterSpacing="0.1"
+            android:lineSpacingMultiplier="2"
+            android:padding="15dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_back_image_to_text"
+        android:layout_width="52dp"
+        android:layout_height="52dp">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_close_version_update"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

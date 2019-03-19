@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <include layout="@layout/top_back_title_layout"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view_after_reading_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="40dp"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:id="@+id/iv_head_after_reading_detail"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="26dp"/>
+
+            <TextView
+                android:id="@+id/tv_username_after_reading_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/tv_date_after_reading_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorTextNormal"
+                android:textSize="11sp"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_editor_after_reading_detail"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/icon_editor_after_reading"/>
+            </RelativeLayout>
+
+            <me.biubiubiu.justifytext.library.JustifyTextView
+                android:id="@+id/tv_content_after_reading_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:letterSpacing="0.1"
+                android:lineSpacingMultiplier="1.5"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl_like_after_reading_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="48dp">
+
+            <ImageView
+                android:id="@+id/iv_like_after_reading_detail"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bottom_points_unselected"/>
+
+            <TextView
+                android:id="@+id/tv_like_after_reading_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@id/iv_like_after_reading_detail"
+                android:textColor="@color/colorTextContent"
+                android:textSize="11sp"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_after_reading_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp"
+        android:background="@color/colorArticleDetailBg"
+        android:visibility="gone"/>
+
+</RelativeLayout>

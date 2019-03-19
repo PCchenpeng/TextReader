@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_new_bottom_main"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_new_home_bottom_main"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_new_home_bottom_main"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_tab_new_home_sel"/>
+
+            <TextView
+                android:id="@+id/tv_new_home_bottom_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="主页"
+                android:textColor="@color/color_4D72FF"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_new_reader_bottom_main"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_new_reader_bottom_main"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_tab_new_reader_nor"/>
+
+            <TextView
+                android:id="@+id/tv_new_reader_bottom_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="阅读"
+                android:textColor="@color/colorTextContent"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"/>
+
+        <LinearLayout
+            android:id="@+id/ll_new_lesson_bottom_main"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_new_lesson_bottom_main"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_tab_new_classes_nor"/>
+
+            <TextView
+                android:id="@+id/tv_new_lesson_bottom_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="微课"
+                android:textColor="@color/colorTextContent"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/ll_new_mine_bottom_main"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <LinearLayout
+                android:id="@+id/l_new_mine_bottom_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_new_mine_bottom_main"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_tab_new_myself_nor"/>
+
+                <TextView
+                    android:id="@+id/tv_new_mine_bottom_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="我的"
+                    android:textColor="@color/colorTextContent"
+                    android:textSize="10sp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_news_count_bottom_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/l_new_mine_bottom_main"
+                android:layout_alignTop="@id/l_new_mine_bottom_main"
+                android:layout_marginRight="-8dp"
+                android:layout_marginTop="-4dp"
+                android:background="@drawable/shape_mine_news_count"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp"
+                android:visibility="invisible"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/ll_new_bottom_main"
+        android:background="@color/colorLineLight"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_white_60dp_bg">
+
+            <ImageView
+                android:id="@+id/iv_writing_bottom_new_main"
+                android:layout_width="51dp"
+                android:layout_height="51dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/icon_new_writing_choose"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="60dp"
+            android:maxLines="1"
+            android:text="说作文"
+            android:textColor="@color/colorTextContent"
+            android:textSize="10sp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

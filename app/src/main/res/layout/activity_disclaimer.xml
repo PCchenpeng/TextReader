@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorDisclaimerBG"
+    android:orientation="vertical">
+
+    <include layout="@layout/top_back_title_layout"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <me.biubiubiu.justifytext.library.JustifyTextView
+            android:id="@+id/tv_disclaimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:breakStrategy="balanced"
+            android:letterSpacing="0.1"
+            android:lineSpacingMultiplier="1.5"
+            android:textColor="@color/colorDisclaimerContentText"
+            android:textSize="18sp"/>
+    </ScrollView>
+
+</LinearLayout>

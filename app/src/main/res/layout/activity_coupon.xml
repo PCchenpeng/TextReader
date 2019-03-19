@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorOrderDetailBg"
+    android:orientation="vertical">
+
+    <include layout="@layout/top_back_title_layout"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <EditText
+            android:id="@+id/et_exchange_coupon"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_coupon_edit_bg"
+            android:hint="输入兑换码"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"/>
+
+        <TextView
+            android:id="@+id/tv_exchange_coupon"
+            android:layout_width="90dp"
+            android:layout_height="44dp"
+            android:background="@drawable/shape_coupon_text_bg"
+            android:gravity="center"
+            android:text="立即兑换"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <com.dace.textreader.view.tab.SmartTabLayout
+        android:id="@+id/tab_layout_coupon"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        app:stl_defaultTabTextAllCaps="false"
+        app:stl_defaultTabTextColor="@drawable/color_tab_text"
+        app:stl_defaultTabTextSize="15sp"
+        app:stl_distributeEvenly="true"
+        app:stl_dividerColor="@color/colorTransparent"
+        app:stl_dividerThickness="0dp"
+        app:stl_indicatorColor="@color/colorOrange"
+        app:stl_indicatorCornerRadius="2dp"
+        app:stl_indicatorThickness="4dp"
+        app:stl_indicatorWidth="20dp"
+        app:stl_titleOffset="auto_center"
+        app:stl_underlineColor="@color/colorTransparent"
+        app:stl_underlineThickness="0dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLineLight"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_coupon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

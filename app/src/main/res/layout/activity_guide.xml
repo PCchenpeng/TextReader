@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cn.lightsky.infiniteindicator.InfiniteIndicator
+        android:id="@+id/infinite_indicator_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:indicator_type="indicator_anim_circle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_guide_one"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/shape_round_selected"/>
+
+        <ImageView
+            android:id="@+id/iv_guide_two"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/shape_round"/>
+
+        <ImageView
+            android:id="@+id/iv_guide_three"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/shape_round"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_root_guide"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

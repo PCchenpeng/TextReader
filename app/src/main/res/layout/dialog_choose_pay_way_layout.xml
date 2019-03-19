@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/colorOrderDetailBg"
+              android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:text="支付方式"/>
+
+    <LinearLayout
+        android:id="@+id/ll_wechat_choose_pay_way_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icon_wechat_pay"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="微信支付"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="14sp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_wechat_choose_pay_way_dialog"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/icon_pay_options_selected"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_commit_choose_pay_way_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="37dp"
+        android:background="@color/colorOrange"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp"/>
+
+</LinearLayout>

@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string name="app_name" tools:ignore="MissingTranslation">派知语文</string>
+
+    <!--长按文字选择相关-->
+    <string name="under_line">划线</string>
+    <string name="grammar">语法</string>
+    <string name="note">想法</string>
+    <string name="copy">复制</string>
+
+    <string name="digits">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
+</resources>

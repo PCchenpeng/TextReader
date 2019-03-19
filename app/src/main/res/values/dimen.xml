@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="voice_animator_height_22dp">22dp</dimen>
+    <dimen name="voice_animator_height_36dp">36dp</dimen>
+    <dimen name="voice_animator_height_16dp">16dp</dimen>
+    <dimen name="voice_animator_height_25dp">25dp</dimen>
+</resources>

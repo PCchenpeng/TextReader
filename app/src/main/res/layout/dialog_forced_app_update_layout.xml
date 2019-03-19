@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorAlphaBlack">
+
+    <LinearLayout
+        android:id="@+id/ll_content_version_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="94dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="94dp"
+        android:background="@drawable/shape_white_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_tips_version_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="发现新版本"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/tv_version_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/colorTextNormal"
+            android:textSize="13sp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_content_version_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_download_info_version_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_version_update"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:max="100"
+                    android:progressDrawable="@drawable/download_progress_bar_bg"/>
+
+                <TextView
+                    android:id="@+id/tv_progress_version_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="下载中0%"
+                    android:textColor="@color/colorTextOrange"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_wifi_tips_version_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="wifi下已为您准备好安装包"
+                android:textColor="@color/colorTextOrange"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_apply_version_update"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/shape_orange_btn"
+                android:gravity="center"
+                android:text="更新"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_bg_version_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ll_content_version_update"
+        android:layout_marginBottom="-144dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"/>
+
+    <ImageView
+        android:id="@+id/iv_close_version_update"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignRight="@id/ll_content_version_update"
+        android:layout_alignTop="@id/ll_content_version_update"
+        android:layout_marginRight="-12dp"
+        android:layout_marginTop="-12dp"
+        android:src="@drawable/icon_close_version_update"/>
+
+</RelativeLayout>

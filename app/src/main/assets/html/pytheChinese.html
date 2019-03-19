@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/css/base.css">
+    <link rel="stylesheet" type="text/css"
+          href="file:///android_asset/css/swiper-3-a18c58cf55.4.2.min.css">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/css/pythe_app.css">
+    <script type="text/javascript"
+            src="file:///android_asset/js/jquery-1-d2ec4c1e27.7.2.min.js"></script>
+    <script type="text/javascript" src="file:///android_asset/js/vue.js"></script>
+    <script type="text/javascript" src="file:///android_asset/js/compositionDetail.js"></script>
+    <script type="text/javascript"
+            src="file:///android_asset/js/swiper-3-277b7550fd.4.2.jquery.min.js"></script>
+
+    <title>派知-app</title>
+    <style type="text/css">
+      .turnToLogin{background-color: rgba(0,0,0,0.6);padding:0.05rem 0.1rem;color:#fff;
+      position:fixed;left:50%;top:50%;
+       -webkit-transform: translateX(-50%);
+       transform: translateX(-50%);}
+   </style>
+</head>
+<body>
+<div class="pythe-index">
+    <!-- 轮播图 -->
+    <div class="pytheIndex-banner">
+        <div class="swiper-container" id='pytheIndex-banner'>
+            <div class="swiper-wrapper" id='swiper-wrapper'></div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <script type="text/javascript">
+	                 function getBanner(){
+	                 	$.ajax({
+	                       url:publicURL+'/pythe-rest/rest/home/banner',
+	                       type:'get',
+	                       dataType:'json',
+	                       contentType:'application/json',
+	                       async:false,                     
+	                       success:function(res){
+	                             if(res.status==200){
+	                             
+	                                for(var i=0;i<res.data.length;i++){
+
+	                                   var createBanner=$("<div class='swiper-slide' data-passdata='"+res.data[i].name+"' data-status='"+res.data[i].taskStatus+"'><img src='"+res.data[i].banner+"' alt=''></div>");
+	                                   $('#swiper-wrapper').append(createBanner);
+	                                }
+	                             }
+	                       },
+	                       error:function(err){
+
+	                       }
+	                    })
+	                 };
+                     getBanner(); 
+			       	var pytheIndex = new Swiper ('#pytheIndex-banner', {
+						// 如果需要分页器
+						pagination: '.swiper-pagination',
+						paginationClickable: true,
+						direction: 'horizontal',
+						autoplay : 3000,
+						loop: true,		    
+
+
+					}) ;
+
+				   	$('#pytheIndex-banner .swiper-slide').click(function(){
+				   	     var param={};
+				   		param.name=$(this).attr('data-passdata');
+				   		param.status=$(this).attr('data-status');
+				   		param = JSON.stringify(param);
+				   		var userAgentInfo = navigator.userAgent.toLowerCase();
+				   		if (userAgentInfo.indexOf('iphone') > 0){
+				   			param= JSON.stringify("{'activity':"+param+"}");
+				   			window.location = param;
+				   		}else{
+				   			location.href='app://event/param?param='+param;
+				   		} 			       	   
+				   	});
+
+
+
+        </script>
+    </div>
+
+    <!-- 作文推荐 -->
+    <div class="composition-recommend">
+        <div class='comCommend-title'>作文社区</div>
+        <div class="composition">
+            <img src="file:///android_asset/images/home_banner_composition.png" alt=""
+                 style='border-radius:0.08rem;'>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+          	  $('.composition').click(function() {
+						 var userAgentInfo = navigator.userAgent.toLowerCase();
+						 var param=JSON.stringify("{'type':"+'composition'+"}");
+						 param =$.parseJSON(param) ;
+							 //alert(param);
+						  if (userAgentInfo.indexOf('iphone') > 0)
+		                   {
+				               window.location = param;
+							  // alert(param);
+		                   }else{
+							   
+		                       location.href='app://composition/param?type='+param;
+		                   }
+			  });
+
+
+
+    </script>
+
+    <!-- 每日一句 -->
+    <div class="composition-recommend" id='pre_sentence' v-cloak>
+        <div class='comCommend-title'>每日一句</div>
+
+        <div class="composition sentence-preday">
+            <div class="sentence-preday-ul">
+                <div class="swiper-container specialSwiper" id='sentence-preday'>
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for='item in sentenceData'
+                             v-on:click='sentenceFun(item.id)'>
+                            <div class="about_sentence_pre">
+                                <div class="a_sentence_info">
+                                    <span class="write_sentence_time">{{item.time}}</span>
+                                    <!-- <span class="thump_sentence"></span> -->
+                                </div>
+
+                                <div class="a_sentence_text" v-html='item.content'></div>
+                                <h3 class="a_sentence_author"><span class="handle_author_info">{{item.author}}</span>
+                                </h3>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 智能推荐 -->
+    <div class="composition-recommend" id='auto_recommend' v-cloak>
+        <div class='comCommend-title'>智能推荐</div>
+
+        <div class="recommend_contain">
+            <ul class="auto_recommend_list">
+                <li class="auto_recommend_content" v-for='item in recommendData'
+                    v-on:click='remmendFun(item.id,item.type)'>
+                    <div class='auto_recommend_top'>
+                        <img v-bind:src="item.image" alt="" class="recommend_img">
+                        <div class="recommend_main_content">
+                            <h1 class="recommend_list_title">{{item.title}}</h1>
+                            <div class="recommend_brief">{{item.content}}</div>
+                        </div>
+                    </div>
+                    <div class="auto_recommend_bottom">
+                        <span class="auto_recommend_type">{{item.type}}</span>
+                        <span class="auto_recommend_py">{{item.score}}PY</span>
+                        <span class="auto_recommend_readNum">{{item.pv}}阅读</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="no_more_remmend">
+            <span v-if='moreRemmend'>没有更多推荐了</span>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+       var validInfoObj={},essayId,studentId;        
+       function handleUrl(){
+           var documentUrl=document.URL;
+           if(documentUrl.indexOf('?')!=-1){
+              documentUrl=documentUrl.split('?')[1];
+              documentUrl=documentUrl.split('&');
+              for(var i=0;i<documentUrl.length;i++){
+                 validInfoObj[(documentUrl[i].split('='))[0]] =(documentUrl[i].split('='))[1];
+              };
+              studentId= validInfoObj.studentId;             
+           };
+      };
+      handleUrl();
+
+       var preSentenceNum=1,loadSentenceOver=0;
+    	 var preSentence=new Vue({
+    	 	el:'#pre_sentence',
+    	 	data:{
+               sentenceData:[],
+    	 	},
+    	 	methods:{
+
+               getSentenceInfo:function(){
+               	   var sentenceData=[],that=this;
+               	   $.ajax({
+               	   	  url:publicURL+'/pythe-rest/rest/sentenceEveryday/query',
+               	   	  type:'GET',
+               	   	  dataType:'json',
+               	   	  contentType:'application/json',
+               	   	  data:{
+                          pageNum:preSentenceNum,
+                          pageSize:15
+               	   	  },
+               	   	  async:false,
+                      timeout:4000,
+               	   	  success:function(res){
+                          if(200==res.status){
+                          	loadSentenceOver=1;
+                            sentenceData=res.data;
+
+                            // 处理时间
+                            for(var i=0;i<sentenceData.length;i++){
+                               var writeSentenceTime=new Date(sentenceData[i].time);
+                               var getWriteMonth=writeSentenceTime.getMonth()+1;
+                               if(getWriteMonth<=9){
+                                  getWriteMonth="0"+getWriteMonth;
+                               }
+
+                               var getWriteDate=writeSentenceTime.getDate();
+                               if(getWriteDate<=9){
+                                  getWriteDate="0"+getWriteDate;
+                               }
+
+                               sentenceData[i].time=getWriteMonth+'/'+getWriteDate;
+                            };
+                            for(var i=0;i<sentenceData.length;i++){
+                              that.sentenceData.push(sentenceData[i]);
+                            }
+
+                          }else {
+                          	loadSentenceOver=0;
+
+                          }
+               	   	  },
+               	   	  error:function(err){
+                            loadSentenceOver=0;
+                        
+                      },
+                      complete:function(status){
+                         if (status == 'timeout') {
+                            loadSentenceOver=0;
+                            ajaxTimeOut.abort(); //取消请求
+                            pytheLayOutObj3.pytheLayOutFun3({
+                               setTime:2000,
+                               tips:'网络不稳定，请稍后重试'
+                            })
+                         }
+                      }
+               	   })
+               },
+
+               sentenceFun:function(senId){
+                    var userAgentInfo = navigator.userAgent.toLowerCase();
+                    var param=JSON.stringify(senId);
+                     if (userAgentInfo.indexOf('iphone') > 0)
+                              {
+                                  window.location = param;
+                              }else{
+                                  location.href='app://sentence/param?param='+param;
+                     } 
+                },
+    	 	},
+    	 	mounted:function(){
+              var that=this;
+               this.getSentenceInfo();
+               setTimeout( function(){
+      			        swiper.slideTo(0, 50, false);
+      			   }, 50);
+    	 	       var swiper = new Swiper('#sentence-preday', {
+                   initialSlide :0,
+				           centeredSlides: false,
+			             slidesPerView: 'auto',
+			             spaceBetween: 15,
+				           slidesPerGroup : 1,
+			             observer:true, //修改swiper自己或子元素时，自动初始化swiper
+                   observeParents:true,//修改swiper的父元素时，自动初始化swiper
+
+                   onTransitionStart:function(swiper){
+
+                   	   if(swiper.activeIndex==swiper.slides.length-3){
+                   	   	  if(loadSentenceOver==1){
+                            preSentenceNum++;
+                            preSentence.getSentenceInfo();
+                            var swiper = new Swiper('#sentence-preday', {
+						                  slidesPerView: 'auto',
+						                  spaceBetween: 15,
+							                slidesPerGroup : 1,						                  
+                            });
+                            setTimeout( function() {
+            						        swiper.slideTo(that.sentenceData.length-18, 10, false);
+            						    }, 50);
+                   	   	  }
+                   	   }
+                   }
+			   });
+
+			   
+
+    	 	}
+    	 });
+
+         
+       var recommengNum=1,hadLoadOver=0;
+    	 var recommendList=new Vue({
+    	 	el:'#auto_recommend',
+    	 	data:{
+               recommendData:[],
+               moreRemmend:false
+    	 	},
+    	 	methods:{
+    	 	   
+               getRecommendInfo:function(){
+               	   var recommendData=[];
+               	   var that=this;
+               	   $.ajax({
+               	   	  url:publicURL+'/pythe-rest/rest/index/default/essays',
+               	   	  type:'GET',
+               	   	  dataType:'json',
+               	   	  contentType:'application/json',
+               	   	  data:{
+                         studentId:studentId,
+			                   essayGrade:-1,
+			                   pageNum:recommengNum,
+			                   pageSize:10
+               	   	  },
+                      async:false,
+                      timeout:4000,
+               	   	  success:function(res){
+                          if(200==res.status){
+                          	 hadLoadOver=1;
+                          	 that.moreRemmend=false;
+                             recommendData=res.data;                            
+
+                             // 处理类型
+                             for(var i=0;i<recommendData.length;i++){
+                             	// 处理图片
+                                recommendData[i].image=recommendData[i].image;
+                             	switch(recommendData[i].type){
+	                                case 0:recommendData[i].type='故事';break;
+	                                case 1:recommendData[i].type='科学';break;
+	                                case 2:recommendData[i].type='诗词曲';break;
+	                                case 3:recommendData[i].type='美文';break;
+	                                case 4:recommendData[i].type='文言文';break;
+	                                case 5:recommendData[i].type='传记';break;
+	                                case 6:recommendData[i].type='小说';break;
+	                                case 7:recommendData[i].type='历史';break;
+	                                case 8:recommendData[i].type='国学';break;
+	                                case 9:recommendData[i].type='哲学';break;
+	                                case 10:recommendData[i].type='课文';break;
+                          	    }
+                            }
+                            for(var i=0;i<recommendData.length;i++){
+                              that.recommendData.push(recommendData[i]);
+                            }
+                             
+                          }else if(400==res.status){
+                              hadLoadOver=0;
+                          	  that.moreRemmend=true;
+                          	  setTimeout(function(){
+                          	    that.moreRemmend=false;
+                          	  },2000);
+                          }
+               	   	  },
+               	   	  error:function(err){
+                              hadLoadOver=0;
+                        pytheLayOutObj3.pytheLayOutFun3({
+                           setTime:2000,
+                           tips:'网络不稳定，请稍后重试'
+                        })
+                      },
+                      complete:function(status){
+                         if (status == 'timeout') {
+                              hadLoadOver=0;
+                            ajaxTimeOut.abort(); //取消请求
+                            pytheLayOutObj3.pytheLayOutFun3({
+                               setTime:2000,
+                               tips:'网络不稳定，请稍后重试'
+                            })
+                         }
+                      }
+               	   })
+               },
+               remmendFun:function(reId,reType){
+                    var userAgentInfo = navigator.userAgent.toLowerCase();
+                    var param={};
+                    param.id=reId;
+                    switch(reType){
+                      case '故事':reType=0;break;
+                      case '科学':reType=1;break;
+                      case '诗词曲':reType=2;break;
+                      case '美文':reType=3;break;
+                      case '文言文':reType=4;break;
+                      case '传记':reType=5;break;
+                      case '小说':reType=6;break;
+                      case '历史':reType=7;break;
+                      case '国学':reType=8;break;
+                      case '哲学':reType=9;break;
+                      case '课文':reType=10;break;
+                    };
+                    param.type=reType;
+                    param=JSON.stringify(param);
+                    if (userAgentInfo.indexOf('iphone') > 0)
+                              {
+                                  window.location = param;
+                              }else{
+                                  location.href='app://recommendation/param?param='+param;
+                     }
+                }
+    	 	},
+    	 	mounted:function(){
+               this.getRecommendInfo();  
+    	 	}
+    	 });
+
+    	 $(document).scroll(function(){
+    	 	 if($(window).scrollTop() + $(window).height() >= $(document).height()){
+    	 	 	 if(hadLoadOver==1){
+    	 	 	     	recommengNum++;
+                recommendList.getRecommendInfo();
+    	 	 	 }else{
+                recommendList.getRecommendInfo();
+                
+           }
+                   
+    	 	 }
+    	 })
+
+
+
+</script>
+</body>
+</html>

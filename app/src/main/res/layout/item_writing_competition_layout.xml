@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+    <ImageView
+        android:id="@+id/iv_writing_competition_item"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_status_writing_competition_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_writing_competition_item"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_writing_competition_status_bg">
+
+        <TextView
+            android:id="@+id/tv_status_writing_competition_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="11sp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_title_writing_competition_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_writing_competition_item"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/rl_status_writing_competition_item"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/tv_content_writing_competition_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title_writing_competition_item"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="13sp"/>
+
+</RelativeLayout>

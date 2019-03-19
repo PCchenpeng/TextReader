@@ -1,0 +1,381 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/css/base.css">
+    <link rel="stylesheet" type="text/css"
+          href="file:///android_asset/css/pytheChinese.css">
+    <script type="text/javascript"
+            src="file:///android_asset/js/jquery-1-d2ec4c1e27.7.2.min.js"></script>
+    <script type="text/javascript" src="file:///android_asset/js/publicUrl.js"></script>
+    <title>微课</title>
+    <style type="text/css">
+       .micro-class{padding:0 0 0.3rem;;}
+       .micro-composition{border-radius:0;padding:0.15rem 0.15rem 0.02rem;box-sizing:border-box;background-color:#fff;margin-bottom:0.15rem;}
+       .micro-cbottom{padding:0;}
+       .micro-price{font-size:0.12rem;}
+       .micro-botList-title{padding-top:0.13rem;}
+       .aboutMicro-info-bottom .bottom-class-name{font-size:0.12rem;float: left;margin-left:0.05rem;width:0.8rem;padding:0;white-space: nowrap;overflow:hidden;text-overflow: ellipsis;}
+       .aboutMicro-info-bottom .line-throungPrice{text-decoration: line-through;color:#999;font-size:0.12rem;margin-left:0.05rem;}
+       .aboutMicro-info-bottom .lessonNum{width: 100%;text-align: center;padding:0 1rem 0 1.25rem;box-sizing:border-box;line-height:0.3rem;color:#999;font-size:0.12rem;}
+       .no-more{position:static;line-height: 1}
+       .micro-class{padding-bottom:0;}
+       .micro-ctop{border-radius:0.08rem;}
+       .turnToLogin{
+       background-color: rgba(0,0,0,0.6);padding:0.05rem 0.1rem;color:#fff;white-space: nowrap;
+       -webkit-transform: translateX(-50%);
+       -moz-transform: translateX(-50%);
+       -ms-transform: translateX(-50%);
+       -o-transform: translateX(-50%);
+       transform: translateX(-50%);
+       background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    border-radius: 0.04rem;
+    padding: 0.03rem 0.08rem;
+    font-size: 0.14rem;
+       }
+
+      .micro-ctop{position:relative;}
+         .micro-ctop .icon_img{
+          position: absolute;width:0.65rem;right:0;top:0;
+         }
+
+
+
+
+    </style>
+</head>
+<body>
+<div class="micro-class" style='background-color:#f7f7f9;'>
+    <div class="micro-box">
+
+    </div>
+</div>
+<div style='height:30px;'>
+    <p class="no-more">没有更多了</p>
+</div>
+<div class="micro_cloadding">
+    <div class="micro_cloadding2">
+        <img src="file:///android_asset/images/image_loading.gif" alt="">
+    </div>
+</div>
+<script type="text/javascript">
+           $('.micro_cloadding').height($(window).height());
+           $('.micro_cloadding').show();
+           var isMicroList=0;
+           var contentWidth= $('.micro-box').width();
+           var userAgentInfo = navigator.userAgent.toLowerCase();
+               var pageNum=1;
+               var studentId,functionCardId;
+
+           var getValidInfo=document.URL;
+           var validInfoObj={};
+           function getValidInfoFun(){
+                if(getValidInfo.indexOf('?')!=-1){
+                    getValidInfo=getValidInfo.split('?')[1];
+                    getValidInfo=getValidInfo.split('&');
+                    for(var i=0;i<getValidInfo.length;i++){
+                        validInfoObj[(getValidInfo[i].split('='))[0]] =(getValidInfo[i].split('='))[1];
+                    };
+                    studentId = validInfoObj.studentId;
+                    functionCardId = validInfoObj.cardId;
+                };
+            };
+            getValidInfoFun();
+
+               $.ajax({
+                     url:publicURL+'/pythe-rest/rest/card/vip/course/query',
+                     type:'POST',
+                     dataType:'json',
+                     contentType:'application/json',
+                     data:JSON.stringify({
+                      "studentId":studentId,
+                      "functionCardId":functionCardId,
+                      "pageNum":pageNum,
+                      "pageSize":4
+                    }),
+                     timeout:5000,
+                     success:function(res){
+                      if(res.status==200){
+                        // console.log(res.data)  ;
+                        isMicroList=1;
+                        var microClassList=res.data;
+                         for(var i=0;i<res.data.length;i++){
+                              var microPvNumber=parseInt(res.data[i].playback);
+                              var StringicroPvNumber=(res.data[i].playback).toString();
+                              var microPvNumberFirst=Math.floor(microPvNumber/10000);
+                              if(microPvNumberFirst>=1){
+                                  microClassList[i].playback=microPvNumberFirst+'.'+StringicroPvNumber.slice(1,3)+'万';
+                              };
+                             var createEle=$("<div class='micro-composition' data-learnid='"+res.data[i].id+"'><div class='micro-ctop' style='background-image:url("+res.data[i].img+");'><img src='file:///android_asset/images/class_studycard_free.png' class='icon_img'></div><div class='micro-cbottom'><h1 class='micro-botList-title'><span class='pv_micro'>"+microClassList[i].playback+"</span><span class='micro_class_title1'>"+res.data[i].name+"</span></h1><div class='aboutMicro-info-bottom'><img src='"+res.data[i].teacherImg+"'><div class='micro-price'><span>"+res.data[i].price+"派豆</span><span class='line-throungPrice' title='"+res.data[i].costPrice+"'>"+res.data[i].costPrice+"派豆</span></div><p class='bottom-class-name'>"+res.data[i].teacherName+"</p><p class='lessonNum'>"+res.data[i].lessonNum+"节</p></div></div></div>");
+                             $('.micro-box').append(createEle);
+                             $('.micro-ctop').height(contentWidth/2.5); 
+                             $('.micro_cloadding').hide();
+
+                               $(".line-throungPrice[title='0']").hide();
+                             // if(res.data[i].price==0){
+                             //     $('.micro-composition').eq(i).find('.line-throungPrice').hide(); 
+                             // };
+                             if(null==res.data[i].cardId){
+                                 $('.micro-composition').eq(i).find('.icon_img').hide(); 
+                             };
+                         }
+                          
+                      }else{ 
+                             $('.micro_cloadding').hide();
+                             isMicroList=0;
+
+                      }
+                     },
+      
+                     error:function(err){
+                             $('.micro_cloadding').hide();
+                             pytheLayOutObj2.pytheLayOutFun2({
+                               setTime:2000,
+                               tips:'网络不稳定，请稍后重试'
+                             })
+                             isMicroList=0; 
+                             if (userAgentInfo.indexOf('iphone') > 0){
+                                window.location = 'param=404';             
+                             }else{                                
+                                location.href='pythe://microClass/param?requestParam=404';
+                             }
+                             
+                     },
+                     complete:function(status){
+                         $('.micro_cloadding').hide();
+                         if (status == 'timeout') {
+                            isMicroList=0; 
+                            ajaxTimeOut.abort(); //取消请求
+                            if (userAgentInfo.indexOf('iphone') > 0){
+                                window.location = 'param=404';             
+                             }else{                                
+                                location.href='pythe://microClass/param?requestParam=404';
+                             }
+                            pytheLayOutObj2.pytheLayOutFun2({
+                               setTime:2000,
+                               tips:'网络不稳定，请稍后重试'
+                            })
+                         }
+                      }
+                });
+
+               $(window).scroll(function(){
+                 if($(window).scrollTop() + $(window).height() >= $(document).height()){
+                    if(isMicroList==1){
+                      pageNum++; 
+                      $.ajax({
+                         url:publicURL+'/pythe-rest/rest/card/vip/course/query',
+                         type:'POST',
+                         dataType:'json',
+                         contentType:'application/json',
+                         data:JSON.stringify({
+                          "studentId":studentId,
+                          "functionCardId":functionCardId,
+                          "pageNum":pageNum,
+                          "pageSize":4
+                        }),
+                         timeout:5000,
+                         success:function(res){
+                          if(res.status==200 && res.data.length>=1){
+                            isMicroList=1;
+                            $('.micro_cloadding').show();
+
+                             var microClassList=res.data;                            
+                            for(var i=0;i<res.data.length;i++){
+                              var microPvNumber=parseInt(res.data[i].playback);
+                              var StringicroPvNumber=(res.data[i].playback).toString();
+                              var microPvNumberFirst=Math.floor(microPvNumber/10000);
+                              if(microPvNumberFirst>=1){
+                                  microClassList[i].playback=microPvNumberFirst+'.'+StringicroPvNumber.slice(1,3)+'万';
+                              };
+
+                               var createEle=$("<div class='micro-composition' data-learnid='"+res.data[i].id+"'><div class='micro-ctop' style='background-image:url("+res.data[i].img+");'><img src='file:///android_asset/images/class_studycard_free.png' class='icon_img'></div><div class='micro-cbottom'><h1 class='micro-botList-title'><span class='pv_micro'>"+microClassList[i].playback+"</span><span class='micro_class_title1'>"+res.data[i].name+"</span></h1><div class='aboutMicro-info-bottom'><img src='"+res.data[i].teacherImg+"'><div class='micro-price'><span>"+res.data[i].price+"派豆</span><span class='line-throungPrice' title='"+res.data[i].costPrice+"'>"+res.data[i].costPrice+"派豆</span></div><p class='bottom-class-name'>"+res.data[i].teacherName+"</p><p class='lessonNum'>"+res.data[i].lessonNum+"节</p></div></div></div>");
+                               $('.micro-box').append(createEle);
+                               $('.micro-ctop').height(contentWidth/2.5); 
+                               setTimeout(function(){
+                                  $('.micro_cloadding').hide();
+                               },1000);
+                               
+                               // var hideNum=(pageNum*4)+i;
+                               // console.log(hideNum)
+                               // if(res.data[i].price==0){
+                               //   $('.micro-composition').eq(hideNum).find('.line-throungPrice').hide(); 
+                               // };
+
+                               $(".line-throungPrice[title='0']").hide();
+                               if(null==res.data[i].cardId){
+                                 $('.micro-composition').eq(i).find('.icon_img').hide(); 
+                               }; 
+                            }
+                              
+                          }else{
+                             isMicroList=0;
+                             $('.no-more').show();
+                             $('.micro_cloadding').hide();
+                             setTimeout(function(){
+                                 $('.no-more').hide();
+                             },3000) 
+                          }
+                         },
+          
+                         error:function(err){
+                             $('.micro_cloadding').hide();
+                             if (userAgentInfo.indexOf('iphone') > 0){
+                                window.location = 'param=404';             
+                             }else{                                
+                                location.href='pythe://microClass/param?requestParam=404';
+                             }
+                             pytheLayOutObj2.pytheLayOutFun2({
+                               setTime:2000,
+                               tips:'网络不稳定，请稍后重试'
+                            })
+                             isMicroList=0;    
+                         },
+
+                         complete:function(status){
+                           $('.micro_cloadding').hide();
+                           if (status == 'timeout') {
+                              isMicroList=0; 
+                              ajaxTimeOut.abort(); //取消请求
+                              if (userAgentInfo.indexOf('iphone') > 0){
+                                window.location = 'param=404';             
+                              }else{                                
+                                location.href='pythe://microClass/param?requestParam=404';
+                              }
+                              pytheLayOutObj2.pytheLayOutFun2({
+                                 setTime:2000,
+                                 tips:'网络不稳定，请稍后重试'
+                              })
+                           }
+                        }
+                      });
+                    }else{                      
+                      $.ajax({
+                         url:publicURL+'/pythe-rest/rest/card/vip/course/query',
+                           type:'POST',
+                           dataType:'json',
+                           contentType:'application/json',
+                           data:JSON.stringify({
+                            "studentId":studentId,
+                            "functionCardId":functionCardId,
+                            "pageNum":pageNum,
+                            "pageSize":4
+                          }),
+                         timeout:4000,
+                         success:function(res){
+                          if(res.status==200 && res.data.length>=1){
+                               isMicroList=1; 
+                            
+                            $('.micro_cloadding').show();
+
+                             var microClassList=res.data;                            
+                            for(var i=0;i<res.data.length;i++){
+                              var microPvNumber=parseInt(res.data[i].playback);
+                              var StringicroPvNumber=(res.data[i].playback).toString();
+                              var microPvNumberFirst=Math.floor(microPvNumber/10000);
+                              if(microPvNumberFirst>=1){
+                                  microClassList[i].playback=microPvNumberFirst+'.'+StringicroPvNumber.slice(1,3)+'万';
+                              };
+
+                               var createEle=$("<div class='micro-composition' data-learnid='"+res.data[i].id+"'><div class='micro-ctop' style='background-image:url("+res.data[i].img+");'><img src='file:///android_asset/images/class_studycard_free.png' class='icon_img'></div><div class='micro-cbottom'><h1 class='micro-botList-title'><span class='pv_micro'>"+microClassList[i].playback+"</span><span class='micro_class_title1'>"+res.data[i].name+"</span></h1><div class='aboutMicro-info-bottom'><img src='"+res.data[i].teacherImg+"'><div class='micro-price'><span>"+res.data[i].price+"派豆</span><span class='line-throungPrice' title='"+res.data[i].costPrice+"'>"+res.data[i].costPrice+"派豆</span></div><p class='bottom-class-name'>"+res.data[i].teacherName+"</p><p class='lessonNum'>"+res.data[i].lessonNum+"节</p></div></div></div>");
+                               $('.micro-box').append(createEle);
+                               $('.micro-ctop').height(contentWidth/2.5); 
+                               setTimeout(function(){
+                                  $('.micro_cloadding').hide();
+                               },1000);
+                               
+                               // var hideNum=(pageNum*4)+i;
+                               // console.log(hideNum)
+                               // if(res.data[i].price==0){
+                               //   $('.micro-composition').eq(hideNum).find('.line-throungPrice').hide(); 
+                               // };
+
+                               $(".line-throungPrice[title='0']").hide();
+                               if(null==res.data[i].cardId){
+                                 $('.micro-composition').eq(i).find('.icon_img').hide(); 
+                               }; 
+                            }
+                              
+                          }else{
+                             isMicroList=0; 
+                             $('.no-more').show();
+                             $('.micro_cloadding').hide();
+                             setTimeout(function(){
+                                 $('.no-more').hide();
+                             },3000) 
+                          }
+                         },
+          
+                         error:function(err){
+                               $('.micro_cloadding').hide();
+                               isMicroList=0; 
+                               if (userAgentInfo.indexOf('iphone') > 0){
+                                  window.location = 'param=404';             
+                               }else{                                
+                                  location.href='pythe://microClass/param?requestParam=404';
+                               }
+                               pytheLayOutObj2.pytheLayOutFun2({
+                                 setTime:2000,
+                                 tips:'网络不稳定，请稍后重试'
+                              })  
+                         },
+
+                         complete:function(status){
+                           $('.micro_cloadding').hide();
+                           if (status == 'timeout') {
+                              isMicroList=0; 
+                              ajaxTimeOut.abort(); //取消请求
+                              if (userAgentInfo.indexOf('iphone') > 0){
+                                window.location = 'param=404';             
+                              }else{                                
+                                location.href='pythe://microClass/param?requestParam=404';
+                              }
+                              pytheLayOutObj2.pytheLayOutFun2({
+                                 setTime:2000,
+                                 tips:'网络不稳定，请稍后重试'
+                              })
+                           }
+                         }
+                      });
+                    }
+
+                      
+                 }
+
+               });
+            
+                $('.micro-box').on('click','.micro-composition',function(){
+                var oocId = $(this).attr('data-learnid');
+                var param=JSON.stringify("{'oocId':"+oocId+"}");
+                  param =$.parseJSON(param);
+                var userAgentInfo = navigator.userAgent.toLowerCase();
+                 // alert(param);
+                   if (userAgentInfo.indexOf('iphone') > 0)
+                            {
+                  window.location = param;
+                            }else{
+                                location.href='app://ooc/param?param='+param;
+                            }
+                })
+                
+
+               
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

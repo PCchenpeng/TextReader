@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_content_glory_certificate_dialog"
+        android:layout_width="288dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/rl_bottom_glory_certificate_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorGloryCertificateBg">
+
+            <ImageView
+                android:id="@+id/iv_code_glory_certificate_dialog"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dp"/>
+
+            <TextView
+                android:id="@+id/tv_code_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/iv_code_glory_certificate_dialog"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.5"
+                android:textColor="@color/colorWhite"
+                android:textSize="11sp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_image_glory_certificate_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/rl_bottom_glory_certificate_dialog">
+
+            <ImageView
+                android:id="@+id/iv_bottom_glory_certificate_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="330dp"
+                android:layout_alignParentBottom="true"
+                android:scaleType="fitXY"/>
+
+            <ImageView
+                android:id="@+id/iv_top_glory_certificate_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="177dp"
+                android:layout_above="@id/iv_bottom_glory_certificate_dialog"
+                android:layout_marginBottom="-66dp"
+                android:scaleType="fitXY"/>
+
+            <View
+                android:id="@+id/view_one_glory_certificate_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="26dp"
+                android:layout_alignTop="@id/iv_top_glory_certificate_dialog"/>
+
+            <ImageView
+                android:id="@+id/iv_glory_certificate_dialog"
+                android:layout_width="133dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/view_one_glory_certificate_dialog"
+                android:layout_centerHorizontal="true"/>
+
+            <View
+                android:id="@+id/view_two_glory_certificate_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_below="@id/iv_glory_certificate_dialog"/>
+
+            <TextView
+                android:id="@+id/tv_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view_two_glory_certificate_dialog"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:gravity="center"
+                android:textColor="@color/colorTextImportant"
+                android:textIsSelectable="true"
+                android:textSize="12sp"/>
+
+            <View
+                android:id="@+id/view_three_glory_certificate_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:layout_alignBottom="@id/iv_top_glory_certificate_dialog"/>
+
+            <ImageView
+                android:id="@+id/iv_logo_glory_certificate_dialog"
+                android:layout_width="70dp"
+                android:layout_height="52dp"
+                android:layout_above="@id/view_three_glory_certificate_dialog"
+                android:layout_centerHorizontal="true"/>
+
+            <View
+                android:id="@+id/view_four_glory_certificate_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_alignTop="@id/iv_bottom_glory_certificate_dialog"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_head_glory_certificate_dialog"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_below="@id/view_four_glory_certificate_dialog"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/shape_white_60dp_bg">
+
+                <ImageView
+                    android:id="@+id/iv_head_glory_certificate_dialog"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_user_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_head_glory_certificate_dialog"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/tv_content_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_user_glory_certificate_dialog"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="24dp"
+                android:lineSpacingMultiplier="1.8"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/colorWhite"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_wx_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/share_wechat"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="微信"
+                    android:textColor="@color/colorTextImportant"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_wxs_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/share_pyq"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="朋友圈"
+                    android:textColor="@color/colorTextImportant"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_download_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/share_download"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="保存到相册"
+                    android:textColor="@color/colorTextImportant"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_weibo_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/share_weibo"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="微博"
+                    android:textColor="@color/colorTextImportant"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_qq_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/share_qq"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="QQ"
+                    android:textColor="@color/colorTextImportant"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_qzone_glory_certificate_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/share_kongjian"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="QQ空间"
+                    android:textColor="@color/colorTextImportant"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/tv_cancel_glory_certificate_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="14sp"/>
+
+</LinearLayout>

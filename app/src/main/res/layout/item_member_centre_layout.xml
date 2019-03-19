@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginBottom="14dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/shape_e5e5e5_stroke_white_bg">
+
+    <RelativeLayout
+        android:id="@+id/rl_member_centre_item"
+        android:layout_width="140dp"
+        android:layout_height="90dp">
+
+        <ImageView
+            android:id="@+id/iv_member_centre_item"
+            android:layout_width="140dp"
+            android:layout_height="90dp"/>
+
+        <TextView
+            android:id="@+id/tv_count_member_centre_item"
+            android:layout_width="56dp"
+            android:layout_height="20dp"
+            android:background="@drawable/icon_card_tip"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="11sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/rl_member_centre_item"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/rl_member_centre_item"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_name_member_centre_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/iv_use_member_centre_item"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_forward_orange"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_detail_member_centre_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/rl_member_centre_item"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@id/rl_member_centre_item"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="14sp"/>
+
+</RelativeLayout>

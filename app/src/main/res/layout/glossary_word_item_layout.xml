@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_glossary_word_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/shape_text_orange"
+            android:gravity="center"
+            android:paddingBottom="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:id="@+id/iv_glossary_word_item"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignRight="@id/tv_glossary_word_item"
+            android:layout_alignTop="@id/tv_glossary_word_item"
+            android:layout_marginRight="-6dp"
+            android:layout_marginTop="-6dp"
+            android:src="@drawable/icon_close_version_update"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

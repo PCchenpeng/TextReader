@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="240dp"
+              android:layout_height="wrap_content"
+              android:background="@drawable/shape_white_bg"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title_choose_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="17sp"/>
+
+    <TextView
+        android:id="@+id/tv_content_choose_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.5"
+        android:textColor="@color/colorTextContent"
+        android:textSize="13sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_left_choose_dialog"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/shape_orange_storke"
+            android:gravity="center"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="14sp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_right_choose_dialog"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/shape_orange_round_bg"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

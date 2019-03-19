@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorToolBarBg">
+
+    <RelativeLayout
+        android:id="@+id/rl_back_audio_player"
+        android:layout_width="48dp"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_to_bottom"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_share_audio_player"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_forward"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_back_audio_player"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="272dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/iv_micro_lesson_image_audio_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_player_controller_audio_player"
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp">
+
+        <ImageView
+            android:id="@+id/iv_player_audio_player"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_media_player_start"/>
+
+        <ImageView
+            android:id="@+id/iv_pre_audio_player"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:layout_toLeftOf="@id/iv_player_audio_player"
+            android:src="@drawable/icon_media_pre"/>
+
+        <ImageView
+            android:id="@+id/iv_next_audio_player"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/iv_player_audio_player"
+            android:src="@drawable/icon_media_next"/>
+
+        <ImageView
+            android:id="@+id/iv_list_audio_player"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:src="@drawable/icon_media_menu"/>
+
+        <ImageView
+            android:id="@+id/iv_text_audio_player"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:src="@drawable/icon_micro_lesson_text"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_cur_media_time_audio_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rl_player_controller_audio_player"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="28dp"
+        android:text="00:00"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tv_max_media_time_audio_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rl_player_controller_audio_player"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="28dp"
+        android:text="15:45"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="12sp"/>
+
+    <SeekBar
+        android:id="@+id/seek_bar_media_audio_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_cur_media_time_audio_player"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:max="100"
+        android:maxHeight="1.8dp"
+        android:minHeight="1.8dp"
+        android:progressDrawable="@drawable/seek_bar_progress"
+        android:thumb="@drawable/seek_bar_thumb_press"/>
+
+    <TextView
+        android:id="@+id/tv_micro_teacher_audio_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/seek_bar_media_audio_player"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_title_audio_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_micro_teacher_audio_player"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"/>
+
+    <include
+        layout="@layout/dialog_player_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

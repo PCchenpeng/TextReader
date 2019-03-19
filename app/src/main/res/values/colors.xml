@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorLoadingErrorTipText">#6a6a6a</color>
+    <color name="colorGuideIndicatorUnselected">#eeeeee</color>
+
+    <color name="colorPrimary">#d2cea9</color>
+    <color name="colorAlphaPrimary">#e1dfc5</color>
+    <color name="colorAccent">#FF9933</color>
+    <color name="colorIconSelected">#3aa4f1</color>
+    <color name="colorIconUnSelected">#fffef6</color>
+    <color name="colorBackground">#f3f1e4</color>
+    <color name="colorAlphaBackground">#ddf3f1e4</color>
+    <color name="colorAlphaBlack">#87000000</color>
+    <color name="colorLines">#e5e5e5</color>
+    <color name="colorTextNormal">#999999</color>
+    <color name="colorTextContent">#666666</color>
+    <color name="colorTextImportant">#333333</color>
+    <color name="colorTextOrange">#ff9933</color>
+    <color name="colorTextType">#3aa4f1</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorNumber">#9ccbf3</color>
+    <color name="colorButtonBackground">#fca0a0</color>
+    <color name="colorOrange">#ff9933</color>
+    <color name="colorOrangeLight">#FDF7BA</color>
+    <color name="colorGrade">#3399fe</color>
+    <color name="colorRadiusBackground">#d4e4ee</color>
+    <color name="colorShadow">#dddddd</color>
+    <color name="colorGlossaryBackground">#ededed</color>
+    <color name="colorAfterReadingButton">#c5c5c5</color>
+    <color name="colorAfterReadingPopupBackground">#f5f5f9</color>
+    <color name="colorTransparent">#00ffffff</color>
+    <color name="colorShadowTwo">#33000000</color>
+
+    <!--文字选择相关-->
+    <color name="cursor_handle_color">#0d7aff</color>
+    <color name="selected_blue">#afe1f4</color>
+    <color name="popup_window_background">#8e8e8e</color>
+
+    <!--新版客户端界面-->
+
+    <!--ToolBar背景颜色-->
+    <color name="colorSystemStatusBarBg">#ffffff</color>
+    <color name="colorToolBarBg">#ffffff</color>
+    <color name="colorToolBarTextColor">#330000</color>
+
+    <!--主界面相关颜色-->
+    <color name="colorMainBg">#f1f1f1</color>
+    <color name="colorMainBottomBg">#f1f1f1</color>
+    <color name="colorMainLevelChooseBg">#ffffff</color>
+    <color name="colorMainLevelChooseStrokeBg">#cccccc</color>
+
+    <!--搜索界面相关颜色-->
+    <color name="colorSearchBg">#ffffff</color>
+    <color name="colorSearchToolBarBg">#f1f1f1</color>
+    <color name="colorHotTagBg">#f1f1f1</color>
+    <color name="colorHotTagPressBg">#e4e4e4</color>
+
+    <!--推荐界面的相关颜色-->
+    <color name="colorHomeBg">#dedede</color>
+    <color name="colorHomeItemBg">#f1f1f1</color>
+    <color name="colorHomeItemText">#aaaaaa</color>
+
+    <!--课内界面的相关颜色-->
+    <color name="colorClassesBg">#f1f1f1</color>
+    <color name="colorClassesUnselectedBg">#f1f1f1</color>
+    <color name="colorClassesSelectedBg">#ffffff</color>
+    <color name="colorClassesItemText">#330000</color>
+    <color name="colorClassesTextSelected">#333333</color>
+    <color name="colorClassesTextNormal">#999999</color>
+
+    <!--课外界面的相关颜色-->
+    <color name="colorReaderBg">#f1f1f1</color>
+    <color name="colorReaderTabLayoutBg">#ffffff</color>
+    <color name="colorReaderTabIndicatorBg">#ff9933</color>
+
+    <!--“我的”界面的相关颜色-->
+    <color name="colorMineBg">#dedede</color>
+    <color name="colorMineOptionText">#333333</color>
+    <color name="colorMineButtonBg">#fca0a0</color>
+    <color name="colorMineButtonText">#fefefe</color>
+
+    <!--文章详情页相关-->
+    <color name="colorArticleDetailBg">#F7F6FF</color>
+    <color name="colorArticleNextText">#330000</color>
+    <color name="colorArticleAfterReadingBg">#f1f1f1</color>
+    <color name="colorArticleBottomBg">#f1f1f1</color>
+    <color name="colorArticleBottomCommentBg">#cccccc</color>
+
+    <!--收藏页相关-->
+    <color name="colorCollectionBg">#ffffff</color>
+    <color name="colorCollectionToolBarBg">#f1f1f1</color>
+    <color name="colorCollectionItemBg">#f1f1f1</color>
+    <color name="colorCollectionText">#330000</color>
+    <color name="colorCollectionTypeText">#aaaaaa</color>
+
+    <!--炸词页相关-->
+    <color name="colorWordExplainBg">#fdfdf3</color>
+    <color name="colorWordExplainText">#330000</color>
+    <color name="colorWordExplainTextSelected">#333333</color>
+    <color name="colorWordExplainTextUnselected">#666666</color>
+    <color name="colorWordExplainSwitchButtonSelected">#330000</color>
+    <color name="colorWordExplainTagBg">#f1f1f1</color>
+    <color name="colorWordExplainTagUnselectedBg">#ffffff</color>
+    <color name="colorWordExplainTagSelectedBg">#cccccc</color>
+
+    <!--阅读能力分析界面相关-->
+    <color name="colorAbilityAnalysisToolBarBG">#f1f1f1</color>
+    <color name="colorAbilityAnalysisBG">#f1f1f1</color>
+    <color name="colorAbilityAnalysisText">#330000</color>
+
+    <!--读后感界面相关-->
+    <color name="colorAfterReadingToolBarBG">#f1f1f1</color>
+    <color name="colorAfterReadingBG">#ffffff</color>
+    <color name="colorAfterReadingText">#330000</color>
+    <color name="colorAfterReadingTipsText">#999999</color>
+
+    <!--作者界面相关-->
+    <color name="colorAuthorToolBarBG">#f1f1f1</color>
+    <color name="colorAuthorBG">#fdfdf3</color>
+    <color name="colorAuthorText">#330000</color>
+    <color name="colorAuthorNameText">#333333</color>
+
+    <!--评论列表界面相关-->
+    <color name="colorCommentListToolBarBG">#f1f1f1</color>
+    <color name="colorCommentListBG">#f1f1f1</color>
+    <color name="colorCommentListText">#330000</color>
+
+    <!--免责声明界面相关-->
+    <color name="colorDisclaimerToolBarBG">#f1f1f1</color>
+    <color name="colorDisclaimerBG">#f1f1f1</color>
+    <color name="colorDisclaimerText">#330000</color>
+    <color name="colorDisclaimerContentText">#333333</color>
+
+    <!--意见反馈界面相关-->
+    <color name="colorFeedbackToolBarBG">#f1f1f1</color>
+    <color name="colorFeedbackBG">#f1f1f1</color>
+    <color name="colorFeedbackButtonBG">#cccccc</color>
+    <color name="colorFeedbackText">#330000</color>
+
+    <!--摘抄界面相关-->
+    <color name="colorExcerptToolBarBG">#f1f1f1</color>
+    <color name="colorExcerptBG">#f1f1f1</color>
+    <color name="colorExcerptText">#330000</color>
+
+    <!--生词本界面相关-->
+    <color name="colorGlossaryToolBarBG">#f1f1f1</color>
+    <color name="colorGlossaryText">#330000</color>
+
+    <!--生词解释界面相关-->
+    <color name="colorGlossaryWordExplainToolBarBG">#f1f1f1</color>
+    <color name="colorGlossaryWordExplainBG">#fdfdf3</color>
+    <color name="colorGlossaryWordExplainText">#330000</color>
+
+    <!--消息界面相关-->
+    <color name="colorUnReadCommentsToolBarBG">#f1f1f1</color>
+    <color name="colorUnReadCommentsBG">#f1f1f1</color>
+    <color name="colorUnReadCommentsText">#330000</color>
+
+    <!--修改资料界面相关-->
+    <color name="colorChangeUserInfoToolBarBG">#f1f1f1</color>
+    <color name="colorChangeUserInfoBG">#f1f1f1</color>
+    <color name="colorChangeUserInfoText">#330000</color>
+
+    <!--阅读排行榜界面相关-->
+    <color name="colorWeekRankToolBarBG">#f1f1f1</color>
+    <color name="colorWeekRankBG">#f1f1f1</color>
+    <color name="colorWeekRankItemBG">#ffffff</color>
+    <color name="colorWeekRankItemLineBG">#f1f1f1</color>
+    <color name="colorWeekRankText">#330000</color>
+
+    <!--登录界面-->
+    <color name="colorLoginBg">#ffffff</color>
+    <color name="colorLoginToolBarBg">#f1f1f1</color>
+    <color name="colorLoginEditTextNormal">#999999</color>
+    <color name="colorLoginEditTextActivated">#333333</color>
+    <color name="colorLoginText">#ff9933</color>
+    <color name="colorLoginButtonText">#ffffff</color>
+    <color name="colorLoginTextNormal">#999999</color>
+    <color name="colorLoginButtonBg">#3aa4f0</color>
+    <color name="colorLoginLineBg">#999999</color>
+
+    <!--注册界面-->
+    <color name="colorSignUpBg">#ffffff</color>
+    <color name="colorSignUpToolBarBg">#f1f1f1</color>
+    <color name="colorSignUpEditTextNormal">#999999</color>
+    <color name="colorSignUpEditTextActivated">#333333</color>
+    <color name="colorSignUpCodeText">#ff9933</color>
+    <color name="colorSignUpButtonText">#ffffff</color>
+
+    <!--忘记密码界面-->
+    <color name="colorForgetPasswordBg">#ffffff</color>
+    <color name="colorForgetPasswordToolBarBg">#f1f1f1</color>
+    <color name="colorForgetPasswordEditText">#999999</color>
+    <color name="colorForgetPasswordEditTextActivated">#333333</color>
+    <color name="colorForgetPasswordButtonText">#ff9933</color>
+    <color name="colorForgetPasswordTextNormal">#999999</color>
+
+    <!--注册完善信息界面-->
+    <color name="colorPerfectUserInfoBg">#ffffff</color>
+    <color name="colorPerfectUserInfoToolBarBg">#f1f1f1</color>
+    <color name="colorPerfectUserInfoToolBarText">#330000</color>
+    <color name="colorPerfectUserInfoButtonText">#ffffff</color>
+    <color name="colorPerfectUserInfoTextNormal">#999999</color>
+
+    <!--微信绑定号码界面-->
+    <color name="colorWXBindNumberBg">#ffffff</color>
+    <color name="colorWXBindNumberToolBarBg">#f1f1f1</color>
+    <color name="colorWXBindNumberToolBarText">#330000</color>
+    <color name="colorWXBindNumberEditText">#999999</color>
+    <color name="colorWXBindNumberEditTextActivated">#333333</color>
+    <color name="colorWXBindNumberText">#ff9933</color>
+    <color name="colorWXBindNumberButtonText">#ffffff</color>
+
+    <!--短信验证码登录界面-->
+    <color name="colorSmsLoginBg">#ffffff</color>
+    <color name="colorSmsLoginToolBarBg">#f1f1f1</color>
+    <color name="colorSmsLoginEditText">#999999</color>
+    <color name="colorSmsLoginEditTextActivated">#333333</color>
+    <color name="colorSmsLoginText">#ff9933</color>
+    <color name="colorSmsLoginButtonText">#ffffff</color>
+
+    <!--更多课内文章推荐界面-->
+    <color name="colorMoreClassesArticleBg">#ffffff</color>
+    <color name="colorMoreClassesArticleToolBarBg">#f1f1f1</color>
+    <color name="colorMoreClassesArticleText">#330000</color>
+
+    <!--写作界面-->
+    <color name="colorWritingBg">#FFFFFF</color>
+    <color name="colorWritingToolbarBg">#f1f1f1</color>
+    <color name="colorWritingTextLight">#999999</color>
+    <color name="colorWritingText">#666666</color>
+    <color name="colorWritingTextDark">#333333</color>
+    <color name="colorWritingBlack">#000000</color>
+    <color name="colorWritingWhite">#ffffff</color>
+    <color name="colorWritingTipsText">#d1a485</color>
+    <color name="colorWritingRedWine">#330000</color>
+
+    <!--新我的界面-->
+    <color name="colorNewMineBg">#FFFFFF</color>
+    <color name="colorNewMineLine">#cccccc</color>
+    <color name="colorNewMineSpace">#f7f7f9</color>
+    <color name="colorNewMineOrange">#ff9933</color>
+    <color name="colorNewMineOrangeLight">#ffcc66</color>
+
+    <!--微课-->
+    <color name="colorMicroLessonItemPosition">#e6e6e6</color>
+    <color name="colorMicroLessonItemListen">#fecb00</color>
+    <color name="colorMicroLessonItemListenSel">#A85400</color>
+
+    <!--作文推荐-->
+    <color name="colorCompositionItemBg">#f8f8f8</color>
+    <color name="colorCompositionCommentBg">#eaeaea</color>
+
+    <!--VoiceAnimator-->
+    <color name="colorVoiceAnimator">#999999</color>
+
+    <color name="colorNewArticleBg">#FDFDF3</color>
+    <color name="colorNewArticleBottomText">#F29D4B</color>
+    <color name="colorNewArticleAuthorText">#5173D4</color>
+    <color name="colorNewArticleCommentUser">#557FDF</color>
+    <color name="colorOperateText">#3C93F7</color>
+    <color name="colorWritingBottomBg">#F7F6FF</color>
+    <color name="colorRedLight">#ff2f2f</color>
+    <color name="colorRedDark">#FF4646</color>
+    <color name="colorCommentListBottomBg">#D2D1DC</color>
+    <color name="colorDailySentenceBg">#EFEFF4</color>
+    <color name="colorBlackLight">#444444</color>
+    <color name="colorWhiteLight">#f7f7ff</color>
+    <color name="colorLineLight">#e5e5e5</color>
+
+    <color name="colorTextBgOne">#FFFBE9</color>
+    <color name="colorTextBgTwo">#FFFFFF</color>
+    <color name="colorTextBgThree">#EDEDF8</color>
+    <color name="colorTextBgFour">#DCEBCE</color>
+    <color name="colorTextBgFive">#EEDFC6</color>
+    <color name="colorSearchEditBg">#80EFEFF4</color>
+    <color name="colorCollectionEditorBg">#DDDDDD</color>
+    <color name="colorSwitchBlack">#1A000000</color>
+    <color name="colorSwitchThumbChecked">#4CD964</color>
+    <color name="colorOrderDetailBg">#F7F7F9</color>
+    <color name="colorPhoneNumberBg">#FCFCFC</color>
+    <color name="colorPhoneNumberLine">#4F4D4D4D</color>
+    <color name="colorCoverTextBg">#4d000000</color>
+    <color name="colorNoteTipsTextBg">#46CA61</color>
+    <color name="colorShareBottomBg">#ff9400</color>
+
+    <color name="colorDarkRed">#A04737</color>
+    <color name="colorDarkRedLight">#A5120C</color>
+    <color name="colorDarkRedImportant">#A04737</color>
+    <color name="colorDarkRedNormal">#8F221B</color>
+    <color name="colorVoiceBg">#EEEDE8</color>
+    <color name="colorGloryCertificateBg">#776854</color>
+
+    <color name="colorMemberCentre">#92582D</color>
+    <color name="colorPink">#E8BB9B</color>
+    <color name="colorPinkLight">#FEE5CA</color>
+
+    <color name="color_F5A623">#F5A623</color>
+    <color name="color_071269">#071269</color>
+    <color name="color_FFE854">#FFE854</color>
+
+    <color name="color_4D72FF">#4D72FF</color>
+    <color name="color_80B9FF">#80B9FF</color>
+
+</resources>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="file:///android_asset/css/base.css">
+    <link rel="stylesheet" type="text/css"
+          href="file:///android_asset/css/pytheChinese.css">
+    <script type="text/javascript"
+            src="file:///android_asset/js/jquery-1-d2ec4c1e27.7.2.min.js"></script>
+    <script type="text/javascript" src="file:///android_asset/js/publicUrl.js"></script>
+    <script type="text/javascript" src="file:///android_asset/js/vue.js"></script>
+    <title>已购课程</title>
+    <style type="text/css">
+         .no-more{position:static;line-height: 1}
+         .micro-class{padding-bottom:0;}
+         [v-cloak]{display:none;}
+         .micro-ctop{position:relative;}
+         .micro-ctop .icon_img{
+          position: absolute;width:0.65rem;right:0;top:0;
+         }
+    </style>
+</head>
+<body>
+<div id="bought_class" style='background-color:#EFEFF4;' v-cloak>
+    <div class="noContain" v-if='noContain'>
+        <!-- <div class="noContain_center"> -->
+        <img src="file:///android_asset/images/image_state_empty.png" alt="">
+        <p class="">暂无已购买课程</p>
+        <!-- </div> -->
+    </div>
+
+    <div class="micro-class" v-else>
+        <div class="micro-box">
+            <!-- v-bind:data-learnid='' -->
+            <div class='micro-composition' v-for='classDetail in bougthClassDetail'
+                 v-bind:data-boughtclassid='classDetail.id'
+                 v-on:click='toBoughtMicroClass(classDetail.id)'>
+                <div class="micro_traced_info">
+                    <p class="micro_traced_time">交易时间：{{classDetail.time}}</p>
+                    <span class="micro_traced_status">交易成功</span>
+                </div>
+                <!-- v-bind:style='background-image:url();' -->
+                <div class='micro-ctop' v-bind:style='classDetail.img'>
+                    <img src="file:///android_asset/images/class_studycard_free.png"
+                         class="icon_img" v-if='null!=classDetail.cardId'>
+                </div>
+                <div class='micro-cbottom'>
+                    <h1 class='micro-botList-title'><span class='pv_micro'>{{classDetail.playback}}</span>
+                        <span class='micro_class_title1'>{{classDetail.name}}</span></h1>
+                    <div class='aboutMicro-info-bottom'>
+                        <img v-bind:src='classDetail.teacherImg'>
+                        <div class='micro-price'>{{classDetail.lessonNum}}节/<span>{{classDetail.price}}派豆</span>
+                        </div>
+                        <p class='bottom-class-name'>{{classDetail.teacherName}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style='height:30px;'>
+        <p class="no-more" v-if='no_more_boughtClass' style=display:block;>没有更多了</p>
+    </div>
+
+    <div class="micro_cloadding" style='display: block;' v-show='microCLoadding'>
+        <div class="micro_cloadding2">
+            <img src="file:///android_asset/images/image_loading.gif" alt="">
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/javascript">
+    $('#bought_class,.noContain').css('min-height',$(window).height());
+    $('.micro_cloadding').height($(window).height());
+    var contentWidth= $('.micro-box').width();
+    $('.micro-ctop').height(contentWidth/2.5);
+
+    var compositionUrl=document.URL;
+    if(compositionUrl.indexOf('?')!=-1){
+        var validityData=compositionUrl.split("?")[1];                    
+        validityData=validityData.split('&');
+        var validObt={};
+        for(var i=0;i<validityData.length;i++){
+           validObt[validityData[i].split("=")[0]]=(validityData[i].split("=")[1]);
+        };
+        //学生id,作文id
+        var studentId=validObt.studentId;    
+    };
+
+    var pageNum=1;
+    var bougthClassDetail=[];
+    var no_more_boughtClass=false;
+    var microCLoadding=true;
+    var noContain=false;
+    var isOverLoad=0,isLoading=0;
+    
+
+    var boughtClassVue=new Vue({
+           el:'#bought_class',
+           data:{
+             bougthClassDetail:bougthClassDetail,
+             no_more_boughtClass:no_more_boughtClass,
+             microCLoadding:microCLoadding,
+             noContain:noContain
+           },
+           methods:{
+             getBoughtClass:function(){
+              if(isLoading==0){
+                  var that=this;
+                  isLoading=1;  
+                  $.ajax({
+                     url:publicURL+'/pythe-rest/rest/course/purchase/query/new',
+                     type:'POST',
+                     dataType:'json',
+                     contentType:'application/json',
+                     data:JSON.stringify({
+                          "studentId":studentId,
+                          "pageNum":pageNum,
+                          "pageSize":4
+                     }),
+                     timeout:4000,
+                     success:function(res){
+                         if(res.status==200 && res.data.length>=1){ 
+                             that.no_more_boughtClass=false;            
+                             var handleClassDetail=res.data;
+                             for(var i=0;i<handleClassDetail.length;i++){
+                                 //boughtClassVue.bougthClassDetail.push(res.data[i]);
+                                 var handleTime=new Date(handleClassDetail[i].time);
+                                 var getDetailYear=handleTime.getFullYear();
+                                 var getDetailMonth=handleTime.getMonth()+1;
+                                 if(getDetailMonth<=9){
+                                    getDetailMonth='0'+getDetailMonth;
+                                 }
+                                 var getDetailDate=handleTime.getDate();
+                                 if(getDetailDate<=9){
+                                    getDetailDate='0'+getDetailDate;
+                                 }
+                                 var getDetailHour=handleTime.getHours();
+                                 if(getDetailHour<=9){
+                                    getDetailHour='0'+getDetailHour;
+                                 }
+                                 var getDetailMinute=handleTime.getMinutes();
+                                 if(getDetailMinute<=9){
+                                    getDetailMinute='0'+getDetailMinute;
+                                 }
+                                 var getDetailSecond=handleTime.getSeconds();
+                                 if(getDetailSecond<=9){
+                                    getDetailSecond='0'+getDetailSecond;
+                                 }
+                                 var hadHandleTime=getDetailYear+'-'+getDetailMonth+'-'+getDetailDate+' '+getDetailHour+':'+getDetailMinute+':'+getDetailSecond;
+                                 handleClassDetail[i].time=hadHandleTime;
+
+                                 var handleImg='background-image:url('+handleClassDetail[i].img+')';
+                                 handleClassDetail[i].img=handleImg;
+
+                                 var handleTeacherImg=handleClassDetail[i].teacherImg;
+                                 handleClassDetail[i].teacherImg=handleTeacherImg;
+
+                                 var boughtPvNumber=parseInt(handleClassDetail[i].playback);
+                                 var boughtPvNumberFirst=Math.floor(boughtPvNumber/10000);
+                                 if(boughtPvNumberFirst>=1){
+                                    handleClassDetail[i].playback=boughtPvNumberFirst+'.'+(boughtPvNumber.toString()).slice(1,3)+'万';
+                                 };
+
+                                 that.bougthClassDetail.push(handleClassDetail[i]);
+
+                                 that.microCLoadding=false;                             
+                                 that.noContain=false;  
+
+                             };
+                             isOverLoad=1;
+                           }else if(res.status==400 && that.bougthClassDetail.length>0){
+                             isOverLoad=0;
+                             that.noContain=false;  
+                              
+                             that.microCLoadding=false;             
+                             that.no_more_boughtClass=true; 
+                             setTimeout(function(){
+                                that.no_more_boughtClass=false;                   
+                             },2000) ;                         
+                           }else if(res.status==400 && that.bougthClassDetail.length<=0){
+                             isOverLoad=0;
+                             that.microCLoadding=false;             
+                             that.noContain=true;  
+                           }
+
+                           isLoading=0;
+                       },
+                       error:function(){
+                         that.microCLoadding=false;                             
+                         isOverLoad=0;
+                         pytheLayOutObj2.pytheLayOutFun2({
+                           setTime:2000,
+                           tips:'网络不稳定，请稍后重试'
+                         }) 
+                           isLoading=0;
+                       },
+
+                       complete:function(status){
+                         that.microCLoadding=false;                             
+                         isLoading=0;
+                         if (status == 'timeout') {
+                             isOverLoad=0;
+                            ajaxTimeOut.abort(); //取消请求
+                            // getRecommendInfo();
+                            pytheLayOutObj2.pytheLayOutFun2({
+                               setTime:2000,
+                               tips:'网络不稳定，请稍后重试'
+                            })
+                         }
+                       }
+                  });
+                 
+              }
+                
+             },
+
+             toBoughtMicroClass:function(id){
+                var microClassId=id;
+                //alert(microClassId);
+                var param=JSON.stringify("{'oocId':"+microClassId+"}");
+                param =$.parseJSON(param);
+                var userAgentInfo = navigator.userAgent.toLowerCase();
+                 // alert(param);
+                if (userAgentInfo.indexOf('iphone') > 0){
+                    window.location = param;
+                }else{
+                    location.href='app://ooc/param?param='+param;
+                }
+             }
+           },
+           mounted:function(){
+                    var that=this;
+                  that.getBoughtClass();
+           }
+   });
+
+    $(document).scroll(function(){
+        if($(window).scrollTop() + $(window).height() >= $(document).height()){ 
+            if(isOverLoad==1){
+                pageNum++;  
+                boughtClassVue.getBoughtClass();
+            } else{
+                boughtClassVue.getBoughtClass();
+
+            }         
+                                                            
+        };
+    });
+
+
+</script>
+</html>

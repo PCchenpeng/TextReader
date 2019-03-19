@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <SurfaceView
+        android:id="@+id/surface_view_app_demonstration_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"/>
+
+    <LinearLayout
+        android:id="@+id/rl_speak_app_demonstration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="92dp">
+
+        <TextView
+            android:id="@+id/tv_text_app_demonstration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_popup_text_bg"
+            android:paddingBottom="25dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="25dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/iv_text_app_demonstration"
+            android:layout_width="16dp"
+            android:layout_height="8dp"
+            android:src="@drawable/icon_popup_to_bottom"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/iv_speak_app_demonstration"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/icon_speak_start"/>
+
+        <TextView
+            android:id="@+id/tv_tips_app_demonstration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="按住开始说话"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:id="@+id/tv_skip_app_demonstration"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_alpha_black_round_35dp_bg"
+            android:gravity="center"
+            android:text="跳过"
+            android:textColor="@color/colorWhite"
+            android:textSize="13dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

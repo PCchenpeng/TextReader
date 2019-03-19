@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="137dp"
+              android:background="@color/colorWhite"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_reply_comment_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="回 复"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="17sp"/>
+
+    <TextView
+        android:id="@+id/tv_copy_comment_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="复 制"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="17sp"/>
+
+    <View
+        android:layout_width="375dp"
+        android:layout_height="5dp"
+        android:background="@color/colorArticleDetailBg"/>
+
+    <TextView
+        android:id="@+id/tv_cancel_comment_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="取 消"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="17sp"/>
+</LinearLayout>

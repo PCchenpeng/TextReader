@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAlphaBlack"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorDailySentenceBg"
+        android:orientation="vertical">
+
+        <com.dace.textreader.view.tab.SmartTabLayout
+            android:id="@+id/tab_layout_notes_summary"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/colorWhite"
+            app:stl_defaultTabTextColor="@drawable/color_tab_text"
+            app:stl_defaultTabTextMinWidth="90dp"
+            app:stl_defaultTabTextSize="15sp"
+            app:stl_distributeEvenly="true"
+            app:stl_dividerColor="@color/colorTransparent"
+            app:stl_dividerThickness="0dp"
+            app:stl_indicatorColor="@color/colorOrange"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_indicatorThickness="4dp"
+            app:stl_indicatorWidth="20dp"
+            app:stl_titleOffset="auto_center"
+            app:stl_underlineColor="@color/colorTransparent"
+            app:stl_underlineThickness="0dp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager_notes_summary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="58dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_back_notes_summary"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="64dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/icon_slide_to_left"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

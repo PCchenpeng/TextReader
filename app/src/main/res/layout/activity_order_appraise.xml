@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorOrderDetailBg"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/top_back_title_layout"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_commit_order_appraise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/tv_commit_order_appraise"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="完成"
+                android:textColor="@color/colorTextOrange"
+                android:textSize="14sp"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评分"
+                android:textColor="@color/colorTextImportant"
+                android:textSize="14sp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.willy.ratingbar.ScaleRatingBar
+                    android:id="@+id/ratingBar_order_appraise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    app:srb_clickable="true"
+                    app:srb_drawableEmpty="@drawable/icon_order_score_default"
+                    app:srb_drawableFilled="@drawable/icon_order_score_select"
+                    app:srb_numStars="5"
+                    app:srb_starHeight="24dp"
+                    app:srb_starPadding="10dp"
+                    app:srb_starWidth="24dp"
+                    app:srb_stepSize="1"/>
+
+                <View
+                    android:id="@+id/view_order_appraise"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:background="@color/colorLineLight"/>
+
+        <EditText
+            android:id="@+id/et_order_appraise"
+            android:layout_width="match_parent"
+            android:layout_height="204dp"
+            android:background="@color/colorWhite"
+            android:gravity="left"
+            android:hint="请输入评价"
+            android:padding="15dp"
+            android:textColor="@color/colorTextImportant"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_number_order_appraise"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/tv_number_order_appraise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="200"
+            android:textColor="@color/colorTextContent"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+</LinearLayout>

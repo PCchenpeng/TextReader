@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@color/colorWhite"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="20dp">
+
+    <ImageView
+        android:id="@+id/iv_head_unread_comments_item"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+
+    <TextView
+        android:id="@+id/tv_reply_username_unread_comments_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_head_unread_comments_item"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_head_unread_comments_item"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorNewArticleCommentUser"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_reply_time_unread_comments_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_reply_username_unread_comments_item"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@id/iv_head_unread_comments_item"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextNormal"
+        android:textSize="11sp"/>
+
+    <TextView
+        android:id="@+id/tv_reply_comment_unread_comments_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_head_unread_comments_item"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_user_comment_unread_comments_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_reply_comment_unread_comments_item"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorWritingBottomBg"
+        android:padding="8dp"
+        android:textColor="@color/colorTextContent"
+        android:textSize="14sp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_essay_info_unread_comments_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_user_comment_unread_comments_item"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorWritingBottomBg"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_essay_title_unread_comments_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_reply_unread_comments_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/shape_reply_bg"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:text="回复"
+        android:textColor="@color/colorTextImportant"
+        android:textSize="13sp"/>
+
+</RelativeLayout>

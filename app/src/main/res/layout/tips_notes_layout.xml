@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_one_tips_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorNoteTipsTextBg"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="2dp"
+        android:text="在阅读时"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tv_two_tips_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_one_tips_note"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorNoteTipsTextBg"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:paddingLeft="23dp"
+        android:paddingRight="23dp"
+        android:paddingTop="2dp"
+        android:text="可进入精读模式长按选择文本"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tv_three_tips_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_two_tips_note"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorNoteTipsTextBg"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:paddingLeft="27dp"
+        android:paddingRight="27dp"
+        android:paddingTop="2dp"
+        android:text="添加语法"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/tv_two_tips_note"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="14dp"
+        android:layout_toRightOf="@id/tv_one_tips_note"
+        android:src="@drawable/icon_tips_notes"/>
+
+</RelativeLayout>

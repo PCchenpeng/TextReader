@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rl_root_voice_evaluation_speech"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_top_voice_evaluation_speech"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="48dp"
+            android:layout_height="1dp"
+            android:background="@color/colorDarkRedLight"/>
+
+        <TextView
+            android:id="@+id/tv_title_voice_evaluation_speech"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="朗诵评测结果"
+            android:textColor="@color/colorDarkRed"
+            android:textSize="25sp"/>
+
+        <View
+            android:layout_width="48dp"
+            android:layout_height="1dp"
+            android:background="@color/colorDarkRedLight"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="23dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/ll_top_voice_evaluation_speech"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/image_voice_result_bg_left"/>
+
+    <ImageView
+        android:layout_width="23dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/ll_top_voice_evaluation_speech"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/image_voice_result_bg_right"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_voice_evaluation_speech"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_top_voice_evaluation_speech"
+        android:layout_marginBottom="112dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginTop="21dp"
+        android:background="@color/colorWhite"
+        android:padding="15dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_top_voice_evaluation_speech"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/view_left_voice_evaluation_speech"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/selector_dark_red_indicate"/>
+
+        <View
+            android:id="@+id/view_right_voice_evaluation_speech"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/selector_dark_red_indicate"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="33dp"
+        android:layout_height="40dp"
+        android:layout_alignRight="@id/view_pager_voice_evaluation_speech"
+        android:layout_alignTop="@id/view_pager_voice_evaluation_speech"
+        android:src="@drawable/image_voice_result_bg_part"/>
+
+    <ImageView
+        android:id="@+id/iv_restart_voice_evaluation_speech"
+        android:layout_width="265dp"
+        android:layout_height="72dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"/>
+
+    <FrameLayout
+        android:id="@+id/frame_voice_evaluation_speech"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_back_voice_evaluation_speech"
+        android:layout_width="48dp"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_shadow_back"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
