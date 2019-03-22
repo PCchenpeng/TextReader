@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/picbook_bg_vertical">
+    android:background="@drawable/picbook_bg_vertical"
+    tools:ignore="MissingDefaultResource">
     <RelativeLayout
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
@@ -35,7 +37,7 @@
                     android:id="@+id/tv_totalNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="/30"
+                    android:text=""
                     android:textColor="#4D83FF"
                     android:textSize="15sp"/>
             </LinearLayout>
@@ -48,9 +50,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/picbook_icon_share"/>
-        
+
     </RelativeLayout>
-    
+
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
@@ -85,9 +87,10 @@
     <com.dace.textreader.view.weight.pullrecycler.album.AlbumView
         android:id="@+id/album_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/rl_top"
-        android:layout_above="@id/rl_bottom">
+        android:layout_height="300dp"
+        android:layout_centerInParent="true">
+        <!--android:layout_below="@id/rl_top"-->
+        <!--android:layout_above="@id/rl_bottom">-->
     </com.dace.textreader.view.weight.pullrecycler.album.AlbumView>
 
 </RelativeLayout>

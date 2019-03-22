@@ -222,7 +222,7 @@ public class CurlRenderer implements GLSurfaceView.Renderer {
         gl.glMatrixMode(GL10.GL_PROJECTION);
         gl.glLoadIdentity();
         if (USE_PERSPECTIVE_PROJECTION) {
-            GLU.gluPerspective(gl, 20f, (float) width / height, .1f, 10f);
+            GLU.gluPerspective(gl, 18f, (float) width / height, .1f, 10f);
         } else {
             GLU.gluOrtho2D(gl, mViewRect.left, mViewRect.right,
                     mViewRect.bottom, mViewRect.top);

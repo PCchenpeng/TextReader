@@ -1,5 +1,8 @@
 package com.dace.textreader.activity;
 
+import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,30 +12,28 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.dace.textreader.R;
 import com.dace.textreader.audioUtils.AudioFocusManager;
-import com.dace.textreader.audioUtils.MusicPlayAction;
 import com.dace.textreader.bean.AudioArticleBean;
-import com.dace.textreader.bean.LessonBean;
-import com.dace.textreader.bean.RecommendBean;
 import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DensityUtil;
-import com.dace.textreader.util.GlideCircleTransform;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.weight.pullrecycler.album.AlbumView;
-import com.dace.textreader.view.weight.pullrecycler.album.BitmapTools;
 import com.dace.textreader.view.weight.pullrecycler.album.CurlPage;
 import com.dace.textreader.view.weight.pullrecycler.album.OnFlipedLastPageListener;
 import com.dace.textreader.view.weight.pullrecycler.album.OnPageClickListener;
@@ -67,16 +68,30 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private AudioFocusManager mAudioFocusManager;
 
     private AlbumView album_view;
+    private ImageView iv_back,iv_share,iv_playpause,iv_collect,iv_fullscreen;
+    private TextView tv_currNum,tv_totalNum;
     private int lastIndex = -1;
     private int currentIndex = 0;
     Bitmap shadowLine;
 
     Bitmap[] frontBacks = new Bitmap[4];
     Bitmap[] pages = new Bitmap[2];
-    private int albumSize = 20;
+    private int albumSize;
 
-    List<Bitmap> imageList = new ArrayList<>();
+    List<Bitmap> splitBitmap = new ArrayList<>();
+
+    List<Bitmap> imageList;
+    private Bitmap[] imageArray;
+
     private boolean isLoadingImg = false;
+
+    private boolean hasRender = false;
+
+    private boolean isPortrait = true;
+
+    private Thread musicThread;
+
+    private boolean isOnPageScroll = false;
 
 
 
@@ -87,13 +102,51 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         essayId = getIntent().getStringExtra("id");
 
         initView();
-
+//        album_view.setZOrderMediaOverlay(true);
         mPlayer = new MediaPlayer();
         loadData(essayId);
     }
 
+
+    @Override
+
+    public void onConfigurationChanged (Configuration newConfig){
+
+        super.onConfigurationChanged(newConfig);
+
+        setContentView(R.layout.activity_home_audio_detail);
+
+        //注意，这里删除了init()，否则又初始化了，状态就丢失
+
+        initView();
+        hasRender =false;
+        tv_currNum.setText(String.valueOf(currentIndex+1));
+        initAlbumView(currentIndex);
+
+    }
+
+
     private void initView() {
         album_view = findViewById(R.id.album_view);
+        if(isPortrait){
+            album_view.setZOrderOnTop(true);
+        }else {
+            album_view.setZOrderOnTop(true);
+            album_view.setZOrderMediaOverlay(true);
+        }
+        iv_back = findViewById(R.id.iv_back);
+        iv_share = findViewById(R.id.iv_share);
+        iv_playpause = findViewById(R.id.iv_playpause);
+        iv_collect = findViewById(R.id.iv_collect);
+        iv_fullscreen = findViewById(R.id.iv_fullscreen);
+        tv_currNum = findViewById(R.id.tv_currNum);
+        tv_totalNum = findViewById(R.id.tv_totalNum);
+
+        iv_back.setOnClickListener(this);
+        iv_share.setOnClickListener(this);
+        iv_playpause.setOnClickListener(this);
+        iv_collect.setOnClickListener(this);
+        iv_fullscreen.setOnClickListener(this);
         if (getLastCustomNonConfigurationInstance() != null) {
             lastIndex = (Integer) getLastCustomNonConfigurationInstance();
         }
@@ -101,14 +154,42 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private void loadData(String essayId) {
         new GetAudioData(HomeAudioDetailActivity.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
-                String.valueOf(-1), String.valueOf(DensityUtil.getScreenWidth(HomeAudioDetailActivity.this)/2),
-                String.valueOf(DensityUtil.getScreenHeight(HomeAudioDetailActivity.this)/2),essayId);
+                String.valueOf(-1), String.valueOf(DensityUtil.getScreenHeight(HomeAudioDetailActivity.this)),
+                String.valueOf(DensityUtil.getScreenWidth(HomeAudioDetailActivity.this)),essayId);
     }
 
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.iv_back:
+                if(isPortrait){
+                    this.finish();
+                }else {
+                    currentIndex = album_view.getCurrentIndex();
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    isPortrait = true;
+                }
 
+                break;
+            case R.id.iv_share:
+                break;
+            case R.id.iv_collect:
+                break;
+            case R.id.iv_fullscreen:
+                currentIndex = album_view.getCurrentIndex();
+                if(isPortrait){
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    isPortrait = false;
+                }else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    isPortrait = true;
+                }
+
+                break;
+            case R.id.iv_playpause:
+                break;
+        }
     }
 
     @Override
@@ -129,7 +210,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private class SizeChangedObserver implements AlbumView.SizeChangedObserver {
         @Override
         public void onSizeChanged(int w, int h) {
-            album_view.setMargins(.1f, .05f, .1f, .2f);
+//            album_view.setMargins(.1f, .05f, .1f, .2f);
         }
 
     }
@@ -164,7 +245,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
         @Override
         public int getPageCount() {
-            return albumSize / 2 - 2;    //pageSize/2  因为是正反面 - 2  减去封面和尾页
+            return albumSize / 2 - 1;    //pageSize/2  因为是正反面 - 2  减去封面和尾页
         }
 
         private Bitmap getTexture(Bitmap bitmap, boolean isFront, boolean isFirst, boolean isPage) {
@@ -225,8 +306,9 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
         @Override
         public void updatePage(CurlPage page, int width, int height, int index) {
-            Bitmap front = pages[0];
-            Bitmap back = pages[1];
+            isOnPageScroll = true;
+            Bitmap front = splitBitmap.get(index*2 +1);
+            Bitmap back = splitBitmap.get(index*2+2);
             switch (index) {
                 default: {
                     page.setTexture(front, CurlPage.SIDE_FRONT);
@@ -259,6 +341,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 object.put("width", strings[3]);
                 object.put("height", strings[4]);
                 object.put("essayId",strings[5]);
+                object.put("isShare",0);
                 RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(strings[0])
@@ -312,29 +395,50 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private void SpliterImg(final AudioArticleBean mData) {
         int size = mData.getData().getEssay().getContentList().size();
-        for (int i = 0; i < mData.getData().getEssay().getContentList().size();i++){
+        imageArray = new Bitmap[size];
+//        imageList = new ArrayList<>();
+        String lastUrl = mData.getData().getEssay().getContentList().get(size-1).getPic();
+        new DownloadImgTask().execute(lastUrl,String.valueOf(size-1),String.valueOf(size));
+        String firstUrl = mData.getData().getEssay().getContentList().get(0).getPic();
+        new DownloadImgTask().execute(firstUrl,String.valueOf(0),String.valueOf(size));
+        String secondUrl = mData.getData().getEssay().getContentList().get(1).getPic();
+        new DownloadImgTask().execute(secondUrl,String.valueOf(1),String.valueOf(size));
+        for (int i = 2; i < size-1;i++){
             String url = mData.getData().getEssay().getContentList().get(i).getPic();
                 new DownloadImgTask().execute(url,String.valueOf(i),String.valueOf(size));
         }
     }
 
-    private void initAlbumView(List<Bitmap> imageList) {
-        List<Bitmap> splitBitmap = new ArrayList<>();
+    private void initAlbumView(int currentIndex) {
+        splitBitmap = new ArrayList<>();
 
-        for (int i = 0;i < imageList.size();i++){
-            List<Bitmap> splits = split(imageList.get(i),2,1);
-
-
-            splitBitmap.add(splits.get(0));
-            splitBitmap.add(splits.get(1));
+        for (int i = 0;i < imageArray.length;i++){
+            if(imageArray[i] == null){
+                List<Bitmap>   splitPages = split(BitmapFactory.decodeResource(getResources(), R.drawable.picbook_placeholder),2,1);
+                splitBitmap.add(splitPages.get(0));
+                splitBitmap.add(splitPages.get(1));
+            }else {
+                List<Bitmap>   splitPages = split(imageArray[i],2,1);
+                splitBitmap.add(splitPages.get(0));
+                splitBitmap.add(splitPages.get(1));
+            }
         }
+
+        albumSize = splitBitmap.size();
+
+        if(isPortrait){
+            tv_totalNum.setText("/"+String.valueOf(albumSize/2));
+        }else {
+            tv_totalNum.setText(String.valueOf(albumSize/2));
+        }
+
 
         frontBacks[0] = splitBitmap.get(0);
         frontBacks[1] = splitBitmap.get(0);
-        frontBacks[2] = splitBitmap.get(0);
-        frontBacks[3] = splitBitmap.get(0);
-        pages[0] = splitBitmap.get(1);
-        pages[1] = splitBitmap.get(1);
+        frontBacks[2] = splitBitmap.get(splitBitmap.size()-1);
+        frontBacks[3] = splitBitmap.get(splitBitmap.size()-1);
+//        pages[0] = splitBitmap.get(1);
+//        pages[1] = splitBitmap.get(2);
 
 
 //        frontBacks[0] = BitmapFactory.decodeResource(getResources(), R.drawable.xiaoxin);
@@ -344,19 +448,39 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 //        pages[0] = BitmapFactory.decodeResource(getResources(), R.drawable.page);
 //        pages[1] = BitmapFactory.decodeResource(getResources(), R.drawable.pageback);
 
-        album_view.setSizeChangedObserver(new SizeChangedObserver());
-        album_view.setOnPageClickListener(this);
-        album_view.setOnFlipedLastPageListener(this);
 
-        album_view.setPageProvider(new PageProvider(), false); //只传一个参数默认是软翻
 
-        if (lastIndex != -1 && lastIndex != 0) {
-            album_view.setCurrentIndex(lastIndex);
-        } else {
-            album_view.setCurrentIndex(currentIndex);
+        if(!hasRender){
+            hasRender = true;
+            album_view.setSizeChangedObserver(new SizeChangedObserver());
+            album_view.setOnPageClickListener(this);
+            album_view.setOnFlipedLastPageListener(this);
+            album_view.setPageProvider(new PageProvider(), false); //只传一个参数默认是软翻
+            album_view.setOnPageEndListener(new AlbumView.PageEndListener() {
+                @Override
+                public void onPageEnd(int currentIndex) {
+                    isOnPageScroll = false;
+                    tv_currNum.setText(String.valueOf(currentIndex+1));
+                    if(currentIndex == 0){
+                        mPlayer.seekTo(0);
+                    }else {
+                        mPlayer.seekTo(mData.getData().getEssay().getContentList().get(currentIndex-1).getSecond()*1000);
+
+                        Log.e("ssssss",String.valueOf(mPlayer.getDuration()));
+                        Log.e("bbbbbb",String.valueOf(mPlayer.getCurrentPosition()));
+                    }
+
+                }
+            });
+
+            if (lastIndex != -1 && lastIndex != 0) {
+                album_view.setCurrentIndex(lastIndex);
+            } else {
+                album_view.setCurrentIndex(currentIndex);
+            }
+            album_view.requestRender();
         }
 
-        album_view.requestRender();
     }
 
     private class DownloadImgTask extends AsyncTask<String,Void,ImageBean> {
@@ -389,9 +513,15 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         protected void onPostExecute(ImageBean imageBean) {
             super.onPostExecute(imageBean);
 //            imageList.add(bitmap);
-            imageList.add(imageBean.index,imageBean.bitmap);
-            if(imageList.size() == imageBean.size){
-                initAlbumView(imageList);
+//            imageList.add(imageBean.index,imageBean.bitmap);
+            imageArray[imageBean.index] = imageBean.bitmap;
+
+//            if(imageList.size() == imageBean.size && imageList.get(0)!= null){
+//                initAlbumView(imageList);
+//            }
+
+            if(imageArray[imageBean.size -1] != null && imageArray[0] != null && imageArray[1] != null){
+                initAlbumView(0);
             }
         }
     }
@@ -478,6 +608,9 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         public void onPrepared(MediaPlayer mp) {
 //            if (isPreparing()) {
                 mPlayer.start();
+            musicThread =new Thread(new MuiscThread());
+            // 启动线程
+            musicThread.start();
 //            }
         }
     };
@@ -509,5 +642,51 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             this.size = size;
         }
     }
+
+
+    //建立一个子线程实现Runnable接口
+    class MuiscThread implements Runnable {
+
+        @Override
+        //实现run方法
+        public void run() {
+            //判断音乐的状态，在不停止与不暂停的情况下向总线程发出信息
+            while (mPlayer != null ) {
+
+                try {
+                    // 每100毫秒更新一次位置
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //发出的信息
+                if(mPlayer != null)
+                handler.sendEmptyMessage(mPlayer.getCurrentPosition());
+            }
+
+        }
+
+    }
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            for(int i=0;i<mData.getData().getEssay().getContentList().size()-1;i++){
+                if(msg.what/100 == mData.getData().getEssay().getContentList().get(i).getSecond()*10){
+                    album_view.setCurrentIndex(i+1);
+                    tv_currNum.setText(String.valueOf(i+2));
+                }
+            }
+            // 将SeekBar位置设置到当前播放位置
+//            seekBar.setProgress(msg.what);
+            //获得音乐的当前播放时间
+//            currentime.setText(formatime(msg.what));
+        }
+    };
+
 
 }

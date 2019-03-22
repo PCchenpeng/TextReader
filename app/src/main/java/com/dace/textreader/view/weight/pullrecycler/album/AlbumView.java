@@ -177,7 +177,8 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
      * 初始化  大兄弟
      */
     public void init(Context ctx) {
-        this.setZOrderOnTop(true);
+//        this.setZOrderOnTop(true);
+//        this.setZOrderMediaOverlay(true);
         this.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         mRenderer = new CurlRenderer(this, this);
         setRenderer(mRenderer);
@@ -859,6 +860,9 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
                     if(progressBar != null) {
                         progressBar.setCurrentIndex(mCurrentIndex + 2);
                     }
+                    if(pageEndListener != null){
+                        pageEndListener.onPageEnd(mCurrentIndex);
+                    }
                 }
 
 
@@ -879,6 +883,10 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
                     mCurrentIndex--;
                     if(progressBar != null) {
                         progressBar.setCurrentIndex(mCurrentIndex + 2);
+                    }
+
+                    if(pageEndListener != null){
+                        pageEndListener.onPageEnd(mCurrentIndex);
                     }
                 }
 
@@ -1004,16 +1012,16 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
         if (mPageProvider == null || index < 0) {
             mCurrentIndex = 0;
         } else {
-            if (mAllowLastPageCurl) {
+//            if (mAllowLastPageCurl) {
                 mCurrentIndex = Math.min(index, mPageProvider.getPageCount());
-            } else {
-                mCurrentIndex = Math.min(index,
-                        mPageProvider.getPageCount() - 1);
-            }
+//            } else {
+//                mCurrentIndex = Math.min(index,
+//                        mPageProvider.getPageCount() - 1);
+//            }
         }
 
         if (index != 0) {
-            mRenderer.setFirstAngle(-180f);
+//            mRenderer.setFirstAngle(-180f);
             isFirstFlipped = true;
             if(this.progressBar != null) {
                 this.progressBar.setCurrentIndex(mCurrentIndex + 2);
@@ -1577,5 +1585,16 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
          */
         public void onSizeChanged(int width, int height);
     }
+
+    private PageEndListener pageEndListener;
+
+    public interface PageEndListener{
+        void onPageEnd(int currentIndex);
+    }
+
+    public void setOnPageEndListener(PageEndListener pageEndListener){
+        this.pageEndListener = pageEndListener;
+    }
+
 
 }

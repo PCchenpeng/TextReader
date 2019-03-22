@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
+    <RelativeLayout
+        android:background="#00000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.dace.textreader.view.weight.pullrecycler.album.AlbumView
+            android:id="@+id/album_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_top"
+            android:layout_above="@id/rl_bottom">
+        </com.dace.textreader.view.weight.pullrecycler.album.AlbumView>
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/rl_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/picbook_icon_back_lan"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
+
+
+        <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/picbook_icon_share_lan"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_collect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/rl_share">
+        <ImageView
+            android:id="@+id/iv_collect"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/picbook_icon_collect_lan"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#80000000"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/iv_playpause"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/tv_currNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_playpause"
+            android:text="1"
+            android:textColor="#ffffff"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_totalNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/iv_fullscreen"
+            android:text="/30"
+            android:textColor="#ffffff"
+            android:textSize="13sp"/>
+
+        <ImageView
+            android:id="@+id/iv_fullscreen"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/picbook_icon_fullscreen_lan"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>
