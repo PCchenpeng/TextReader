@@ -151,7 +151,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private void loadData(String essayId) {
         new GetAudioData(HomeAudioDetailActivity.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
-                String.valueOf(-1), String.valueOf(DensityUtil.getScreenHeight(HomeAudioDetailActivity.this)),
+                String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(DensityUtil.getScreenHeight(HomeAudioDetailActivity.this)),
                 String.valueOf(DensityUtil.getScreenWidth(HomeAudioDetailActivity.this)),essayId);
     }
 
@@ -339,6 +339,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 object.put("height", strings[4]);
                 object.put("essayId",strings[5]);
                 object.put("isShare",0);
+                object.put("sign",DataEncryption.encode(String.valueOf(System.currentTimeMillis()),"Z25pYW5l"));
+
                 RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(strings[0])

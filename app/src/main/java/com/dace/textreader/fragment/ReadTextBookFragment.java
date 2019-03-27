@@ -298,7 +298,7 @@ public class ReadTextBookFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rv_read_text_book_fragment);
         recyclerView.setNestedScrollingEnabled(false);
-        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ClassesArticleRecyclerViewAdapter(mContext, mList);
         recyclerView.setAdapter(adapter);

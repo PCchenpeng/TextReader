@@ -18,12 +18,13 @@ public class DataEncryption {
      * @param data 要加密的数据
      * @return 加密后的数据
      */
-    public static String encode(String data) {
+    public static String encode(String data,String key) {
         String result;
 
         result = Base64.encodeToString(data.getBytes(), Base64.DEFAULT);
 
-        result = "C85A4c8d2G" + result;
+//        result = "C85A4c8d2G" + result;
+        result = key + result;
 
         result = Base64.encodeToString(result.getBytes(), Base64.DEFAULT);
 

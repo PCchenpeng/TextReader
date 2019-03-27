@@ -3,9 +3,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorWhite">
-
-    <include layout="@layout/top_back_title_layout"/>
-
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/smart_refresh_layout_reader_fragment"
         android:layout_width="match_parent"

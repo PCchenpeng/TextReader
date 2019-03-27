@@ -162,7 +162,7 @@ public class CouponActivity extends BaseActivity {
             JSONObject object = new JSONObject();
             object.put("studentId", NewMainActivity.STUDENT_ID);
             object.put("exchangeCode", code);
-            String info = DataEncryption.encode(object.toString());
+            String info = DataEncryption.encode(object.toString(),"C85A4c8d2G");
             new ExchangeCoupon(mContext).execute(exchangeCouponUrl, info);
         } catch (JSONException e) {
             e.printStackTrace();

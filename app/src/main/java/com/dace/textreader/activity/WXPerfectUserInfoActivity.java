@@ -171,7 +171,7 @@ public class WXPerfectUserInfoActivity extends BaseActivity {
                     json.put("unionid", unionId);
 
                     //加密处理之后再上传
-                    String info = DataEncryption.encode(json.toString());
+                    String info = DataEncryption.encode(json.toString(),"C85A4c8d2G");
 
                     JSONObject object = new JSONObject();
                     object.put("info", info);

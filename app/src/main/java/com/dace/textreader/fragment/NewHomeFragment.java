@@ -1,13 +1,16 @@
 package com.dace.textreader.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.dace.textreader.R;
+import com.dace.textreader.util.Utils;
 import com.dace.textreader.view.tab.SmartTabLayout;
 
 import java.util.ArrayList;
@@ -55,7 +59,10 @@ public class NewHomeFragment extends Fragment {
         initData();
         initView();
         initEvents();
-
+//        ActivityCompat.requestPermissions(this.getActivity(),new String[]{Manifest.permission.READ_PHONE_STATE},1);
+//        String ss = Utils.getImei(getContext());
+//        String bb = Utils.getBtAddressByReflection();
+//        Log.e("bluetooth",bb);
         return view;
     }
 

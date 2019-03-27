@@ -282,36 +282,36 @@ public class NewHomeRecommendationFragment extends Fragment {
                 }
             }
         });
-//        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//                if (isLoading || isEndData) {
-//                    refreshLayout.finishLoadMore();
-//                } else {
-//                    getMoreRecommendData();
-//                }
-//            }
-//        });
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    int childCount = recyclerView.getChildCount();
-                    int itemCount = recyclerView.getLayoutManager().getItemCount();
-                    int firstVisibleItem = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                    if (firstVisibleItem + childCount == itemCount) {
-//                        if (!loadingMore) {
-//                            loadingMore = true
-                        getMoreRecommendData();
-//                        }
-                    }
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                if (isLoading || isEndData) {
+                    refreshLayout.finishLoadMore();
+                } else {
+                    getMoreRecommendData();
                 }
-
             }
         });
+
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    int childCount = recyclerView.getChildCount();
+//                    int itemCount = recyclerView.getLayoutManager().getItemCount();
+//                    int firstVisibleItem = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+//                    if (firstVisibleItem + childCount == itemCount) {
+////                        if (!loadingMore) {
+////                            loadingMore = true
+//                        getMoreRecommendData();
+////                        }
+//                    }
+//                }
+//
+//            }
+//        });
 
 //        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener((LinearLayoutManager)recyclerView.getLayoutManager()){
 //            @Override
@@ -546,7 +546,7 @@ public class NewHomeRecommendationFragment extends Fragment {
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
         refreshLayout.setEnableAutoLoadMore(false);
-        refreshLayout.setEnableLoadMore(false);
+        refreshLayout.setEnableLoadMore(true);
 
         banner = view.findViewById(R.id.banner_home_recommendation);
         banner.setImageLoader(new BannerGlideImageLoader());

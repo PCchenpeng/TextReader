@@ -236,10 +236,10 @@ public class ReaderFragment extends Fragment {
     }
 
     private void initView() {
-        rl_back = view.findViewById(R.id.rl_page_back_top_layout);
-        rl_back.setVisibility(View.GONE);
-        tv_title = view.findViewById(R.id.tv_page_title_top_layout);
-        tv_title.setText("阅读");
+//        rl_back = view.findViewById(R.id.rl_page_back_top_layout);
+//        rl_back.setVisibility(View.GONE);
+//        tv_title = view.findViewById(R.id.tv_page_title_top_layout);
+//        tv_title.setText("阅读");
 
         refreshLayout = view.findViewById(R.id.smart_refresh_layout_reader_fragment);
         frameLayout = view.findViewById(R.id.frame_reader_fragment);

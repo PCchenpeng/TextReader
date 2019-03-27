@@ -65,7 +65,7 @@ public class ClassesArticleRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Classes classes = mList.get(position);
         ((ViewHolder) holder).tv_title.setText(classes.getTitle());
-        ((ViewHolder) holder).tv_author.setText(classes.getAuthor());
+//        ((ViewHolder) holder).tv_author.setText(classes.getAuthor());
         String url = classes.getImagePath();
         if (mContext != null) {
             RequestOptions options = new RequestOptions()
@@ -76,11 +76,11 @@ public class ClassesArticleRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             Glide.with(mContext)
                     .load(url)
                     .apply(options)
-                    .listener(GlidePalette.with(url)
-                            .use(GlidePalette.Profile.MUTED)
-                            .intoBackground(((ViewHolder) holder).tv_author, GlidePalette.Swatch.RGB)
-                            .crossfade(true)
-                    )
+//                    .listener(GlidePalette.with(url)
+//                            .use(GlidePalette.Profile.MUTED)
+//                            .intoBackground(((ViewHolder) holder).tv_author, GlidePalette.Swatch.RGB)
+//                            .crossfade(true)
+//                    )
                     .into(((ViewHolder) holder).iv_bg);
         }
     }
@@ -99,7 +99,7 @@ public class ClassesArticleRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             super(itemView);
             iv_bg = itemView.findViewById(R.id.iv_background_classes_article_item);
             tv_title = itemView.findViewById(R.id.tv_title_classes_article_item);
-            tv_author = itemView.findViewById(R.id.tv_author_classes_article_item);
+//            tv_author = itemView.findViewById(R.id.tv_author_classes_article_item);
         }
     }
 }

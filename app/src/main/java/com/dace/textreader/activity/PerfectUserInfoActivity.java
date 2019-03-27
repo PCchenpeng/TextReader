@@ -188,7 +188,7 @@ public class PerfectUserInfoActivity extends BaseActivity {
                     json.put("gradeid", grade);
 
                     //加密处理之后再上传
-                    String info = DataEncryption.encode(json.toString());
+                    String info = DataEncryption.encode(json.toString(),"C85A4c8d2G");
 
                     JSONObject object = new JSONObject();
                     object.put("info", info);

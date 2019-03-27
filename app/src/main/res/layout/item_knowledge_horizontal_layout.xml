@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="105dp"
         android:layout_height="125dp"
-        android:background="@drawable/shape_gradient_blue_light"/>
+        android:background="@drawable/read_knowledge_bg"/>
 
     <TextView
         android:id="@+id/tv_title_knowledge_horizontal_item"

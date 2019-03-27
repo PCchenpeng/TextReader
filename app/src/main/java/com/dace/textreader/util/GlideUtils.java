@@ -44,15 +44,15 @@ public class GlideUtils {
 //                        .setCrossFadeEnabled(true).build();
 
         RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.image_placeholder_rectangle)
-                .error(R.drawable.image_placeholder_rectangle)
+//                .placeholder(R.drawable.image_placeholder_rectangle)
+//                .error(R.drawable.image_placeholder_rectangle)
                 .centerCrop()
                 .transform(new GlideRoundImage(context, 8));
         Glide.with(context)
                 .load(imageUrl)
                 .apply(options)
 //                .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
-                .transition(DrawableTransitionOptions.withCrossFade(2000))
+                .transition(DrawableTransitionOptions.withCrossFade(1000))
                 .into(imageView);
     }
 

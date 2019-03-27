@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
@@ -55,7 +56,7 @@ public class SmartTabLayout extends HorizontalScrollView {
     private ViewPager viewPager;
     private ViewPager.OnPageChangeListener viewPagerPageChangeListener;
     private OnScrollChangeListener onScrollChangeListener;
-    private TabProvider tabProvider;
+    private SimpleTabProvider tabProvider;
     private InternalTabClickListener internalTabClickListener;
     private OnTabClickListener onTabClickListener;
     private boolean distributeEvenly;
@@ -129,7 +130,7 @@ public class SmartTabLayout extends HorizontalScrollView {
         this.distributeEvenly = distributeEvenly;
 
         if (customTabLayoutId != NO_ID) {
-            setCustomTabView(customTabLayoutId, customTabTextViewId);
+            setCustomTabView(customTabLayoutId, customTabTextViewId,-1);
         }
 
         this.tabStrip = new SmartTabStrip(context, attrs);
@@ -189,7 +190,7 @@ public class SmartTabLayout extends HorizontalScrollView {
     /**
      * Set the behavior of the Indicator scrolling feedback.
      *
-     * @param interpolator {@link com.ogaclejapan.smarttablayout.SmartTabIndicationInterpolator}
+     * @param interpolator
      */
     public void setIndicationInterpolator(SmartTabIndicationInterpolator interpolator) {
         tabStrip.setIndicationInterpolator(interpolator);
@@ -284,8 +285,8 @@ public class SmartTabLayout extends HorizontalScrollView {
      * @param layoutResId Layout id to be inflated
      * @param textViewId  id of the {@link android.widget.TextView} in the inflated view
      */
-    public void setCustomTabView(int layoutResId, int textViewId) {
-        tabProvider = new SimpleTabProvider(getContext(), layoutResId, textViewId);
+    public void setCustomTabView(int layoutResId, int textViewId,int index) {
+        tabProvider = new SimpleTabProvider(getContext(), layoutResId, textViewId,index);
     }
 
     /**
@@ -293,7 +294,7 @@ public class SmartTabLayout extends HorizontalScrollView {
      *
      * @param provider {@link TabProvider}
      */
-    public void setCustomTabView(TabProvider provider) {
+    public void setCustomTabView(SimpleTabProvider provider) {
         tabProvider = provider;
     }
 
@@ -324,7 +325,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 
     /**
      * Create a default view to be used for tabs. This is called if a custom tab view is not set via
-     * {@link #setCustomTabView(int, int)}.
+     * {@link #setCustomTabView(int, int,int)}.
      */
     protected TextView createDefaultTabView(CharSequence title) {
         TextView textView = new TextView(getContext());
@@ -367,9 +368,24 @@ public class SmartTabLayout extends HorizontalScrollView {
 
         for (int i = 0; i < adapter.getCount(); i++) {
 
-            final View tabView = (tabProvider == null)
-                    ? createDefaultTabView(adapter.getPageTitle(i))
-                    : tabProvider.createTabView(tabStrip, i, adapter);
+            View tabView ;
+
+            if(tabProvider != null && tabProvider.indexNum == i){
+                tabView = tabProvider.createTabView(tabStrip, i, adapter);
+            }else {
+                tabView = createDefaultTabView(adapter.getPageTitle(i));
+            }
+//            if(tabProvider == null){
+//                tabView = createDefaultTabView(adapter.getPageTitle(i));
+//            }else {
+//                if(tabProvider.indexNum == i){
+//                    tabView = tabProvider.createTabView(tabStrip, i, adapter);
+//                }
+//            }
+
+//            final View tabView = (tabProvider == null)
+//                    ? createDefaultTabView(adapter.getPageTitle(i))
+//                    : tabProvider.createTabView(tabStrip, i, adapter);
 
             if (tabView == null) {
                 throw new IllegalStateException("tabView is null.");
@@ -537,11 +553,13 @@ public class SmartTabLayout extends HorizontalScrollView {
         private final LayoutInflater inflater;
         private final int tabViewLayoutId;
         private final int tabViewTextViewId;
+        public final int indexNum;
 
-        private SimpleTabProvider(Context context, int layoutResId, int textViewId) {
+        public SimpleTabProvider(Context context, int layoutResId, int textViewId,int index) {
             inflater = LayoutInflater.from(context);
             tabViewLayoutId = layoutResId;
             tabViewTextViewId = textViewId;
+            indexNum = index;
         }
 
         @Override
@@ -629,13 +647,28 @@ public class SmartTabLayout extends HorizontalScrollView {
     private void updateTabText(int i) {
 
         if (position != -1) {
-            TextView textView = (TextView) tabStrip.getChildAt(position);
+//            TextView textView = (TextView) tabStrip.getChildAt(position);
+
+            TextView textView;
+            if(tabProvider != null && tabProvider.indexNum == position){
+                RelativeLayout rl  = (RelativeLayout) tabStrip.getChildAt(position);
+                textView = (TextView) rl.getChildAt(0);
+            }else {
+                textView = (TextView) tabStrip.getChildAt(position);
+            }
+
             textView.setTextSize(15);
             TextPaint tp = textView.getPaint();
             tp.setFakeBoldText(false);
         }
-
-        TextView mTextView = (TextView) tabStrip.getChildAt(i);
+        TextView mTextView;
+        if(tabProvider != null && tabProvider.indexNum == i){
+            RelativeLayout rl  = (RelativeLayout) tabStrip.getChildAt(i);
+            mTextView = (TextView) rl.getChildAt(0);
+        }else {
+            mTextView = (TextView) tabStrip.getChildAt(i);
+        }
+//        TextView mTextView = (TextView) tabStrip.getChildAt(i);
         mTextView.setTextSize(17);
         TextPaint textPaint = mTextView.getPaint();
         textPaint.setFakeBoldText(true);
