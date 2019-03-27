@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.dace.textreader.view.StatusBarHeightView
+        android:id="@+id/view_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:background="@drawable/shape_gradient_blue_light"
+        app:use_type="use_padding_top">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/nav_searchbar_icon_search"/>
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:hint="请输入字、词、文章、作者"
+                android:textColorHint="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:background="#00ffffff"
+                android:layout_toRightOf="@id/iv_search"/>
+        </RelativeLayout>
+
+    </com.dace.textreader.view.StatusBarHeightView>
+</LinearLayout>

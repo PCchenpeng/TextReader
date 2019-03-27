@@ -32,6 +32,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     public final static int IMG = 10004;
     public final static int ARTICLE_PIC = 10005;
     public final static int ARTICLE_NOPIC = 10006;
+    public final static int TOP = 10007;
     private List<ArticleListBean> itemList = new ArrayList<>();
     private Context mContext;
 
@@ -121,6 +122,23 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
         int viewType = getItemViewType(i);
         final int itemPosition = i-1;
         switch (viewType){
+            case TYPE_TOP:
+                ((TopHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        int flag = itemList.get(itemPosition).getArticle().getFlag();
+//                        String id = itemList.get(itemPosition).getArticle().getId();
+//                        if(flag == 0){
+//                            onItemClickListener.onClick(AUDIO_NOPIC,id,"");
+//                        }else if(flag == 1){
+//                            onItemClickListener.onClick(AUDIO_PIC,id,"");
+//                        }
+                        onItemClickListener.onClick(TOP,"","");
+
+                    }
+                });
+                break;
+
             case TYPE_BIG:
                 GlideUtils.loadHomeImage(mContext, itemList.get(itemPosition).getArticle().getImage(),
                         ((BigHolder) viewHolder).iv_recommend);

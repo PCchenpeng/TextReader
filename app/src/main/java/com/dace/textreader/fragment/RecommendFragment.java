@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.HomeAudioDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
+import com.dace.textreader.activity.NewSearchActivity;
 import com.dace.textreader.adapter.HomeRecommendAdapter;
 import com.dace.textreader.bean.RecommendBean;
 import com.dace.textreader.util.DataUtil;
@@ -109,10 +110,16 @@ public class RecommendFragment extends Fragment implements PullListener {
         mHomeRecommendAdapter.setOnItemClickListener(new HomeRecommendAdapter.OnItemClickListener() {
             @Override
             public void onClick(int type, String id, String flag) {
+                Intent intent;
                 switch (type){
                     case HomeRecommendAdapter.AUDIO_PIC:
-                        Intent intent = new Intent(getContext(), HomeAudioDetailActivity.class);
+                         intent = new Intent(getContext(), HomeAudioDetailActivity.class);
                         intent.putExtra("id", id);
+                        startActivity(intent);
+                        break;
+
+                    case HomeRecommendAdapter.TOP:
+                         intent = new Intent(getContext(), NewSearchActivity.class);
                         startActivity(intent);
                         break;
                         default:
