@@ -290,6 +290,7 @@ public class WritingActivity extends BaseActivity implements View.OnClickListene
         autoSaveTime();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initOperateChildEvents() {
         adapter_symbol.setOnItemClickListen(new SymbolAdapter.OnItemClickListen() {
             @Override

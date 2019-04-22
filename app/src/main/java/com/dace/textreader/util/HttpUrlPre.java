@@ -11,6 +11,8 @@ public class HttpUrlPre {
     public static final String HTTP_URL_ = "https://teacher.pythe.cn/pythe-temp/rest";
 //    public static final String HTTP_URL_ = "https://app.pythe.cn/pythe-rest/rest";
 
+    public static final String SEARCHE_URL = "https://search.pythe.cn/pythe-search";
+
     public static final String HTTP_URL = "https://check.pythe.cn/pythe-rest/rest";
 //    public static final String HTTP_URL = "https://app.pythe.cn/pythe-rest/rest";
 

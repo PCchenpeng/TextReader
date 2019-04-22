@@ -36,11 +36,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
 import com.dace.textreader.audioUtils.AppHelper;
 import com.dace.textreader.audioUtils.PlayService;
 import com.dace.textreader.bean.AutoSaveWritingBean;
 import com.dace.textreader.bean.LessonBean;
+import com.dace.textreader.bean.ReaderTabBean;
 import com.dace.textreader.fragment.HomeFragment;
 import com.dace.textreader.fragment.NewHomeFragment;
 import com.dace.textreader.fragment.NewLessonFragment;
@@ -48,11 +51,14 @@ import com.dace.textreader.fragment.NewMineFragment;
 import com.dace.textreader.fragment.NewReaderFragment;
 import com.dace.textreader.fragment.ReadTextBookFragment;
 import com.dace.textreader.util.DataUtil;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.JsonParser;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.SpeechRecognizerUtil;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
 import com.dace.textreader.view.dialog.ViewConvertListener;
@@ -93,6 +99,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     private static final String messageUrl = HttpUrlPre.HTTP_URL + "/system/message/notify";
     //极光注册
     private static final String jiguangUrl = HttpUrlPre.HTTP_URL + "/info/record/jiguang";
+    //阅读四个tab
+    private String readerTabUrl = HttpUrlPre.HTTP_URL_+"/select/category/detail";
 
     private static final String HOME_FRAGMENT_TAG = "home";
     private static final String READER_FRAGMENT_TAG = "reader";
@@ -109,7 +117,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     public static String USERNAME = "";  //学生名字
     public static String USERIMG = "";  //学生头像
     public static int GRADE = 0;  //学生等级
-    public static int GRADE_ID = 0; //学生等级ID
+    public static int GRADE_ID = 111; //学生等级ID
     public static String PY_SCORE = ""; //学生等级ID
     public static int LEVEL = 0;  //当前等级
     public static int NEWS_COUNT = 0;  //未读消息数量
@@ -225,6 +233,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         intentFilter.addAction(HttpUrlPre.ACTION_BROADCAST_JIGUANG_LOGIN);
         LocalBroadcastManager.getInstance(mContext).registerReceiver(broadcastReceiver, intentFilter);
 
+
+        getReaderTabData();
+
         startStatistics();
 
         startAccountDetection();
@@ -234,6 +245,33 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         //绑定音频播放服务
         bindService();
 
+    }
+
+
+    private void getReaderTabData() {
+        JSONObject params = new JSONObject();
+        OkHttpManager.getInstance(this).requestAsyn(readerTabUrl, OkHttpManager.TYPE_POST_JSON, params,
+                new OkHttpManager.ReqCallBack<Object>() {
+                    @Override
+                    public void onReqSuccess(Object result) {
+                        PreferencesUtil.saveData(NewMainActivity.this,"readerTab",result);
+                        ReaderTabBean readerTabBean = GsonUtil.GsonToBean(result.toString(),ReaderTabBean.class);
+                        if(readerTabBean != null){
+                            for (int i=0;i<readerTabBean.getData().size();i++){
+                                GlideApp.with(NewMainActivity.this)
+                                        .load(readerTabBean.getData().get(i).getImage())
+                                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                        .preload();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+
+                    }
+                });
     }
 
     /**

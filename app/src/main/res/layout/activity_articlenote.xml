@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.dace.textreader.view.StatusBarHeightView
+        android:id="@+id/statusView_top_copy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_gradient_blue_light"
+        app:use_type="use_padding_top">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <RelativeLayout
+                android:id="@+id/rl_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="5dp">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icon_white_back"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="编辑"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"/>
+        </RelativeLayout>
+    </com.dace.textreader.view.StatusBarHeightView>
+
+    <com.dace.textreader.view.tab.SmartTabLayout
+        android:id="@+id/tab_layout_new_reader_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        app:stl_defaultTabTextColor="@drawable/color_tab_articlenote"
+        app:stl_defaultTabTextMinWidth="80dp"
+        app:stl_defaultTabTextSize="15sp"
+        app:stl_dividerColor="@color/colorTransparent"
+        app:stl_dividerThickness="0dp"
+        app:stl_indicatorColor="#4D83FF"
+        app:stl_indicatorCornerRadius="2dp"
+        app:stl_indicatorThickness="4dp"
+        app:stl_indicatorWidth="20dp"
+        app:stl_titleOffset="auto_center"
+        app:stl_underlineColor="@color/colorTransparent"
+        app:stl_underlineThickness="0dp"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_new_reader_fragment"
+        android:layout_below="@id/view_status"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

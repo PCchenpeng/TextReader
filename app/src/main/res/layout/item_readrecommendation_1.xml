@@ -141,8 +141,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rlv_banner"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

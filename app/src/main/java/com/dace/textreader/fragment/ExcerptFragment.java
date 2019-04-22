@@ -61,7 +61,7 @@ import okhttp3.Response;
 
 public class ExcerptFragment extends Fragment {
 
-    private final String url = HttpUrlPre.HTTP_URL + "/personal/summary/select?";
+    private final String url = HttpUrlPre.HTTP_URL_ + "/select/article/note/list";
     private final String deleteUrl = HttpUrlPre.HTTP_URL + "/personal/sumary/delete";
 
     private View view;
@@ -87,7 +87,7 @@ public class ExcerptFragment extends Fragment {
 
     private Context mContext;  //上下文对象
 
-    private int pageNum = 1;
+    private static int pageNum = 1;
 
     private boolean isEditor = false;  //是否处于编辑状态
     private boolean isSelectAll = false;  //是否是全选
@@ -286,7 +286,7 @@ public class ExcerptFragment extends Fragment {
             mList.clear();
             adapter.notifyDataSetChanged();
             new GetData(this)
-                    .execute(url + "studentId=" + NewMainActivity.STUDENT_ID);
+                    .execute(url);
         }
     }
 
@@ -436,9 +436,7 @@ public class ExcerptFragment extends Fragment {
         pageNum++;
         refreshing = true;
         new GetData(this)
-                .execute(url + "studentId=" + NewMainActivity.STUDENT_ID +
-                        "&pageNum=" + pageNum +
-                        "&pageSize=10");
+                .execute(url);
     }
 
     /**
@@ -464,11 +462,11 @@ public class ExcerptFragment extends Fragment {
                         } else {
                             excerptBean.setTime(DateUtil.time2YMD(object.getString("time")));
                         }
-                        excerptBean.setEssayId(object.optLong("essayid", -1L));
+                        excerptBean.setEssayId(object.optLong("essayId", -1L));
                         excerptBean.setEssayType(object.optInt("type", -1));
-                        excerptBean.setEssayTitle(object.getString("title"));
-                        excerptBean.setExcerpt(object.getString("summary"));
-                        excerptBean.setSourceType(object.optInt("sourceType", -1));
+                        excerptBean.setEssayTitle(object.getString("essayTitle"));
+                        excerptBean.setExcerpt(object.getString("content"));
+                        excerptBean.setSourceType(object.optInt("category", -1));
                         mList.add(excerptBean);
                     }
                     adapter.notifyDataSetChanged();
@@ -566,12 +564,18 @@ public class ExcerptFragment extends Fragment {
         protected String doInBackground(ExcerptFragment fragment, String[] params) {
             try {
                 OkHttpClient client = new OkHttpClient();
+                JSONObject object = new JSONObject();
+                object.put("category", 1);
+                object.put("studentId", NewMainActivity.STUDENT_ID);
+                object.put("pageNum", pageNum);
+                RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(params[0])
+                        .post(body)
                         .build();
                 Response response = client.newCall(request).execute();
                 return response.body().string();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;

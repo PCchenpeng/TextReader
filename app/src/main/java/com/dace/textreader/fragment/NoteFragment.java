@@ -72,8 +72,8 @@ import okhttp3.Response;
 
 public class NoteFragment extends Fragment {
 
-    private static final String url = HttpUrlPre.HTTP_URL + "/personal/note/essay?";
-    private static final String allUrl = HttpUrlPre.HTTP_URL + "/personal/note/select?";
+    private static final String url = HttpUrlPre.HTTP_URL_ + "/select/article/note/list";
+//    private static final String allUrl = HttpUrlPre.HTTP_URL + "/personal/note/select?";
     private static final String deleteUrl = HttpUrlPre.HTTP_URL + "/personal/note/essay/delete";
     private static final String allDeleteUrl = HttpUrlPre.HTTP_URL + "/personal/note/all/delete";
     private static final String shareUrl = HttpUrlPre.HTTP_URL + "/get/note/url";
@@ -103,7 +103,7 @@ public class NoteFragment extends Fragment {
     private List<Notes> mSelectedList = new ArrayList<>();
 
     private long essayId = -1;  //文章ID
-    private boolean isAllNotes = false;//是否是所有笔记
+    private boolean isAllNotes = true;//是否是所有笔记
     private String title = "";
     private String content = "";
 
@@ -113,7 +113,7 @@ public class NoteFragment extends Fragment {
     private boolean isSelectedAll = false;
     private boolean hasSelected = false;  //是否有item被选中
 
-    private int pageNum = 1;
+    private static int pageNum = 1;
     private boolean refreshing = false;
     private boolean isEnd = false;
 
@@ -340,13 +340,10 @@ public class NoteFragment extends Fragment {
             isEnd = false;
             if (isAllNotes) {
                 new GetData(this)
-                        .execute(allUrl + "studentId=" + NewMainActivity.STUDENT_ID +
-                                "&pageNum=1" +
-                                "&pageSize=10");
+                        .execute(url);
             } else {
                 new GetData(this)
-                        .execute(url + "studentId=" + NewMainActivity.STUDENT_ID +
-                                "&essayId=" + essayId);
+                        .execute(url);
             }
         }
     }
@@ -497,8 +494,7 @@ public class NoteFragment extends Fragment {
         refreshing = true;
         pageNum++;
         new GetData(this)
-                .execute(allUrl + "studentId=" + NewMainActivity.STUDENT_ID +
-                        "&pageNum=" + pageNum + "&pageSize=10");
+                .execute(url);
     }
 
     /**
@@ -515,13 +511,10 @@ public class NoteFragment extends Fragment {
         isEnd = false;
         if (isAllNotes) {
             new GetData(this)
-                    .execute(allUrl + "studentId=" + NewMainActivity.STUDENT_ID +
-                            "&pageNum=1" +
-                            "&pageSize=10");
+                    .execute(url);
         } else {
             new GetData(this)
-                    .execute(url + "studentId=" + NewMainActivity.STUDENT_ID +
-                            "&essayId=" + essayId);
+                    .execute(url);
         }
     }
 
@@ -675,12 +668,18 @@ public class NoteFragment extends Fragment {
         protected String doInBackground(NoteFragment fragment, String[] params) {
             try {
                 OkHttpClient client = new OkHttpClient();
+                JSONObject object = new JSONObject();
+                object.put("category", 0);
+                object.put("studentId", NewMainActivity.STUDENT_ID);
+                object.put("pageNum", pageNum);
+                RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(params[0])
+                        .post(body)
                         .build();
                 Response response = client.newCall(request).execute();
                 return response.body().string();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -719,9 +718,9 @@ public class NoteFragment extends Fragment {
                         JSONObject object = data.getJSONObject(i);
                         Notes notes = new Notes();
                         notes.setId(object.getString("id"));
-                        notes.setEssayId(object.optLong("essayid", -1L));
-                        notes.setEssayType(object.optInt("type", -1));
-                        notes.setTitle(object.getString("title"));
+                        notes.setEssayId(object.optLong("essayId", -1L));
+                        notes.setEssayType(object.optInt("essayTitle", -1));
+                        notes.setTitle(object.getString("essayTitle"));
                         if (object.getString("time").equals("")
                                 || object.getString("time").equals("null")) {
                             notes.setTime("2018-01-01 00:00");

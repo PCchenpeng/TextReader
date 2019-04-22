@@ -11,10 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
 import com.dace.textreader.bean.RecommendBean.DataBean.ArticleListBean;
 import com.dace.textreader.util.GlideUtils;
-import com.dace.textreader.util.HttpUrlPre;
 
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final int TYPE_TOP = 4;
     public final static int AUDIO_PIC = 10001;
     public final static int AUDIO_NOPIC = 10002;
-    public final static int VIDIO = 10003;
+    public final static int VIDEO = 10003;
     public final static int IMG = 10004;
     public final static int ARTICLE_PIC = 10005;
     public final static int ARTICLE_NOPIC = 10006;
@@ -133,13 +134,20 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                        }else if(flag == 1){
 //                            onItemClickListener.onClick(AUDIO_PIC,id,"");
 //                        }
-                        onItemClickListener.onClick(TOP,"","");
+                        onItemClickListener.onClick(TOP,"","",-1);
 
                     }
                 });
                 break;
 
             case TYPE_BIG:
+
+                GlideApp.with(mContext)
+                        .load(itemList.get(itemPosition).getArticle().getImage())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .preload();
+
+
                 GlideUtils.loadHomeImage(mContext, itemList.get(itemPosition).getArticle().getImage(),
                         ((BigHolder) viewHolder).iv_recommend);
                 ((BigHolder) viewHolder).tv_title.setText(itemList.get(itemPosition).getArticle().getTitle());
@@ -151,36 +159,73 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 String audio = itemList.get(itemPosition).getArticle().getAudio();
                 String video = itemList.get(itemPosition).getArticle().getVideo();
+                final String id = itemList.get(itemPosition).getArticle().getId();
+                final int flag = itemList.get(itemPosition).getArticle().getFlag();
                 if(audio != null ){
-                    ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
-                    ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
-                    ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getPv()+"py");
+                    if(video != null){
+                        ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+                        ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
+                        ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getVideoTime());
 
-                    ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                        int flag = itemList.get(itemPosition).getArticle().getFlag();
-                        String id = itemList.get(itemPosition).getArticle().getId();
-                        if(flag == 0){
-                            onItemClickListener.onClick(AUDIO_NOPIC,id,"");
-                        }else if(flag == 1){
-                            onItemClickListener.onClick(AUDIO_PIC,id,"");
-                        }
+                        ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onItemClickListener.onClick(VIDEO,id,itemList.get(itemPosition).getArticle().getImage(),flag);
+                            }
+                        });
 
-                        }
-                    });
+                    }else {
+                        ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+                        ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
+                        ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getPv()+"py");
 
-                }else if(video != null){
-                    ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
-                    ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
-                    ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getVideoTime());
+                        ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onItemClickListener.onClick(AUDIO_PIC,id,itemList.get(itemPosition).getArticle().getImage(),flag);
+                            }
+                        });
+                    }
+
+
+//                    ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                        int flag = itemList.get(itemPosition).getArticle().getFlag();
+//                        String id = itemList.get(itemPosition).getArticle().getId();
+//                        if(flag == 0){
+//                            onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getImage(),flag);
+//                        }else if(flag == 1){
+//                            onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getImage(),flag);
+//                        }
+//
+//                        }
+//                    });
+
                 }else {
                     ((BigHolder) viewHolder).iv_type.setVisibility(View.GONE);
                     ((BigHolder) viewHolder).tv_py.setText(itemList.get(i).getArticle().getPv()+"py");
+                    ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int flag = itemList.get(itemPosition).getArticle().getFlag();
+                            String id = itemList.get(itemPosition).getArticle().getId();
+                            if(flag == 0){
+                                onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getImage(),flag);
+                            }else if(flag == 1){
+                                onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getImage(),flag);
+                            }
+
+                        }
+                    });
                 }
 
                 break;
             case TYPE_IMG:
+                GlideApp.with(mContext)
+                        .load(itemList.get(itemPosition).getArticle().getImage())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .preload();
                 GlideUtils.loadHomeImage(mContext, itemList.get(itemPosition).getArticle().getCover(),
                         ((ImgHolder) viewHolder).iv_cover);
                 ((ImgHolder) viewHolder).tv_content.setText(itemList.get(itemPosition).getArticle().getContent());
@@ -189,6 +234,21 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((ImgHolder) viewHolder).tv_user.setText(itemList.get(itemPosition).getArticle().getUsername());
                 GlideUtils.loadHomeUserImage(mContext, itemList.get(itemPosition).getArticle().getUserImage(),
                         ((ImgHolder) viewHolder).iv_user);
+
+                ((ImgHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int flag = itemList.get(itemPosition).getArticle().getFlag();
+                        String id = itemList.get(itemPosition).getArticle().getId();
+                        if(flag == 0){
+                            onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getCover(),flag);
+                        }else if(flag == 1){
+                            onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getCover(),flag);
+                        }
+
+                    }
+                });
+
                 break;
             case TYPE_NOIMG:
                 ((NoImgHolder) viewHolder).tv_content.setText(itemList.get(itemPosition).getArticle().getContent());
@@ -197,6 +257,21 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((NoImgHolder) viewHolder).tv_user.setText(itemList.get(itemPosition).getArticle().getUsername());
                 GlideUtils.loadHomeUserImage(mContext, itemList.get(itemPosition).getArticle().getUserImage(),
                         ((NoImgHolder) viewHolder).iv_user);
+
+                ((NoImgHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int flag = itemList.get(itemPosition).getArticle().getFlag();
+                        String id = itemList.get(itemPosition).getArticle().getId();
+                        if(flag == 0){
+                            onItemClickListener.onClick(IMG,id,"",flag);
+                        }else if(flag == 1){
+                            onItemClickListener.onClick(IMG,id,"",flag);
+                        }
+
+                    }
+                });
+
                 break;
 
             default:
@@ -270,7 +345,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public interface OnItemClickListener{
-        void onClick(int type,String id,String flag);
+        void onClick(int type,String id,String imgUrl,int flag);
     }
 
     OnItemClickListener onItemClickListener;

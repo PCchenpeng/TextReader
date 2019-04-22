@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.HomeAudioDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.activity.NewSearchActivity;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -108,17 +110,38 @@ public class RecommendFragment extends Fragment implements PullListener {
 
         mHomeRecommendAdapter.setOnItemClickListener(new HomeRecommendAdapter.OnItemClickListener() {
             @Override
-            public void onClick(int type, String id, String flag) {
+            public void onClick(int type, String id, String imgUrl,int flag) {
                 Intent intent;
                 switch (type){
                     case HomeRecommendAdapter.AUDIO_PIC:
-                         intent = new Intent(getContext(), HomeAudioDetailActivity.class);
-                        intent.putExtra("id", id);
+
+                        if(flag == 1){
+                            intent = new Intent(getContext(), HomeAudioDetailActivity.class);
+                            intent.putExtra("id", id);
+                        }else {
+                            intent = new Intent(getContext(), ArticleDetailActivity.class);
+                            intent.putExtra("essayId", id);
+                            intent.putExtra("imgUrl", imgUrl);
+                        }
                         startActivity(intent);
                         break;
 
                     case HomeRecommendAdapter.TOP:
                          intent = new Intent(getContext(), NewSearchActivity.class);
+                        startActivity(intent);
+                        break;
+                    case HomeRecommendAdapter.IMG:
+                         intent = new Intent(getContext(), ArticleDetailActivity.class);
+                        intent.putExtra("essayId", id);
+                        intent.putExtra("imgUrl", imgUrl);
+                        startActivity(intent);
+                        break;
+
+                    case HomeRecommendAdapter.VIDEO:
+                        intent = new Intent(getContext(), ArticleDetailActivity.class);
+                        intent.putExtra("essayId", id);
+                        intent.putExtra("imgUrl", imgUrl);
+                        intent.putExtra("isVideo",true);
                         startActivity(intent);
                         break;
                         default:
@@ -128,14 +151,14 @@ public class RecommendFragment extends Fragment implements PullListener {
         });
 
         new GetRecommendData(RecommendFragment.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
-                String.valueOf(-1), String.valueOf(pageNum));
+                String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(pageNum));
 
     }
 
     private void getMoreRecommendData() {
         pageNum++;
         new GetRecommendData(RecommendFragment.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
-                String.valueOf(-1), String.valueOf(pageNum));
+                String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(pageNum));
     }
 
     @Override
@@ -144,7 +167,7 @@ public class RecommendFragment extends Fragment implements PullListener {
         pageNum = 1;
         isRefresh = true;
         new GetRecommendData(RecommendFragment.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
-                String.valueOf(-1), String.valueOf(pageNum));
+                String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(pageNum));
 //        mRecycleView.onComplete(true);
 //        mRecycleView.onPullComplete();
     }
@@ -178,6 +201,11 @@ public class RecommendFragment extends Fragment implements PullListener {
                 object.put("gradeId", strings[2]);
                 object.put("pageNum", strings[3]);
                 object.put("pageSize", 6);
+                object.put("width", 750);
+                object.put("height", 420);
+
+//                CacheControl cacheControl = new CacheControl().
+
                 RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(strings[0])
@@ -214,8 +242,17 @@ public class RecommendFragment extends Fragment implements PullListener {
      * @param s
      */
     private void analyzeRecommendData(String s) {
-        RecommendBean recommendBean = GsonUtil.GsonToBean(s,RecommendBean.class);
-        data = recommendBean.getData().getArticleList();
+        RecommendBean recommendBean = null;
+        try{
+            recommendBean = GsonUtil.GsonToBean(s,RecommendBean.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if(recommendBean != null && recommendBean.getData() != null)
+            data = recommendBean.getData().getArticleList();
+        else
+            return;
         if(isRefresh){
             mHomeRecommendAdapter.refreshData(data);
             mRecycleView.onPullComplete();

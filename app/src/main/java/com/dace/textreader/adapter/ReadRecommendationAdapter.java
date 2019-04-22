@@ -1,9 +1,12 @@
 package com.dace.textreader.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +15,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ReaderTabActivity;
 import com.dace.textreader.bean.ReaderChoiceBean;
 import com.dace.textreader.bean.ReaderRecommendationBean;
+import com.dace.textreader.bean.ReaderTabBean;
+import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.GsonUtil;
+import com.dace.textreader.util.PreferencesUtil;
+import com.github.rubensousa.gravitysnaphelper.GravityPagerSnapHelper;
 
 import java.util.List;
 
@@ -72,7 +83,7 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         int viewType = getItemViewType(i);
         switch (viewType){
             case TYPE_HEAD:
@@ -80,18 +91,87 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context,
                         LinearLayoutManager.HORIZONTAL, false);
                 ((TopHolder)viewHolder).rcl_banner.setLayoutManager(layoutManager);
+                SnapHelper snapHelper= new GravityPagerSnapHelper(Gravity.START);
+                snapHelper.attachToRecyclerView(((TopHolder)viewHolder).rcl_banner);
                 ((TopHolder)viewHolder).rcl_banner.setAdapter(choiceAdapter);
-//                ((TopHolder)viewHolder).rcl_banner.setVisibility(View.GONE);
+
+                String tabData = PreferencesUtil.getData(context,"readerTab","").toString();
+                final ReaderTabBean readerTabBean = GsonUtil.GsonToBean(tabData,ReaderTabBean.class);
+
+                ((TopHolder)viewHolder).ll_tab_1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(context, ReaderTabActivity.class);
+                        intent.putExtra("type", readerTabBean.getData().get(0).getType());
+                        intent.putExtra("imgurl", readerTabBean.getData().get(0).getImage());
+                        context.startActivity(intent);
+                    }
+                });
+
+                ((TopHolder)viewHolder).ll_tab_2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(context, ReaderTabActivity.class);
+                        intent.putExtra("type", readerTabBean.getData().get(1).getType());
+                        intent.putExtra("imgurl", readerTabBean.getData().get(1).getImage());
+                        context.startActivity(intent);
+                    }
+                });
+
+                ((TopHolder)viewHolder).ll_tab_3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(context, ReaderTabActivity.class);
+                        intent.putExtra("type", readerTabBean.getData().get(2).getType());
+                        intent.putExtra("imgurl", readerTabBean.getData().get(2).getImage());
+                        context.startActivity(intent);
+                    }
+                });
+
+                ((TopHolder)viewHolder).ll_tab_4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(context, ReaderTabActivity.class);
+                        intent.putExtra("type", readerTabBean.getData().get(3).getType());
+                        intent.putExtra("imgurl", readerTabBean.getData().get(3).getImage());
+                        context.startActivity(intent);
+                    }
+                });
+
                 break;
             case TYPE_DES:
                 GlideUtils.loadImage(context, itemList.get(i-1).getAlbumCover(),
                         ((ItemHolder) viewHolder).iv_big_1);
                 ((ItemHolder)viewHolder).tv_big_title.setText(itemList.get(i-1).getAlbumTitle());
 
+                GlideApp.with(context)
+                        .load(itemList.get(i-1).getAlbumCover())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .preload();
+                ((ItemHolder) viewHolder).iv_big_1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(onItemClickListener != null)
+                            onItemClickListener.onClick(1,"","",itemList.get(i-1).getAlbumCover());
+                    }
+                });
+
+
                 ((ItemHolder)viewHolder).tv_title_1.setText(itemList.get(i-1).getArticleList().get(0).getTitle());
                 ((ItemHolder)viewHolder).tv_des_1.setText(itemList.get(i-1).getArticleList().get(0).getSubContent());
+
+                GlideApp.with(context)
+                        .load(itemList.get(i-1).getArticleList().get(0).getImage())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .preload();
+
                 GlideUtils.loadImage(context, itemList.get(i-1).getArticleList().get(0).getImage(),
                         ((ItemHolder) viewHolder).iv_small_1);
+
                 GlideUtils.loadHomeUserImage(context, itemList.get(i-1).getArticleList().get(0).getSourceImage(),
                         ((ItemHolder) viewHolder).iv_source_1);
                 ((ItemHolder)viewHolder).tv_source_1.setText(itemList.get(i-1).getArticleList().get(0).getSource());
@@ -104,6 +184,12 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
                     ((ItemHolder)viewHolder).ll_item_2.setVisibility(View.VISIBLE);
                     ((ItemHolder)viewHolder).tv_title_2.setText(itemList.get(i-1).getArticleList().get(1).getTitle());
                     ((ItemHolder)viewHolder).tv_des_2.setText(itemList.get(i-1).getArticleList().get(1).getSubContent());
+
+                    GlideApp.with(context)
+                            .load(itemList.get(i-1).getArticleList().get(1).getImage())
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .preload();
+
                     GlideUtils.loadImage(context, itemList.get(i-1).getArticleList().get(1).getImage(),
                             ((ItemHolder) viewHolder).iv_small_2);
                     GlideUtils.loadHomeUserImage(context, itemList.get(i-1).getArticleList().get(1).getSourceImage(),
@@ -111,6 +197,22 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
                     ((ItemHolder)viewHolder).tv_source_2.setText(itemList.get(i-1).getArticleList().get(1).getSource());
                     ((ItemHolder)viewHolder).tv_type_2.setText(itemList.get(i-1).getArticleList().get(1).getSource());
                 }
+
+                ((ItemHolder) viewHolder).ll_item_1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(onItemClickListener != null)
+                        onItemClickListener.onClick(1,"","",itemList.get(i-1).getArticleList().get(0).getImage());
+                    }
+                });
+
+                ((ItemHolder) viewHolder).ll_item_2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(onItemClickListener != null)
+                            onItemClickListener.onClick(1,"","",itemList.get(i-1).getArticleList().get(1).getImage());
+                    }
+                });
 
 
                 break;
@@ -134,15 +236,15 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
 
     class TopHolder extends RecyclerView.ViewHolder{
         RelativeLayout rl_search;
-        LinearLayout ll_tradition,ll_story,ll_science,ll_excellent;
+        LinearLayout ll_tab_1, ll_tab_2, ll_tab_3, ll_tab_4;
         RecyclerView rcl_banner;
          TopHolder(@NonNull View itemView) {
             super(itemView);
              rl_search =  itemView.findViewById(R.id.rl_search);
-             ll_tradition = itemView.findViewById(R.id.ll_tradition);
-             ll_story = itemView.findViewById(R.id.ll_story);
-             ll_science = itemView.findViewById(R.id.ll_science);
-             ll_excellent = itemView.findViewById(R.id.ll_excellent);
+             ll_tab_1 = itemView.findViewById(R.id.ll_tradition);
+             ll_tab_2 = itemView.findViewById(R.id.ll_story);
+             ll_tab_3 = itemView.findViewById(R.id.ll_science);
+             ll_tab_4 = itemView.findViewById(R.id.ll_excellent);
              rcl_banner = itemView.findViewById(R.id.rlv_banner);
         }
     }
@@ -195,9 +297,12 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
-            GlideUtils.loadImage(context, choiceList.get(i).getImage(),
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ChoiceHolder) viewHolder).iv_img.getLayoutParams();
+            params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
+            ((ChoiceHolder) viewHolder).iv_img.setLayoutParams(params);
+            GlideUtils.loadImage(context, choiceList.get(i).getCover(),
                     ((ChoiceHolder) viewHolder).iv_img);
-            ((ChoiceHolder)viewHolder).tv_type.setText(choiceList.get(i).getType());
+            ((ChoiceHolder)viewHolder).tv_type.setText(choiceList.get(i).getTitle());
         }
 
         @Override
@@ -215,6 +320,17 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
                 tv_type = itemView.findViewById(R.id.tv_type);
             }
         }
+    }
+
+
+    public interface OnItemClickListener{
+        void onClick(int type,String id,String flag,String imgUrl);
+    }
+
+    OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
     }
 
 }

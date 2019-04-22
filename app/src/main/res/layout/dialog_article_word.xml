@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#333333"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="词云"
+                android:textColor="#ffffff"
+                android:textSize="16sp"/>
+            <com.suke.widget.SwitchButton
+                android:id="@+id/bt_swtich"
+                android:layout_alignParentRight="true"
+                android:layout_width="50dp"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+        <com.dace.textreader.view.weight.pullrecycler.SpringBackScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:orientation="vertical">
+                <com.dace.textreader.view.LineWrapLayout
+                    android:id="@+id/lwy_word"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </com.dace.textreader.view.LineWrapLayout>
+            </LinearLayout>
+        </com.dace.textreader.view.weight.pullrecycler.SpringBackScrollView>
+
+    </LinearLayout>
+</LinearLayout>

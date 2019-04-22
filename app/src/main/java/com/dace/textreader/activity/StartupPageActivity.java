@@ -21,18 +21,24 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
+import com.dace.textreader.bean.ReaderTabBean;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,6 +75,8 @@ public class StartupPageActivity extends AppCompatActivity {
     private int status = -1;
     private String image = "";
     private Bitmap bitmap;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +137,11 @@ public class StartupPageActivity extends AppCompatActivity {
         }
 
         mThread.start();
+
+
     }
+
+
 
     // view为标题栏
     protected void setImmerseLayout() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_root"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,25 +15,193 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/iv_search"
+                android:id="@+id/iv_back"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/nav_searchbar_icon_search"/>
+                android:src="@drawable/icon_white_back"/>
             <EditText
                 android:id="@+id/et_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionSearch"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
+                android:singleLine="true"
                 android:hint="请输入字、词、文章、作者"
+                android:textColor="#ffffff"
                 android:textColorHint="#FFFFFF"
                 android:textSize="16sp"
                 android:layout_centerVertical="true"
                 android:background="#00ffffff"
-                android:layout_toRightOf="@id/iv_search"/>
+                android:textCursorDrawable="@drawable/my_cursor"
+                android:layout_toRightOf="@id/iv_back"/>
         </RelativeLayout>
 
     </com.dace.textreader.view.StatusBarHeightView>
-</LinearLayout>
+
+    <FrameLayout
+        android:layout_below="@id/view_status"
+        android:layout_above="@+id/ll_talk_small"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/ll_search_default"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff">
+            <RelativeLayout
+                android:id="@+id/rl_talk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="试试这样搜"
+                    android:layout_centerVertical="true"
+                    android:textColor="#333333"
+                    android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/iv_talk"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/search_try_voice"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_below="@id/rl_talk"
+                android:id="@+id/tv_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#4D72FF"
+                android:textSize="17sp" />
+
+            <View
+                android:id="@+id/v1"
+                android:layout_below="@id/tv_test"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="20dp"
+                android:background="#F2F3F7"/>
+            <TextView
+                android:id="@+id/tv_hot"
+                android:layout_below="@id/v1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热门搜索"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
+            <com.dace.textreader.view.LineWrapLayout
+                android:layout_below="@id/tv_hot"
+                android:id="@+id/lineWrapLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+            </com.dace.textreader.view.LineWrapLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/ll_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:visibility="gone">
+                <RelativeLayout
+                    android:id="@+id/rl_search_anim"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+                    <ImageView
+                        android:id="@+id/iv_anim"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/search_try_whale_default"/>
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="试试这样搜"
+                        android:textSize="20sp"
+                        android:textColor="#333333"/>
+                    <ImageView
+                        android:id="@+id/iv_close"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/search_try_close"/>
+                </RelativeLayout>
+
+                <ListView
+                    android:id="@+id/lv_test"
+                    android:visibility="visible"
+                    android:layout_below="@id/rl_search_anim"
+                    android:layout_above="@+id/search_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="center_horizontal">
+                </ListView>
+
+
+            <LinearLayout
+                android:id="@id/search_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_talk_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#4D83FF"
+                    android:textSize="14sp"
+                    android:text="按住说话"/>
+
+                <ImageView
+                    android:id="@+id/iv_playpause"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/search_try_talk_play"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+    <LinearLayout
+        android:id="@id/ll_talk_small"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+        <ImageView
+            android:id="@+id/iv_playpause_small"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/search_try_talk_play"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

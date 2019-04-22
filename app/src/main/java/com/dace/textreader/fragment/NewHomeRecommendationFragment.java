@@ -54,6 +54,7 @@ import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.view.MyRefreshHeader;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
 import com.dace.textreader.view.dialog.ViewConvertListener;
@@ -543,7 +544,8 @@ public class NewHomeRecommendationFragment extends Fragment {
         frameLayout = view.findViewById(R.id.frame_home_recommend_fragment);
 
         refreshLayout = view.findViewById(R.id.smart_refresh_home_recommendation);
-        refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
+        refreshLayout.setRefreshHeader(new MyRefreshHeader(mContext));
+//        refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setEnableLoadMore(true);
@@ -577,7 +579,7 @@ public class NewHomeRecommendationFragment extends Fragment {
         recyclerView_user.setAdapter(adapter_user);
 
         recyclerView = view.findViewById(R.id.recycler_view_writing_home_recommendation);
-        recyclerView.setNestedScrollingEnabled(true);
+        recyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext,
                 LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
