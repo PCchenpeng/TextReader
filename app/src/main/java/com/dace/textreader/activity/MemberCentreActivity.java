@@ -1100,14 +1100,6 @@ public class MemberCentreActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     /**
      * 获取数据

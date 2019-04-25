@@ -686,14 +686,7 @@ public class NewDailySentenceActivity extends BaseActivity {
         showTips("分享失败，请稍后重试");
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
+
 
     private static class GetData
             extends WeakAsyncTask<String, Void, String, NewDailySentenceActivity> {

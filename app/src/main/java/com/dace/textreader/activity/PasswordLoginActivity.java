@@ -376,14 +376,6 @@ public class PasswordLoginActivity extends BaseActivity implements View.OnClickL
         showTips("登录失败，请稍后再试！");
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     private static class Login
             extends WeakAsyncTask<String, Void, String, PasswordLoginActivity> {

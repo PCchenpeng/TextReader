@@ -55,7 +55,7 @@ import okhttp3.Response;
  * History:
  * ==============================================================================
  */
-public class ReadTextBookFragment extends Fragment {
+public class HomeTextBookFragment extends Fragment {
 
     private static final String url_knowledge = HttpUrlPre.HTTP_URL_ + "/knowledge/point/all";
     private static final String url = HttpUrlPre.HTTP_URL + "/kewen?";
@@ -382,14 +382,14 @@ public class ReadTextBookFragment extends Fragment {
      * 获取数据
      */
     private static class GetData
-            extends WeakAsyncTask<String, Void, String, ReadTextBookFragment> {
+            extends WeakAsyncTask<String, Void, String, HomeTextBookFragment> {
 
-        protected GetData(ReadTextBookFragment fragment) {
+        protected GetData(HomeTextBookFragment fragment) {
             super(fragment);
         }
 
         @Override
-        protected String doInBackground(ReadTextBookFragment fragment, String[] strings) {
+        protected String doInBackground(HomeTextBookFragment fragment, String[] strings) {
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
@@ -404,7 +404,7 @@ public class ReadTextBookFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ReadTextBookFragment fragment, String s) {
+        protected void onPostExecute(HomeTextBookFragment fragment, String s) {
             if (s == null) {
 
             } else {
@@ -418,14 +418,14 @@ public class ReadTextBookFragment extends Fragment {
      * 获取数据
      */
     private static class GetKnowledgeData
-            extends WeakAsyncTask<String, Void, String, ReadTextBookFragment> {
+            extends WeakAsyncTask<String, Void, String, HomeTextBookFragment> {
 
-        protected GetKnowledgeData(ReadTextBookFragment fragment) {
+        protected GetKnowledgeData(HomeTextBookFragment fragment) {
             super(fragment);
         }
 
         @Override
-        protected String doInBackground(ReadTextBookFragment fragment, String[] strings) {
+        protected String doInBackground(HomeTextBookFragment fragment, String[] strings) {
             try {
                 OkHttpClient client = new OkHttpClient();
                 JSONObject object = new JSONObject();
@@ -443,7 +443,7 @@ public class ReadTextBookFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ReadTextBookFragment fragment, String s) {
+        protected void onPostExecute(HomeTextBookFragment fragment, String s) {
             fragment.initGradeData();
             if (s == null) {
 

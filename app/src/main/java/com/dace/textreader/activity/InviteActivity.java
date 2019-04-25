@@ -524,12 +524,7 @@ public class InviteActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 显示提示信息
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
+
 
     /**
      * 获取Url

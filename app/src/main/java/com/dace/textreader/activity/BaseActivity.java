@@ -855,7 +855,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param tips
      */
-    private void showTips(String tips) {
+    protected void showTips(String tips) {
         MyToastUtil.showToast(mContext, tips);
     }
 

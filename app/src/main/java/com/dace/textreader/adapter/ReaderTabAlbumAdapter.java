@@ -75,37 +75,37 @@ public class ReaderTabAlbumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 SnapHelper snapHelper= new GravityPagerSnapHelper(Gravity.START);
                 snapHelper.attachToRecyclerView(((TopHolder)viewHolder).rcv_favourite);
                 ((TopHolder)viewHolder).rcv_favourite.setAdapter(topAdapter1);
-                ((TopHolder)viewHolder).rcv_favourite.setOnFlingListener(new RecyclerView.OnFlingListener() {
-                    @Override
-                    public boolean onFling(int i, int i1) {
-
-//                        Log.e("fling","i="+String.valueOf(i));
-//                        Log.e("fling","i1="+String.valueOf(i1));
-
-                        return false;
-                    }
-                });
-                ((TopHolder)viewHolder).rcv_favourite.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                        super.onScrollStateChanged(recyclerView, newState);
-                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                            int childCount = recyclerView.getChildCount();
-                            int itemCount = recyclerView.getLayoutManager().getItemCount();
-                            int firstVisibleItem = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-
-                            if(currentindex == firstVisibleItem){
-                                Log.e("fling","没划走");
-                            }else {
-                                currentindex = firstVisibleItem;
-                                Log.e("fling","childCount="+String.valueOf(childCount));
-                                Log.e("fling","itemCount="+String.valueOf(itemCount));
-                                Log.e("fling","firstVisibleItem="+String.valueOf(firstVisibleItem));
-                            }
-
-                        }
-                    }
-                });
+//                ((TopHolder)viewHolder).rcv_favourite.setOnFlingListener(new RecyclerView.OnFlingListener() {
+//                    @Override
+//                    public boolean onFling(int i, int i1) {
+//
+////                        Log.e("fling","i="+String.valueOf(i));
+////                        Log.e("fling","i1="+String.valueOf(i1));
+//
+//                        return false;
+//                    }
+//                });
+//                ((TopHolder)viewHolder).rcv_favourite.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                    @Override
+//                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                        super.onScrollStateChanged(recyclerView, newState);
+//                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                            int childCount = recyclerView.getChildCount();
+//                            int itemCount = recyclerView.getLayoutManager().getItemCount();
+//                            int firstVisibleItem = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+//
+//                            if(currentindex == firstVisibleItem){
+//                                Log.e("fling","没划走");
+//                            }else {
+//                                currentindex = firstVisibleItem;
+//                                Log.e("fling","childCount="+String.valueOf(childCount));
+//                                Log.e("fling","itemCount="+String.valueOf(itemCount));
+//                                Log.e("fling","firstVisibleItem="+String.valueOf(firstVisibleItem));
+//                            }
+//
+//                        }
+//                    }
+//                });
 
                 break;
             case TYPE_ITEM:

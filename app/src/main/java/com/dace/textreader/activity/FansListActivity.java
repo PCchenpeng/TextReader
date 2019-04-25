@@ -480,14 +480,7 @@ public class FansListActivity extends BaseActivity {
         mPosition = -1;
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
+
 
     /**
      * 获取数据

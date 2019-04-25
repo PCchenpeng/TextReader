@@ -310,15 +310,6 @@ public class WritingNewsActivity extends BaseActivity implements View.OnClickLis
     }
 
     /**
-     * 显示提示信息
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
-
-    /**
      * 获取数据
      */
     private static class GetData

@@ -10,13 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.dace.textreader.R;
-import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.ArticleDetailActivityTest;
-import com.dace.textreader.adapter.HomeRecommendAdapter;
-import com.dace.textreader.adapter.ReadRecommendationAdapter;
+import com.dace.textreader.adapter.HomeHotAdapter;
 import com.dace.textreader.bean.ReaderChoiceBean;
 import com.dace.textreader.bean.ReaderRecommendationBean;
 import com.dace.textreader.util.DensityUtil;
@@ -30,9 +27,7 @@ import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -46,11 +41,11 @@ import java.util.List;
  * History:
  * ==============================================================================
  */
-public class ReadRecommendationFragment extends Fragment implements PullListener {
+public class HomeHotFragment extends Fragment implements PullListener {
 
     private View view;
     private PullRecyclerView mRecycleView;
-    private ReadRecommendationAdapter readRecommendationAdapter;
+    private HomeHotAdapter homeHotAdapter;
 
     private String url_choice = HttpUrlPre.HTTP_URL_ + "/select/reading/index/choice/list";
     private String url_list = HttpUrlPre.HTTP_URL_ + "/select/reading/index/recommend/list";
@@ -73,7 +68,7 @@ public class ReadRecommendationFragment extends Fragment implements PullListener
 
     private void initView() {
         mRecycleView = view.findViewById(R.id.rcv_recommend);
-        readRecommendationAdapter = new ReadRecommendationAdapter(mListData,mChoiceData,getContext());
+        homeHotAdapter = new HomeHotAdapter(mListData,mChoiceData,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         mRecycleView.setHeadRefreshView(new SimpleRefreshHeadView(getContext()))
@@ -82,7 +77,7 @@ public class ReadRecommendationFragment extends Fragment implements PullListener
                 .setPullLayoutManager(layoutManager)
                 .setPullListener(this)
                 .setPullItemAnimator(null)
-                .build(readRecommendationAdapter);
+                .build(homeHotAdapter);
 
         mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -102,7 +97,7 @@ public class ReadRecommendationFragment extends Fragment implements PullListener
             }
         });
 
-        readRecommendationAdapter.setOnItemClickListener(new ReadRecommendationAdapter.OnItemClickListener() {
+        homeHotAdapter.setOnItemClickListener(new HomeHotAdapter.OnItemClickListener() {
             @Override
             public void onClick(int type, String id, String flag,String imgUrl) {
                 Intent intent = new Intent(getContext(), ArticleDetailActivityTest.class);
@@ -133,7 +128,7 @@ public class ReadRecommendationFragment extends Fragment implements PullListener
                     public void onReqSuccess(Object result) {
                         ReaderChoiceBean readerChoiceBean = GsonUtil.GsonToBean(result.toString(),ReaderChoiceBean.class);
                         mChoiceData = readerChoiceBean.getData().getEssayList();
-                        readRecommendationAdapter.setChoiceData(mChoiceData);
+                        homeHotAdapter.setChoiceData(mChoiceData);
                     }
 
                     @Override
@@ -165,11 +160,11 @@ public class ReadRecommendationFragment extends Fragment implements PullListener
                         if(isRefresh){
 //                            Toast.makeText(getContext(),"hahhaha",Toast.LENGTH_SHORT).show();
                             if(mListData != null)
-                                readRecommendationAdapter.refreshData(mListData);
+                                homeHotAdapter.refreshData(mListData);
                             mRecycleView.onPullComplete();
                         } else{
                             if(mListData != null)
-                                readRecommendationAdapter.addData(mListData);
+                                homeHotAdapter.addData(mListData);
                         }
                     }
 

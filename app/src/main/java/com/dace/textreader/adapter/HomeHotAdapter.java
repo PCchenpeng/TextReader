@@ -30,18 +30,19 @@ import com.github.rubensousa.gravitysnaphelper.GravityPagerSnapHelper;
 
 import java.util.List;
 
-public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<ReaderRecommendationBean.DataBean> itemList;
     private List<ReaderChoiceBean.DataBean.EssayListBean> choiceList;
 
     private final int TYPE_HEAD = 1;
-    private final int TYPE_DES = 2;
+    private final int TYPE_TWO = 2;
+    private final int TYPE_DES = 3;
 
     private Context context;
 
-    public ReadRecommendationAdapter(List<ReaderRecommendationBean.DataBean> itemList,
-                                     List<ReaderChoiceBean.DataBean.EssayListBean> choiceList,Context context){
+    public HomeHotAdapter(List<ReaderRecommendationBean.DataBean> itemList,
+                          List<ReaderChoiceBean.DataBean.EssayListBean> choiceList, Context context){
         this.itemList = itemList;
         this.choiceList = choiceList;
         this.context = context;
@@ -73,9 +74,13 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
                 view = LayoutInflater.from(context).inflate(
                         R.layout.item_readrecommendation_1, viewGroup, false);
                 return new TopHolder(view);
-            case TYPE_DES:
+            case TYPE_TWO:
                 view = LayoutInflater.from(context).inflate(
                         R.layout.item_readrecommendation_2, viewGroup, false);
+                return new TwoHolder(view);
+            case TYPE_DES:
+                view = LayoutInflater.from(context).inflate(
+                        R.layout.item_readrecommendation_3, viewGroup, false);
                 return new ItemHolder(view);
             default:
                 return null;
@@ -87,14 +92,6 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
         int viewType = getItemViewType(i);
         switch (viewType){
             case TYPE_HEAD:
-                ChoiceAdapter choiceAdapter = new ChoiceAdapter(choiceList,context);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(context,
-                        LinearLayoutManager.HORIZONTAL, false);
-                ((TopHolder)viewHolder).rcl_banner.setLayoutManager(layoutManager);
-                SnapHelper snapHelper= new GravityPagerSnapHelper(Gravity.START);
-                snapHelper.attachToRecyclerView(((TopHolder)viewHolder).rcl_banner);
-                ((TopHolder)viewHolder).rcl_banner.setAdapter(choiceAdapter);
-
                 String tabData = PreferencesUtil.getData(context,"readerTab","").toString();
                 final ReaderTabBean readerTabBean = GsonUtil.GsonToBean(tabData,ReaderTabBean.class);
 
@@ -143,66 +140,76 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
                 });
 
                 break;
+            case TYPE_TWO:
+                ChoiceAdapter choiceAdapter = new ChoiceAdapter(choiceList,context);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(context,
+                        LinearLayoutManager.HORIZONTAL, false);
+                ((TwoHolder)viewHolder).rcl_banner.setLayoutManager(layoutManager);
+                SnapHelper snapHelper= new GravityPagerSnapHelper(Gravity.START);
+                snapHelper.attachToRecyclerView(((TwoHolder)viewHolder).rcl_banner);
+                ((TwoHolder)viewHolder).rcl_banner.setAdapter(choiceAdapter);
+                ((TwoHolder)viewHolder).rcl_banner.setNestedScrollingEnabled(false);
+                break;
             case TYPE_DES:
-                GlideUtils.loadImage(context, itemList.get(i-1).getAlbumCover(),
+                GlideUtils.loadImage(context, itemList.get(i-2).getAlbumCover(),
                         ((ItemHolder) viewHolder).iv_big_1);
-                ((ItemHolder)viewHolder).tv_big_title.setText(itemList.get(i-1).getAlbumTitle());
+                ((ItemHolder)viewHolder).tv_big_title.setText(itemList.get(i-2).getAlbumTitle());
 
                 GlideApp.with(context)
-                        .load(itemList.get(i-1).getAlbumCover())
+                        .load(itemList.get(i-2).getAlbumCover())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .preload();
                 ((ItemHolder) viewHolder).iv_big_1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(onItemClickListener != null)
-                            onItemClickListener.onClick(1,"","",itemList.get(i-1).getAlbumCover());
+                            onItemClickListener.onClick(1,"","",itemList.get(i-2).getAlbumCover());
                     }
                 });
 
 
-                ((ItemHolder)viewHolder).tv_title_1.setText(itemList.get(i-1).getArticleList().get(0).getTitle());
-                ((ItemHolder)viewHolder).tv_des_1.setText(itemList.get(i-1).getArticleList().get(0).getSubContent());
+                ((ItemHolder)viewHolder).tv_title_1.setText(itemList.get(i-2).getArticleList().get(0).getTitle());
+                ((ItemHolder)viewHolder).tv_des_1.setText(itemList.get(i-2).getArticleList().get(0).getSubContent());
 
                 GlideApp.with(context)
-                        .load(itemList.get(i-1).getArticleList().get(0).getImage())
+                        .load(itemList.get(i-2).getArticleList().get(0).getImage())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .preload();
 
-                GlideUtils.loadImage(context, itemList.get(i-1).getArticleList().get(0).getImage(),
+                GlideUtils.loadImage(context, itemList.get(i-2).getArticleList().get(0).getImage(),
                         ((ItemHolder) viewHolder).iv_small_1);
 
-                GlideUtils.loadHomeUserImage(context, itemList.get(i-1).getArticleList().get(0).getSourceImage(),
+                GlideUtils.loadHomeUserImage(context, itemList.get(i-2).getArticleList().get(0).getSourceImage(),
                         ((ItemHolder) viewHolder).iv_source_1);
-                ((ItemHolder)viewHolder).tv_source_1.setText(itemList.get(i-1).getArticleList().get(0).getSource());
-                ((ItemHolder)viewHolder).tv_type_1.setText(itemList.get(i-1).getArticleList().get(0).getSource());
+                ((ItemHolder)viewHolder).tv_source_1.setText(itemList.get(i-2).getArticleList().get(0).getSource());
+                ((ItemHolder)viewHolder).tv_type_1.setText(itemList.get(i-2).getArticleList().get(0).getSource());
 
 
-                if(itemList.get(i-1).getArticleList().size() ==1){
+                if(itemList.get(i-2).getArticleList().size() ==1){
                         ((ItemHolder)viewHolder).ll_item_2.setVisibility(View.GONE);
-                    }else if(itemList.get(i-1).getArticleList().size() ==2){
+                    }else if(itemList.get(i-2).getArticleList().size() ==2){
                     ((ItemHolder)viewHolder).ll_item_2.setVisibility(View.VISIBLE);
-                    ((ItemHolder)viewHolder).tv_title_2.setText(itemList.get(i-1).getArticleList().get(1).getTitle());
-                    ((ItemHolder)viewHolder).tv_des_2.setText(itemList.get(i-1).getArticleList().get(1).getSubContent());
+                    ((ItemHolder)viewHolder).tv_title_2.setText(itemList.get(i-2).getArticleList().get(1).getTitle());
+                    ((ItemHolder)viewHolder).tv_des_2.setText(itemList.get(i-2).getArticleList().get(1).getSubContent());
 
                     GlideApp.with(context)
-                            .load(itemList.get(i-1).getArticleList().get(1).getImage())
+                            .load(itemList.get(i-2).getArticleList().get(1).getImage())
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .preload();
 
-                    GlideUtils.loadImage(context, itemList.get(i-1).getArticleList().get(1).getImage(),
+                    GlideUtils.loadImage(context, itemList.get(i-2).getArticleList().get(1).getImage(),
                             ((ItemHolder) viewHolder).iv_small_2);
-                    GlideUtils.loadHomeUserImage(context, itemList.get(i-1).getArticleList().get(1).getSourceImage(),
+                    GlideUtils.loadHomeUserImage(context, itemList.get(i-2).getArticleList().get(1).getSourceImage(),
                             ((ItemHolder) viewHolder).iv_source_2);
-                    ((ItemHolder)viewHolder).tv_source_2.setText(itemList.get(i-1).getArticleList().get(1).getSource());
-                    ((ItemHolder)viewHolder).tv_type_2.setText(itemList.get(i-1).getArticleList().get(1).getSource());
+                    ((ItemHolder)viewHolder).tv_source_2.setText(itemList.get(i-2).getArticleList().get(1).getSource());
+                    ((ItemHolder)viewHolder).tv_type_2.setText(itemList.get(i-2).getArticleList().get(1).getSource());
                 }
 
                 ((ItemHolder) viewHolder).ll_item_1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(onItemClickListener != null)
-                        onItemClickListener.onClick(1,"","",itemList.get(i-1).getArticleList().get(0).getImage());
+                        onItemClickListener.onClick(1,"","",itemList.get(i-2).getArticleList().get(0).getImage());
                     }
                 });
 
@@ -210,7 +217,7 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
                     @Override
                     public void onClick(View v) {
                         if(onItemClickListener != null)
-                            onItemClickListener.onClick(1,"","",itemList.get(i-1).getArticleList().get(1).getImage());
+                            onItemClickListener.onClick(1,"","",itemList.get(i-2).getArticleList().get(1).getImage());
                     }
                 });
 
@@ -223,6 +230,8 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
     public int getItemViewType(int position){
         if(position == 0){
             return TYPE_HEAD;
+        }else if (position == 1){
+            return TYPE_TWO;
         }else {
             return TYPE_DES;
         }
@@ -231,13 +240,12 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemCount() {
-        return itemList == null ? 1 : itemList.size()+1;
+        return itemList == null ? 0 : itemList.size()+2;
     }
 
     class TopHolder extends RecyclerView.ViewHolder{
         RelativeLayout rl_search;
         LinearLayout ll_tab_1, ll_tab_2, ll_tab_3, ll_tab_4;
-        RecyclerView rcl_banner;
          TopHolder(@NonNull View itemView) {
             super(itemView);
              rl_search =  itemView.findViewById(R.id.rl_search);
@@ -245,7 +253,14 @@ public class ReadRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
              ll_tab_2 = itemView.findViewById(R.id.ll_story);
              ll_tab_3 = itemView.findViewById(R.id.ll_science);
              ll_tab_4 = itemView.findViewById(R.id.ll_excellent);
-             rcl_banner = itemView.findViewById(R.id.rlv_banner);
+        }
+    }
+
+    class TwoHolder extends RecyclerView.ViewHolder{
+        RecyclerView rcl_banner;
+        public TwoHolder(@NonNull View itemView) {
+            super(itemView);
+            rcl_banner = itemView.findViewById(R.id.rlv_banner);
         }
     }
 

@@ -626,14 +626,6 @@ public class WritingWorkActivity extends BaseActivity {
         startActivityForResult(intent, 0);
     }
 
-    /**
-     * 显示提示信息
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     /**
      * 获取数据

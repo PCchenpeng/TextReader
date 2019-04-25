@@ -2484,14 +2484,7 @@ public class CompositionDetailActivity extends BaseActivity {
     }
 
 
-    /**
-     * 显示提示信息
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
+
 
     /**
      * 获取作文详情

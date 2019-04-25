@@ -603,13 +603,4 @@ public class UserInfoChangeActivity extends BaseActivity {
         showTips(tips);
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
-
 }

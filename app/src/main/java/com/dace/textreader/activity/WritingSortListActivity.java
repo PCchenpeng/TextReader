@@ -380,14 +380,6 @@ public class WritingSortListActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 显示提示
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     /**
      * 获取作文列表

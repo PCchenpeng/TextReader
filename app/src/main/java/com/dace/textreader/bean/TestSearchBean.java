@@ -6,12 +6,12 @@ public class TestSearchBean {
     /**
      * status : 200
      * msg : OK
-     * data : [{"id":2,"tip":"描写秋天的诗歌","time":null,"status":1},{"id":3,"tip":"春天的成语","time":null,"status":1},{"id":4,"tip":"我想知道三个金念什么","time":null,"status":1},{"id":5,"tip":"我想看看形容快乐的成语","time":null,"status":1},{"id":6,"tip":"鬼字组词","time":null,"status":1}]
+     * data : {"randomId":3,"tipList":[{"id":2,"tip":"描写秋天的诗歌","time":1533535981000,"status":1},{"id":3,"tip":"春天的成语","time":1533535981000,"status":1},{"id":4,"tip":"我想知道三个金念什么","time":1533535981000,"status":1},{"id":5,"tip":"我想看看形容快乐的成语","time":1533535981000,"status":1},{"id":21,"tip":"搜索一下关于爱情的诗句","time":1533535981000,"status":1},{"id":22,"tip":"描写秋天的诗歌","time":1533535981000,"status":1}]}
      */
 
     private int status;
     private String msg;
-    private List<DataBean> data;
+    private DataBean data;
 
     public int getStatus() {
         return status;
@@ -29,57 +29,83 @@ public class TestSearchBean {
         this.msg = msg;
     }
 
-    public List<DataBean> getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
     public static class DataBean {
         /**
-         * id : 2
-         * tip : 描写秋天的诗歌
-         * time : null
-         * status : 1
+         * randomId : 3
+         * tipList : [{"id":2,"tip":"描写秋天的诗歌","time":1533535981000,"status":1},{"id":3,"tip":"春天的成语","time":1533535981000,"status":1},{"id":4,"tip":"我想知道三个金念什么","time":1533535981000,"status":1},{"id":5,"tip":"我想看看形容快乐的成语","time":1533535981000,"status":1},{"id":21,"tip":"搜索一下关于爱情的诗句","time":1533535981000,"status":1},{"id":22,"tip":"描写秋天的诗歌","time":1533535981000,"status":1}]
          */
 
-        private int id;
-        private String tip;
-        private Object time;
-        private int status;
+        private int randomId;
+        private List<TipListBean> tipList;
 
-        public int getId() {
-            return id;
+        public int getRandomId() {
+            return randomId;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public void setRandomId(int randomId) {
+            this.randomId = randomId;
         }
 
-        public String getTip() {
-            return tip;
+        public List<TipListBean> getTipList() {
+            return tipList;
         }
 
-        public void setTip(String tip) {
-            this.tip = tip;
+        public void setTipList(List<TipListBean> tipList) {
+            this.tipList = tipList;
         }
 
-        public Object getTime() {
-            return time;
-        }
+        public static class TipListBean {
+            /**
+             * id : 2
+             * tip : 描写秋天的诗歌
+             * time : 1533535981000
+             * status : 1
+             */
 
-        public void setTime(Object time) {
-            this.time = time;
-        }
+            private int id;
+            private String tip;
+            private long time;
+            private int status;
 
-        public int getStatus() {
-            return status;
-        }
+            public int getId() {
+                return id;
+            }
 
-        public void setStatus(int status) {
-            this.status = status;
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getTip() {
+                return tip;
+            }
+
+            public void setTip(String tip) {
+                this.tip = tip;
+            }
+
+            public long getTime() {
+                return time;
+            }
+
+            public void setTime(long time) {
+                this.time = time;
+            }
+
+            public int getStatus() {
+                return status;
+            }
+
+            public void setStatus(int status) {
+                this.status = status;
+            }
         }
     }
 }

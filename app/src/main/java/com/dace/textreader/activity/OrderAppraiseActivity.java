@@ -202,9 +202,6 @@ public class OrderAppraiseActivity extends BaseActivity {
         showTips("提交评价失败,请检查网络设置");
     }
 
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     private void closeActivity() {
         Intent intent = new Intent();

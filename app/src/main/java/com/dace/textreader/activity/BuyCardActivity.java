@@ -457,13 +457,6 @@ public class BuyCardActivity extends BaseActivity {
     }
 
     /**
-     * 显示提示信息
-     */
-    private void showTips(String tip) {
-        MyToastUtil.showToast(mContext, tip);
-    }
-
-    /**
      * 获取列表数据
      */
     private static class GetData

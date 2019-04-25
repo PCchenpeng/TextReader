@@ -11,19 +11,15 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
-import com.dace.textreader.adapter.ReaderTabSelectAdapter;
 import com.dace.textreader.bean.ReaderTabBean;
-import com.dace.textreader.fragment.ReadRecommendationFragment;
 import com.dace.textreader.fragment.ReaderTabAlbumFragment;
 import com.dace.textreader.fragment.ReaderTabSelectFragment;
-import com.dace.textreader.util.GsonUtil;
-import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.view.MyRefreshHeader;
-import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -46,6 +42,7 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
     private int currentIndex;
     private ImageView iv_img;
     private ReaderTabBean readerTabBean;
+    private RelativeLayout rl_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +51,15 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
 //
         loadData();
         initView();
+        initEvents();
 
     }
+
+
+
     private void initView() {
         smartRefreshLayout = findViewById(R.id.smart_refresh);
+        rl_back = findViewById(R.id.rl_back);
         iv_img = findViewById(R.id.iv_img);
         GlideApp.with(this)
                 .load(imgUrl)
@@ -118,6 +120,10 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    private void initEvents() {
+        rl_back.setOnClickListener(this);
+    }
+
     private void loadData(){
         type = getIntent().getStringExtra("type");
         imgUrl = getIntent().getStringExtra("imgurl");
@@ -128,6 +134,11 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+        switch (v.getId()){
+            case R.id.rl_back:
+                finish();
+                break;
+        }
     }
 
 

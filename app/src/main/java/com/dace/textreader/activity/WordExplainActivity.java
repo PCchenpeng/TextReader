@@ -746,15 +746,6 @@ public class WordExplainActivity extends BaseActivity {
     }
 
     /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(this, tips);
-    }
-
-    /**
      * 添加摘抄内容
      */
     private static class AddExcerpt

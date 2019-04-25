@@ -338,14 +338,6 @@ public class SystemNewsActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    /**
-     * 显示提示信息
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     /**
      * 获取数据

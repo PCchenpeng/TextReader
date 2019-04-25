@@ -25,6 +25,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.AbilityAnalysisActivity;
 import com.dace.textreader.activity.BoughtLessonActivity;
+import com.dace.textreader.activity.ContactActivity;
 import com.dace.textreader.activity.ExcerptActivity;
 import com.dace.textreader.activity.GlossaryActivity;
 import com.dace.textreader.activity.InviteActivity;
@@ -89,7 +90,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout rl_member_centre;
     private ImageView iv_member_centre;
 
-    private LinearLayout ll_wallet;
+    private RelativeLayout rl_wallet,rl_contact;
     private LinearLayout ll_writing;
     private LinearLayout ll_course;
 
@@ -103,8 +104,8 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
     private LinearLayout ll_collection;
     private LinearLayout ll_weekRank;
     private LinearLayout ll_analysis;
-    private LinearLayout ll_bind_teacher;
-    private LinearLayout ll_invite_code;
+    private RelativeLayout rl_teacher;
+    private RelativeLayout rl_invite_code;
     private LinearLayout ll_settings;
 
     private String memberCardId = "";
@@ -176,7 +177,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
 
         rl_member_centre.setOnClickListener(this);
 
-        ll_wallet.setOnClickListener(this);
+        rl_wallet.setOnClickListener(this);
         ll_writing.setOnClickListener(this);
         ll_course.setOnClickListener(this);
 
@@ -188,9 +189,10 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
         ll_collection.setOnClickListener(this);
         ll_weekRank.setOnClickListener(this);
         ll_analysis.setOnClickListener(this);
-        ll_bind_teacher.setOnClickListener(this);
-        ll_invite_code.setOnClickListener(this);
+        rl_teacher.setOnClickListener(this);
+        rl_invite_code.setOnClickListener(this);
         ll_settings.setOnClickListener(this);
+        rl_contact.setOnClickListener(this);
     }
 
     private void initView() {
@@ -206,7 +208,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
         rl_member_centre = view.findViewById(R.id.rl_member_centre_new_mine);
         iv_member_centre = view.findViewById(R.id.iv_member_centre_new_mine);
 
-        ll_wallet = view.findViewById(R.id.ll_new_wallet_new_mine);
+        rl_wallet = view.findViewById(R.id.rl_wallet);
         ll_writing = view.findViewById(R.id.ll_new_writing_new_mine);
         ll_course = view.findViewById(R.id.ll_new_course_new_mine);
 
@@ -221,9 +223,10 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
         ll_collection = view.findViewById(R.id.ll_new_connection_new_mine);
         ll_weekRank = view.findViewById(R.id.ll_week_rank_new_mine);
         ll_analysis = view.findViewById(R.id.ll_new_analysis_new_mine);
-        ll_bind_teacher = view.findViewById(R.id.ll_bind_teacher_new_mine);
-        ll_invite_code = view.findViewById(R.id.ll_new_invite_new_mine);
+        rl_teacher = view.findViewById(R.id.rl_teacher);
+        rl_invite_code = view.findViewById(R.id.rl_invite_code);
         ll_settings = view.findViewById(R.id.ll_new_settings_new_mine);
+        rl_contact = view.findViewById(R.id.rl_contact);
 
         if (getContext() == null) {
             return;
@@ -248,7 +251,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
             case R.id.rl_member_centre_new_mine:
                 turnToMemberCentre();
                 break;
-            case R.id.ll_new_wallet_new_mine:
+            case R.id.rl_wallet:
                 turnToWalletView();
                 break;
             case R.id.ll_new_writing_new_mine:
@@ -278,14 +281,17 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
             case R.id.ll_new_analysis_new_mine:
                 turnToAnalysisView();
                 break;
-            case R.id.ll_bind_teacher_new_mine:
+            case R.id.rl_teacher:
                 turnToBindTeacherView();
                 break;
-            case R.id.ll_new_invite_new_mine:
+            case R.id.rl_invite_code:
                 turnToInviteCodeView();
                 break;
             case R.id.ll_new_settings_new_mine:
                 turnToSettingsView();
+                break;
+            case R.id.rl_contact:
+                startActivity(new Intent(getContext(), ContactActivity.class));
                 break;
         }
     }

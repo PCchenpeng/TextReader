@@ -6,6 +6,9 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,11 +52,14 @@ import com.dace.textreader.bean.AudioArticleBean;
 import com.dace.textreader.bean.H5DataBean;
 import com.dace.textreader.bean.WordDetailBean;
 import com.dace.textreader.bean.WordListBean;
+import com.dace.textreader.listen.OnListDataOperateListen;
 import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.ImageUtils;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.ShareUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.LineWrapLayout;
 import com.dace.textreader.view.StatusBarHeightView;
@@ -71,6 +77,8 @@ import com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeHandler;
 import com.dace.textreader.view.weight.pullrecycler.mywebview.CallBackFunction;
 import com.google.gson.JsonObject;
 import com.shuyu.action.web.ActionSelectListener;
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.share.WbShareHandler;
 import com.suke.widget.SwitchButton;
 
 import org.json.JSONException;
@@ -90,6 +98,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private String wordDetailUrl = HttpUrlPre.HTTP_URL_ + "/select/fire/word/annotation";
     private String addWordUrl = HttpUrlPre.HTTP_URL_ + "/insert/raw/word";
     private String addNoteUrl = HttpUrlPre.HTTP_URL_ + "/insert/article/note";
+    private String collectUrl = HttpUrlPre.HTTP_URL_ + "/insert/essay/collect";
+    private String deleteCollectUrl = HttpUrlPre.HTTP_URL_ + "/delete/essay/collect" ;
     private String essayId;
     private String title;
 
@@ -124,6 +134,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private boolean isVideo;
     private BDVideoView view_video;
     private VideoDetailInfo videoInfo;
+    private boolean isCollected;
+    private boolean isPageComplete;
 
     /**
      * 播放器
@@ -132,6 +144,19 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private Thread musicThread;
 
     private String url;
+
+    private int type_share = -1;  //分享类型
+    private final int TYPE_SHARE_WX_FRIEND = 1;  //微信好友
+    private final int TYPE_SHARE_WX_FRIENDS = 2;  //微信朋友圈
+    private final int TYPE_SHARE_QQ = 3;  //qq
+    private final int TYPE_SHARE_QZone = 4;  //qq空间
+    private final int TYPE_SHARE_LINK = 5;  //复制链接
+    private final int TYPE_SHARE_Weibo = 6;
+
+    private WbShareHandler shareHandler;
+
+    private OnListDataOperateListen mListen;
+    private String content = "";
 
 
 
@@ -146,6 +171,10 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 //        StatusBarUtil.StatusBarLightMode(this, flag);
 
         mPlayer = new MediaPlayer();
+//        play("http://media.pythe.cn/xd/bdshiwen/audio/61635597367967.mp3");
+        shareHandler = new WbShareHandler(this);
+        shareHandler.registerApp();
+        shareHandler.setProgressColor(Color.parseColor("#ff9933"));
         initData();
         initView();
         initEvents();
@@ -372,11 +401,24 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 String mData = data.replace("\\/","/");
 
                 h5DataBean = GsonUtil.GsonToBean(mData,H5DataBean.class);
+                if(h5DataBean != null){
+                    isPageComplete = true;
+                }else {
+                    isPageComplete = false;
+                }
                 title = h5DataBean.getTitle();
                 videoInfo = new VideoDetailInfo();
                 videoInfo.setTitle(title);
                 if(h5DataBean.getVideo() != null)
                 videoInfo.setVideoPath(h5DataBean.getVideo().toString());
+                isCollected = h5DataBean.getCollectOrNot() == 1;
+                if(isCollected){
+                    iv_collect.setImageResource(R.drawable.nav_icon_collect_select);
+                    iv_collect_copy.setImageResource(R.drawable.icon_bg_collect_select);
+                }else {
+                    iv_collect.setImageResource(R.drawable.nav_icon_collect_default);
+                    iv_collect_copy.setImageResource(R.drawable.icon_bg_collect_default);
+                }
                 function.onCallBack("123");
             }
         });
@@ -1066,10 +1108,24 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.iv_collect:
             case R.id.iv_collect_copy:
+                if(isPageComplete){
+                    if(isCollected)
+                        deleteCollect();
+                    else
+                        collectedArticle();
+                }else {
+                    showTips("请等待页面加载完成");
+                }
+
                 break;
             case R.id.iv_share:
             case R.id.iv_share_copy:
-                break;
+                if (isPageComplete){
+                    shareNote("");
+                }else {
+                    showTips("请等待页面加载完成");
+                }
+                 break;
             case R.id.rl_font:
                 showSettingsDialog();
                 break;
@@ -1085,8 +1141,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
                         @Override
                         public boolean onResourceReady(GifDrawable resource, Object model, Target<GifDrawable> target, DataSource dataSource, boolean isFirstResource) {
-
-
                             try {
                                 Field gifStateField = GifDrawable.class.getDeclaredField("state");
                                 gifStateField.setAccessible(true);
@@ -1214,6 +1268,76 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    private void collectedArticle() {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("essayId",essayId);
+            params.put("gradeId",NewMainActivity.GRADE_ID);
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpManager.getInstance(this).requestAsyn(collectUrl,OkHttpManager.TYPE_POST_JSON,params,new OkHttpManager.ReqCallBack<Object>(){
+            @Override
+            public void onReqSuccess(Object result) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(result.toString());
+                    if (jsonObject.getString("status").equals("200")){
+                        showTips("收藏成功");
+                        isCollected = true;
+                        iv_collect.setImageResource(R.drawable.nav_icon_collect_select);
+                        iv_collect_copy.setImageResource(R.drawable.icon_bg_collect_select);
+                    }else  if (jsonObject.getString("status").equals("400")){
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
+    }
+
+    private void deleteCollect() {
+        JSONObject params = new JSONObject();
+        String essayids  = "["+essayId+"]";
+        try {
+            params.put("essayId",essayids);
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpManager.getInstance(this).requestAsyn(deleteCollectUrl,OkHttpManager.TYPE_POST_JSON,params,new OkHttpManager.ReqCallBack<Object>(){
+            @Override
+            public void onReqSuccess(Object result) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(result.toString());
+                    if (jsonObject.getString("status").equals("200")){
+                        showTips("删除收藏成功");
+                        iv_collect.setImageResource(R.drawable.nav_icon_collect_default);
+                        iv_collect_copy.setImageResource(R.drawable.icon_bg_collect_default);
+                    }else  if (jsonObject.getString("status").equals("400")){
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
+    }
 
 
     /**
@@ -1309,6 +1433,112 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         } else {
             super.onBackPressed();
         }
+    }
+
+    /**
+     * 分享笔记
+     */
+    private void shareNote(final String noteId) {
+        type_share = -1;
+        NiceDialog.init()
+                .setLayoutId(R.layout.dialog_share_layout)
+                .setConvertListener(new ViewConvertListener() {
+                    @Override
+                    protected void convertView(ViewHolder holder, final BaseNiceDialog dialog) {
+                        holder.setOnClickListener(R.id.share_cancel, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_wechat, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getShareHtml(TYPE_SHARE_WX_FRIEND, noteId);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_weixinpyq, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getShareHtml(TYPE_SHARE_WX_FRIENDS, noteId);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_weibo, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (WbSdk.isWbInstall(ArticleDetailActivity.this)) {
+                                    getShareHtml(TYPE_SHARE_Weibo, noteId);
+                                } else {
+                                    showTips("请先安装微博");
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_qq, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getShareHtml(TYPE_SHARE_QQ, noteId);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_qzone, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getShareHtml(TYPE_SHARE_QZone, noteId);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_link, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getShareHtml(TYPE_SHARE_LINK, noteId);
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setDimAmount(0.3f)
+                .setShowBottom(true)
+                .show(getSupportFragmentManager());
+    }
+
+    /**
+     * 获取分享链接
+     *
+     * @param type_share
+     */
+    private void getShareHtml(int type_share, String noteId) {
+        this.type_share = type_share;
+        showTips("正在准备分享内容...");
+//        new GetShareHtml(this).execute(shareUrl, noteId);
+    }
+
+    /**
+     * 分享到QQ空间
+     */
+    private void shareToQZone(String url) {
+        ShareUtil.shareToQZone(this, url, title, content, HttpUrlPre.SHARE_APP_ICON);
+    }
+
+    /**
+     * 分享笔记到微信
+     *
+     * @param friend true为分享到好友，false为分享到朋友圈
+     */
+    private void shareArticleToWX(boolean friend, String url) {
+        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+
+        ShareUtil.shareToWx(this, url, title, content,
+                ImageUtils.bmpToByteArray(thumb, true), friend);
+    }
+
+    /**
+     * 分享到QQ好友
+     */
+    private void shareToQQ(String url) {
+        ShareUtil.shareToQQ(this, url, title, content, HttpUrlPre.SHARE_APP_ICON);
     }
 
 

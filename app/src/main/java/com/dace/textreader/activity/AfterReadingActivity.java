@@ -316,9 +316,6 @@ public class AfterReadingActivity extends BaseActivity {
         }
     }
 
-    private void showTips(String s) {
-        MyToastUtil.showToast(mContext, s);
-    }
 
     /**
      * 获取数据

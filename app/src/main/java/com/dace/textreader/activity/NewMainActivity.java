@@ -49,7 +49,6 @@ import com.dace.textreader.fragment.NewHomeFragment;
 import com.dace.textreader.fragment.NewLessonFragment;
 import com.dace.textreader.fragment.NewMineFragment;
 import com.dace.textreader.fragment.NewReaderFragment;
-import com.dace.textreader.fragment.ReadTextBookFragment;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
@@ -1222,14 +1221,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     @Override
     public void onBackPressed() {

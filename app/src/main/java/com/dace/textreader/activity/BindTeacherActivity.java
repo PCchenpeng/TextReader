@@ -164,14 +164,7 @@ public class BindTeacherActivity extends BaseActivity {
         showTips("未搜索到老师");
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
+
 
     /**
      * 获取老师数据

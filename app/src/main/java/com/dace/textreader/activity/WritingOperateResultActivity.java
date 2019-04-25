@@ -625,14 +625,6 @@ public class WritingOperateResultActivity extends BaseActivity implements View.O
     }
 
 
-    /**
-     * 显示提示信息
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     @Override
     protected void onDestroy() {

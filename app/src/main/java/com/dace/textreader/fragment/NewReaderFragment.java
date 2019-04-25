@@ -57,18 +57,25 @@ public class NewReaderFragment extends Fragment {
     }
 
     private void initData() {
-        mList_title.add("推荐");
-        mList_title.add("分级");
-        mList_title.add("课文");
+        mList_title.add("精选");
+        mList_title.add("更新");
+        mList_title.add("关注");
 
-        ReadRecommendationFragment readRecommendationFragment = new ReadRecommendationFragment();
-        mList_fragment.add(readRecommendationFragment);
-        ReaderLevelFragment readerLevelFragment = new ReaderLevelFragment();
-        mList_fragment.add(readerLevelFragment);
+//        ReadRecommendationFragment readRecommendationFragment = new ReadRecommendationFragment();
+//        mList_fragment.add(readRecommendationFragment);
+//        ReaderLevelFragment readerLevelFragment = new ReaderLevelFragment();
+//        mList_fragment.add(readerLevelFragment);
 //        ReaderFragment readerFragment = new ReaderFragment();
 //        mList_fragment.add(readerFragment);
-        ReadTextBookFragment readTextBookFragment = new ReadTextBookFragment();
-        mList_fragment.add(readTextBookFragment);
+//        ReadTextBookFragment readTextBookFragment = new ReadTextBookFragment();
+//        mList_fragment.add(readTextBookFragment);
+        NewHomeRecommendationFragment homeRecommendationFragment = new NewHomeRecommendationFragment();
+        mList_fragment.add(homeRecommendationFragment);
+        HomeFindFragment homeFindFragment = new HomeFindFragment();
+        mList_fragment.add(homeFindFragment);
+        HomeFollowFragment homeFollowFragment = new HomeFollowFragment();
+        mList_fragment.add(homeFollowFragment);
+
     }
 
     @Override
@@ -83,19 +90,7 @@ public class NewReaderFragment extends Fragment {
         viewPager = view.findViewById(R.id.view_pager_new_reader_fragment);
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
-        tabLayout.setCustomTabView(R.layout.test_1,R.id.tv_test,1);
         tabLayout.setViewPager(viewPager);
-
-        tabLayout.setOnTabClickListener(new SmartTabLayout.OnTabClickListener(){
-            @Override
-            public void onTabClicked(int position) {
-                if(position == 1 && onTabLevelClickListener != null){
-                    onTabLevelClickListener.onClick();
-                }
-            }
-        });
-
-
     }
 
     private void initEvents() {
@@ -138,13 +133,4 @@ public class NewReaderFragment extends Fragment {
         }
     }
 
-    public interface OnTabLevelClickListener{
-        void onClick();
-    }
-
-    OnTabLevelClickListener onTabLevelClickListener;
-
-    public void setOnTabLevelClickListener(OnTabLevelClickListener onTabLevelClickListener) {
-        this.onTabLevelClickListener = onTabLevelClickListener;
-    }
 }

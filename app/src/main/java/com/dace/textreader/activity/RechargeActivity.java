@@ -457,15 +457,6 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     };
 
     /**
-     * 显示提示
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
-
-    /**
      * 获取充值数据
      */
     private static class GetData

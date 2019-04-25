@@ -919,14 +919,7 @@ public class SubmitReviewActivity extends BaseActivity implements View.OnClickLi
         payThread.start();
     }
 
-    /**
-     * 显示提示信息
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
+
 
     /**
      * 提交批改

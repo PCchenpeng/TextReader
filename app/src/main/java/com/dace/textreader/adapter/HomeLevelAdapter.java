@@ -15,11 +15,11 @@ import com.dace.textreader.util.GlideUtils;
 
 import java.util.List;
 
-public class ReaderLevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class HomeLevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<ReaderLevelBean.DataBean.ArticleListBean> mData;
     private Context mContext;
-    public ReaderLevelAdapter(List<ReaderLevelBean.DataBean.ArticleListBean> data, Context context){
+    public HomeLevelAdapter(List<ReaderLevelBean.DataBean.ArticleListBean> data, Context context){
         this.mData = data;
         this.mContext = context;
     }

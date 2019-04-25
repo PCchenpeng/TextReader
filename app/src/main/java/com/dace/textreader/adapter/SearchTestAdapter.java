@@ -13,8 +13,8 @@ import java.util.List;
 
 public class SearchTestAdapter extends BaseAdapter {
     private Context context;
-    private List<TestSearchBean.DataBean> mData;
-    public SearchTestAdapter(Context context,List<TestSearchBean.DataBean> mData){
+    private List<TestSearchBean.DataBean.TipListBean> mData;
+    public SearchTestAdapter(Context context,List<TestSearchBean.DataBean.TipListBean> mData){
         this.context = context;
         this.mData = mData;
     }

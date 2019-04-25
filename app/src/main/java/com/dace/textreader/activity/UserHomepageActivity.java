@@ -928,15 +928,6 @@ public class UserHomepageActivity extends BaseActivity {
     }
 
     /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
-
-    /**
      * 获取用户信息
      */
     private static class GetUserInfo

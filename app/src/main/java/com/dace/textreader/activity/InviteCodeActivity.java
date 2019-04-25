@@ -262,14 +262,6 @@ public class InviteCodeActivity extends BaseActivity {
         showTips("网络错误，请稍后重试~");
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param s
-     */
-    private void showTips(String s) {
-        MyToastUtil.showToast(mContext, s);
-    }
 
     /**
      * 获取数据

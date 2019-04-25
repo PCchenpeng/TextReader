@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -61,10 +62,14 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 
     private SearchTestAdapter searchTestAdapter;
     private boolean isSpeeching = false;
+    private int randomId = -1;
 
 
     private String testUrl =HttpUrlPre.SEARCHE_URL +  "/search/select/search/tip/list";
     private String hotUrl = HttpUrlPre.SEARCHE_URL + "/search/select/search/word/list";
+    private String searchUrl = HttpUrlPre.SEARCHE_URL + "/search/search/full/text";
+    private Refreshpage resh = new Refreshpage();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +152,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     private void initData() {
         getTestData();
         getHotData();
+        resh.handler.postDelayed(resh.runnable, 5000);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -269,16 +275,23 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     private void getTestData() {
 
             JSONObject params = new JSONObject();
-            OkHttpManager.getInstance(this).requestAsyn(testUrl, OkHttpManager.TYPE_POST_JSON, params,
+        try {
+            params.put("randomId",randomId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(this).requestAsyn(testUrl, OkHttpManager.TYPE_POST_JSON, params,
                     new OkHttpManager.ReqCallBack<Object>() {
                         @Override
                         public void onReqSuccess(Object result) {
                             TestSearchBean testSearchBean = GsonUtil.GsonToBean(result.toString(),TestSearchBean.class);
-                            if(testSearchBean.getData() != null && testSearchBean.getData().size() > 0){
-                                tv_test.setText(testSearchBean.getData().get(0).getTip());
+                            if(testSearchBean.getData() != null && testSearchBean.getData().getTipList().size() > 0){
+                                tv_test.setText(testSearchBean.getData().getTipList().get(0).getTip());
+                                randomId = testSearchBean.getData().getRandomId();
+                                searchTestAdapter = new SearchTestAdapter(NewSearchActivity.this,testSearchBean.getData().getTipList());
+                                lv_test.setAdapter(searchTestAdapter);
                             }
-                            searchTestAdapter = new SearchTestAdapter(NewSearchActivity.this,testSearchBean.getData());
-                            lv_test.setAdapter(searchTestAdapter);
+
                         }
 
                         @Override
@@ -304,20 +317,18 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 
                         if(hotSearchBean.getData() != null){
                             for (int i = 0;i <hotSearchBean.getData().size();i++){
-                                for(int j = 0;j < 5;j++){
-                                    View child = View.inflate(NewSearchActivity.this,R.layout.item_search_hot,null);
-                                    TextView textView = child.findViewById(R.id.tv_num);
-                                    final String hotWord = hotSearchBean.getData().get(i).getWord();
-                                    textView.setText(hotSearchBean.getData().get(i).getWord());
-                                    lineWrapLayout.addView(child);
+                                View child = View.inflate(NewSearchActivity.this,R.layout.item_search_hot,null);
+                                TextView textView = child.findViewById(R.id.tv_num);
+                                final String hotWord = hotSearchBean.getData().get(i).getWord();
+                                textView.setText(hotSearchBean.getData().get(i).getWord());
+                                lineWrapLayout.addView(child);
 
-                                    child.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Toast.makeText(NewSearchActivity.this,hotWord,Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
+                                child.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Toast.makeText(NewSearchActivity.this,hotWord,Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
                             }
                         }
@@ -328,6 +339,31 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                     public void onReqFailed(String errorMsg) {
                     }
                 });
+    }
+
+    private void searchResult(String word){
+        JSONObject params = new JSONObject();
+        try {
+            params.put("query",word);
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("gradeId",NewMainActivity.GRADE_ID);
+            params.put("width",750);
+            params.put("height",420);
+            params.put("pageNum",1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(this).requestAsyn(searchUrl, OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
     }
 
 
@@ -538,5 +574,38 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     private void showTip(String tips) {
         MyToastUtil.showToast(this, tips);
     }
+
+    class Refreshpage {
+         Handler handler = new Handler();
+         Runnable runnable = new Runnable() {
+             @Override
+             public void run() {
+                                 // 要做的事情
+                 getTestData();
+                 handler.postDelayed(this, 5000);
+             }
+         };
+     }
+
+
+    @Override
+     public void onResume() {
+         // 回到Activity的时候重新开始刷新；
+         super.onResume();
+//         resh.handler.postDelayed(resh.runnable, 5000);
+     }
+
+     @Override
+     public void onPause() {
+         // 离开Activity的时候停止刷新；
+         super.onPause();
+         resh.handler.removeCallbacks(resh.runnable);
+     }
+
+     @Override
+     public void onDestroy() {
+         super.onDestroy();
+         resh.handler.removeCallbacks(resh.runnable);
+     }
 
 }

@@ -26,14 +26,24 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="交易明细"
-                android:textColor="@color/colorTextImportant"
-                android:textSize="14sp"/>
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp"/>
 
         </RelativeLayout>
 
     </RelativeLayout>
 
+    <com.dace.textreader.view.weight.pullrecycler.PullRecyclerView
+        android:id="@+id/rcl_wallet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+    </com.dace.textreader.view.weight.pullrecycler.PullRecyclerView>
+
     <ScrollView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

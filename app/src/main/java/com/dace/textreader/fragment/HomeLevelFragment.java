@@ -9,10 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.dace.textreader.R;
-import com.dace.textreader.adapter.ReaderLevelAdapter;
+import com.dace.textreader.adapter.HomeLevelAdapter;
 import com.dace.textreader.bean.ReaderLevelBean;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
@@ -28,13 +27,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderLevelFragment extends Fragment implements PullListener {
+public class HomeLevelFragment extends Fragment implements PullListener {
     private View view;
     private PullRecyclerView mRecycleView;
     private String url = HttpUrlPre.HTTP_URL_ + "/select/reading/py/list";
     private int pageNum = 1;
     private boolean isRefresh = true;
-    private ReaderLevelAdapter readerLevelAdapter;
+    private HomeLevelAdapter homeLevelAdapter;
     private List<ReaderLevelBean.DataBean.ArticleListBean> mData = new ArrayList<>();
     private boolean isVisibleToUser = false;
 
@@ -82,7 +81,7 @@ public class ReaderLevelFragment extends Fragment implements PullListener {
                                 mData.addAll(data);
                         }
 
-                        readerLevelAdapter.setData(mData);
+                        homeLevelAdapter.setData(mData);
 
                     }
 
@@ -95,16 +94,16 @@ public class ReaderLevelFragment extends Fragment implements PullListener {
 
     private void initView() {
 
-        NewReaderFragment newReaderFragment = (NewReaderFragment) getParentFragment();
-        newReaderFragment.setOnTabLevelClickListener(new NewReaderFragment.OnTabLevelClickListener() {
-            @Override
-            public void onClick() {
-                if(isVisibleToUser)
-                Toast.makeText(getContext(),"4545",Toast.LENGTH_SHORT).show();
-            }
-        });
+//        NewHomeFragment newHomeFragment = (NewHomeFragment) getParentFragment();
+//        newHomeFragment.setOnTabLevelClickListener(new OnTabLevelClickListener() {
+//            @Override
+//            public void onClick() {
+//                if(isVisibleToUser)
+//                Toast.makeText(getContext(),"4545",Toast.LENGTH_SHORT).show();
+//            }
+//        });
         mRecycleView = view.findViewById(R.id.rlv_reader_level);
-        readerLevelAdapter = new ReaderLevelAdapter(mData,getContext());
+        homeLevelAdapter = new HomeLevelAdapter(mData,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         mRecycleView.setHeadRefreshView(new SimpleRefreshHeadView(getContext()))
@@ -113,7 +112,7 @@ public class ReaderLevelFragment extends Fragment implements PullListener {
                 .setPullLayoutManager(layoutManager)
                 .setPullListener(this)
                 .setPullItemAnimator(null)
-                .build(readerLevelAdapter);
+                .build(homeLevelAdapter);
 
         mRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

@@ -595,14 +595,6 @@ public class NewCommentListActivity extends BaseActivity {
         showTips("删除评论失败");
     }
 
-    /**
-     * 显示提示信息
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     /**
      * 获取评论数据

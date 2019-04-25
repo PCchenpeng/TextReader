@@ -285,12 +285,6 @@ public class CouponActivity extends BaseActivity {
         showTips("无网络连接，请连接网络后重试");
     }
 
-    /**
-     * 显示提示信息
-     */
-    private void showTips(String tip) {
-        MyToastUtil.showToast(mContext, tip);
-    }
 
     /**
      * 兑换优惠券

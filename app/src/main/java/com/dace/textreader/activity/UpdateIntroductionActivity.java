@@ -124,14 +124,6 @@ public class UpdateIntroductionActivity extends BaseActivity {
         editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     private static class UpdateUserIntroduction
             extends WeakAsyncTask<String, Void, String, UpdateIntroductionActivity> {

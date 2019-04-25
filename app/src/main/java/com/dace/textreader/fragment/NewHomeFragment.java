@@ -68,7 +68,10 @@ public class NewHomeFragment extends Fragment {
 
     private void initData() {
         mList_title.add("推荐");
-        mList_title.add("创作");
+        mList_title.add("热门");
+        mList_title.add("分级");
+        mList_title.add("课文");
+
 
         RecommendFragment recommendFragment = new RecommendFragment();
         recommendFragment.setOnSearchMissListener(new RecommendFragment.OnSearchMissListener() {
@@ -83,8 +86,16 @@ public class NewHomeFragment extends Fragment {
             }
         });
         mList_fragment.add(recommendFragment);
-        HomeFragment homeFragment = new HomeFragment();
-        mList_fragment.add(homeFragment);
+//        HomeFragment homeFragment = new HomeFragment();
+//        mList_fragment.add(homeFragment);
+        HomeHotFragment homeHotFragment = new HomeHotFragment();
+        mList_fragment.add(homeHotFragment);
+        HomeLevelFragment homeLevelFragment = new HomeLevelFragment();
+        mList_fragment.add(homeLevelFragment);
+//        ReaderFragment readerFragment = new ReaderFragment();
+//        mList_fragment.add(readerFragment);
+        HomeTextBookFragment homeTextBookFragment = new HomeTextBookFragment();
+        mList_fragment.add(homeTextBookFragment);
     }
 
     @Override
@@ -100,7 +111,17 @@ public class NewHomeFragment extends Fragment {
         iv_search = view.findViewById(R.id.iv_search);
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
+        tabLayout.setCustomTabView(R.layout.test_1,R.id.tv_test,2);
         tabLayout.setViewPager(viewPager);
+
+        tabLayout.setOnTabClickListener(new SmartTabLayout.OnTabClickListener(){
+            @Override
+            public void onTabClicked(int position) {
+                if(position == 2 && onTabLevelClickListener != null){
+                    onTabLevelClickListener.onClick();
+                }
+            }
+        });
 
     }
 
@@ -142,5 +163,15 @@ public class NewHomeFragment extends Fragment {
         public void destroyItem(ViewGroup container, int position, Object object) {
 
         }
+    }
+
+    public interface OnTabLevelClickListener{
+        void onClick();
+    }
+
+    OnTabLevelClickListener onTabLevelClickListener;
+
+    public void setOnTabLevelClickListener(OnTabLevelClickListener onTabLevelClickListener) {
+        this.onTabLevelClickListener = onTabLevelClickListener;
     }
 }

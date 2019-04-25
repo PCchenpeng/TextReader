@@ -2100,15 +2100,6 @@ public class IntensiveReadingActivity extends BaseActivity {
     }
 
     /**
-     * 显示提示信息
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(this, tips);
-    }
-
-    /**
      * 获取精读数据
      */
     private static class GetData

@@ -215,6 +215,7 @@ public class PullRecyclerView extends RecyclerView {
                 lastY = e.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
+                Log.e("pullRecyisCanRefresh",String.valueOf(isCanRefresh));
                 if (isCanRefresh) {
                     lastY = lastY == -1 ? e.getRawY() : lastY;
                     float moveY = e.getRawY() - lastY;

@@ -658,14 +658,6 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 显示提示信息
-     *
-     * @param s
-     */
-    private void showTips(String s) {
-        MyToastUtil.showToast(this, s);
-    }
 
     /**
      * 更新用户的搜索行为

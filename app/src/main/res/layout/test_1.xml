@@ -6,6 +6,7 @@
         android:id="@+id/tv_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="15sp"
         android:textColor="#ffffff"/>
 
     <ImageView

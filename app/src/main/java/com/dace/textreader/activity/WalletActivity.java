@@ -2,6 +2,7 @@ package com.dace.textreader.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,12 +13,19 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dace.textreader.R;
+import com.dace.textreader.adapter.WalletAdapter;
+import com.dace.textreader.bean.WalletDataBean;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideRoundImage;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
+import com.dace.textreader.view.weight.pullrecycler.PullListener;
+import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,9 +38,9 @@ import okhttp3.Response;
 /**
  * 钱包
  */
-public class WalletActivity extends BaseActivity implements View.OnClickListener {
+public class WalletActivity extends BaseActivity implements View.OnClickListener ,PullListener{
 
-    private static final String url = HttpUrlPre.HTTP_URL + "/account/query";
+//    private static final String url = HttpUrlPre.HTTP_URL + "/account/query";
 
     private RelativeLayout rl_back;
     private TextView tv_title;
@@ -51,6 +59,9 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
     private double amount = 0;  //用户余额
     private int card = 0;  //卡包数量
     private int coupon = 0;  //优惠券数量
+    private PullRecyclerView rcl_wallet;
+    private WalletAdapter walletAdapter;
+    private WalletDataBean.DataBean mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +90,6 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initData() {
-        new GetData(mContext).execute(url);
     }
 
     private void initEvents() {
@@ -88,9 +98,34 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
         rl_to_recharge.setOnClickListener(this);
         rl_card.setOnClickListener(this);
         rl_coupon.setOnClickListener(this);
+
+        walletAdapter.setOnCouponClick(new WalletAdapter.OnCouponClick() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(mContext, CouponActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
     private void initView() {
+        rcl_wallet = findViewById(R.id.rcl_wallet);
+        walletAdapter = new WalletAdapter(mContext,mData);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext,
+                LinearLayoutManager.VERTICAL, false);
+
+        rcl_wallet.setHeadRefreshView(new SimpleRefreshHeadView(mContext))
+                .setUseLoadMore(true)
+                .setUseRefresh(true)
+                .setPullLayoutManager(layoutManager)
+                .setPullListener(this)
+                .setPullItemAnimator(null)
+                .build(walletAdapter);
+
+//        rcl_wallet.setLayoutManager(layoutManager);
+
+
+//        rcl_wallet.setAdapter(walletAdapter);
         rl_back = findViewById(R.id.rl_page_back_top_layout);
         tv_title = findViewById(R.id.tv_page_title_top_layout);
         tv_title.setText("钱包");
@@ -116,6 +151,36 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
                     .apply(options).into(iv_amount);
         }
 
+        getData();
+
+    }
+
+    private void getData() {
+        String url = HttpUrlPre.HTTP_URL_ + "/select/my/wallet";
+        JSONObject params = new JSONObject();
+        try {
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("width","750");
+            params.put("height","420");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(mContext).requestAsyn(url, OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                WalletDataBean walletDataBean = GsonUtil.GsonToBean(result.toString(),WalletDataBean.class);
+                if(walletDataBean != null && walletDataBean.getData() != null){
+                    mData = walletDataBean.getData();
+                    walletAdapter.setData(mData);
+                    rcl_wallet.onPullComplete();
+                }
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
     }
 
     @Override
@@ -153,40 +218,7 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    /**
-     * 分析数据
-     *
-     * @param s
-     */
-    private void analyzeData(String s) {
-        try {
-            JSONObject jsonObject = new JSONObject(s);
-            if (200 == jsonObject.optInt("status", -1)) {
-                JSONObject object = jsonObject.getJSONObject("data");
-                amount = object.getDouble("amount");
-                card = object.optInt("cardSize", 0);
-                coupon = object.optInt("couponSize", 0);
-                tv_amount.setText(DataUtil.double2String(amount));
-                if (card == 0) {
-                    tv_card.setText("更多优惠");
-                } else {
-                    String ct = String.valueOf(card) + "张";
-                    tv_card.setText(ct);
-                }
-                if (coupon == 0) {
-                    tv_coupon.setText("更多优惠");
-                } else {
-                    String cs = String.valueOf(coupon) + "张";
-                    tv_coupon.setText(cs);
-                }
-            } else {
-                showTips("网络繁忙，请稍后再试");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            showTips("网络繁忙，请稍后再试");
-        }
-    }
+
 
     /**
      * 无网络连接
@@ -195,56 +227,18 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
         showTips("无网络连接");
     }
 
-    /**
-     * 显示提示信息
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
-
-    /**
-     * 提交数据
-     */
-    private static class GetData
-            extends WeakAsyncTask<String, Void, String, WalletActivity> {
-
-        protected GetData(WalletActivity activity) {
-            super(activity);
-        }
-
-        @Override
-        protected String doInBackground(WalletActivity activity, String[] strings) {
-            try {
-                OkHttpClient client = new OkHttpClient();
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("userId", NewMainActivity.STUDENT_ID);
-                RequestBody body = RequestBody.create(DataUtil.JSON, jsonObject.toString());
-                Request request = new Request.Builder()
-                        .url(strings[0])
-                        .post(body)
-                        .build();
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(WalletActivity activity, String s) {
-            if (s == null) {
-                activity.noConnect();
-            } else {
-                activity.analyzeData(s);
-            }
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onRefresh() {
+        getData();
+    }
+
+    @Override
+    public void onLoadMore() {
+
     }
 }

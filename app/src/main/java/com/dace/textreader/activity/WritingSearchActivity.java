@@ -365,14 +365,6 @@ public class WritingSearchActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 显示提示
-     *
-     * @param tips
-     */
-    private void showTips(String tips) {
-        MyToastUtil.showToast(mContext, tips);
-    }
 
     /**
      * 获取数据

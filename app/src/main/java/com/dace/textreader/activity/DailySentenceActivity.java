@@ -629,14 +629,7 @@ public class DailySentenceActivity extends BaseActivity implements View.OnClickL
         showTips("分享失败，请稍后重试~");
     }
 
-    /**
-     * 显示吐丝
-     *
-     * @param s
-     */
-    private void showTips(String s) {
-        MyToastUtil.showToast(mContext, s);
-    }
+
 
     /**
      * 获取数据
