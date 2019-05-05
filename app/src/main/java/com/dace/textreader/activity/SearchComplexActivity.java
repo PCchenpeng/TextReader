@@ -356,13 +356,13 @@ public class SearchComplexActivity extends BaseActivity {
      */
     private void searchInfo() {
         if (wordsFragment != null) {
-            wordsFragment.setSearchContent(mSearchContent);
+//            wordsFragment.setSearchContent(mSearchContent);
         }
         if (writingFragment != null) {
             writingFragment.setSearchContent(mSearchContent);
         }
         if (articleFragment != null) {
-            articleFragment.setSearchContent(mSearchContent);
+//            articleFragment.setSearchContent(mSearchContent);
         }
 //        if (lessonFragment != null) {
 //            lessonFragment.setSearchContent(mSearchContent);

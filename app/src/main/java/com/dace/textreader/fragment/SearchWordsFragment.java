@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
-import com.dace.textreader.activity.GlossaryWordExplainActivity;
-import com.dace.textreader.adapter.SearchWordsAdapter;
-import com.dace.textreader.util.DataUtil;
+import com.dace.textreader.activity.NewMainActivity;
+import com.dace.textreader.activity.WordDetailActivity;
+import com.dace.textreader.bean.SearchItemBean;
+import com.dace.textreader.bean.SearchResultBean;
+import com.dace.textreader.bean.SubListBean;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
-import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.dace.textreader.view.LineWrapLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -30,17 +32,12 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 /**
  * =============================================================================
@@ -55,26 +52,35 @@ import okhttp3.Response;
  */
 public class SearchWordsFragment extends Fragment {
 
-    private static final String url = HttpUrlPre.HTTP_URL + "/word/query";
+    private static final String url = HttpUrlPre.SEARCHE_URL + "/search/search/full/text/more";
 
     private View view;
 
     private FrameLayout frameLayout;
     private SmartRefreshLayout refreshLayout;
-    private RecyclerView recyclerView;
+    private LineWrapLayout lineWrapLayout;
 
     private Context mContext;
 
     private String mSearchContent = "";
 
     private List<String> mList = new ArrayList<>();
-    private SearchWordsAdapter adapter;
 
     private int pageNum = 1;
     private boolean refreshing = false;
     private boolean isEnd = false;
 
     public boolean isReady = false;
+    private String searchWord;
+
+    public static SearchWordsFragment newInstance(String searchResult, String word) {
+        SearchWordsFragment f = new SearchWordsFragment();
+        Bundle args = new Bundle();
+        args.putString("word", word);
+        args.putString("searchResult",searchResult);
+        f.setArguments(args);
+        return f;
+    }
 
     @Nullable
     @Override
@@ -83,13 +89,8 @@ public class SearchWordsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_search_words, container, false);
 
         initView();
+        initData();
         initEvents();
-
-        isReady = true;
-
-        if (!mSearchContent.equals("") && mList.size() == 0) {
-            refreshLayout.autoRefresh();
-        }
 
         return view;
     }
@@ -103,22 +104,6 @@ public class SearchWordsFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            if (mList.size() == 0 && !mSearchContent.equals("")) {
-                if (isReady) {
-                    refreshLayout.autoRefresh();
-                }
-            }
-        }
-    }
-
-    public void setSearchContent(String searchContent) {
-        if (!searchContent.equals(mSearchContent)) {
-            this.mSearchContent = searchContent;
-            if (isReady) {
-                refreshLayout.autoRefresh();
-            }
-        }
     }
 
     private void initEvents() {
@@ -142,88 +127,69 @@ public class SearchWordsFragment extends Fragment {
                 }
             }
         });
-        adapter.setOnItemClickListen(new SearchWordsAdapter.OnItemClickListen() {
+
+    }
+
+    private void getMoreData() {
+        pageNum ++;
+        JSONObject params = new JSONObject();
+        try {
+            params.put("query",searchWord);
+            params.put("type","2");
+            params.put("pageNum",pageNum);
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("gradeId",NewMainActivity.GRADE_ID);
+            params.put("width","750");
+            params.put("height","420");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpManager.getInstance(mContext).requestAsyn(url, OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
             @Override
-            public void onClick(View view) {
-                int pos = recyclerView.getChildAdapterPosition(view);
-                String word = mList.get(pos);
-                Intent intent = new Intent(mContext, GlossaryWordExplainActivity.class);
-                intent.putExtra("words", word);
-                intent.putExtra("essayTitle", "");
-                intent.putExtra("glossaryTitle", word);
-                intent.putExtra("glossaryId", -1);
-                startActivity(intent);
+            public void onReqSuccess(Object result) {
+                SearchItemBean searchItemBean = GsonUtil.GsonToBean(result.toString(),SearchItemBean.class);
+                if(searchItemBean != null && searchItemBean.getData()!= null){
+                    List<SubListBean> subListBeans = searchItemBean.getData();
+                    addTextView(subListBeans);
+                }
+                refreshLayout.finishLoadMore();
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+                refreshLayout.finishLoadMore();
             }
         });
     }
 
     private void initData() {
-        if (!refreshing) {
-            if (frameLayout.getVisibility() == View.VISIBLE) {
-                frameLayout.setVisibility(View.GONE);
+        if(getArguments() != null){
+            searchWord = getArguments().getString("word");
+            String searchResult = getArguments().getString("searchResult");
+            if(searchWord != null && searchResult !=null && !searchWord.equals("") && !searchResult.equals("")){
+                SearchResultBean searchResultBean = GsonUtil.GsonToBean(searchResult,SearchResultBean.class);
+                List<SubListBean> subListBeans = searchResultBean.getData().getRet_array().get(0).getSubList();
+                setData(subListBeans,searchWord);
             }
-            refreshing = true;
-            isEnd = false;
-            pageNum = 1;
-            mList.clear();
-            adapter.notifyDataSetChanged();
-            new GetData(this).execute(url, mSearchContent, String.valueOf(pageNum));
         }
     }
 
-    /**
-     * 获取更多数据
-     */
-    private void getMoreData() {
-        refreshing = true;
-        pageNum = pageNum + 1;
-        new GetData(this).execute(url, mSearchContent, String.valueOf(pageNum));
-    }
+
 
     private void initView() {
-        frameLayout = view.findViewById(R.id.frame_search_words_fragment);
+        frameLayout = view.findViewById(R.id.frame);
 
-        refreshLayout = view.findViewById(R.id.smart_refresh_search_words_fragment);
-        refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
-        refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
+        refreshLayout = view.findViewById(R.id.smart);
+//        refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
+//        refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
+        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setEnableLoadMore(false);
 
-        recyclerView = view.findViewById(R.id.recycler_view_search_words_fragment);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext,
-                LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new SearchWordsAdapter(mContext, mList);
-        recyclerView.setAdapter(adapter);
+        lineWrapLayout = view.findViewById(R.id.lwl_words);
+
     }
 
-    /**
-     * 分析数据
-     *
-     * @param s
-     */
-    private void analyzeData(String s) {
-        try {
-            JSONObject jsonObject = new JSONObject(s);
-            if (200 == jsonObject.optInt("status", -1)) {
-                JSONArray array = jsonObject.getJSONArray("data");
-                if (array.length() == 0) {
-                    emptyData();
-                } else {
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        mList.add(object.getString("word"));
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            } else if (400 == jsonObject.optInt("status", -1)) {
-                emptyData();
-            } else {
-                errorData();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            errorData();
-        }
-    }
 
     /**
      * 数据为空
@@ -300,47 +266,34 @@ public class SearchWordsFragment extends Fragment {
         MyToastUtil.showToast(mContext, s);
     }
 
-    /**
-     * 获取数据
-     */
-    private static class GetData
-            extends WeakAsyncTask<String, Void, String, SearchWordsFragment> {
+    public void setData(List<SubListBean> subListBean ,String word){
+        pageNum = 1;
+        this.searchWord = word;
+        lineWrapLayout.removeAllViews();
+        addTextView(subListBean);
+    }
 
-        protected GetData(SearchWordsFragment fragment) {
-            super(fragment);
-        }
-
-        @Override
-        protected String doInBackground(SearchWordsFragment fragment, String[] strings) {
-            try {
-                OkHttpClient client = new OkHttpClient();
-                JSONObject object = new JSONObject();
-                object.put("word", strings[1]);
-                object.put("pageNum", strings[2]);
-                object.put("pageSize", 10);
-                RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
-                Request request = new Request.Builder()
-                        .url(strings[0])
-                        .post(body)
-                        .build();
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(SearchWordsFragment fragment, String s) {
-            if (s == null) {
-                fragment.errorData();
-            } else {
-                fragment.analyzeData(s);
-            }
-            fragment.refreshing = false;
-            fragment.refreshLayout.finishRefresh();
-            fragment.refreshLayout.finishLoadMore();
+    private void addTextView(List<SubListBean> subListBean) {
+        for (int j = 0;j <subListBean.size();j++){
+            View child = View.inflate(mContext,R.layout.item_search_hot,null);
+            TextView textView = child.findViewById(R.id.tv_num);
+            final String hotWord = subListBean.get(j).getTitle();
+            final String url = subListBean.get(j).getSource();
+            textView.setText(hotWord);
+            lineWrapLayout.addView(child);
+            child.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                                WordDetailActivity
+                    Intent intent = new Intent(getActivity(),WordDetailActivity.class);
+                    intent.putExtra("url",url);
+                    intent.putExtra("essayId",-1);
+                    intent.putExtra("sourceType","2");
+                    intent.putExtra("title",hotWord);
+                    intent.putExtra("word",hotWord);
+                    startActivity(intent);
+                }
+            });
         }
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/colorWhite">
 
 
@@ -10,24 +10,23 @@
         android:id="@+id/smart"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v4.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/colorOrderDetailBg"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcl_search_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="@color/colorOrderDetailBg"/>
-                <com.dace.textreader.view.LineWrapLayout
-                    android:id="@+id/lwl_words"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </com.dace.textreader.view.LineWrapLayout>
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+        </LinearLayout>
+
+
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <FrameLayout

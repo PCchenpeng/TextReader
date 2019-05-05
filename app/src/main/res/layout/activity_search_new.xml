@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.dace.textreader.view.CustomInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_root"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
     <com.dace.textreader.view.StatusBarHeightView
         android:id="@+id/view_status"
@@ -12,8 +13,10 @@
         android:background="@drawable/shape_gradient_blue_light"
         app:use_type="use_padding_top">
         <RelativeLayout
+            android:id="@+id/rl_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="48dp"
+            android:background="@drawable/shape_gradient_blue_light">
             <ImageView
                 android:id="@+id/iv_back"
                 android:layout_width="25dp"
@@ -204,4 +207,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</com.dace.textreader.view.CustomInsetLayout>

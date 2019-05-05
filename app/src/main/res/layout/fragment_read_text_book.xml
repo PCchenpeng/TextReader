@@ -26,7 +26,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:background="@drawable/shape_gradient_blue_light">
+                    android:background="@drawable/shape_gradient_home_top">
 
                     <LinearLayout
                         android:id="@+id/ll_search_read_text_book_fragment"

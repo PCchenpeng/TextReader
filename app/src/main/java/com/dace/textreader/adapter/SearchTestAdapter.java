@@ -1,12 +1,15 @@
 package com.dace.textreader.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.NewSearchActivity;
+import com.dace.textreader.activity.SearchResultActivity;
 import com.dace.textreader.bean.TestSearchBean;
 
 import java.util.List;
@@ -46,9 +49,18 @@ public class SearchTestAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        String text = mData.get(position).getTip();
+        final String searchText = mData.get(position).getTip();
 
-        viewHolder.tv_content.setText(text);
+        viewHolder.tv_content.setText(searchText);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,SearchResultActivity.class);
+                intent.putExtra("searchWord",searchText);
+                context.startActivity(intent);
+            }
+        });
 
 
         return convertView;

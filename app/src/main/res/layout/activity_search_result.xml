@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.dace.textreader.view.CustomInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.dace.textreader.view.StatusBarHeightView
+        android:id="@+id/view_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:background="@drawable/shape_gradient_blue_light"
+        app:use_type="use_padding_top">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:padding="5dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_white_back"/>
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionSearch"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
+                android:hint="请输入字、词、文章、作者"
+                android:textColor="#ffffff"
+                android:textColorHint="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:background="#00ffffff"
+                android:textCursorDrawable="@drawable/my_cursor"
+                android:layout_toRightOf="@id/iv_back"
+                android:layout_toLeftOf="@+id/iv_cancle"/>
+
+            <ImageView
+                android:id="@id/iv_cancle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"
+                android:src="@drawable/searchbar_icon_close"/>
+
+        </RelativeLayout>
+
+    </com.dace.textreader.view.StatusBarHeightView>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_accurate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/view_status"
+        android:orientation="vertical">
+        <FrameLayout
+            android:id="@+id/frame_accure"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorDailySentenceBg"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_vague"
+        android:layout_below="@id/view_status"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.dace.textreader.view.tab.SmartTabLayout
+            android:id="@+id/tab_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:stl_defaultTabTextColor="@drawable/color_tab_articlenote"
+            app:stl_defaultTabTextSize="15sp"
+            app:stl_dividerColor="@color/colorTransparent"
+            app:stl_dividerThickness="0dp"
+            app:stl_indicatorColor="#4D83FF"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_indicatorThickness="4dp"
+            app:stl_indicatorWidth="20dp"
+            app:stl_underlineColor="@color/colorTransparent"
+            app:stl_distributeEvenly="true"
+            app:stl_underlineThickness="0dp"/>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="10dp"-->
+            <!--android:background="#F2F3F7"/>-->
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager_search_result"
+            android:layout_below="@id/view_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/ll_talk_small"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorWhite"
+        android:layout_alignParentBottom="true">
+        <ImageView
+            android:id="@+id/iv_playpause_small"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/search_try_talk_play"/>
+
+    </LinearLayout>
+
+</com.dace.textreader.view.CustomInsetLayout>

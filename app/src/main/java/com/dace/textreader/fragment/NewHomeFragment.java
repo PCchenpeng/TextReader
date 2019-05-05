@@ -39,17 +39,16 @@ import java.util.List;
 public class NewHomeFragment extends Fragment {
 
     private View view;
-    private SmartTabLayout tabLayout;
-    private ViewPager viewPager;
     private RelativeLayout rl_search;
 
     private Context mContext;
-
+    private SmartTabLayout tabLayout;
+    private ViewPager viewPager;
     private List<String> mList_title = new ArrayList<>();
     private List<Fragment> mList_fragment = new ArrayList<>();
     private ViewPagerAdapter adapter;
 
-    private ImageView iv_search;
+//    private ImageView iv_search;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,17 +73,17 @@ public class NewHomeFragment extends Fragment {
 
 
         RecommendFragment recommendFragment = new RecommendFragment();
-        recommendFragment.setOnSearchMissListener(new RecommendFragment.OnSearchMissListener() {
-            @Override
-            public void onMiss() {
-                iv_search.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onShow() {
-                iv_search.setVisibility(View.VISIBLE);
-            }
-        });
+//        recommendFragment.setOnSearchMissListener(new RecommendFragment.OnSearchMissListener() {
+//            @Override
+//            public void onMiss() {
+//                iv_search.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onShow() {
+//                iv_search.setVisibility(View.VISIBLE);
+//            }
+//        });
         mList_fragment.add(recommendFragment);
 //        HomeFragment homeFragment = new HomeFragment();
 //        mList_fragment.add(homeFragment);
@@ -108,7 +107,7 @@ public class NewHomeFragment extends Fragment {
         rl_search = view.findViewById(R.id.rl_search_new_reader_fragment);
         tabLayout = view.findViewById(R.id.tab_layout_new_reader_fragment);
         viewPager = view.findViewById(R.id.view_pager_new_reader_fragment);
-        iv_search = view.findViewById(R.id.iv_search);
+//        iv_search = view.findViewById(R.id.iv_search);
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setCustomTabView(R.layout.test_1,R.id.tv_test,2);

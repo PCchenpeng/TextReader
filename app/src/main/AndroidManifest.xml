@@ -121,7 +121,8 @@
             android:name=".activity.NewSearchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/NewMainTheme">
         </activity>
         <activity
             android:name=".activity.WordExplainActivity"
@@ -729,7 +730,7 @@
             android:name=".activity.ReaderTabActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMainTheme"/>
+            android:theme="@style/ReadTabTheme"/>
         <activity
             android:name=".activity.ReaderTabAlbumDetailActivity"
             android:launchMode="singleTop"
@@ -746,7 +747,6 @@
             android:theme="@style/NewMainTheme"/>
         <activity android:name=".activity.WordDetailActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
             android:theme="@style/NewMainTheme"/>
         <activity android:name=".activity.ArticleNoteActivity"
             android:launchMode="singleTop"
@@ -759,6 +759,16 @@
         <activity android:name=".activity.ContactActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:theme="@style/NewMainTheme"/>
+        <activity android:name=".activity.SearchResultActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/NewMainTheme"/>
+        <activity android:name=".activity.AuthorDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/NewMainTheme"/>
     </application>
 

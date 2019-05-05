@@ -1,13 +1,17 @@
 package com.dace.textreader.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,7 +23,9 @@ import com.dace.textreader.R;
 import com.dace.textreader.bean.ReaderTabBean;
 import com.dace.textreader.fragment.ReaderTabAlbumFragment;
 import com.dace.textreader.fragment.ReaderTabSelectFragment;
+import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.view.MyRefreshHeader;
+import com.dace.textreader.view.tab.SmartTabLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -28,10 +34,10 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderTabActivity extends BaseActivity implements View.OnClickListener{
+public class ReaderTabActivity extends BaseActivity implements View.OnClickListener,AppBarLayout.OnOffsetChangedListener{
 
     private ViewPager viewPager;
-    private TabLayout tabLayout;
+    private SmartTabLayout tabLayout;
     private String[] titles = new String[]{"精选","专辑"};
     private List<Fragment> mList_fragment = new ArrayList<>();
     private ViewPagerAdapter viewPagerAdapter;
@@ -43,7 +49,11 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
     private ImageView iv_img;
     private ReaderTabBean readerTabBean;
     private RelativeLayout rl_back;
+    private RelativeLayout rl_back_1;
 
+    private Toolbar toolbar;
+    private Toolbar toolbar1;
+    private AppBarLayout appBarLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +81,11 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
         smartRefreshLayout.setEnableLoadMore(false);
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewpager);
+        appBarLayout = findViewById(R.id.appbar);
+        rl_back_1 = findViewById(R.id.rl_back_1);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar1 = findViewById(R.id.toolbar1);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -117,11 +132,20 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setChangeTextSize(false);
+        tabLayout.setViewPager(viewPager);
     }
 
     private void initEvents() {
         rl_back.setOnClickListener(this);
+        rl_back_1.setOnClickListener(this);
+
+        appBarLayout.addOnOffsetChangedListener(this);
+
+        //增加View的paddingTop,增加的值为状态栏高度 (智能判断，并设置高度)  titleBar
+        StatusBarUtil.setPaddingSmart(this, toolbar);
+        StatusBarUtil.setPaddingSmart(this, toolbar1);
     }
 
     private void loadData(){
@@ -135,10 +159,51 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
 
         switch (v.getId()){
+            case R.id.rl_back_1:
             case R.id.rl_back:
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+
+        int scrollRangle = appBarLayout.getTotalScrollRange();
+
+        if(i < -270){
+            toolbar1.setVisibility(View.VISIBLE);
+            toolbar.setVisibility(View.VISIBLE);
+        }else {
+            toolbar1.setVisibility(View.GONE);
+            toolbar.setVisibility(View.GONE);
+        }
+
+
+        Log.e("scrollRangle" ,String.valueOf(scrollRangle));
+
+        Log.e("scrollRangle" ,"i="+String.valueOf(i));
+        /**
+         * 如果是verticalOffset改成负数   有不一样的效果，可以模拟试试
+         */
+//        mIvHeader.setTranslationY(verticalOffset);
+//
+//        /**
+//         * 这个数值可以自己定义
+//         */
+//        if (verticalOffset < -10) {
+//            mIvBack.setImageResource(R.drawable.back_black);
+//            mIvMenu.setImageResource(R.drawable.icon_menu_black);
+//        } else {
+//            mIvBack.setImageResource(R.drawable.back_white);
+//            mIvMenu.setImageResource(R.drawable.icon_menu_white);
+//        }
+//
+//        int mAlpha = (int) Math.abs(255f / scrollRangle * verticalOffset);
+//        //顶部title渐变效果
+//        mToolbar1.setBackgroundColor(Color.argb(mAlpha, 255, 255, 255));
+//        mToolbarUsername.setTextColor(Color.argb(mAlpha, 0, 0, 0));
+
     }
 
 

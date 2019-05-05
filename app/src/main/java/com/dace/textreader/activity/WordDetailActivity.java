@@ -46,6 +46,7 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
 
     private void initData() {
         url = getIntent().getStringExtra("url");
+//        url = "https://mp.weixin.qq.com/s/n1pfcfdYQlLX4xZsJYGCpQ";
         sourceType = getIntent().getStringExtra("sourceType");
         essayId = getIntent().getStringExtra("essayId");
         title = getIntent().getStringExtra("title");

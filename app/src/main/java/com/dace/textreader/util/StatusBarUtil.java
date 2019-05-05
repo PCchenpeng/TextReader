@@ -2,9 +2,11 @@ package com.dace.textreader.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -200,6 +202,30 @@ public class StatusBarUtil {
             }
         }
         return result;
+    }
+
+    /** 增加View的paddingTop,增加的值为状态栏高度 (智能判断，并设置高度)*/
+    public static void setPaddingSmart(Context context, View view) {
+        if (Build.VERSION.SDK_INT >= 19) {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null && lp.height > 0) {
+                lp.height += getStatusBarHeight(context);//增高
+            }
+            view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + getStatusBarHeight(context),
+                    view.getPaddingRight(), view.getPaddingBottom());
+        }
+    }
+
+    /**
+     * 获取状态栏高度
+     *
+     * @param context context
+     * @return 状态栏高度
+     */
+    private static int getStatusBarHeight(Context context) {
+        // 获得状态栏高度
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return context.getResources().getDimensionPixelSize(resourceId);
     }
 
 }

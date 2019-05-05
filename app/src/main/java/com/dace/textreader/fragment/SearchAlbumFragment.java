@@ -1,7 +1,6 @@
 package com.dace.textreader.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,62 +11,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.dace.textreader.R;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
-import com.dace.textreader.adapter.RecyclerViewAdapter;
-import com.dace.textreader.adapter.SearchArticleAdapter;
-import com.dace.textreader.bean.Article;
+import com.dace.textreader.adapter.SearchAlbumAdapter;
 import com.dace.textreader.bean.SearchItemBean;
 import com.dace.textreader.bean.SearchResultBean;
 import com.dace.textreader.bean.SubListBean;
-import com.dace.textreader.util.DataUtil;
-import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
-import com.dace.textreader.util.MyToastUtil;
-import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-/**
- * =============================================================================
- * Copyright (c) 2018 Administrator All rights reserved.
- * Packname com.dace.textreader.fragment
- * Created by Administrator.
- * Created time 2018/10/29 0029 下午 4:03.
- * Version   1.0;
- * Describe :  搜索文章
- * History:
- * ==============================================================================
- */
-public class SearchArticleFragment extends Fragment implements View.OnClickListener {
+public class SearchAlbumFragment extends Fragment implements View.OnClickListener {
     private String url = HttpUrlPre.SEARCHE_URL + "/search/search/full/text/more";
     private Context mContext;
     private View view;
     private RecyclerView rcl_author;
-    private SearchArticleAdapter searchArticleAdapter;
+    private SearchAlbumAdapter searchAlbumAdapter;
     private List<SubListBean> mData = new ArrayList<>();
     private FrameLayout frameLayout;
     private SmartRefreshLayout refreshLayout;
@@ -75,10 +46,10 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
     private boolean refreshing = false;
     private boolean isEnd = false;
     private String searchWord;
-    private boolean isAccure;
+    private boolean isAccure;//是否精准搜索
 
-    public static SearchArticleFragment newInstance(String searchResult, String word,boolean isAccure) {
-        SearchArticleFragment f = new SearchArticleFragment();
+    public static SearchAlbumFragment newInstance(String searchResult, String word,boolean isAccure) {
+        SearchAlbumFragment f = new SearchAlbumFragment();
         Bundle args = new Bundle();
         args.putString("word", word);
         args.putString("searchResult",searchResult);
@@ -90,7 +61,7 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_search_author, container, false);
+        view = inflater.inflate(R.layout.fragment_search_album, container, false);
 
         initView();
         initData();
@@ -117,7 +88,7 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
                 }else {
                     for (int i=0;i<searchResultBean.getData().getRet_array().size();i++){
                         int type = searchResultBean.getData().getRet_array().get(i).getType();
-                        if(type == 5){
+                        if(type == 4){
                             subListBeans = searchResultBean.getData().getRet_array().get(i).getSubList();
                         }
                     }
@@ -136,11 +107,11 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
 //        refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
         refreshLayout.setEnableRefresh(false);
-        searchArticleAdapter = new SearchArticleAdapter(mData,mContext);
+        searchAlbumAdapter = new SearchAlbumAdapter(mData,mContext);
         LinearLayoutManager layoutManager_user = new LinearLayoutManager(mContext,
                 LinearLayoutManager.VERTICAL, false);
         rcl_author.setLayoutManager(layoutManager_user);
-        rcl_author.setAdapter(searchArticleAdapter);
+        rcl_author.setAdapter(searchAlbumAdapter);
     }
 
     private void initEvents() {
@@ -195,7 +166,7 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
                 SearchResultBean searchResultBean = GsonUtil.GsonToBean(result.toString(),SearchResultBean.class);
                 if(searchResultBean != null && searchResultBean.getData()!= null){
                     List<SubListBean> subListBeans = searchResultBean.getData().getRet_array().get(0).getSubList();
-                    searchArticleAdapter.addData(subListBeans);
+                    searchAlbumAdapter.addData(subListBeans);
                 }
                 refreshLayout.finishLoadMore();
             }
@@ -207,12 +178,15 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
         });
     }
 
+    /**
+     *
+     */
     private void getVagueMoreData() {
         pageNum ++;
         JSONObject params = new JSONObject();
         try {
             params.put("query",searchWord);
-            params.put("type","5");
+            params.put("type","4");
             params.put("pageNum",pageNum);
             params.put("studentId",NewMainActivity.STUDENT_ID);
             params.put("gradeId",NewMainActivity.GRADE_ID);
@@ -228,7 +202,7 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
                 SearchItemBean searchItemBean = GsonUtil.GsonToBean(result.toString(),SearchItemBean.class);
                 if(searchItemBean != null && searchItemBean.getData()!= null){
                     List<SubListBean> subListBeans = searchItemBean.getData();
-                    searchArticleAdapter.addData(subListBeans);
+                    searchAlbumAdapter.addData(subListBeans);
                 }
                 refreshLayout.finishLoadMore();
             }
@@ -252,8 +226,8 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
 
     }
 
-    public void setData(List<SubListBean> subListBean,String word){
+    public void setData(List<SubListBean> subListBean, String word){
         this.searchWord = word;
-        searchArticleAdapter.refreshData(subListBean);
+        searchAlbumAdapter.refreshData(subListBean);
     }
 }

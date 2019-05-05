@@ -60,6 +60,8 @@ public class SmartTabLayout extends HorizontalScrollView {
     private InternalTabClickListener internalTabClickListener;
     private OnTabClickListener onTabClickListener;
     private boolean distributeEvenly;
+    private boolean changeTextSize = true;
+
 
     public SmartTabLayout(Context context) {
         this(context, null);
@@ -145,6 +147,10 @@ public class SmartTabLayout extends HorizontalScrollView {
 
         addView(tabStrip, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
+    }
+
+    public void setChangeTextSize(boolean changeTextSize) {
+        this.changeTextSize = changeTextSize;
     }
 
     /**
@@ -651,7 +657,7 @@ public class SmartTabLayout extends HorizontalScrollView {
 
             TextView textView;
             if(tabProvider != null && tabProvider.indexNum == position){
-                RelativeLayout rl  = (RelativeLayout) tabStrip.getChildAt(position);
+                LinearLayout rl  = (LinearLayout) tabStrip.getChildAt(position);
                 textView = (TextView) rl.getChildAt(0);
             }else {
                 textView = (TextView) tabStrip.getChildAt(position);
@@ -663,12 +669,14 @@ public class SmartTabLayout extends HorizontalScrollView {
         }
         TextView mTextView;
         if(tabProvider != null && tabProvider.indexNum == i){
-            RelativeLayout rl  = (RelativeLayout) tabStrip.getChildAt(i);
+            LinearLayout rl  = (LinearLayout) tabStrip.getChildAt(i);
             mTextView = (TextView) rl.getChildAt(0);
         }else {
             mTextView = (TextView) tabStrip.getChildAt(i);
         }
 //        TextView mTextView = (TextView) tabStrip.getChildAt(i);
+
+        if(changeTextSize)
         mTextView.setTextSize(17);
         TextPaint textPaint = mTextView.getPaint();
         textPaint.setFakeBoldText(true);

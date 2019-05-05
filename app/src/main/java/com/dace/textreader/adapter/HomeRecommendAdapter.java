@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
 import com.dace.textreader.bean.RecommendBean.DataBean.ArticleListBean;
+import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
 
 
@@ -147,7 +149,10 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .preload();
 
-
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ((BigHolder) viewHolder).iv_recommend.getLayoutParams();
+                layoutParams.width = DensityUtil.getScreenWidth(mContext);
+                layoutParams.height = DensityUtil.getScreenWidth(mContext) * 2/3;
+                ((BigHolder) viewHolder).iv_recommend.setLayoutParams(layoutParams);
                 GlideUtils.loadHomeImage(mContext, itemList.get(itemPosition).getArticle().getImage(),
                         ((BigHolder) viewHolder).iv_recommend);
                 ((BigHolder) viewHolder).tv_title.setText(itemList.get(itemPosition).getArticle().getTitle());
@@ -283,7 +288,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return itemList == null ? 1 : itemList.size()+1;
     }
 
 

@@ -10,17 +10,18 @@
         android:id="@+id/view_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_gradient_blue_light"
+        android:background="@drawable/shape_gradient_home_top"
         app:use_type="use_padding_top">
 
         <com.dace.textreader.view.tab.SmartTabLayout
             android:id="@+id/tab_layout_new_reader_fragment"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             app:stl_defaultTabTextColor="@color/colorWhite"
-            app:stl_defaultTabTextMinWidth="80dp"
             app:stl_defaultTabTextSize="15sp"
             app:stl_dividerColor="@color/colorTransparent"
             app:stl_dividerThickness="0dp"
@@ -28,8 +29,8 @@
             app:stl_indicatorCornerRadius="2dp"
             app:stl_indicatorThickness="4dp"
             app:stl_indicatorWidth="20dp"
-            app:stl_titleOffset="auto_center"
             app:stl_underlineColor="@color/colorTransparent"
+            app:stl_distributeEvenly="true"
             app:stl_underlineThickness="0dp"/>
 
         <RelativeLayout
@@ -55,15 +56,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     
-    <ImageView
-        android:id="@+id/iv_search"
-        android:layout_width="40dp"
-        android:layout_height="62dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
-        android:visibility="gone"
-        android:src="@drawable/home_search_whale"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_search"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="62dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginTop="40dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:visibility="gone"-->
+        <!--android:src="@drawable/home_search_whale"/>-->
 
 
 

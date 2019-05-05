@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -101,6 +102,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
 
         expTv1.setText("杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将杀案还将");
 
+        Html.fromHtml("");
         smartRefreshLayout = findViewById(R.id.smart_refresh);
         iv_img = findViewById(R.id.iv_img);
 //        GlideApp.with(this)

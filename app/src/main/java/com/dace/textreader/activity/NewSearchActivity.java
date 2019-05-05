@@ -2,7 +2,9 @@ package com.dace.textreader.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,15 +29,14 @@ import android.widget.Toast;
 import com.dace.textreader.R;
 import com.dace.textreader.adapter.SearchTestAdapter;
 import com.dace.textreader.bean.HotSearchBean;
+import com.dace.textreader.bean.SearchResultBean;
 import com.dace.textreader.bean.TestSearchBean;
 import com.dace.textreader.util.AnimationUtil;
-import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.JsonParser;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.SpeechRecognizerUtil;
-import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.LineWrapLayout;
 import com.iflytek.cloud.ErrorCode;
@@ -75,11 +77,6 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_new);
-
-        //修改状态栏的文字颜色为黑色
-        int flag = StatusBarUtil.StatusBarLightMode(this);
-        StatusBarUtil.StatusBarLightMode(this, flag);
-
 
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面
         speechRecognizerUtil = SpeechRecognizerUtil.getInstance();
@@ -134,10 +131,12 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                                     .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     String searchContext = et_search.getText().toString().trim();
                     if (TextUtils.isEmpty(searchContext)) {
-
+                        showTips("请输入想要搜索的内容");
                     } else {
-
-                        Toast.makeText(NewSearchActivity.this,searchContext,Toast.LENGTH_SHORT).show();
+//                        searchResult(searchContext);
+                        Intent intent = new Intent(NewSearchActivity.this,SearchResultActivity.class);
+                        intent.putExtra("searchWord",searchContext);
+                        startActivity(intent);
                     }
                 }
 
@@ -162,21 +161,43 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 //        iv_playpause.setOnClickListener(this);
         iv_talk.setOnClickListener(this);
 
-        rl_root.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        //比较Activity根布局与当前布局的大小
-                        int heightDiff = rl_root.getRootView().getHeight() - rl_root.getHeight();
+//        rl_root.getViewTreeObserver().addOnGlobalLayoutListener(
+//                new ViewTreeObserver.OnGlobalLayoutListener() {
+//                    @Override
+//                    public void onGlobalLayout() {
+//                        //比较Activity根布局与当前布局的大小
+//                        int heightDiff = rl_root.getRootView().getHeight() - rl_root.getHeight();
+//
+//                        if (heightDiff > 200) {
+//                            showKeyboardOperate(true);
+//                        } else {
+//                            //大小小于100时，为不显示虚拟键盘或虚拟键盘隐藏
+//                            showKeyboardOperate(false);
+//                        }
+//                    }
+//                });
 
-                        if (heightDiff > 200) {
-                            showKeyboardOperate(true);
-                        } else {
-                            //大小小于100时，为不显示虚拟键盘或虚拟键盘隐藏
-                            showKeyboardOperate(false);
-                        }
-                    }
-                });
+        et_search.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
+
+            //当键盘弹出隐藏的时候会 调用此方法。
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                //获取当前界面可视部分
+                NewSearchActivity.this.getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
+                //获取屏幕的高度
+                int screenHeight =  NewSearchActivity.this.getWindow().getDecorView().getRootView().getHeight();
+                //此处就是用来获取键盘的高度的， 在键盘没有弹出的时候 此高度为0 键盘弹出的时候为一个正数
+                int heightDifference = screenHeight - r.bottom;
+
+                if(heightDifference == 0){
+                    showKeyboardOperate(false);
+                }else {
+                    showKeyboardOperate(true);
+                }
+            }
+
+        });
 
 
 
@@ -284,10 +305,19 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                     new OkHttpManager.ReqCallBack<Object>() {
                         @Override
                         public void onReqSuccess(Object result) {
-                            TestSearchBean testSearchBean = GsonUtil.GsonToBean(result.toString(),TestSearchBean.class);
+                            final TestSearchBean testSearchBean = GsonUtil.GsonToBean(result.toString(),TestSearchBean.class);
                             if(testSearchBean.getData() != null && testSearchBean.getData().getTipList().size() > 0){
-                                tv_test.setText(testSearchBean.getData().getTipList().get(0).getTip());
+                                final String firstText = testSearchBean.getData().getTipList().get(0).getTip();
+                                tv_test.setText(firstText);
                                 randomId = testSearchBean.getData().getRandomId();
+                                tv_test.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(NewSearchActivity.this,SearchResultActivity.class);
+                                        intent.putExtra("searchWord",firstText);
+                                        startActivity(intent);
+                                    }
+                                });
                                 searchTestAdapter = new SearchTestAdapter(NewSearchActivity.this,testSearchBean.getData().getTipList());
                                 lv_test.setAdapter(searchTestAdapter);
                             }
@@ -326,7 +356,11 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                                 child.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Toast.makeText(NewSearchActivity.this,hotWord,Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(NewSearchActivity.this,hotWord,Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(NewSearchActivity.this,SearchResultActivity.class);
+                                        intent.putExtra("searchWord",hotWord);
+                                        startActivity(intent);
                                     }
                                 });
 
@@ -341,7 +375,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                 });
     }
 
-    private void searchResult(String word){
+    private void searchResult(final String word){
         JSONObject params = new JSONObject();
         try {
             params.put("query",word);
@@ -356,7 +390,13 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         OkHttpManager.getInstance(this).requestAsyn(searchUrl, OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
             @Override
             public void onReqSuccess(Object result) {
-
+                SearchResultBean searchResultBean = GsonUtil.GsonToBean(result.toString(),SearchResultBean.class);
+                if(searchResultBean != null){
+                    Intent intent = new Intent(NewSearchActivity.this,SearchResultActivity.class);
+                    intent.putExtra("searchResult",result.toString());
+                    intent.putExtra("searchWord",word);
+                    startActivity(intent);
+                }
             }
 
             @Override
@@ -364,6 +404,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
+
     }
 
 
@@ -399,25 +440,13 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
      */
     private void startSpeech() {
         isSpeeching = true;
-
-
-
-//        if (frameLayout_operate.getVisibility() == View.VISIBLE) {
-//            waveView_voice_view.start();
-//            iv_voice_view.setImageResource(R.drawable.icon_write_bottom_voice_pause);
-//            tv_voice_view.setText("语音识别中");
-//        }
-
-//        // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
-//        if (!editHasFocus) {
-            speechRecognizerUtil.setParams("1");
-//        }
+        speechRecognizerUtil.setParams("1");
 
         int ret = speechRecognizerUtil.startVoice(mRecognizerListener);
         if (ret != ErrorCode.SUCCESS) {
-            showTip("听写失败");
+            showTips("听写失败");
         } else {
-            showTip("正在听写");
+            showTips("正在听写");
         }
     }
 
@@ -428,13 +457,6 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         speechRecognizerUtil.stopVoice();
 
         isSpeeching = false;
-//        iv_simple_voice.setImageResource(R.drawable.icon_write_bottom_voice_input);
-//
-//        if (frameLayout_operate.getVisibility() == View.VISIBLE) {
-//            waveView_voice_view.stop();
-//            iv_voice_view.setImageResource(R.drawable.icon_write_bottom_voice_input);
-//            tv_voice_view.setText("语音输入");
-//        }
     }
 
 
@@ -446,7 +468,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void onInit(int code) {
             if (code != ErrorCode.SUCCESS) {
-                showTip("初始化失败");
+                showTips("初始化失败");
             }
         }
     };
@@ -470,10 +492,10 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 //                showTip(error.getPlainDescription(true) + "\n请确认是否已开通翻译功能");
 //            } else
             if (error.getErrorCode() == 10118) {
-                showTip("您好像没有说话哦~");
+                showTips("您好像没有说话哦~");
                 checkUserPermission();
             } else if (error.getErrorCode() == 20001) {
-                showTip("请检查网络是否连接~");
+                showTips("请检查网络是否连接~");
             }
             stopSpeech();
         }
@@ -542,7 +564,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION_CODE) {
             if (!verifyPermissions(grantResults)) {
-                showTip("录音权限被拒绝");
+                showTips("录音权限被拒绝");
             }
         }
 
@@ -566,14 +588,6 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         return true;
     }
 
-    /**
-     * 弹出吐丝
-     *
-     * @param tips
-     */
-    private void showTip(String tips) {
-        MyToastUtil.showToast(this, tips);
-    }
 
     class Refreshpage {
          Handler handler = new Handler();

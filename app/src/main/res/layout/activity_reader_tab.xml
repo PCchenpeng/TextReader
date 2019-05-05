@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -58,19 +58,45 @@
 
                 <!--</LinearLayout>-->
 
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    style="@style/AppTheme.Toolbar"
+                    android:layout_width="match_parent"
+                    android:background="#00000000"
+                    android:paddingTop="20dp"
+                    android:visibility="visible"
+                    app:layout_collapseMode="pin" />
+
 
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
 
-            <android.support.design.widget.TabLayout
+                <!--<android.support.design.widget.TabLayout-->
+                    <!--android:id="@+id/tabLayout"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--app:tabIndicatorColor="#4D72FF"-->
+                    <!--app:tabSelectedTextColor="#4D72FF"-->
+                    <!--app:tabTextColor="#333333" />-->
+
+            <com.dace.textreader.view.tab.SmartTabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabIndicatorColor="#4D72FF"
-                app:tabSelectedTextColor="#4D72FF"
-                app:tabTextColor="#333333" />
-
+                android:layout_height="48dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                app:stl_defaultTabTextColor="@drawable/color_tab_articlenote"
+                app:stl_defaultTabTextSize="17sp"
+                app:stl_dividerColor="@color/colorTransparent"
+                app:stl_dividerThickness="0dp"
+                app:stl_indicatorColor="#4D83FF"
+                app:stl_indicatorCornerRadius="2dp"
+                app:stl_indicatorThickness="4dp"
+                app:stl_indicatorWidth="20dp"
+                app:stl_underlineColor="@color/colorTransparent"
+                app:stl_distributeEvenly="true"
+                app:stl_underlineThickness="0dp"/>
         </android.support.design.widget.AppBarLayout>
 
 
@@ -83,8 +109,35 @@
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+    <android.support.v7.widget.Toolbar
+        android:visibility="gone"
+        android:id="@+id/toolbar1"
+        style="@style/AppTheme.Toolbar"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/shape_gradient_home_top"
+        app:layout_collapseMode="pin">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/rl_back_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/icon_white_back"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+
+</FrameLayout>
 
 
 

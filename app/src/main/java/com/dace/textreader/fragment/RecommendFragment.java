@@ -97,11 +97,11 @@ public class RecommendFragment extends Fragment implements PullListener {
 //                        }
                     }
 
-                    if(firstVisibleItem==1 || firstVisibleItem == 0){
-                        onSearchMissListener.onMiss();
-                    }else if(firstVisibleItem>1){
-                        onSearchMissListener.onShow();
-                    }
+//                    if(firstVisibleItem==1 || firstVisibleItem == 0){
+//                        onSearchMissListener.onMiss();
+//                    }else if(firstVisibleItem>1){
+//                        onSearchMissListener.onShow();
+//                    }
                 }
 
             }
@@ -262,16 +262,16 @@ public class RecommendFragment extends Fragment implements PullListener {
 
     }
 
-    public interface OnSearchMissListener{
-        void onMiss();
-        void onShow();
-    }
-
-    OnSearchMissListener onSearchMissListener;
-
-    public void setOnSearchMissListener(OnSearchMissListener onSearchMissListener){
-        this.onSearchMissListener = onSearchMissListener;
-    }
+//    public interface OnSearchMissListener{
+//        void onMiss();
+//        void onShow();
+//    }
+//
+//    OnSearchMissListener onSearchMissListener;
+//
+//    public void setOnSearchMissListener(OnSearchMissListener onSearchMissListener){
+//        this.onSearchMissListener = onSearchMissListener;
+//    }
 
 
 }

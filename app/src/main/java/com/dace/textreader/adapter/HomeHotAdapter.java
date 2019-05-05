@@ -151,6 +151,12 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((TwoHolder)viewHolder).rcl_banner.setNestedScrollingEnabled(false);
                 break;
             case TYPE_DES:
+
+//                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).iv_big_1.getLayoutParams();
+//                layoutParams.width = DensityUtil.getScreenWidth(context);
+//                layoutParams.height = DensityUtil.getScreenWidth(context) /2;
+//                ((ItemHolder) viewHolder).iv_big_1.setLayoutParams(layoutParams);
+
                 GlideUtils.loadImage(context, itemList.get(i-2).getAlbumCover(),
                         ((ItemHolder) viewHolder).iv_big_1);
                 ((ItemHolder)viewHolder).tv_big_title.setText(itemList.get(i-2).getAlbumTitle());
@@ -244,11 +250,11 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class TopHolder extends RecyclerView.ViewHolder{
-        RelativeLayout rl_search;
+//        RelativeLayout rl_search;
         LinearLayout ll_tab_1, ll_tab_2, ll_tab_3, ll_tab_4;
          TopHolder(@NonNull View itemView) {
             super(itemView);
-             rl_search =  itemView.findViewById(R.id.rl_search);
+//             rl_search =  itemView.findViewById(R.id.rl_search);
              ll_tab_1 = itemView.findViewById(R.id.ll_tradition);
              ll_tab_2 = itemView.findViewById(R.id.ll_story);
              ll_tab_3 = itemView.findViewById(R.id.ll_science);
@@ -314,6 +320,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ChoiceHolder) viewHolder).iv_img.getLayoutParams();
             params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
+            params.height = DensityUtil.getScreenWidth(context)/2;
             ((ChoiceHolder) viewHolder).iv_img.setLayoutParams(params);
             GlideUtils.loadImage(context, choiceList.get(i).getCover(),
                     ((ChoiceHolder) viewHolder).iv_img);
