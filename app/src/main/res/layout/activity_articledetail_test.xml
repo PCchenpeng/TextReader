@@ -13,9 +13,10 @@
 
     <!--</com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview>-->
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/lv_test"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

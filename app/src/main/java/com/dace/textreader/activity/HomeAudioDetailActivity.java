@@ -30,11 +30,13 @@ import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.weight.pullrecycler.album.AlbumView;
 import com.dace.textreader.view.weight.pullrecycler.album.CurlPage;
 import com.dace.textreader.view.weight.pullrecycler.album.OnFlipedLastPageListener;
 import com.dace.textreader.view.weight.pullrecycler.album.OnPageClickListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ import okhttp3.Response;
 public class HomeAudioDetailActivity extends BaseActivity implements View.OnClickListener,OnPageClickListener, OnFlipedLastPageListener {
 
     private String essayId;
+    private int pyNum;
 
     private AudioArticleBean mData;
     private int pageNum =1;
@@ -97,6 +100,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_audio_detail);
         essayId = getIntent().getStringExtra("id");
+        pyNum = getIntent().getIntExtra("py",-1);
 
         initView();
 //        album_view.setZOrderMediaOverlay(true);
@@ -150,9 +154,36 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     }
 
     private void loadData(String essayId) {
-        new GetAudioData(HomeAudioDetailActivity.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
-                String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(DensityUtil.getScreenHeight(HomeAudioDetailActivity.this)),
-                String.valueOf(DensityUtil.getScreenWidth(HomeAudioDetailActivity.this)),essayId);
+        JSONObject params = new JSONObject();
+
+        try {
+            params.put("studentId", NewMainActivity.STUDENT_ID);
+            params.put("gradeId", NewMainActivity.GRADE_ID);
+            params.put("width", 420);
+            params.put("height", 750);
+            params.put("essayId",essayId);
+            params.put("isShare",0);
+            params.put("py",pyNum);
+            params.put("sign",DataEncryption.encode(String.valueOf(System.currentTimeMillis()),"Z25pYW5l"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpManager.getInstance(this).requestAsyn(url,OkHttpManager.TYPE_POST_JSON,params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                analyzeRecommendData(result.toString());
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
+
+//        new GetAudioData(HomeAudioDetailActivity.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
+//                String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(DensityUtil.getScreenHeight(HomeAudioDetailActivity.this)),
+//                String.valueOf(DensityUtil.getScreenWidth(HomeAudioDetailActivity.this)),essayId);
     }
 
 
@@ -315,53 +346,6 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             }
         }
 
-    }
-
-
-    /**
-     * 获取推荐数据
-     */
-    private static class GetAudioData
-            extends WeakAsyncTask<String, Void, String, HomeAudioDetailActivity> {
-
-        protected GetAudioData(HomeAudioDetailActivity activity) {
-            super(activity);
-        }
-
-        @Override
-        protected String doInBackground(HomeAudioDetailActivity activity, String[] strings) {
-            try {
-                OkHttpClient client = new OkHttpClient();
-                JSONObject object = new JSONObject();
-                object.put("studentId", strings[1]);
-                object.put("gradeId", strings[2]);
-                object.put("width", strings[3]);
-                object.put("height", strings[4]);
-                object.put("essayId",strings[5]);
-                object.put("isShare",0);
-                object.put("sign",DataEncryption.encode(String.valueOf(System.currentTimeMillis()),"Z25pYW5l"));
-
-                RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
-                Request request = new Request.Builder()
-                        .url(strings[0])
-                        .post(body)
-                        .build();
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(HomeAudioDetailActivity activity, String s) {
-            if (s == null) {
-//                fragment.errorRecommendData();
-            } else {
-                activity.analyzeRecommendData(s);
-            }
-        }
     }
 
     /**
@@ -559,6 +543,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         try {
             mPlayer.reset();
             //把音频路径传给播放器
+            String ss = music.getData().getEssay().getAudio();
             mPlayer.setDataSource(DataEncryption.audioEncode(music.getData().getEssay().getAudio()));
             //准备
             mPlayer.prepareAsync();

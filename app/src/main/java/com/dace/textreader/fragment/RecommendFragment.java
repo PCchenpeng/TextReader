@@ -110,7 +110,7 @@ public class RecommendFragment extends Fragment implements PullListener {
 
         mHomeRecommendAdapter.setOnItemClickListener(new HomeRecommendAdapter.OnItemClickListener() {
             @Override
-            public void onClick(int type, String id, String imgUrl,int flag) {
+            public void onClick(int type, String id, String imgUrl,int flag,int py) {
                 Intent intent;
                 switch (type){
                     case HomeRecommendAdapter.AUDIO_PIC:
@@ -118,6 +118,7 @@ public class RecommendFragment extends Fragment implements PullListener {
                         if(flag == 1){
                             intent = new Intent(getContext(), HomeAudioDetailActivity.class);
                             intent.putExtra("id", id);
+                            intent.putExtra("py",py);
                         }else {
                             intent = new Intent(getContext(), ArticleDetailActivity.class);
                             intent.putExtra("essayId", id);
@@ -251,8 +252,11 @@ public class RecommendFragment extends Fragment implements PullListener {
 
         if(recommendBean != null && recommendBean.getData() != null)
             data = recommendBean.getData().getArticleList();
-        else
+        else{
+            mRecycleView.onPullComplete();
             return;
+        }
+
         if(isRefresh){
             mHomeRecommendAdapter.refreshData(data);
             mRecycleView.onPullComplete();

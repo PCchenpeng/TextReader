@@ -13,9 +13,18 @@ android {
 
         ndk {
             //根据需要 自行选择添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+            abiFilters  'arm64-v8a', 'mips', 'mips64'
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
         }
+
+//        splits {
+//            abi {
+//                enable true
+//                reset()
+//                include 'x86', 'x86_64', 'armeabi-v7a', 'armeabi'
+//                universalApk false
+//            }
+//        }
 
         manifestPlaceholders = [
                 JPUSH_PKGNAME: "com.dace.textreader",
@@ -109,5 +118,5 @@ dependencies {
 
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
-    implementation 'fm.jiecao:jiecaovideoplayer:4.8.2'
+    implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
 }

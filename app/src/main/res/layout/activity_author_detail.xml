@@ -61,7 +61,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
                     android:padding="5dp">
                     <ImageView
                         android:id="@+id/iv_author"
@@ -83,6 +84,7 @@
                         android:layout_width="25dp"
                         android:layout_height="20dp"
                         android:layout_toRightOf="@id/tv_author"
+                        android:src="@drawable/icon_speaker_blue"
                         android:layout_centerVertical="true"/>
 
                     <TextView
@@ -105,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     expandableTextView:maxCollapsedLines="5">
-                    <com.dace.textreader.view.weight.pullrecycler.mywebview.JustifyTextView
+                    <TextView
                         android:id="@+id/expandable_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -151,207 +153,18 @@
                     android:textStyle="bold"/>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rcl_author_works"
+                    android:layout_marginLeft="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </android.support.v7.widget.RecyclerView>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="#F7F7F9"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rcl_author_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </android.support.v7.widget.RecyclerView>
-                <!--<LinearLayout-->
-                    <!--android:visibility="gone"-->
-                    <!--android:id="@+id/ll_des_1"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical">-->
-                    <!--<RelativeLayout-->
-                        <!--android:id="@+id/rl_des_1"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="15dp">-->
 
-                        <!--<TextView-->
-                            <!--android:id="@+id/tv_title_1"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="生平"-->
-                            <!--android:textColor="#333333"-->
-                            <!--android:textSize="17sp"-->
-                            <!--android:textStyle="bold" />-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="25dp"-->
-                            <!--android:layout_height="13dp"-->
-                            <!--android:layout_alignParentRight="true"-->
-                            <!--android:layout_centerVertical="true"-->
-                            <!--android:src="@drawable/ic_expand_more_black_24dp"/>-->
-                    <!--</RelativeLayout>-->
-                    <!--<me.biubiubiu.justifytext.library.JustifyTextView-->
-                        <!--android:id="@+id/tv_des_1"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textColor="#333333"-->
-                        <!--android:textSize="16sp"/>-->
-                <!--</LinearLayout>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="10dp"-->
-                    <!--android:background="#F7F7F9"/>-->
-                <!--<LinearLayout-->
-                    <!--android:visibility="gone"-->
-                    <!--android:id="@+id/ll_des_2"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical">-->
-                    <!--<RelativeLayout-->
-                        <!--android:id="@+id/rl_des_2"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="15dp">-->
-                        <!--<TextView-->
-                            <!--android:id="@+id/tv_title_2"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="轶事典故"-->
-                            <!--android:textStyle="bold"-->
-                            <!--android:textSize="17sp"-->
-                            <!--android:textColor="#333333"/>-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="25dp"-->
-                            <!--android:layout_height="13dp"-->
-                            <!--android:layout_alignParentRight="true"-->
-                            <!--android:layout_centerVertical="true"-->
-                            <!--android:src="@drawable/ic_expand_more_black_24dp"/>-->
-                    <!--</RelativeLayout>-->
-                    <!--<me.biubiubiu.justifytext.library.JustifyTextView-->
-                        <!--android:id="@+id/tv_des_2"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textColor="#333333"-->
-                        <!--android:textSize="16sp"/>-->
-                <!--</LinearLayout>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="10dp"-->
-                    <!--android:background="#F7F7F9"/>-->
-                <!--<LinearLayout-->
-                    <!--android:visibility="gone"-->
-                    <!--android:id="@+id/ll_des_3"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical">-->
-                    <!--<RelativeLayout-->
-                        <!--android:id="@+id/rl_des_3"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="15dp">-->
-                        <!--<TextView-->
-                            <!--android:id="@+id/tv_title_3"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="成就"-->
-                            <!--android:textStyle="bold"-->
-                            <!--android:textSize="17sp"-->
-                            <!--android:textColor="#333333"/>-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="25dp"-->
-                            <!--android:layout_height="13dp"-->
-                            <!--android:layout_alignParentRight="true"-->
-                            <!--android:layout_centerVertical="true"-->
-                            <!--android:src="@drawable/ic_expand_more_black_24dp"/>-->
-                    <!--</RelativeLayout>-->
-                    <!--<me.biubiubiu.justifytext.library.JustifyTextView-->
-                        <!--android:id="@+id/tv_des_3"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textColor="#333333"-->
-                        <!--android:textSize="16sp"/>-->
-                <!--</LinearLayout>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="10dp"-->
-                    <!--android:background="#F7F7F9"/>-->
-                <!--<LinearLayout-->
-                    <!--android:visibility="gone"-->
-                    <!--android:id="@+id/ll_des_4"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical">-->
-                    <!--<RelativeLayout-->
-                        <!--android:id="@+id/rl_des_4"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="15dp">-->
-                        <!--<TextView-->
-                            <!--android:id="@+id/tv_title_4"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="后世影响"-->
-                            <!--android:textStyle="bold"-->
-                            <!--android:textSize="17sp"-->
-                            <!--android:textColor="#333333"/>-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="25dp"-->
-                            <!--android:layout_height="13dp"-->
-                            <!--android:layout_alignParentRight="true"-->
-                            <!--android:layout_centerVertical="true"-->
-                            <!--android:src="@drawable/ic_expand_more_black_24dp"/>-->
-                    <!--</RelativeLayout>-->
-                    <!--<me.biubiubiu.justifytext.library.JustifyTextView-->
-                        <!--android:id="@+id/tv_des_4"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textColor="#333333"-->
-                        <!--android:textSize="16sp"/>-->
-                <!--</LinearLayout>-->
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="10dp"-->
-                    <!--android:background="#F7F7F9"/>-->
-                <!--<LinearLayout-->
-                    <!--android:visibility="gone"-->
-                    <!--android:id="@+id/ll_des_5"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical">-->
-                    <!--<RelativeLayout-->
-                        <!--android:id="@+id/rl_des_5"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="15dp">-->
-                        <!--<TextView-->
-                            <!--android:id="@+id/tv_title_5"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="后世影响"-->
-                            <!--android:textStyle="bold"-->
-                            <!--android:textSize="17sp"-->
-                            <!--android:textColor="#333333"/>-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="25dp"-->
-                            <!--android:layout_height="13dp"-->
-                            <!--android:layout_alignParentRight="true"-->
-                            <!--android:layout_centerVertical="true"-->
-                            <!--android:src="@drawable/ic_expand_more_black_24dp"/>-->
-                    <!--</RelativeLayout>-->
-                    <!--<me.biubiubiu.justifytext.library.JustifyTextView-->
-                        <!--android:id="@+id/tv_des_5"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textColor="#333333"-->
-                        <!--android:textSize="16sp"/>-->
-                <!--</LinearLayout>-->
 
 
             </LinearLayout>

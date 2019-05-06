@@ -89,13 +89,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.dace.textreader.view.VideoPlayer.BDVideoView
-                android:id="@+id/view_video"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="#888">
+            <!--<com.dace.textreader.view.VideoPlayer.BDVideoView-->
+                <!--android:id="@+id/view_video"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="250dp"-->
+                <!--android:background="#888">-->
 
-            </com.dace.textreader.view.VideoPlayer.BDVideoView>
+            <!--</com.dace.textreader.view.VideoPlayer.BDVideoView>-->
+
             <RelativeLayout
                 android:id="@+id/rl_top"
                 android:layout_width="match_parent"
@@ -106,11 +107,19 @@
                     android:layout_height="250dp"
                     android:scaleType="fitXY"/>
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/iv_playvideo"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/article_icon_video"/>
+
+                <com.xiao.nicevideoplayer.NiceVideoPlayer
+                    android:id="@+id/videoplayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
+
+                </com.xiao.nicevideoplayer.NiceVideoPlayer>
             </RelativeLayout>
 
             <com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview

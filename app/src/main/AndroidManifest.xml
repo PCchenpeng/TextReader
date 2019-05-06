@@ -744,6 +744,7 @@
         <activity android:name=".activity.ArticleDetailActivityTest"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/NewMainTheme"/>
         <activity android:name=".activity.WordDetailActivity"
             android:launchMode="singleTop"

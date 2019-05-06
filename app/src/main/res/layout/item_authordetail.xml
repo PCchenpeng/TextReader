@@ -2,6 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F7F7F9"/>
     <LinearLayout
         android:id="@+id/ll_des_1"
         android:layout_width="match_parent"
@@ -31,7 +35,11 @@
                 android:src="@drawable/ic_expand_more_black_24dp"/>
         </RelativeLayout>
         <me.biubiubiu.justifytext.library.JustifyTextView
+            android:visibility="gone"
             android:id="@+id/tv_des"
+            android:lineSpacingExtra = "10dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#333333"
