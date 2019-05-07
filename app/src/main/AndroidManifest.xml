@@ -715,6 +715,12 @@
             android:theme="@style/NewMainTheme">
         </activity>
         <activity
+            android:name=".activity.MySubscriptionActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMainTheme">
+        </activity>
+        <activity
             android:name=".activity.KnowledgeSummaryActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

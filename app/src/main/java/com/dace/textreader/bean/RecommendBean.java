@@ -38,6 +38,7 @@ public class RecommendBean {
         this.data = data;
     }
 
+
     public static class DataBean {
         /**
          * articleList : [{"fenlei":"美文","category":0,"article":{"id":244,"compositionId":"534503616652902400","studentId":7777,"article":"玩游戏","type":0,"status":1,"saveTime":1547477193000,"materialId":null,"mark":null,"likeNum":0,"wordNum":800,"level":0,"username":"0182594328公公","userimg":"https://check.pythe.cn:446/image/default.png","gradeid":131,"category":null,"taskId":null,"isPublic":1,"matchName":null,"pv":0,"commentNum":0,"prize":null,"source":null,"cover":null,"avgScore":0,"quantity":0,"format":null,"origin":null,"collected":0,"searchId":"553531723795791872","subContent":"玩游戏","content":"玩游戏","comment":null,"taskImg":null,"description":null,"sequence":16303,"title":"我爱你，不光因为你的样子","sourceImage":"http://web.pythe.cn/xd/logo/dushi.jpg","flag":0,"shareNum":0,"collectNum":0,"time":1552273836000,"audio":"http://web.pythe.cn/xd/dushi/audio/2689559910414684.mp3","image":"http://web.pythe.cn/xd/dushi/images/2689488039655129.jpg?imageView2/1/w/750/h/420","video":null,"authorId":null,"author":"罗伊·克里夫特(爱尔兰)","score":null,"grade":3,"isMachine":0,"isMap":0,"dynasty":null,"gradeId":null,"videoTime":null,"audioTime":null,"platformIndexId":"144","appreciationNum":0,"level1":null,"articleAlbumSeq":null,"supply":"为你读书","isAlbum":0,"userImage":null}},{"fenlei":"美文","category":0,"article":{"sequence":16304,"id":4155227383600511,"type":null,"title":"我愿是急流","subContent":"我愿是急流山里的小河在崎岖的路上岩石上经过只要我的爱人是一条小鱼在我的浪花中快乐地游来游去我愿是荒林在","sourceImage":"http://web.pythe.cn/xd/logo/dushi.jpg","source":"为你读书","flag":0,"format":2,"shareNum":0,"likeNum":0,"collectNum":0,"status":1,"pv":0,"time":1552273836000,"audio":"http://web.pythe.cn/xd/dushi/audio/2694626867438897.mp3","image":"http://web.pythe.cn/xd/dushi/images/2694603333001767.jpg?imageView2/1/w/750/h/420","video":null,"authorId":null,"author":"裴多菲(匈牙利)","score":null,"grade":3,"commentNum":0,"isMachine":0,"isMap":0,"dynasty":null,"gradeId":null,"videoTime":null,"audioTime":null,"searchId":"554622196442595328","platformIndexId":"145","appreciationNum":0,"level1":null,"articleAlbumSeq":null,"supply":"为你读书","isAlbum":0,"userImage":null}},{"fenlei":"美文","category":0,"article":{"sequence":16305,"id":1155227383617945,"type":null,"title":"相见时难别亦难","subContent":"无题相见时难别亦难，东风无力百花残。春蚕到死丝方尽，蜡炬成灰泪始干。晓镜但愁云鬓改，夜吟应觉月光寒。蓬山此去无多","sourceImage":"http://web.pythe.cn/xd/logo/dushi.jpg","source":"为你读书","flag":0,"format":2,"shareNum":0,"likeNum":0,"collectNum":0,"status":1,"pv":0,"time":1552273836000,"audio":"http://web.pythe.cn/xd/dushi/audio/2698861446618965.mp3","image":"http://web.pythe.cn/xd/dushi/images/2698780515452184.jpg?imageView2/1/w/750/h/420","video":null,"authorId":null,"author":"李商隐(唐代)","score":null,"grade":3,"commentNum":0,"isMachine":0,"isMap":0,"dynasty":null,"gradeId":null,"videoTime":null,"audioTime":null,"searchId":"554622197147238400","platformIndexId":"146","appreciationNum":0,"level1":null,"articleAlbumSeq":null,"supply":"为你读书","isAlbum":0,"userImage":null}},{"fenlei":"美文","category":0,"article":{"sequence":16306,"id":1155227383634082,"type":null,"title":"一棵开花的树","subContent":"如何让你遇见我在我最美丽的时刻为这我已在佛前求了五百年求佛让我们结一段尘缘佛於是把我化做一棵树长在你必经的路","sourceImage":"http://web.pythe.cn/xd/logo/dushi.jpg","source":"为你读书","flag":0,"format":2,"shareNum":0,"likeNum":0,"collectNum":0,"status":1,"pv":0,"time":1552273836000,"audio":"http://web.pythe.cn/xd/dushi/audio/2700868221780758.mp3","image":"http://web.pythe.cn/xd/dushi/images/2700832857982996.jpg?imageView2/1/w/750/h/420","video":null,"authorId":null,"author":"席慕蓉(中国)","score":null,"grade":3,"commentNum":0,"isMachine":0,"isMap":0,"dynasty":null,"gradeId":null,"videoTime":null,"audioTime":null,"searchId":"554622197830909952","platformIndexId":"147","appreciationNum":0,"level1":null,"articleAlbumSeq":null,"supply":"为你读书","isAlbum":0,"userImage":null}},{"fenlei":"创作","category":1,"article":{"id":245,"compositionId":"534507460430528512","studentId":7777,"article":"玩游戏","type":0,"status":1,"saveTime":1547478109000,"materialId":null,"mark":null,"likeNum":0,"wordNum":800,"level":0,"username":"0182594328公公","userimg":"https://check.pythe.cn:446/image/default.png","gradeid":131,"category":null,"taskId":null,"isPublic":1,"matchName":null,"pv":2,"commentNum":0,"prize":null,"source":null,"cover":null,"avgScore":0,"quantity":0,"format":null,"origin":null,"collected":0,"searchId":"553531723946786816","subContent":"玩游戏","content":"玩游戏","comment":null,"taskImg":null,"description":null}},{"fenlei":"创作","category":1,"article":{"id":244,"compositionId":"534503616652902400","studentId":7777,"article":"玩游戏","type":0,"status":1,"saveTime":1547477193000,"materialId":null,"mark":null,"likeNum":0,"wordNum":800,"level":0,"username":"0182594328公公","userimg":"https://check.pythe.cn:446/image/default.png","gradeid":131,"category":null,"taskId":null,"isPublic":1,"matchName":null,"pv":0,"commentNum":0,"prize":null,"source":null,"cover":null,"avgScore":0,"quantity":0,"format":null,"origin":null,"collected":0,"searchId":"553531723795791872","subContent":"玩游戏","content":"玩游戏","comment":null,"taskImg":null,"description":null}}]
@@ -199,7 +200,7 @@ public class RecommendBean {
                 private Object comment;
                 private Object taskImg;
                 private Object description;
-                private int sequence;
+                private long sequence;
                 private String title;
                 private String sourceImage;
                 private int flag;
@@ -507,11 +508,11 @@ public class RecommendBean {
                     this.description = description;
                 }
 
-                public int getSequence() {
+                public long getSequence() {
                     return sequence;
                 }
 
-                public void setSequence(int sequence) {
+                public void setSequence(long sequence) {
                     this.sequence = sequence;
                 }
 

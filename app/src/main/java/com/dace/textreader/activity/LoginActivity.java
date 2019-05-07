@@ -391,7 +391,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 NewMainActivity.USERNAME = student.getString("username");
                 NewMainActivity.USERIMG = student.getString("userimg");
                 NewMainActivity.GRADE = student.optInt("level", -1);
-                NewMainActivity.GRADE_ID = student.optInt("gradeid", 110);
+                NewMainActivity.GRADE_ID = student.optInt("gradeid", -1);
                 NewMainActivity.PY_SCORE = student.getString("score");
                 NewMainActivity.LEVEL = student.optInt("level", -1);
                 NewMainActivity.DESCRIPTION = student.getString("description");

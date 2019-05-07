@@ -29,6 +29,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final int TYPE_IMG = 2;
     private final int TYPE_NOIMG = 3;
     private final int TYPE_TOP = 4;
+    private final int TYPE_TOP_SUB = 5;
     public final static int AUDIO_PIC = 10001;
     public final static int AUDIO_NOPIC = 10002;
     public final static int VIDEO = 10003;
@@ -36,6 +37,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     public final static int ARTICLE_PIC = 10005;
     public final static int ARTICLE_NOPIC = 10006;
     public final static int TOP = 10007;
+    public final static int TOP_SUB = 10008;
     private List<ArticleListBean> itemList = new ArrayList<>();
     private Context mContext;
 
@@ -92,6 +94,10 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                 View view4 = LayoutInflater.from(mContext).inflate(
                         R.layout.item_home_recommend_4, viewGroup, false);
                 return new TopHolder(view4);
+            case TYPE_TOP_SUB:
+                View view5 = LayoutInflater.from(mContext).inflate(
+                        R.layout.item_home_recommend_5, viewGroup, false);
+                return new TopSubHolder(view5);
             default:
                return null;
         }
@@ -103,11 +109,15 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
             return TYPE_TOP;
         }
 
-        if(itemList.get(position-1).getCategory() == 0){
+        if(position == 1){
+            return TYPE_TOP_SUB;
+        }
+
+        if(itemList.get(position-2).getCategory() == 0){
             Log.e("haha","TYPE_BIG");
             return TYPE_BIG;
-        }else if(itemList.get(position-1).getCategory() == 1){
-            String cover = itemList.get(position-1).getArticle().getCover();
+        }else if(itemList.get(position-2).getCategory() == 1){
+            String cover = itemList.get(position-2).getArticle().getCover();
             if(cover != null){
                 Log.e("haha","TYPE_IMG");
                 return TYPE_IMG;
@@ -123,7 +133,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         int viewType = getItemViewType(i);
-        final int itemPosition = i-1;
+        final int itemPosition = i-2;
         switch (viewType){
             case TYPE_TOP:
                 ((TopHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +147,15 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                            onItemClickListener.onClick(AUDIO_PIC,id,"");
 //                        }
                         onItemClickListener.onClick(TOP,"","",-1);
+
+                    }
+                });
+                break;
+            case TYPE_TOP_SUB:
+                ((TopSubHolder) viewHolder).iv_type.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemClickListener.onClick(TOP_SUB,"","",-1);
 
                     }
                 });
@@ -346,6 +365,13 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
             iv_gif.setImageResource(R.drawable.anim_home_gif);
             AnimationDrawable animationDrawable = (AnimationDrawable) iv_gif.getDrawable();
             animationDrawable.start();
+        }
+    }
+    class TopSubHolder extends RecyclerView.ViewHolder{
+        ImageView iv_type;
+        public TopSubHolder(@NonNull View itemView) {
+            super(itemView);
+            iv_type =  itemView.findViewById(R.id.iv_type);
         }
     }
 

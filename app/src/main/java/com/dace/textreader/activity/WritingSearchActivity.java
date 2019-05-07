@@ -30,6 +30,7 @@ import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -341,6 +342,7 @@ public class WritingSearchActivity extends BaseActivity {
             frameLayout.setVisibility(View.VISIBLE);
         }
     }
+
 
     /**
      * 无网络

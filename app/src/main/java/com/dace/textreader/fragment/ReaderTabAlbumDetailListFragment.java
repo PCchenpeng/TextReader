@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.JsonReader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,9 @@ import com.dace.textreader.bean.ReadTabAlbumDetailBean;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.JsonParser;
 import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.huawei.updatesdk.sdk.service.storekit.bean.JsonBean;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,6 +84,7 @@ public class ReaderTabAlbumDetailListFragment extends Fragment {
                     @Override
                     public void onReqSuccess(Object result) {
                         ReadTabAlbumDetailBean readTabAlbumDetailBean = GsonUtil.GsonToBean(result.toString(),ReadTabAlbumDetailBean.class);
+                        Log.d("111","readTabAlbumDetailBean  " + GsonUtil.BeanToJson(readTabAlbumDetailBean));
                         mData = readTabAlbumDetailBean.getData().getBook().get(0).getArticleList();
                         readerTabAlbumDetailListAdapter.refreshData(mData);
 

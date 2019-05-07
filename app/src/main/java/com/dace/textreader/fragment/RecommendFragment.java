@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.HomeAudioDetailActivity;
+import com.dace.textreader.activity.LoginActivity;
+import com.dace.textreader.activity.MySubscriptionActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.activity.NewSearchActivity;
 import com.dace.textreader.adapter.HomeRecommendAdapter;
@@ -130,6 +132,13 @@ public class RecommendFragment extends Fragment implements PullListener {
                          intent = new Intent(getContext(), NewSearchActivity.class);
                         startActivity(intent);
                         break;
+                    case HomeRecommendAdapter.TOP_SUB:
+                        if (NewMainActivity.STUDENT_ID == -1) {
+                            turnToLogin();
+                        } else {
+                            turnToIntensive();
+                        }
+                        break;
                     case HomeRecommendAdapter.IMG:
                          intent = new Intent(getContext(), ArticleDetailActivity.class);
                         intent.putExtra("essayId", id);
@@ -153,6 +162,22 @@ public class RecommendFragment extends Fragment implements PullListener {
         new GetRecommendData(RecommendFragment.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
                 String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(pageNum));
 
+    }
+
+    /**
+     * 前往登录
+     */
+    private void turnToLogin() {
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    /**
+     * 跳转到我的订阅页面
+     */
+    private void turnToIntensive() {
+        Intent intent = new Intent(getContext(), MySubscriptionActivity.class);
+        startActivity(intent);
     }
 
     private void getMoreRecommendData() {

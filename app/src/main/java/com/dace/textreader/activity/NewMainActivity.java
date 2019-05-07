@@ -116,7 +116,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     public static String USERNAME = "";  //学生名字
     public static String USERIMG = "";  //学生头像
     public static int GRADE = 0;  //学生等级
-    public static int GRADE_ID = 111; //学生等级ID
+    public static int GRADE_ID = -1; //学生等级ID
     public static String PY_SCORE = ""; //学生等级ID
     public static int LEVEL = 0;  //当前等级
     public static int NEWS_COUNT = 0;  //未读消息数量
@@ -243,6 +243,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         //绑定音频播放服务
         bindService();
+
+        startActivity(new Intent(this,MySubscriptionActivity.class));
 
     }
 
