@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
@@ -31,9 +32,23 @@ public class AuthorDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
         ((ItemHolder)viewHolder).tv_title.setText(mData.get(i).getNameStr());
-        ((ItemHolder)viewHolder).tv_des.setText(mData.get(i).getNameStr());
+        String text = mData.get(i).getCont();
+        String textTest = text.replaceAll("\n","\n\n");
+        ((ItemHolder)viewHolder).tv_des.setText(textTest);
+        ((ItemHolder)viewHolder).rl_des.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((ItemHolder)viewHolder).tv_des.getVisibility() == View.VISIBLE){
+                    ((ItemHolder)viewHolder).tv_des.setVisibility(View.GONE);
+                    ((ItemHolder)viewHolder).iv_des.setImageResource(R.drawable.ic_expand_more_black_24dp);
+                }else {
+                    ((ItemHolder)viewHolder).tv_des.setVisibility(View.VISIBLE);
+                    ((ItemHolder)viewHolder).iv_des.setImageResource(R.drawable.ic_expand_less_black_36dp);
+                }
+            }
+        });
     }
 
     @Override
@@ -44,11 +59,13 @@ public class AuthorDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     class ItemHolder extends RecyclerView.ViewHolder{
         private TextView tv_title,tv_des;
         private ImageView iv_des;
+        private RelativeLayout rl_des;
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_des = itemView.findViewById(R.id.tv_des);
             iv_des = itemView.findViewById(R.id.iv_des);
+            rl_des = itemView.findViewById(R.id.rl_des);
         }
     }
 }

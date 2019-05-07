@@ -212,7 +212,7 @@ public class RecommendBean {
                 private String video;
                 private Object authorId;
                 private String author;
-                private Object score;
+                private int score;
                 private int grade;
                 private int isMachine;
                 private int isMap;
@@ -604,11 +604,11 @@ public class RecommendBean {
                     this.author = author;
                 }
 
-                public Object getScore() {
+                public int getScore() {
                     return score;
                 }
 
-                public void setScore(Object score) {
+                public void setScore(int score) {
                     this.score = score;
                 }
 

@@ -5,13 +5,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.adapter.AuthorDetailAdapter;
+import com.dace.textreader.adapter.AuthorWorksAdapter;
 import com.dace.textreader.bean.AuthorDetailBean;
+import com.dace.textreader.bean.AuthorWorksBean;
+import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.okhttp.OkHttpManager;
@@ -26,6 +28,7 @@ import java.util.List;
 public class AuthorDetailActivity extends BaseActivity implements View.OnClickListener{
 
     private String url = HttpUrlPre.HTTP_URL_ + "/select/author/detail";
+    private String worksUrl = HttpUrlPre.HTTP_URL_ + "/select/author/article/list";
     private String authorId;
     private ExpandableTextView expandableTextView;
     private ImageView iv_topimg ,iv_playvideo;
@@ -34,15 +37,9 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_author,tv_follow;
     private RecyclerView rcl_author_detail,rcl_author_works;
     private List<AuthorDetailBean.DataBean.DescriptionListBean> detailList = new ArrayList<>();
+    private List<AuthorWorksBean.DataBean> worksList = new ArrayList<>();
     private AuthorDetailAdapter authorDetailAdapter;
-//    private LinearLayout ll_des_1,ll_des_2,ll_des_3,ll_des_4,ll_des_5;
-//    private RelativeLayout rl_des_1,rl_des_2,rl_des_3,rl_des_4,rl_des_5;
-//    private TextView tv_title_1,tv_title_2,tv_title_3,tv_title_4,tv_title_5;
-//    private TextView tv_des_1,tv_des_2,tv_des_3,tv_des_4,tv_des_5;
-//    private LinearLayout[] ll_desArr;
-//    private RelativeLayout[] rl_desArr;
-//    private TextView[] tv_desArr;
-//    private TextView[] tv_titleArr;
+    private AuthorWorksAdapter authorWorksAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,31 +72,12 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rcl_author_detail.setLayoutManager(linearLayoutManager);
         rcl_author_detail.setAdapter(authorDetailAdapter);
-//        ll_des_1 = findViewById(R.id.ll_des_1);
-//        ll_des_2 = findViewById(R.id.ll_des_2);
-//        ll_des_3 = findViewById(R.id.ll_des_3);
-//        ll_des_4 = findViewById(R.id.ll_des_4);
-//        ll_des_5 = findViewById(R.id.ll_des_5);
-//        rl_des_1 = findViewById(R.id.rl_des_1);
-//        rl_des_2 = findViewById(R.id.rl_des_2);
-//        rl_des_3 = findViewById(R.id.rl_des_3);
-//        rl_des_4 = findViewById(R.id.rl_des_4);
-//        rl_des_5 = findViewById(R.id.rl_des_5);
-//        tv_title_1 = findViewById(R.id.tv_title_1);
-//        tv_title_2 = findViewById(R.id.tv_title_2);
-//        tv_title_3 = findViewById(R.id.tv_title_3);
-//        tv_title_4 = findViewById(R.id.tv_title_4);
-//        tv_title_5 = findViewById(R.id.tv_title_5);
-//        tv_des_1 = findViewById(R.id.tv_des_1);
-//        tv_des_2 = findViewById(R.id.tv_des_2);
-//        tv_des_3 = findViewById(R.id.tv_des_3);
-//        tv_des_4 = findViewById(R.id.tv_des_4);
-//        tv_des_5 = findViewById(R.id.tv_des_5);
-//
-//        ll_desArr = new LinearLayout[]{ll_des_1,ll_des_2,ll_des_3,ll_des_4,ll_des_5};
-//        rl_desArr = new RelativeLayout[]{rl_des_1,rl_des_2,rl_des_3,rl_des_4,rl_des_5};
-//        tv_desArr = new TextView[]{tv_des_1,tv_des_2,tv_des_3,tv_des_4,tv_des_5};
-//        tv_titleArr = new TextView[]{tv_title_1,tv_title_2,tv_title_3,tv_title_4,tv_title_5};
+
+        authorWorksAdapter = new AuthorWorksAdapter(this,worksList);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        rcl_author_works.setLayoutManager(linearLayoutManager1);
+        rcl_author_works.setAdapter(authorWorksAdapter);
+
         expandableTextView.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
             @Override
             public void onExpandStateChanged(TextView textView, boolean isExpanded) {
@@ -107,7 +85,10 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
         });
 
         getData();
+        getWorksData();
     }
+
+
 
     private void getData() {
         JSONObject params = new JSONObject();
@@ -128,12 +109,35 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
                 List<AuthorDetailBean.DataBean.DescriptionListBean> descriptionListBeanList = authorDetailBean.getData().getDescriptionList();
                 detailList.addAll(descriptionListBeanList);
                 authorDetailAdapter.notifyDataSetChanged();
-                for(int i=0;i<descriptionListBeanList.size();i++){
-//                    ll_desArr[i].setVisibility(View.VISIBLE);
-//                    tv_titleArr[i].setText(descriptionListBeanList.get(i).getNameStr());
-//                    tv_desArr[i].setText(descriptionListBeanList.get(i).getCont());
-                }
                 expandableTextView.setText(textTest);
+                GlideUtils.loadUserImage(AuthorDetailActivity.this,authorDetailBean.getData().getImage(),iv_author);
+                tv_author.setText(authorDetailBean.getData().getAuthor());
+                GlideUtils.loadHomeImage(AuthorDetailActivity.this,authorDetailBean.getData().getVideo().getImg(),iv_topimg);
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
+    }
+
+    private void getWorksData() {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("authorId",authorId);
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("pageNum",1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(this).requestAsyn(worksUrl, OkHttpManager.TYPE_POST_JSON,params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                AuthorWorksBean authorWorksBean = GsonUtil.GsonToBean(result.toString(),AuthorWorksBean.class);
+                List<AuthorWorksBean.DataBean> dataBeans = authorWorksBean.getData();
+                worksList.addAll(dataBeans);
+                authorWorksAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -145,15 +149,16 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
 
     private void initEvents() {
         rl_back_copy.setOnClickListener(this);
-//        rl_des_1.setOnClickListener(this);
-//        rl_des_2.setOnClickListener(this);
-//        rl_des_3.setOnClickListener(this);
-//        rl_des_4.setOnClickListener(this);
-//        rl_des_5.setOnClickListener(this);
+        iv_audio.setOnClickListener(this);
+        tv_author.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.rl_back_copy:
+                finish();
+                break;
+        }
     }
 }

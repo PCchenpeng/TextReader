@@ -53,6 +53,7 @@ import com.dace.textreader.bean.H5DataBean;
 import com.dace.textreader.bean.WordDetailBean;
 import com.dace.textreader.bean.WordListBean;
 import com.dace.textreader.listen.OnListDataOperateListen;
+import com.dace.textreader.util.CustomController;
 import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
@@ -80,6 +81,9 @@ import com.shuyu.action.web.ActionSelectListener;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.share.WbShareHandler;
 import com.suke.widget.SwitchButton;
+import com.xiao.nicevideoplayer.NiceVideoPlayer;
+import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
+import com.xiao.nicevideoplayer.TxVideoPlayerController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,8 +136,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private String thinkText;
     private int selectStart,selectEnd;
     private boolean isVideo;
-    private BDVideoView view_video;
-    private VideoDetailInfo videoInfo;
+//    private BDVideoView view_video;
     private boolean isCollected;
     private boolean isPageComplete;
 
@@ -157,6 +160,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
     private OnListDataOperateListen mListen;
     private String content = "";
+    private NiceVideoPlayer videoPlayer;
+    private CustomController controller;
 
 
 
@@ -165,13 +170,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_articledetail);
-
-        //修改状态栏的文字颜色为黑色
-//        int flag = StatusBarUtil.StatusBarLightMode(this);
-//        StatusBarUtil.StatusBarLightMode(this, flag);
-
         mPlayer = new MediaPlayer();
-//        play("http://media.pythe.cn/xd/bdshiwen/audio/61635597367967.mp3");
         shareHandler = new WbShareHandler(this);
         shareHandler.registerApp();
         shareHandler.setProgressColor(Color.parseColor("#ff9933"));
@@ -205,15 +204,50 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         tv_keep = findViewById(R.id.tv_keep);
         et_think = findViewById(R.id.et_think);
         iv_playvideo = findViewById(R.id.iv_playvideo);
-        view_video = findViewById(R.id.view_video);
+//        view_video = findViewById(R.id.view_video);
         rl_top = findViewById(R.id.rl_top);
+        videoPlayer = findViewById(R.id.videoplayer);
+
+//        String videoUrl = "http://tanzi27niu.cdsb.mobi/wps/wp-content/uploads/2017/05/2017-05-17_17-33-30.mp4";
+//        videoPlayer.setUp(videoUrl, null);
+        controller = new CustomController(this);
+        controller.setOnScreenChangeListener(new CustomController.OnScreenChangeListener() {
+            @Override
+            public void onNormal() {
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        /**
+                         *要执行的操作
+                         */
+                        scroll_view.scrollTo(0,0);
+                    }
+                }, 500);
+
+            }
+
+            @Override
+            public void onFullScreen() {
+
+            }
+        });
+//        controller.setTitle("办公室小野开番外了，居然在办公室开澡堂！老板还点赞？");
+//        controller.setLenght(0);
+        GlideApp.with(this)
+                .load(imgUrl)
+                .placeholder(R.drawable.img_default)
+                .into(controller.imageView());
+
+
 
         if(isVideo){
-            view_video.setVisibility(View.VISIBLE);
-            iv_playvideo.setVisibility(View.VISIBLE);
+            videoPlayer.setVisibility(View.VISIBLE);
+//            iv_playvideo.setVisibility(View.VISIBLE);
         }else {
-            view_video.setVisibility(View.GONE);
-            iv_playvideo.setVisibility(View.GONE);
+            videoPlayer.setVisibility(View.GONE);
+//            iv_playvideo.setVisibility(View.GONE);
         }
 
         GlideApp.with(this)
@@ -222,15 +256,15 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 .centerCrop()
                 .into(iv_topimg);
 
-//        mWebview.setWebChromeClient(new WebChromeClient() {
-//            //            @Override
-//            public boolean onJsAlert(WebView view, String url, String message,
-//                                     JsResult result) {
-//                // TODO Auto-generated method stub
-//                return super.onJsAlert(view, url, message, result);
-//            }
-//
-//        });
+        mWebview.setWebChromeClient(new WebChromeClient() {
+            //            @Override
+            public boolean onJsAlert(WebView view, String url, String message,
+                                     JsResult result) {
+                // TODO Auto-generated method stub
+                return super.onJsAlert(view, url, message, result);
+            }
+
+        });
         initWebSettings();
 
 
@@ -247,24 +281,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 NewMainActivity.STUDENT_ID+"&gradeId="+NewMainActivity.GRADE_ID+"&lineHeight=2.4&isShare=0&version=3.2.6&backgroundColor=FFFFFF&essayId="+essayId;
         mWebview.loadUrl(url);
 
-        view_video.setOnVideoControlListener(new SimpleOnVideoControlListener() {
-
-            @Override
-            public void onRetry(int errorStatus) {
-                // TODO: 2017/6/20 调用业务接口重新获取数据
-                // get info and call method "videoView.startPlayVideo(info);"
-            }
-
-            @Override
-            public void onBack() {
-                onBackPressed();
-            }
-
-            @Override
-            public void onFullScreen() {
-                DisplayUtils.toggleScreenOrientation(ArticleDetailActivity.this);
-            }
-        });
     }
 
 
@@ -311,7 +327,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         rl_note.setOnClickListener(this);
         tv_keep.setOnClickListener(this);
         tv_cancle.setOnClickListener(this);
-        iv_playvideo.setOnClickListener(this);
+//        iv_playvideo.setOnClickListener(this);
 
         scroll_view.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -343,42 +359,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
 
-
-//        mWebview.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN)
-//                    scroll_view.requestDisallowInterceptTouchEvent(true);
-//                else
-//                    scroll_view.requestDisallowInterceptTouchEvent(false);
-//
-//                return false;
-//            }
-//        });
-
-//        mWebview.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent ev) {
-//
-//                ((WebView)v).requestDisallowInterceptTouchEvent(true);
-//
-//                return false;
-//            }
-//        });
-
-//        mWebview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                Log.e("MotionEvent", "scrollXscrollX = "+String.valueOf(scrollX));
-//                Log.e("MotionEvent", "scrollY = "+String.valueOf(scrollY));
-//                Log.e("MotionEvent", "oldScrollX = "+String.valueOf(oldScrollX));
-//                Log.e("MotionEvent", "oldScrollY = "+String.valueOf(oldScrollY));
-//            }
-//        });
-
-
         JSONObject params = new JSONObject();
         try {
             params.put("screen_height",DensityUtil.px2dip(this,DensityUtil.getScreenHeight(this)));
@@ -407,10 +387,13 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     isPageComplete = false;
                 }
                 title = h5DataBean.getTitle();
-                videoInfo = new VideoDetailInfo();
-                videoInfo.setTitle(title);
-                if(h5DataBean.getVideo() != null)
-                videoInfo.setVideoPath(h5DataBean.getVideo().toString());
+                controller.setTitle(title);
+                if(h5DataBean.getVideo() != null){
+                    String videoUrl = h5DataBean.getVideo().toString();
+                    videoUrl = videoUrl.replaceAll("https","http");
+                    videoPlayer.setUp(videoUrl, null);
+                    videoPlayer.setController(controller);
+                }
                 isCollected = h5DataBean.getCollectOrNot() == 1;
                 if(isCollected){
                     iv_collect.setImageResource(R.drawable.nav_icon_collect_select);
@@ -1259,11 +1242,11 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.iv_playvideo:
                 rl_top.setVisibility(View.INVISIBLE);
-                if(videoInfo != null){
-                    view_video.startPlayVideo(videoInfo);
-                }else {
-                    MyToastUtil.showToast(this,"请等待页面加载完毕");
-                }
+//                if(videoInfo != null){
+////                    view_video.startPlayVideo(videoInfo);
+//                }else {
+//                    MyToastUtil.showToast(this,"请等待页面加载完毕");
+//                }
                 break;
         }
     }
@@ -1356,6 +1339,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             mPlayer.prepareAsync();
             //监听
             mPlayer.setOnPreparedListener(mOnPreparedListener);
+            mPlayer.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1384,7 +1368,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             mPlayer = null;
         }
 
-        view_video.onDestroy();
+//        view_video.onDestroy();
 
     }
 
@@ -1411,28 +1395,30 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onStop() {
         super.onStop();
-
-        view_video.onStop();
+        NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+//        view_video.onStop();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        view_video.onStart();
+//        view_video.onStart();
     }
 
 
 
     @Override
     public void onBackPressed() {
-        if (!DisplayUtils.isPortrait(this)) {
-            if(!view_video.isLock()) {
-                DisplayUtils.toggleScreenOrientation(this);
-            }
-        } else {
-            super.onBackPressed();
-        }
+//        if (!DisplayUtils.isPortrait(this)) {
+////            if(!view_video.isLock()) {
+////                DisplayUtils.toggleScreenOrientation(this);
+////            }
+//        } else {
+//            super.onBackPressed();
+//        }
+        if (NiceVideoPlayerManager.instance().onBackPressd()) return;
+        super.onBackPressed();
     }
 
     /**
