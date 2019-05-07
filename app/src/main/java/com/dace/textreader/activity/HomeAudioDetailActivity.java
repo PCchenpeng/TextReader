@@ -39,6 +39,7 @@ import com.dace.textreader.view.weight.pullrecycler.album.OnPageClickListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -54,8 +55,10 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private int pyNum;
 
     private AudioArticleBean mData;
+    private String audioUrl;
     private int pageNum =1;
     private String url = HttpUrlPre.HTTP_URL_ + "/select/article/detail";
+    private boolean isAudioComplete;
 
     /**
      * 播放器
@@ -180,10 +183,6 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
             }
         });
-
-//        new GetAudioData(HomeAudioDetailActivity.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
-//                String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(DensityUtil.getScreenHeight(HomeAudioDetailActivity.this)),
-//                String.valueOf(DensityUtil.getScreenWidth(HomeAudioDetailActivity.this)),essayId);
     }
 
 
@@ -216,6 +215,17 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
                 break;
             case R.id.iv_playpause:
+                if(isPortrait){
+//                    if(mPlayer.get){}
+//                    iv_playpause.setImageResource(R.drawable.picbook_btn_pause);
+                    if(mPlayer.isPlaying()){
+                        mPlayer.pause();
+                        iv_playpause.setImageResource(R.drawable.picbook_btn_play);
+                    }else {
+                        mPlayer.start();
+                        iv_playpause.setImageResource(R.drawable.picbook_btn_pause);
+                    }
+                }
                 break;
         }
     }
@@ -356,7 +366,9 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private void analyzeRecommendData(String s) {
         mData = GsonUtil.GsonToBean(s,AudioArticleBean.class);
 
-        play(mData);
+        audioUrl = mData.getData().getEssay().getAudio();
+
+        play(audioUrl);
 
         SpliterImg(mData);
 
@@ -420,18 +432,6 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         frontBacks[1] = splitBitmap.get(0);
         frontBacks[2] = splitBitmap.get(splitBitmap.size()-1);
         frontBacks[3] = splitBitmap.get(splitBitmap.size()-1);
-//        pages[0] = splitBitmap.get(1);
-//        pages[1] = splitBitmap.get(2);
-
-
-//        frontBacks[0] = BitmapFactory.decodeResource(getResources(), R.drawable.xiaoxin);
-//        frontBacks[1] = BitmapFactory.decodeResource(getResources(), R.drawable.xiaoxinback);
-//        frontBacks[2] = BitmapFactory.decodeResource(getResources(), R.drawable.xiaoxin);
-//        frontBacks[3] = BitmapFactory.decodeResource(getResources(), R.drawable.xiaoxinback);
-//        pages[0] = BitmapFactory.decodeResource(getResources(), R.drawable.page);
-//        pages[1] = BitmapFactory.decodeResource(getResources(), R.drawable.pageback);
-
-
 
         if(!hasRender){
             hasRender = true;
@@ -445,12 +445,21 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                     isOnPageScroll = false;
                     tv_currNum.setText(String.valueOf(currentIndex+1));
                     if(currentIndex == 0){
-                        mPlayer.seekTo(0);
+
+                        if(isAudioComplete){
+                            isAudioComplete = false;
+                            play(audioUrl);
+                        }else {
+                            mPlayer.seekTo(0);
+                        }
+
                     }else {
                         mPlayer.seekTo(mData.getData().getEssay().getContentList().get(currentIndex-1).getSecond()*1000);
-
-                        Log.e("ssssss",String.valueOf(mPlayer.getDuration()));
-                        Log.e("bbbbbb",String.valueOf(mPlayer.getCurrentPosition()));
+                        if(isAudioComplete){
+                            isAudioComplete = false;
+                            mPlayer.start();
+                            iv_playpause.setImageResource(R.drawable.picbook_btn_pause);
+                        }
                     }
 
                 }
@@ -536,48 +545,26 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
      *
      * @param music music
      */
-    public void play(AudioArticleBean music) {
+    public void play(final String music) {
 
 //        mPlayingMusic = music;
 //        createMediaPlayer();
         try {
             mPlayer.reset();
             //把音频路径传给播放器
-            String ss = music.getData().getEssay().getAudio();
-            mPlayer.setDataSource(DataEncryption.audioEncode(music.getData().getEssay().getAudio()));
+            mPlayer.setDataSource(DataEncryption.audioEncode(music));
             //准备
             mPlayer.prepareAsync();
             //设置状态为准备中
-//            mPlayState = MusicPlayAction.STATE_PREPARING;
-            //监听
-//            mPlayer.start();
             mPlayer.setOnPreparedListener(mOnPreparedListener);
-//            mPlayer.setOnBufferingUpdateListener(mOnBufferingUpdateListener);
-//            mPlayer.setOnCompletionListener(mOnCompletionListener);
-//            mPlayer.setOnSeekCompleteListener(mOnSeekCompleteListener);
-//            mPlayer.setOnErrorListener(mOnErrorListener);
-//            mPlayer.setOnInfoListener(mOnInfoListener);
-            //当播放的时候，需要刷新界面信息
-//            if (mListener != null) {
-//                mListener.onChange(mPlayingPosition, mPlayingMusic);
-//            }
-//            if (mOnPlayNumNeedUpdate != null) {
-//                mOnPlayNumNeedUpdate.update(mPlayingMusic);
-//            }
-//            if (mFloatView != null) {
-//                RequestOptions options = new RequestOptions()
-//                        .placeholder(R.drawable.icon_audio_default)
-//                        .error(R.drawable.icon_audio_default)
-//                        .transform(new GlideCircleTransform(getApplicationContext()));
-//                Glide.with(getApplicationContext())
-//                        .load(mPlayingMusic.getImage())
-//                        .apply(options)
-//                        .into(mMusicView);
-//            }
-//            if (mAnimator != null) {
-//                mAnimator.resume();
-//            }
-//            updatePlayerList();
+            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    isAudioComplete = true;
+                    iv_playpause.setImageResource(R.drawable.picbook_btn_play);
+                }
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -591,10 +578,11 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         @Override
         public void onPrepared(MediaPlayer mp) {
 //            if (isPreparing()) {
-                mPlayer.start();
+            mPlayer.start();
             musicThread =new Thread(new MuiscThread());
             // 启动线程
             musicThread.start();
+            iv_playpause.setImageResource(R.drawable.picbook_btn_pause);
 //            }
         }
     };
@@ -661,8 +649,17 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
             for(int i=0;i<mData.getData().getEssay().getContentList().size()-1;i++){
                 if(msg.what/100 == mData.getData().getEssay().getContentList().get(i).getSecond()*10){
-                    album_view.setCurrentIndex(i+1);
-                    tv_currNum.setText(String.valueOf(i+2));
+
+                    if((i+1) == album_view.getCurrentIndex()){
+                        return;
+                    }else {
+                        Log.e("HomeAudioDetailActivity","i="+String.valueOf(i));
+                        Log.e("HomeAudioDetailActivity","currentindex="+String.valueOf(album_view.getCurrentIndex()));
+                        album_view.setCurrentIndex(i+1);
+                        tv_currNum.setText(String.valueOf(i+2));
+                    }
+
+
                 }
             }
             // 将SeekBar位置设置到当前播放位置

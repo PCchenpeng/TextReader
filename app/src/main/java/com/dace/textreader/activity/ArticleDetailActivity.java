@@ -256,15 +256,15 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 .centerCrop()
                 .into(iv_topimg);
 
-        mWebview.setWebChromeClient(new WebChromeClient() {
-            //            @Override
-            public boolean onJsAlert(WebView view, String url, String message,
-                                     JsResult result) {
-                // TODO Auto-generated method stub
-                return super.onJsAlert(view, url, message, result);
-            }
-
-        });
+//        mWebview.setWebChromeClient(new WebChromeClient() {
+//            //            @Override
+//            public boolean onJsAlert(WebView view, String url, String message,
+//                                     JsResult result) {
+//                // TODO Auto-generated method stub
+//                return super.onJsAlert(view, url, message, result);
+//            }
+//
+//        });
         initWebSettings();
 
 
@@ -1334,12 +1334,19 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         try {
             mPlayer.reset();
             //把音频路径传给播放器
-            mPlayer.setDataSource(DataEncryption.audioEncode(music));
+            mPlayer.setDataSource(music);
             //准备
             mPlayer.prepareAsync();
             //监听
             mPlayer.setOnPreparedListener(mOnPreparedListener);
-            mPlayer.start();
+            mPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    if (mPlayer != null) {
+                    }
+                    return false;
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
