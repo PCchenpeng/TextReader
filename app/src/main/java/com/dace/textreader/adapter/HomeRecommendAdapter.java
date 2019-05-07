@@ -155,7 +155,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((TopSubHolder) viewHolder).iv_type.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onItemClickListener.onClick(TOP_SUB,"","",-1);
+                        onItemClickListener.onClick(TOP_SUB,"","",-1,-1);
 
                     }
                 });

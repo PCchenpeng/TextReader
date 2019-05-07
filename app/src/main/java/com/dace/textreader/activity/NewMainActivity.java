@@ -244,8 +244,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         //绑定音频播放服务
         bindService();
 
-        startActivity(new Intent(this,MySubscriptionActivity.class));
-
     }
 
 
