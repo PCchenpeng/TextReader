@@ -27,11 +27,12 @@
     <color name="colorGrade">#3399fe</color>
     <color name="colorRadiusBackground">#d4e4ee</color>
     <color name="colorShadow">#dddddd</color>
-    <color name="colorGlossaryBackground">#ededed</color>
+    <color name="colorGlossaryBackground">#ededed</color>f
     <color name="colorAfterReadingButton">#c5c5c5</color>
     <color name="colorAfterReadingPopupBackground">#f5f5f9</color>
     <color name="colorTransparent">#00ffffff</color>
     <color name="colorShadowTwo">#33000000</color>
+    <color name="colorBlueStyle">#4D83FF</color>
 
     <!--文字选择相关-->
     <color name="cursor_handle_color">#0d7aff</color>

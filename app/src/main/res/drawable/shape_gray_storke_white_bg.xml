@@ -3,11 +3,11 @@
 
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorOrange"/>
+            <solid android:color="@color/colorBlueStyle"/>
 
             <stroke
                 android:width="0.5dp"
-                android:color="@color/colorOrange"/>
+                android:color="@color/colorBlueStyle"/>
 
             <corners android:radius="6dp"/>
         </shape>
@@ -15,11 +15,11 @@
 
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorOrange"/>
+            <solid android:color="@color/colorBlueStyle"/>
 
             <stroke
                 android:width="0.5dp"
-                android:color="@color/colorOrange"/>
+                android:color="@color/colorBlueStyle"/>
 
             <corners android:radius="6dp"/>
         </shape>

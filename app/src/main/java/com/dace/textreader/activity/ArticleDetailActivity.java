@@ -309,7 +309,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         textLineSpacePosition = (int) PreferencesUtil.getData(this,"textLineSpacePosition",0);
         textSizePosition = (int) PreferencesUtil.getData(this,"textSizePosition",0);
         backgroundPosition = (int) PreferencesUtil.getData(this,"backgroundPosition",0);
-        readModule =  PreferencesUtil.getData(this,"textLineSpacePosition","1").toString();
+        readModule =  PreferencesUtil.getData(this,"readModule","1").toString();
     }
 
     @SuppressLint("ClickableViewAccessibility")

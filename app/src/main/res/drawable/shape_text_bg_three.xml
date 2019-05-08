@@ -6,7 +6,7 @@
             <corners android:radius="3dp"/>
             <solid android:color="@color/colorTextBgThree"/>
             <stroke android:width="2dp"
-                    android:color="@color/colorOrange"/>
+                    android:color="@color/colorBlueStyle"/>
         </shape>
     </item>
 
