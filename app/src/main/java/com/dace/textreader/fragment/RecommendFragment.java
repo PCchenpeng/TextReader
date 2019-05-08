@@ -19,6 +19,7 @@ import com.dace.textreader.activity.MySubscriptionActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.activity.NewSearchActivity;
 import com.dace.textreader.adapter.HomeRecommendAdapter;
+import com.dace.textreader.bean.MessageEvent;
 import com.dace.textreader.bean.RecommendBean;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.GsonUtil;
@@ -28,6 +29,9 @@ import com.dace.textreader.view.weight.pullrecycler.PullListener;
 import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
 import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -61,7 +65,25 @@ public class RecommendFragment extends Fragment implements PullListener {
 
         initView();
 
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         return view;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        loadData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     private void initView() {
@@ -159,10 +181,12 @@ public class RecommendFragment extends Fragment implements PullListener {
                 }
             }
         });
+        loadData();
+    }
 
+    private void loadData(){
         new GetRecommendData(RecommendFragment.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
                 String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(pageNum));
-
     }
 
     /**

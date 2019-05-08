@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,12 @@ import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.HomeLevelAdapter;
 import com.dace.textreader.adapter.LevelFragmentRecyclerViewAdapter;
 import com.dace.textreader.bean.LevelFragmentBean;
+import com.dace.textreader.bean.MessageEvent;
 import com.dace.textreader.bean.ReaderLevelBean;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
@@ -34,6 +37,8 @@ import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
 import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,11 +70,14 @@ public class HomeLevelFragment extends Fragment implements PullListener {
         return view;
     }
 
+
+
+
     private void loadData() {
         JSONObject params = new JSONObject();
         try {
-            params.put("studentId",NewMainActivity.STUDENT_ID + "");
-            params.put("gradeId","111");
+            params.put("studentId",PreferencesUtil.getData(getContext(),"studentId","-1"));
+            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId","-1"));
             params.put("grade",grade);
             params.put("pageNum",String.valueOf(pageNum));
             params.put("width",DensityUtil.getScreenWidth(getContext()));
@@ -81,6 +89,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
                 new OkHttpManager.ReqCallBack<Object>() {
                     @Override
                     public void onReqSuccess(Object result) {
+                        Log.d("111","result.toString() " + result.toString());
                         ReaderLevelBean readerLevelBean = GsonUtil.GsonToBean(result.toString(),ReaderLevelBean.class);
                         List<ReaderLevelBean.DataBean.ArticleListBean> data = readerLevelBean.getData().getArticleList();
                         if(isRefresh){
@@ -165,7 +174,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
                             if(levelBeanList != null) {
                                 levelBeanList.addAll(data);
                                 if (levelBeanList.size() > 0) {
-                                    grade = levelBeanList.get(0).getGradename();
+                                    grade = levelBeanList.get(0).getGrade() + "";
                                     loadData();
                                 }
                             }
@@ -205,7 +214,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
                             public void onItemClick(View view) {
                                 int pos = recyclerView.getChildAdapterPosition(view);
                                 if (levelBeanList.size() > 0) {
-                                    grade = levelBeanList.get(pos).getGradename();
+                                    grade = levelBeanList.get(pos).getGrade() + "";
                                     loadData();
                                 }
                                 dialog.dismiss();
@@ -213,7 +222,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
                         });
                     }
                 })
-                .setShowBottom(true)
+                .setShowBottom(false)
                 .show(getChildFragmentManager());
     }
 

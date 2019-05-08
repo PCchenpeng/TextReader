@@ -19,16 +19,21 @@ import android.widget.TextView;
 
 import com.dace.textreader.App;
 import com.dace.textreader.R;
+import com.dace.textreader.bean.MessageEvent;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.PreferencesUtil;
+import com.dace.textreader.util.ShareUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.VerifyCodeView;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.util.SharedUtil;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -405,6 +410,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 editor.putInt("studentId", id);
                 editor.putString("phoneNum", phoneNum);
                 editor.apply();
+
+                PreferencesUtil.saveData(LoginActivity.this,"studentId",id);
+                PreferencesUtil.saveData(LoginActivity.this,"token",token);
+                PreferencesUtil.saveData(LoginActivity.this,"phoneNum",phoneNum);
+                EventBus.getDefault().post(new MessageEvent(""));
 
                 broadcastUpdate(HttpUrlPre.ACTION_BROADCAST_JIGUANG_LOGIN);
 
