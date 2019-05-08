@@ -200,7 +200,7 @@ public class RecommendBean {
                 private Object comment;
                 private Object taskImg;
                 private Object description;
-                private long sequence;
+                private String sequence;
                 private String title;
                 private String sourceImage;
                 private int flag;
@@ -508,11 +508,11 @@ public class RecommendBean {
                     this.description = description;
                 }
 
-                public long getSequence() {
+                public String getSequence() {
                     return sequence;
                 }
 
-                public void setSequence(long sequence) {
+                public void setSequence(String sequence) {
                     this.sequence = sequence;
                 }
 

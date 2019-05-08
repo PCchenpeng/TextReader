@@ -561,7 +561,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     isAudioComplete = true;
-                    iv_playpause.setImageResource(R.drawable.picbook_btn_play);
+//                    iv_playpause.setImageResource(R.drawable.picbook_btn_play);
                 }
             });
 

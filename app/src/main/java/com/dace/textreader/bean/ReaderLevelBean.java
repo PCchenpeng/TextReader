@@ -103,7 +103,7 @@ public class ReaderLevelBean {
              * userImage : null
              */
 
-            private long sequence;
+            private String sequence;
             private int id;
             private String type;
             private String title;
@@ -141,11 +141,11 @@ public class ReaderLevelBean {
             private int isAlbum;
             private Object userImage;
 
-            public long getSequence() {
+            public String getSequence() {
                 return sequence;
             }
 
-            public void setSequence(long sequence) {
+            public void setSequence(String sequence) {
                 this.sequence = sequence;
             }
 

@@ -70,6 +70,7 @@ import com.dace.textreader.view.VideoPlayer.listener.SimpleOnVideoControlListene
 import com.dace.textreader.view.VideoPlayer.utils.DisplayUtils;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
+import com.dace.textreader.view.dialog.ReadSpeedDialog;
 import com.dace.textreader.view.dialog.ViewConvertListener;
 import com.dace.textreader.view.dialog.ViewHolder;
 import com.dace.textreader.view.weight.pullrecycler.MyScrollView;
@@ -106,7 +107,9 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private String deleteCollectUrl = HttpUrlPre.HTTP_URL_ + "/delete/essay/collect" ;
     private String essayId;
     private String title;
-
+    private String shareLink;
+    private Bitmap shareBitmap;
+    private String shareImgUrl;
     private BridgeCustomWebview mWebview;
 //    private AppBarLayout appBarLayout;
     private LinearLayout rl_bottom;
@@ -149,19 +152,22 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private String url;
 
     private int type_share = -1;  //分享类型
-    private final int TYPE_SHARE_WX_FRIEND = 1;  //微信好友
-    private final int TYPE_SHARE_WX_FRIENDS = 2;  //微信朋友圈
-    private final int TYPE_SHARE_QQ = 3;  //qq
-    private final int TYPE_SHARE_QZone = 4;  //qq空间
-    private final int TYPE_SHARE_LINK = 5;  //复制链接
-    private final int TYPE_SHARE_Weibo = 6;
+//    private final int TYPE_SHARE_WX_FRIEND = 1;  //微信好友
+////    private final int TYPE_SHARE_WX_FRIENDS = 2;  //微信朋友圈
+////    private final int TYPE_SHARE_QQ = 3;  //qq
+////    private final int TYPE_SHARE_QZone = 4;  //qq空间
+////    private final int TYPE_SHARE_LINK = 5;  //复制链接
+////    private final int TYPE_SHARE_Weibo = 6;
 
     private WbShareHandler shareHandler;
 
     private OnListDataOperateListen mListen;
-    private String content = "";
+    private String content = "哈哈哈哈哈";
     private NiceVideoPlayer videoPlayer;
     private CustomController controller;
+
+    private String audioUrl;
+    private boolean hasPlay;
 
 
 
@@ -387,6 +393,13 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     isPageComplete = false;
                 }
                 title = h5DataBean.getTitle();
+                if(h5DataBean.getMachineAudioList() != null && h5DataBean.getMachineAudioList().get(0) != null){
+                    audioUrl = h5DataBean.getMachineAudioList().get(0).getAudio();
+                }
+
+                shareImgUrl = h5DataBean.getShareList().getWx().getImage();
+                prepareBitmap(shareImgUrl);
+
                 controller.setTitle(title);
                 if(h5DataBean.getVideo() != null){
                     String videoUrl = h5DataBean.getVideo().toString();
@@ -430,12 +443,69 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
 
-        mWebview.setOnLongClickListener(new View.OnLongClickListener() {
+        mWebview.registerHandler("evaluateReadSpeedWithResult", new BridgeHandler() {
             @Override
-            public boolean onLongClick(View v) {
-                return false;
+            public void handler(String data, CallBackFunction function) {
+                ReadSpeedDialog readSpeedDialog = new ReadSpeedDialog(ArticleDetailActivity.this,data);
+                readSpeedDialog.show();
+                Log.e("ReadSpeed", "指定Handler接收来自web的数据：" + data);
+                function.onCallBack("123");
             }
         });
+
+        mWebview.registerHandler("h5IsPlayAudio", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                if (data!=null && !data.equals("")){
+                    if(audioUrl != null && !audioUrl.equals("")){
+                        if(data.equals("needPlay")){
+                            if(hasPlay){
+                                mPlayer.start();
+                            }else {
+                                play(audioUrl);
+                            }
+                            hasPlay = true;
+                        }else {
+                            mPlayer.pause();
+                        }
+
+                    }
+                }
+                Log.e("transportPara", "指定Handler接收来自web的数据：" + data);
+                function.onCallBack("123");
+            }
+        });
+
+        mWebview.registerHandler("shareOutFun", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                Log.e("shareOutFun", "指定Handler接收来自web的数据：" + data);
+                function.onCallBack("123");
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    String action = jsonObject.getString("txt");
+                    if(action != null && !action.equals("")){
+                        switch (action){
+                            case "wx":
+                                shareArticleToWX(true,h5DataBean.getShareList().getWx().getLink());
+                                break;
+                            case "wxquan":
+                                shareArticleToWX(false,h5DataBean.getShareList().getWx().getLink());
+                                break;
+                            case "qq":
+                                shareToQQ(h5DataBean.getShareList().getQq().getLink());
+                                break;
+                            case "more":
+                                shareNote("");
+                                break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         mWebview.setContentListener(new BridgeCustomWebview.ContentListener() {
             @Override
@@ -1447,14 +1517,14 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         holder.setOnClickListener(R.id.share_to_wechat, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                getShareHtml(TYPE_SHARE_WX_FRIEND, noteId);
+                                shareArticleToWX(true,h5DataBean.getShareList().getWx().getLink());
                                 dialog.dismiss();
                             }
                         });
                         holder.setOnClickListener(R.id.share_to_weixinpyq, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                getShareHtml(TYPE_SHARE_WX_FRIENDS, noteId);
+                                shareArticleToWX(false,h5DataBean.getShareList().getWx().getLink());
                                 dialog.dismiss();
                             }
                         });
@@ -1462,7 +1532,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                             @Override
                             public void onClick(View v) {
                                 if (WbSdk.isWbInstall(ArticleDetailActivity.this)) {
-                                    getShareHtml(TYPE_SHARE_Weibo, noteId);
+                                    shareToWeibo(h5DataBean.getShareList().getWx().getLink());
                                 } else {
                                     showTips("请先安装微博");
                                 }
@@ -1472,21 +1542,20 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         holder.setOnClickListener(R.id.share_to_qq, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                getShareHtml(TYPE_SHARE_QQ, noteId);
+                                shareToQQ(h5DataBean.getShareList().getWx().getLink());
                                 dialog.dismiss();
                             }
                         });
                         holder.setOnClickListener(R.id.share_to_qzone, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                getShareHtml(TYPE_SHARE_QZone, noteId);
+                                shareToQZone(h5DataBean.getShareList().getWx().getLink());
                                 dialog.dismiss();
                             }
                         });
                         holder.setOnClickListener(R.id.share_to_link, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                getShareHtml(TYPE_SHARE_LINK, noteId);
                                 dialog.dismiss();
                             }
                         });
@@ -1512,7 +1581,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
      * 分享到QQ空间
      */
     private void shareToQZone(String url) {
-        ShareUtil.shareToQZone(this, url, title, content, HttpUrlPre.SHARE_APP_ICON);
+        ShareUtil.shareToQZone(this, url, title, content, shareImgUrl);
     }
 
     /**
@@ -1521,17 +1590,53 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
      * @param friend true为分享到好友，false为分享到朋友圈
      */
     private void shareArticleToWX(boolean friend, String url) {
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+
+        Bitmap thumb = shareBitmap;
+        if(thumb == null)
+            thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
         ShareUtil.shareToWx(this, url, title, content,
-                ImageUtils.bmpToByteArray(thumb, true), friend);
+                ImageUtils.bmpToByteArrayCopy(thumb, false), friend);
     }
 
     /**
      * 分享到QQ好友
      */
     private void shareToQQ(String url) {
-        ShareUtil.shareToQQ(this, url, title, content, HttpUrlPre.SHARE_APP_ICON);
+        ShareUtil.shareToQQ(this, url, title, content, shareImgUrl);
+    }
+
+    /**
+     * 分享到微博
+     *
+     * @param url
+     */
+    private void shareToWeibo(String url) {
+
+        if (shareBitmap == null) {
+            shareBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.mipmap.ic_launcher);
+        }
+
+        ShareUtil.shareToWeibo(shareHandler, url, NewMainActivity.lessonTitle,
+                NewMainActivity.lessonContent, shareBitmap);
+
+    }
+
+    /**
+     * 准备Bitmap
+     */
+    private void prepareBitmap(final String shareImgUrl) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                shareBitmap = ImageUtils.GetNetworkBitmap(shareImgUrl);
+                if (shareBitmap == null) {
+                    shareBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                }
+            }
+        }.start();
     }
 
 

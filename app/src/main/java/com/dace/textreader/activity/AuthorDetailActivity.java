@@ -107,12 +107,14 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
                 String text = authorDetailBean.getData().getContent();
                 String textTest = text.replaceAll("\n","\n\n");
                 List<AuthorDetailBean.DataBean.DescriptionListBean> descriptionListBeanList = authorDetailBean.getData().getDescriptionList();
-                detailList.addAll(descriptionListBeanList);
+                if(descriptionListBeanList != null)
+                    detailList.addAll(descriptionListBeanList);
                 authorDetailAdapter.notifyDataSetChanged();
                 expandableTextView.setText(textTest);
                 GlideUtils.loadUserImage(AuthorDetailActivity.this,authorDetailBean.getData().getImage(),iv_author);
                 tv_author.setText(authorDetailBean.getData().getAuthor());
-                GlideUtils.loadHomeImage(AuthorDetailActivity.this,authorDetailBean.getData().getVideo().getImg(),iv_topimg);
+                if (authorDetailBean.getData().getVideo()!= null)
+                    GlideUtils.loadHomeImage(AuthorDetailActivity.this,authorDetailBean.getData().getVideo().getImg(),iv_topimg);
             }
 
             @Override
@@ -136,6 +138,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
             public void onReqSuccess(Object result) {
                 AuthorWorksBean authorWorksBean = GsonUtil.GsonToBean(result.toString(),AuthorWorksBean.class);
                 List<AuthorWorksBean.DataBean> dataBeans = authorWorksBean.getData();
+                if(dataBeans != null)
                 worksList.addAll(dataBeans);
                 authorWorksAdapter.notifyDataSetChanged();
             }

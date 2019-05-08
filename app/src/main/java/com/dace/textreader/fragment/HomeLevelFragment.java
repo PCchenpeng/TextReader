@@ -87,6 +87,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
         }
         OkHttpManager.getInstance(getContext()).requestAsyn(url, OkHttpManager.TYPE_POST_JSON, params,
                 new OkHttpManager.ReqCallBack<Object>() {
+
                     @Override
                     public void onReqSuccess(Object result) {
                         Log.d("111","result.toString() " + result.toString());

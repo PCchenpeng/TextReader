@@ -132,7 +132,7 @@ public class AudioArticleBean {
              * mean : null
              */
 
-            private long sequence;
+            private String sequence;
             private int id;
             private String type;
             private String title;
@@ -179,11 +179,11 @@ public class AudioArticleBean {
             private List<ContentListBean> contentList;
             private List<?> annotation;
 
-            public long getSequence() {
+            public String getSequence() {
                 return sequence;
             }
 
-            public void setSequence(long sequence) {
+            public void setSequence(String sequence) {
                 this.sequence = sequence;
             }
 
