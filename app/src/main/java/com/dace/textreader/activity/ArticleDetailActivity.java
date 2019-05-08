@@ -60,6 +60,7 @@ import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.ImageUtils;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.ShareUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.LineWrapLayout;
@@ -151,14 +152,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
     private String url;
 
-    private int type_share = -1;  //分享类型
-//    private final int TYPE_SHARE_WX_FRIEND = 1;  //微信好友
-////    private final int TYPE_SHARE_WX_FRIENDS = 2;  //微信朋友圈
-////    private final int TYPE_SHARE_QQ = 3;  //qq
-////    private final int TYPE_SHARE_QZone = 4;  //qq空间
-////    private final int TYPE_SHARE_LINK = 5;  //复制链接
-////    private final int TYPE_SHARE_Weibo = 6;
-
     private WbShareHandler shareHandler;
 
     private OnListDataOperateListen mListen;
@@ -210,12 +203,9 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         tv_keep = findViewById(R.id.tv_keep);
         et_think = findViewById(R.id.et_think);
         iv_playvideo = findViewById(R.id.iv_playvideo);
-//        view_video = findViewById(R.id.view_video);
         rl_top = findViewById(R.id.rl_top);
         videoPlayer = findViewById(R.id.videoplayer);
 
-//        String videoUrl = "http://tanzi27niu.cdsb.mobi/wps/wp-content/uploads/2017/05/2017-05-17_17-33-30.mp4";
-//        videoPlayer.setUp(videoUrl, null);
         controller = new CustomController(this);
         controller.setOnScreenChangeListener(new CustomController.OnScreenChangeListener() {
             @Override
@@ -239,21 +229,14 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
             }
         });
-//        controller.setTitle("办公室小野开番外了，居然在办公室开澡堂！老板还点赞？");
-//        controller.setLenght(0);
         GlideApp.with(this)
                 .load(imgUrl)
                 .placeholder(R.drawable.img_default)
                 .into(controller.imageView());
-
-
-
         if(isVideo){
             videoPlayer.setVisibility(View.VISIBLE);
-//            iv_playvideo.setVisibility(View.VISIBLE);
         }else {
             videoPlayer.setVisibility(View.GONE);
-//            iv_playvideo.setVisibility(View.GONE);
         }
 
         GlideApp.with(this)
@@ -271,6 +254,13 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 //            }
 //
 //        });
+
+        mWebview.setOnPageFinished(new BridgeCustomWebview.OnPageFinished() {
+            @Override
+            public void onPageFinished() {
+                refreshH5View();
+            }
+        });
         initWebSettings();
 
 
@@ -315,6 +305,11 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         imgUrl = getIntent().getStringExtra("imgUrl");
         essayId = getIntent().getStringExtra("essayId");
         isVideo = getIntent().getBooleanExtra("isVideo",false);
+
+        textLineSpacePosition = (int) PreferencesUtil.getData(this,"textLineSpacePosition",0);
+        textSizePosition = (int) PreferencesUtil.getData(this,"textSizePosition",0);
+        backgroundPosition = (int) PreferencesUtil.getData(this,"backgroundPosition",0);
+        readModule =  PreferencesUtil.getData(this,"textLineSpacePosition","1").toString();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -355,13 +350,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     }
 
                 }
-
-//                if(Math.abs(scrollY - oldScrollY) > 170){
-//                    mWebview.requestDisallowInterceptTouchEvent(true);
-//                }else {
-//                    mWebview.requestDisallowInterceptTouchEvent(false);
-//                }
-
             }
         });
 
@@ -402,7 +390,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
                 controller.setTitle(title);
                 if(h5DataBean.getVideo() != null){
-                    String videoUrl = h5DataBean.getVideo().toString();
+                    String videoUrl = h5DataBean.getVideo();
                     videoUrl = videoUrl.replaceAll("https","http");
                     videoPlayer.setUp(videoUrl, null);
                     videoPlayer.setController(controller);
@@ -468,7 +456,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         }else {
                             mPlayer.pause();
                         }
-
                     }
                 }
                 Log.e("transportPara", "指定Handler接收来自web的数据：" + data);
@@ -605,13 +592,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-//                WordListBean wordListBean = GsonUtil.GsonToBean(result.toString(),WordListBean.class);
-//                if(wordListBean != null & wordListBean.getData()!= null){
-//                    showWordDialog(wordListBean);
-//                }else {
-//                    MyToastUtil.showToast(ArticleDetailActivity.this,"没有数据");
-//                }
             }
 
             @Override
@@ -740,14 +720,9 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                             }
                                         });
                                     }
-
                                 }
-
-
                             }
                         });
-
-
                     }
                 })
                 .setOutCancel(true)
@@ -1006,6 +981,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                 } else {
                                     iv_size_max.setImageAlpha(255);
                                 }
+
+                                PreferencesUtil.saveData(ArticleDetailActivity.this,"textSizePosition",textSizePosition);
                             }
                         });
                         rl_size_max.setOnClickListener(new View.OnClickListener() {
@@ -1026,6 +1003,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                 } else {
                                     iv_size_max.setImageAlpha(255);
                                 }
+                                PreferencesUtil.saveData(ArticleDetailActivity.this,"textSizePosition",textSizePosition);
                             }
                         });
                         rl_row_space_max.setOnClickListener(new View.OnClickListener() {
@@ -1037,6 +1015,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                     rl_row_space_normal.setSelected(false);
                                     rl_row_space_min.setSelected(false);
                                     refreshH5View();
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"textLineSpacePosition",textLineSpacePosition);
                                 }
                             }
                         });
@@ -1049,6 +1028,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                     rl_row_space_max.setSelected(false);
                                     rl_row_space_min.setSelected(false);
                                     refreshH5View();
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"textLineSpacePosition",textLineSpacePosition);
                                 }
                             }
                         });
@@ -1061,6 +1041,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                     rl_row_space_normal.setSelected(false);
                                     rl_row_space_min.setSelected(true);
                                     refreshH5View();
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"textLineSpacePosition",textLineSpacePosition);
                                 }
                             }
                         });
@@ -1076,6 +1057,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                     backgroundPosition = 0;
                                     readModule = "1";
                                     refreshH5View();
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"readModule",readModule);
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"backgroundPosition",backgroundPosition);
                                 }
                             }
                         });
@@ -1090,6 +1073,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                     backgroundPosition = 1;
                                     readModule = "1";
                                     refreshH5View();
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"readModule",readModule);
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"backgroundPosition",backgroundPosition);
                                 }
                             }
                         });
@@ -1104,6 +1089,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                     backgroundPosition = 2;
                                     readModule = "1";
                                     refreshH5View();
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"readModule",readModule);
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"backgroundPosition",backgroundPosition);
                                 }
                             }
                         });
@@ -1118,6 +1105,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                     backgroundPosition = 3;
                                     readModule = "1";
                                     refreshH5View();
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"readModule",readModule);
+                                    PreferencesUtil.saveData(ArticleDetailActivity.this,"backgroundPosition",backgroundPosition);
                                 }
                             }
                         });
@@ -1292,6 +1281,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     readModule = "1";
                 }
                 refreshH5View();
+                PreferencesUtil.saveData(ArticleDetailActivity.this,"readModule",readModule);
+                PreferencesUtil.saveData(ArticleDetailActivity.this,"backgroundPosition",backgroundPosition);
                 break;
             case R.id.rl_appreciation:
                  intent = new Intent(ArticleDetailActivity.this,ArticleAppreciationActivity.class);
@@ -1312,11 +1303,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.iv_playvideo:
                 rl_top.setVisibility(View.INVISIBLE);
-//                if(videoInfo != null){
-////                    view_video.startPlayVideo(videoInfo);
-//                }else {
-//                    MyToastUtil.showToast(this,"请等待页面加载完毕");
-//                }
                 break;
         }
     }
@@ -1444,9 +1430,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             mPlayer.release();
             mPlayer = null;
         }
-
-//        view_video.onDestroy();
-
     }
 
     private String replace(String str) {
@@ -1473,27 +1456,17 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     protected void onStop() {
         super.onStop();
         NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
-//        view_video.onStop();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-//        view_video.onStart();
     }
 
 
 
     @Override
     public void onBackPressed() {
-//        if (!DisplayUtils.isPortrait(this)) {
-////            if(!view_video.isLock()) {
-////                DisplayUtils.toggleScreenOrientation(this);
-////            }
-//        } else {
-//            super.onBackPressed();
-//        }
         if (NiceVideoPlayerManager.instance().onBackPressd()) return;
         super.onBackPressed();
     }
@@ -1502,7 +1475,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
      * 分享笔记
      */
     private void shareNote(final String noteId) {
-        type_share = -1;
         NiceDialog.init()
                 .setLayoutId(R.layout.dialog_share_layout)
                 .setConvertListener(new ViewConvertListener() {
@@ -1564,17 +1536,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 .setDimAmount(0.3f)
                 .setShowBottom(true)
                 .show(getSupportFragmentManager());
-    }
-
-    /**
-     * 获取分享链接
-     *
-     * @param type_share
-     */
-    private void getShareHtml(int type_share, String noteId) {
-        this.type_share = type_share;
-        showTips("正在准备分享内容...");
-//        new GetShareHtml(this).execute(shareUrl, noteId);
     }
 
     /**

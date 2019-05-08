@@ -1,9 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="100dp"
     android:layout_height="72dp"
     android:background="@drawable/bg_video_progress_dialog"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
 
     <ImageView
         android:id="@+id/iv_seek_direction"

@@ -16,6 +16,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 
+import com.dace.textreader.util.MyToastUtil;
 import com.shuyu.action.web.ActionSelectListener;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class BridgeCustomWebview extends WebView implements WebViewJavascriptBri
     private float offsetx;
     private float offsety;
     private final String TAG = "BridgeWebView";
+    private BridgeWebViewClient bridgeWebViewClient;
 
     public static final String toLoadJs = "WebViewJavascriptBridge.js";
     Map<String, CallBackFunction> responseCallbacks = new HashMap<String, CallBackFunction>();
@@ -92,7 +94,16 @@ public class BridgeCustomWebview extends WebView implements WebViewJavascriptBri
     }
 
     protected BridgeWebViewClient generateBridgeWebViewClient() {
-        return new BridgeWebViewClient(this);
+        BridgeWebViewClient bridgeWebViewClient=  new BridgeWebViewClient(this);
+        bridgeWebViewClient.setOnPageFinished(new BridgeWebViewClient.OnPageFinished() {
+            @Override
+            public void onPageFinished() {
+                if(onPageFinished != null)
+                    onPageFinished.onPageFinished();
+//                MyToastUtil.showToast(getContext(),"加载完毕");
+            }
+        });
+        return bridgeWebViewClient;
     }
 
     void handlerReturnData(String url) {
@@ -468,5 +479,14 @@ public class BridgeCustomWebview extends WebView implements WebViewJavascriptBri
 //        return super.onInterceptTouchEvent(ev);
 //    }
 
+    public interface OnPageFinished{
+        void onPageFinished();
+    }
+
+    private OnPageFinished onPageFinished;
+
+    public void setOnPageFinished(OnPageFinished onPageFinished){
+        this.onPageFinished = onPageFinished;
+    }
 
 }

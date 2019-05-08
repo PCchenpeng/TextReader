@@ -2,11 +2,8 @@ package com.dace.textreader.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.dace.textreader.R;
 

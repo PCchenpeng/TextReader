@@ -7,6 +7,8 @@ import android.webkit.JsResult;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.dace.textreader.util.MyToastUtil;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -45,6 +47,9 @@ public class BridgeWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
 
+        if(onPageFinished != null)
+            onPageFinished.onPageFinished();
+
         if (BridgeCustomWebview.toLoadJs != null) {
             BridgeUtil.webViewLoadLocalJs(view, BridgeCustomWebview.toLoadJs);
         }
@@ -60,6 +65,7 @@ public class BridgeWebViewClient extends WebViewClient {
             }
             webView.setStartupMessage(null);
         }
+
     }
 
     @Override
@@ -67,5 +73,14 @@ public class BridgeWebViewClient extends WebViewClient {
         super.onReceivedError(view, errorCode, description, failingUrl);
     }
 
+    public interface OnPageFinished{
+        void onPageFinished();
+    }
+
+    private OnPageFinished onPageFinished;
+
+    public void setOnPageFinished(OnPageFinished onPageFinished){
+        this.onPageFinished = onPageFinished;
+    }
 
 }
