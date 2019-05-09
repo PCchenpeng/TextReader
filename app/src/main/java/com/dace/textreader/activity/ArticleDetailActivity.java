@@ -32,6 +32,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -54,7 +55,6 @@ import com.dace.textreader.bean.WordDetailBean;
 import com.dace.textreader.bean.WordListBean;
 import com.dace.textreader.listen.OnListDataOperateListen;
 import com.dace.textreader.util.CustomController;
-import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
@@ -65,27 +65,20 @@ import com.dace.textreader.util.ShareUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.LineWrapLayout;
 import com.dace.textreader.view.StatusBarHeightView;
-import com.dace.textreader.view.VideoPlayer.BDVideoView;
-import com.dace.textreader.view.VideoPlayer.bean.VideoDetailInfo;
-import com.dace.textreader.view.VideoPlayer.listener.SimpleOnVideoControlListener;
-import com.dace.textreader.view.VideoPlayer.utils.DisplayUtils;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
 import com.dace.textreader.view.dialog.ReadSpeedDialog;
 import com.dace.textreader.view.dialog.ViewConvertListener;
 import com.dace.textreader.view.dialog.ViewHolder;
-import com.dace.textreader.view.weight.pullrecycler.MyScrollView;
 import com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview;
 import com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeHandler;
 import com.dace.textreader.view.weight.pullrecycler.mywebview.CallBackFunction;
-import com.google.gson.JsonObject;
 import com.shuyu.action.web.ActionSelectListener;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.share.WbShareHandler;
 import com.suke.widget.SwitchButton;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
-import com.xiao.nicevideoplayer.TxVideoPlayerController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -161,6 +154,10 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
     private String audioUrl;
     private boolean hasPlay;
+    private FrameLayout fm_exception;
+    private String albumId;
+    private String sentenceNum;
+    private int format;
 
 
 
@@ -176,6 +173,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         initData();
         initView();
         initEvents();
+        showLoading(fm_exception);
 
     }
 
@@ -205,6 +203,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         iv_playvideo = findViewById(R.id.iv_playvideo);
         rl_top = findViewById(R.id.rl_top);
         videoPlayer = findViewById(R.id.videoplayer);
+        fm_exception = findViewById(R.id.fm_exception);
 
         controller = new CustomController(this);
         controller.setOnScreenChangeListener(new CustomController.OnScreenChangeListener() {
@@ -259,6 +258,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onPageFinished() {
                 refreshH5View();
+                fm_exception.setVisibility(View.GONE);
             }
         });
         initWebSettings();
@@ -385,6 +385,9 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     audioUrl = h5DataBean.getMachineAudioList().get(0).getAudio();
                 }
 
+                albumId = h5DataBean.getAlbum().getId();
+                sentenceNum = h5DataBean.getAlbum().getSentenceNum();
+                format = h5DataBean.getAlbum().getFormat();
                 shareImgUrl = h5DataBean.getShareList().getWx().getImage();
                 prepareBitmap(shareImgUrl);
 
@@ -431,6 +434,17 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
 
+        mWebview.registerHandler("h5AlbumEvent", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                Intent intent = new Intent(ArticleDetailActivity.this,ReaderTabAlbumDetailActivity.class);
+                intent.putExtra("format",format);
+                intent.putExtra("sentenceNum",sentenceNum);
+                intent.putExtra("albumId",albumId);
+                startActivity(intent);
+            }
+        });
+
         mWebview.registerHandler("evaluateReadSpeedWithResult", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
@@ -458,7 +472,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         }
                     }
                 }
-                Log.e("transportPara", "指定Handler接收来自web的数据：" + data);
                 function.onCallBack("123");
             }
         });
@@ -1282,6 +1295,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 }
                 refreshH5View();
                 PreferencesUtil.saveData(ArticleDetailActivity.this,"readModule",readModule);
+                String ss = PreferencesUtil.getData(this,"readModule","1").toString();
                 PreferencesUtil.saveData(ArticleDetailActivity.this,"backgroundPosition",backgroundPosition);
                 break;
             case R.id.rl_appreciation:
@@ -1347,7 +1361,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         JSONObject params = new JSONObject();
         String essayids  = "["+essayId+"]";
         try {
-            params.put("essayId",essayids);
+            params.put("essayIds",essayids);
             params.put("studentId",NewMainActivity.STUDENT_ID);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1361,6 +1375,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     JSONObject jsonObject = new JSONObject(result.toString());
                     if (jsonObject.getString("status").equals("200")){
                         showTips("删除收藏成功");
+                        isCollected = false;
                         iv_collect.setImageResource(R.drawable.nav_icon_collect_default);
                         iv_collect_copy.setImageResource(R.drawable.icon_bg_collect_default);
                     }else  if (jsonObject.getString("status").equals("400")){

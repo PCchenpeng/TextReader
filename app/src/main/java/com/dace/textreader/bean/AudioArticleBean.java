@@ -3,10 +3,11 @@ package com.dace.textreader.bean;
 import java.util.List;
 
 public class AudioArticleBean {
+
     /**
      * status : 200
      * msg : OK
-     * data : {"collectOrNot":0,"album":null,"essay":{"sequence":-1,"id":50540,"type":"故事","title":"嚓~嘭！","subContent":null,"sourceImage":"http://web.pythe.cn/xd/logo/12334555.jpg","source":"绘本世界","flag":1,"format":2,"shareNum":0,"likeNum":0,"collectNum":0,"status":1,"pv":126,"time":1552279603000,"audio":"http://media.pythe.cn/xd/feixiang/audio/1028917537163842.mp3","image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","video":null,"authorId":null,"author":null,"score":null,"grade":1,"commentNum":0,"isMachine":0,"isMap":2,"dynasty":null,"gradeId":null,"videoTime":null,"audioTime":null,"searchId":"554646384633053184","platformIndexId":"7bc07baa-79a2-4181-abfb-517db3c7d329","appreciationNum":4,"level1":null,"articleAlbumSeq":null,"supply":"飞象绘本","isAlbum":0,"userImage":null,"content":null,"recommendation":null,"guidance":null,"machineAudio":null,"appreciation":[],"background":[],"contentList":[{"page":1,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","second":4},{"page":2,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023577821689483.jpg?imageView2/1/w/750/h/420","second":21},{"page":3,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023632475445945.jpg?imageView2/1/w/750/h/420","second":48},{"page":4,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023676962319716.jpg?imageView2/1/w/750/h/420","second":81},{"page":5,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023731910461436.jpg?imageView2/1/w/750/h/420","second":117},{"page":6,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023838950078503.jpg?imageView2/1/w/750/h/420","second":136},{"page":7,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023933453102255.jpg?imageView2/1/w/750/h/420","second":155},{"page":8,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024023188998137.jpg?imageView2/1/w/750/h/420","second":197},{"page":9,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024115204668262.jpg?imageView2/1/w/750/h/420","second":227},{"page":10,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024204841850577.jpg?imageView2/1/w/750/h/420","second":259},{"page":11,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024265573717781.jpg?imageView2/1/w/750/h/420","second":348},{"page":12,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024331077862055.jpg?imageView2/1/w/750/h/420","second":389},{"page":13,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024438976205184.jpg?imageView2/1/w/750/h/420","second":447},{"page":14,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024507812385781.jpg?imageView2/1/w/750/h/420","second":0}],"annotation":[],"mean":null},"shareList":{"wx":{"image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=wx","title":"嚓~嘭！"},"weibo":{"image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=weibo","title":"嚓~嘭！"},"qq":{"image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=qq","title":"嚓~嘭！"}}}
+     * data : {"collectOrNot":0,"album":null,"essay":{"sequence":167820808720,"id":10000004,"type":"故事","title":"玛蒂娜和小猫","subContent":"绘本奇幻世界能促进青少年儿童语言发展，艺术情操，阅读兴趣，提高审美，开阔视野和创造能力。","sourceImage":"http://web.pythe.cn/xd/logo/default6.jpg","source":"绘本世界","flag":1,"level":0,"shareNum":0,"likeNum":0,"collectNum":0,"status":1,"pv":7,"time":1555925452000,"audio":"http://media.pythe.cn/xd/feixiang/audio/4224096864805734.mp3","image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/750/h/420","video":null,"authorId":null,"author":"佚名","score":200,"grade":1,"commentNum":0,"isMachine":0,"isMap":1,"dynasty":null,"gradeId":null,"videoTime":null,"audioTime":null,"searchId":"557682435488350208","platformIndexId":"2cab8587-88bb-480d-bf8f-4620d973117f","appreciationNum":0,"level1":null,"articleAlbumSeq":null,"supply":"飞象绘本","isAlbum":0,"wordNum":6,"userImage":null,"content":null,"recommendation":null,"guidance":null,"machineAudio":null,"contentList":[{"page":1,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4218229955002505.jpg","second":4},{"page":2,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4220501240239044.jpg","second":11},{"page":3,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4220536871183771.jpg","second":20},{"page":4,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4221990459483210.jpg","second":29},{"page":5,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4222029410585873.jpg","second":37},{"page":6,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223223132151591.jpg","second":48},{"page":7,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223249718166002.jpg","second":53},{"page":8,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223328074939254.jpg","second":61},{"page":9,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223356148825139.jpg","second":76},{"page":10,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223396920891662.jpg","second":0}],"machineAudioList":null},"shareList":{"wx":{"image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=wx","title":"玛蒂娜和小猫"},"weibo":{"image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=weibo","title":"玛蒂娜和小猫"},"qq":{"image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=qq","title":"玛蒂娜和小猫"}}}
      */
 
     private int status;
@@ -41,8 +42,8 @@ public class AudioArticleBean {
         /**
          * collectOrNot : 0
          * album : null
-         * essay : {"sequence":-1,"id":50540,"type":"故事","title":"嚓~嘭！","subContent":null,"sourceImage":"http://web.pythe.cn/xd/logo/12334555.jpg","source":"绘本世界","flag":1,"format":2,"shareNum":0,"likeNum":0,"collectNum":0,"status":1,"pv":126,"time":1552279603000,"audio":"http://media.pythe.cn/xd/feixiang/audio/1028917537163842.mp3","image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","video":null,"authorId":null,"author":null,"score":null,"grade":1,"commentNum":0,"isMachine":0,"isMap":2,"dynasty":null,"gradeId":null,"videoTime":null,"audioTime":null,"searchId":"554646384633053184","platformIndexId":"7bc07baa-79a2-4181-abfb-517db3c7d329","appreciationNum":4,"level1":null,"articleAlbumSeq":null,"supply":"飞象绘本","isAlbum":0,"userImage":null,"content":null,"recommendation":null,"guidance":null,"machineAudio":null,"appreciation":[],"background":[],"contentList":[{"page":1,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","second":4},{"page":2,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023577821689483.jpg?imageView2/1/w/750/h/420","second":21},{"page":3,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023632475445945.jpg?imageView2/1/w/750/h/420","second":48},{"page":4,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023676962319716.jpg?imageView2/1/w/750/h/420","second":81},{"page":5,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023731910461436.jpg?imageView2/1/w/750/h/420","second":117},{"page":6,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023838950078503.jpg?imageView2/1/w/750/h/420","second":136},{"page":7,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023933453102255.jpg?imageView2/1/w/750/h/420","second":155},{"page":8,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024023188998137.jpg?imageView2/1/w/750/h/420","second":197},{"page":9,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024115204668262.jpg?imageView2/1/w/750/h/420","second":227},{"page":10,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024204841850577.jpg?imageView2/1/w/750/h/420","second":259},{"page":11,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024265573717781.jpg?imageView2/1/w/750/h/420","second":348},{"page":12,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024331077862055.jpg?imageView2/1/w/750/h/420","second":389},{"page":13,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024438976205184.jpg?imageView2/1/w/750/h/420","second":447},{"page":14,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024507812385781.jpg?imageView2/1/w/750/h/420","second":0}],"annotation":[],"mean":null}
-         * shareList : {"wx":{"image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=wx","title":"嚓~嘭！"},"weibo":{"image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=weibo","title":"嚓~嘭！"},"qq":{"image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=qq","title":"嚓~嘭！"}}
+         * essay : {"sequence":167820808720,"id":10000004,"type":"故事","title":"玛蒂娜和小猫","subContent":"绘本奇幻世界能促进青少年儿童语言发展，艺术情操，阅读兴趣，提高审美，开阔视野和创造能力。","sourceImage":"http://web.pythe.cn/xd/logo/default6.jpg","source":"绘本世界","flag":1,"level":0,"shareNum":0,"likeNum":0,"collectNum":0,"status":1,"pv":7,"time":1555925452000,"audio":"http://media.pythe.cn/xd/feixiang/audio/4224096864805734.mp3","image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/750/h/420","video":null,"authorId":null,"author":"佚名","score":200,"grade":1,"commentNum":0,"isMachine":0,"isMap":1,"dynasty":null,"gradeId":null,"videoTime":null,"audioTime":null,"searchId":"557682435488350208","platformIndexId":"2cab8587-88bb-480d-bf8f-4620d973117f","appreciationNum":0,"level1":null,"articleAlbumSeq":null,"supply":"飞象绘本","isAlbum":0,"wordNum":6,"userImage":null,"content":null,"recommendation":null,"guidance":null,"machineAudio":null,"contentList":[{"page":1,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4218229955002505.jpg","second":4},{"page":2,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4220501240239044.jpg","second":11},{"page":3,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4220536871183771.jpg","second":20},{"page":4,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4221990459483210.jpg","second":29},{"page":5,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4222029410585873.jpg","second":37},{"page":6,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223223132151591.jpg","second":48},{"page":7,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223249718166002.jpg","second":53},{"page":8,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223328074939254.jpg","second":61},{"page":9,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223356148825139.jpg","second":76},{"page":10,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223396920891662.jpg","second":0}],"machineAudioList":null}
+         * shareList : {"wx":{"image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=wx","title":"玛蒂娜和小猫"},"weibo":{"image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=weibo","title":"玛蒂娜和小猫"},"qq":{"image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=qq","title":"玛蒂娜和小猫"}}
          */
 
         private int collectOrNot;
@@ -84,63 +85,61 @@ public class AudioArticleBean {
 
         public static class EssayBean {
             /**
-             * sequence : -1
-             * id : 50540
+             * sequence : 167820808720
+             * id : 10000004
              * type : 故事
-             * title : 嚓~嘭！
-             * subContent : null
-             * sourceImage : http://web.pythe.cn/xd/logo/12334555.jpg
+             * title : 玛蒂娜和小猫
+             * subContent : 绘本奇幻世界能促进青少年儿童语言发展，艺术情操，阅读兴趣，提高审美，开阔视野和创造能力。
+             * sourceImage : http://web.pythe.cn/xd/logo/default6.jpg
              * source : 绘本世界
              * flag : 1
-             * format : 2
+             * level : 0
              * shareNum : 0
              * likeNum : 0
              * collectNum : 0
              * status : 1
-             * pv : 126
-             * time : 1552279603000
-             * audio : http://media.pythe.cn/xd/feixiang/audio/1028917537163842.mp3
-             * image : http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420
+             * pv : 7
+             * time : 1555925452000
+             * audio : http://media.pythe.cn/xd/feixiang/audio/4224096864805734.mp3
+             * image : http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/750/h/420
              * video : null
              * authorId : null
-             * author : null
-             * score : null
+             * author : 佚名
+             * score : 200
              * grade : 1
              * commentNum : 0
              * isMachine : 0
-             * isMap : 2
+             * isMap : 1
              * dynasty : null
              * gradeId : null
              * videoTime : null
              * audioTime : null
-             * searchId : 554646384633053184
-             * platformIndexId : 7bc07baa-79a2-4181-abfb-517db3c7d329
-             * appreciationNum : 4
+             * searchId : 557682435488350208
+             * platformIndexId : 2cab8587-88bb-480d-bf8f-4620d973117f
+             * appreciationNum : 0
              * level1 : null
              * articleAlbumSeq : null
              * supply : 飞象绘本
              * isAlbum : 0
+             * wordNum : 6
              * userImage : null
              * content : null
              * recommendation : null
              * guidance : null
              * machineAudio : null
-             * appreciation : []
-             * background : []
-             * contentList : [{"page":1,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","second":4},{"page":2,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023577821689483.jpg?imageView2/1/w/750/h/420","second":21},{"page":3,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023632475445945.jpg?imageView2/1/w/750/h/420","second":48},{"page":4,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023676962319716.jpg?imageView2/1/w/750/h/420","second":81},{"page":5,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023731910461436.jpg?imageView2/1/w/750/h/420","second":117},{"page":6,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023838950078503.jpg?imageView2/1/w/750/h/420","second":136},{"page":7,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1023933453102255.jpg?imageView2/1/w/750/h/420","second":155},{"page":8,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024023188998137.jpg?imageView2/1/w/750/h/420","second":197},{"page":9,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024115204668262.jpg?imageView2/1/w/750/h/420","second":227},{"page":10,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024204841850577.jpg?imageView2/1/w/750/h/420","second":259},{"page":11,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024265573717781.jpg?imageView2/1/w/750/h/420","second":348},{"page":12,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024331077862055.jpg?imageView2/1/w/750/h/420","second":389},{"page":13,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024438976205184.jpg?imageView2/1/w/750/h/420","second":447},{"page":14,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/1024507812385781.jpg?imageView2/1/w/750/h/420","second":0}]
-             * annotation : []
-             * mean : null
+             * contentList : [{"page":1,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4218229955002505.jpg","second":4},{"page":2,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4220501240239044.jpg","second":11},{"page":3,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4220536871183771.jpg","second":20},{"page":4,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4221990459483210.jpg","second":29},{"page":5,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4222029410585873.jpg","second":37},{"page":6,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223223132151591.jpg","second":48},{"page":7,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223249718166002.jpg","second":53},{"page":8,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223328074939254.jpg","second":61},{"page":9,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223356148825139.jpg","second":76},{"page":10,"subContent":"","pic":"http://web.pythe.cn/xd/feixiang/images/4223396920891662.jpg","second":0}]
+             * machineAudioList : null
              */
 
-            private String sequence;
+            private long sequence;
             private int id;
             private String type;
             private String title;
-            private Object subContent;
+            private String subContent;
             private String sourceImage;
             private String source;
             private int flag;
-            private int format;
+            private int level;
             private int shareNum;
             private int likeNum;
             private int collectNum;
@@ -151,8 +150,8 @@ public class AudioArticleBean {
             private String image;
             private Object video;
             private Object authorId;
-            private Object author;
-            private Object score;
+            private String author;
+            private int score;
             private int grade;
             private int commentNum;
             private int isMachine;
@@ -168,22 +167,20 @@ public class AudioArticleBean {
             private Object articleAlbumSeq;
             private String supply;
             private int isAlbum;
+            private int wordNum;
             private Object userImage;
             private Object content;
             private Object recommendation;
             private Object guidance;
             private Object machineAudio;
-            private Object mean;
-            private List<?> appreciation;
-            private List<?> background;
+            private Object machineAudioList;
             private List<ContentListBean> contentList;
-            private List<?> annotation;
 
-            public String getSequence() {
+            public long getSequence() {
                 return sequence;
             }
 
-            public void setSequence(String sequence) {
+            public void setSequence(long sequence) {
                 this.sequence = sequence;
             }
 
@@ -211,11 +208,11 @@ public class AudioArticleBean {
                 this.title = title;
             }
 
-            public Object getSubContent() {
+            public String getSubContent() {
                 return subContent;
             }
 
-            public void setSubContent(Object subContent) {
+            public void setSubContent(String subContent) {
                 this.subContent = subContent;
             }
 
@@ -243,12 +240,12 @@ public class AudioArticleBean {
                 this.flag = flag;
             }
 
-            public int getFormat() {
-                return format;
+            public int getLevel() {
+                return level;
             }
 
-            public void setFormat(int format) {
-                this.format = format;
+            public void setLevel(int level) {
+                this.level = level;
             }
 
             public int getShareNum() {
@@ -331,19 +328,19 @@ public class AudioArticleBean {
                 this.authorId = authorId;
             }
 
-            public Object getAuthor() {
+            public String getAuthor() {
                 return author;
             }
 
-            public void setAuthor(Object author) {
+            public void setAuthor(String author) {
                 this.author = author;
             }
 
-            public Object getScore() {
+            public int getScore() {
                 return score;
             }
 
-            public void setScore(Object score) {
+            public void setScore(int score) {
                 this.score = score;
             }
 
@@ -467,6 +464,14 @@ public class AudioArticleBean {
                 this.isAlbum = isAlbum;
             }
 
+            public int getWordNum() {
+                return wordNum;
+            }
+
+            public void setWordNum(int wordNum) {
+                this.wordNum = wordNum;
+            }
+
             public Object getUserImage() {
                 return userImage;
             }
@@ -507,28 +512,12 @@ public class AudioArticleBean {
                 this.machineAudio = machineAudio;
             }
 
-            public Object getMean() {
-                return mean;
+            public Object getMachineAudioList() {
+                return machineAudioList;
             }
 
-            public void setMean(Object mean) {
-                this.mean = mean;
-            }
-
-            public List<?> getAppreciation() {
-                return appreciation;
-            }
-
-            public void setAppreciation(List<?> appreciation) {
-                this.appreciation = appreciation;
-            }
-
-            public List<?> getBackground() {
-                return background;
-            }
-
-            public void setBackground(List<?> background) {
-                this.background = background;
+            public void setMachineAudioList(Object machineAudioList) {
+                this.machineAudioList = machineAudioList;
             }
 
             public List<ContentListBean> getContentList() {
@@ -539,19 +528,11 @@ public class AudioArticleBean {
                 this.contentList = contentList;
             }
 
-            public List<?> getAnnotation() {
-                return annotation;
-            }
-
-            public void setAnnotation(List<?> annotation) {
-                this.annotation = annotation;
-            }
-
             public static class ContentListBean {
                 /**
                  * page : 1
                  * subContent :
-                 * pic : http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420
+                 * pic : http://web.pythe.cn/xd/feixiang/images/4218229955002505.jpg
                  * second : 4
                  */
 
@@ -596,9 +577,9 @@ public class AudioArticleBean {
 
         public static class ShareListBean {
             /**
-             * wx : {"image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=wx","title":"嚓~嘭！"}
-             * weibo : {"image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=weibo","title":"嚓~嘭！"}
-             * qq : {"image":"http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=qq","title":"嚓~嘭！"}
+             * wx : {"image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=wx","title":"玛蒂娜和小猫"}
+             * weibo : {"image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=weibo","title":"玛蒂娜和小猫"}
+             * qq : {"image":"http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=qq","title":"玛蒂娜和小猫"}
              */
 
             private WxBean wx;
@@ -631,9 +612,9 @@ public class AudioArticleBean {
 
             public static class WxBean {
                 /**
-                 * image : http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420
-                 * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=wx
-                 * title : 嚓~嘭！
+                 * image : http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200
+                 * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=wx
+                 * title : 玛蒂娜和小猫
                  */
 
                 private String image;
@@ -667,9 +648,9 @@ public class AudioArticleBean {
 
             public static class WeiboBean {
                 /**
-                 * image : http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420
-                 * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=weibo
-                 * title : 嚓~嘭！
+                 * image : http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200
+                 * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=weibo
+                 * title : 玛蒂娜和小猫
                  */
 
                 private String image;
@@ -703,9 +684,9 @@ public class AudioArticleBean {
 
             public static class QqBean {
                 /**
-                 * image : http://web.pythe.cn/xd/feixiang/images/1023541959759788.jpg?imageView2/1/w/750/h/420
-                 * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&essayId=50540&gradeId=-1&isShare=1&version=2.1.2.3&py=100&platForm=android&flag=0&channel=qq
-                 * title : 嚓~嘭！
+                 * image : http://web.pythe.cn/xd/replace/2019/4/22/81555925449129609.jpeg?imageView2/1/w/200/h/200
+                 * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=7826&gradeId=-1&flag=1&isShare=1&py=100&essayId=qB5A1A8A4A2A2A2E1&version=2.1.2&platForm=ios&channel=qq
+                 * title : 玛蒂娜和小猫
                  */
 
                 private String image;

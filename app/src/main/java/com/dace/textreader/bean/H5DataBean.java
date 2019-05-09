@@ -5,30 +5,31 @@ import java.util.List;
 public class H5DataBean {
 
     /**
-     * album : null
-     * shareList : {"wx":{"image":"http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=8429&gradeId=122&flag=0&isShare=1&py=1&essayId=0B3A2B3G1B0B0H5H3&version=3.2.6&platForm=android&channel=wx","title":"七绝·为女民兵题照"},"weibo":{"image":"http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=8429&gradeId=122&flag=0&isShare=1&py=1&essayId=0B3A2B3G1B0B0H5H3&version=3.2.6&platForm=android&channel=weibo","title":"七绝·为女民兵题照"},"qq":{"image":"http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=8429&gradeId=122&flag=0&isShare=1&py=1&essayId=0B3A2B3G1B0B0H5H3&version=3.2.6&platForm=android&channel=qq","title":"七绝·为女民兵题照"}}
-     * type : 国学
-     * title : 七绝·为女民兵题照
-     * subContent : 飒爽英姿五尺枪，曙光初照演兵场。中华儿女多奇志，不爱红装爱武装。
+     * album : {"id":1220,"title":"外星人邀你来做客","cover":"http://web.pythe.cn/xd/replace/2019/4/22/51555922754789312.jpeg","time":1555922758000,"status":1,"pv":1,"collectNum":0,"shareNum":0,"format":0,"startLevel":1,"stopLevel":6,"category":"故事","parentId":null,"sentenceNum":0,"searchId":"568866964961886208","albumSequence":2,"subIntroduction":"古今中外一直有关于外星人的遐想，但现今人类还无法实际探查是否有外星人存在，虽然一直以来，很多人声称自己见证外星人造访地球","authorId":null,"author":null,"supply":"考拉","plaformIndexId":"8","isMap":1,"introduction":null,"follow":null}
+     * shareList : {"wx":{"image":"http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=-1&gradeId=-1&flag=0&isShare=1&py=1&essayId=jB0A9D6E1F4E5G1F1&version=3.2.6&platForm=android&channel=wx","title":"好紧张\u2026\u2026第一次看到飞碟该怎么办"},"weibo":{"image":"http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=-1&gradeId=-1&flag=0&isShare=1&py=1&essayId=jB0A9D6E1F4E5G1F1&version=3.2.6&platForm=android&channel=weibo","title":"好紧张\u2026\u2026第一次看到飞碟该怎么办"},"qq":{"image":"http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=-1&gradeId=-1&flag=0&isShare=1&py=1&essayId=jB0A9D6E1F4E5G1F1&version=3.2.6&platForm=android&channel=qq","title":"好紧张\u2026\u2026第一次看到飞碟该怎么办"}}
+     * type : 历史
+     * title : 好紧张……第一次看到飞碟该怎么办
+     * subContent : 如果你对天文学有过接触，就一定会知道，在太阳系的行星和卫星中，除了地球以外，其他星球均不可能有智能生命存在。宇宙中若有外
      * audio : null
-     * image : http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/750/h/500
-     * video : https://second-know.cdn.bcebos.com/media/mda-XQWOfxzUdcVRlrsL/861096758db6e309850da994c2d7fb73.mp4?auth_key=1557287199-945237-0-09d57ad5307f1a7d30a2ed44e52d3534&platform=hanyu
-     * authorId : 15865
-     * author : 毛泽东
-     * score : 0
-     * grade : 3
+     * image : http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/750/h/500
+     * video : null
+     * authorId : null
+     * author : 佚名
+     * score : 478
+     * grade : 2
      * isMachine : 0
-     * dynasty : 近现代
+     * dynasty : null
      * gradeId : null
-     * videoTime : 00:47
+     * videoTime : null
      * audioTime : null
      * appreciationNum : 0
      * machineAudio : null
      * collectOrNot : 0
-     * machineAudioList : [{"duration":null,"name":null,"audio":"http://media.pythe.cn/xd/bdshiwen/audio/932016056265028.mp3"}]
+     * followOrNot : 0
+     * machineAudioList : [{"duration":"08:41","name":"milf","audio":"http://media.pythe.cn/machine/audio/article/2/615553795964036.mp3"}]
      */
 
-    private Object album;
+    private AlbumBean album;
     private ShareListBean shareList;
     private String type;
     private String title;
@@ -36,25 +37,26 @@ public class H5DataBean {
     private Object audio;
     private String image;
     private String video;
-    private int authorId;
+    private Object authorId;
     private String author;
     private int score;
     private int grade;
     private int isMachine;
-    private String dynasty;
+    private Object dynasty;
     private Object gradeId;
-    private String videoTime;
+    private Object videoTime;
     private Object audioTime;
     private int appreciationNum;
     private Object machineAudio;
     private int collectOrNot;
+    private int followOrNot;
     private List<MachineAudioListBean> machineAudioList;
 
-    public Object getAlbum() {
+    public AlbumBean getAlbum() {
         return album;
     }
 
-    public void setAlbum(Object album) {
+    public void setAlbum(AlbumBean album) {
         this.album = album;
     }
 
@@ -114,11 +116,11 @@ public class H5DataBean {
         this.video = video;
     }
 
-    public int getAuthorId() {
+    public Object getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(Object authorId) {
         this.authorId = authorId;
     }
 
@@ -154,11 +156,11 @@ public class H5DataBean {
         this.isMachine = isMachine;
     }
 
-    public String getDynasty() {
+    public Object getDynasty() {
         return dynasty;
     }
 
-    public void setDynasty(String dynasty) {
+    public void setDynasty(Object dynasty) {
         this.dynasty = dynasty;
     }
 
@@ -170,11 +172,11 @@ public class H5DataBean {
         this.gradeId = gradeId;
     }
 
-    public String getVideoTime() {
+    public Object getVideoTime() {
         return videoTime;
     }
 
-    public void setVideoTime(String videoTime) {
+    public void setVideoTime(Object videoTime) {
         this.videoTime = videoTime;
     }
 
@@ -210,6 +212,14 @@ public class H5DataBean {
         this.collectOrNot = collectOrNot;
     }
 
+    public int getFollowOrNot() {
+        return followOrNot;
+    }
+
+    public void setFollowOrNot(int followOrNot) {
+        this.followOrNot = followOrNot;
+    }
+
     public List<MachineAudioListBean> getMachineAudioList() {
         return machineAudioList;
     }
@@ -218,11 +228,257 @@ public class H5DataBean {
         this.machineAudioList = machineAudioList;
     }
 
+    public static class AlbumBean {
+        /**
+         * id : 1220
+         * title : 外星人邀你来做客
+         * cover : http://web.pythe.cn/xd/replace/2019/4/22/51555922754789312.jpeg
+         * time : 1555922758000
+         * status : 1
+         * pv : 1
+         * collectNum : 0
+         * shareNum : 0
+         * format : 0
+         * startLevel : 1
+         * stopLevel : 6
+         * category : 故事
+         * parentId : null
+         * sentenceNum : 0
+         * searchId : 568866964961886208
+         * albumSequence : 2
+         * subIntroduction : 古今中外一直有关于外星人的遐想，但现今人类还无法实际探查是否有外星人存在，虽然一直以来，很多人声称自己见证外星人造访地球
+         * authorId : null
+         * author : null
+         * supply : 考拉
+         * plaformIndexId : 8
+         * isMap : 1
+         * introduction : null
+         * follow : null
+         */
+
+        private String id;
+        private String title;
+        private String cover;
+        private long time;
+        private int status;
+        private int pv;
+        private int collectNum;
+        private int shareNum;
+        private int format;
+        private int startLevel;
+        private int stopLevel;
+        private String category;
+        private Object parentId;
+        private String sentenceNum;
+        private String searchId;
+        private int albumSequence;
+        private String subIntroduction;
+        private Object authorId;
+        private Object author;
+        private String supply;
+        private String plaformIndexId;
+        private int isMap;
+        private Object introduction;
+        private Object follow;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getCover() {
+            return cover;
+        }
+
+        public void setCover(String cover) {
+            this.cover = cover;
+        }
+
+        public long getTime() {
+            return time;
+        }
+
+        public void setTime(long time) {
+            this.time = time;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public int getPv() {
+            return pv;
+        }
+
+        public void setPv(int pv) {
+            this.pv = pv;
+        }
+
+        public int getCollectNum() {
+            return collectNum;
+        }
+
+        public void setCollectNum(int collectNum) {
+            this.collectNum = collectNum;
+        }
+
+        public int getShareNum() {
+            return shareNum;
+        }
+
+        public void setShareNum(int shareNum) {
+            this.shareNum = shareNum;
+        }
+
+        public int getFormat() {
+            return format;
+        }
+
+        public void setFormat(int format) {
+            this.format = format;
+        }
+
+        public int getStartLevel() {
+            return startLevel;
+        }
+
+        public void setStartLevel(int startLevel) {
+            this.startLevel = startLevel;
+        }
+
+        public int getStopLevel() {
+            return stopLevel;
+        }
+
+        public void setStopLevel(int stopLevel) {
+            this.stopLevel = stopLevel;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(String category) {
+            this.category = category;
+        }
+
+        public Object getParentId() {
+            return parentId;
+        }
+
+        public void setParentId(Object parentId) {
+            this.parentId = parentId;
+        }
+
+        public String getSentenceNum() {
+            return sentenceNum;
+        }
+
+        public void setSentenceNum(String sentenceNum) {
+            this.sentenceNum = sentenceNum;
+        }
+
+        public String getSearchId() {
+            return searchId;
+        }
+
+        public void setSearchId(String searchId) {
+            this.searchId = searchId;
+        }
+
+        public int getAlbumSequence() {
+            return albumSequence;
+        }
+
+        public void setAlbumSequence(int albumSequence) {
+            this.albumSequence = albumSequence;
+        }
+
+        public String getSubIntroduction() {
+            return subIntroduction;
+        }
+
+        public void setSubIntroduction(String subIntroduction) {
+            this.subIntroduction = subIntroduction;
+        }
+
+        public Object getAuthorId() {
+            return authorId;
+        }
+
+        public void setAuthorId(Object authorId) {
+            this.authorId = authorId;
+        }
+
+        public Object getAuthor() {
+            return author;
+        }
+
+        public void setAuthor(Object author) {
+            this.author = author;
+        }
+
+        public String getSupply() {
+            return supply;
+        }
+
+        public void setSupply(String supply) {
+            this.supply = supply;
+        }
+
+        public String getPlaformIndexId() {
+            return plaformIndexId;
+        }
+
+        public void setPlaformIndexId(String plaformIndexId) {
+            this.plaformIndexId = plaformIndexId;
+        }
+
+        public int getIsMap() {
+            return isMap;
+        }
+
+        public void setIsMap(int isMap) {
+            this.isMap = isMap;
+        }
+
+        public Object getIntroduction() {
+            return introduction;
+        }
+
+        public void setIntroduction(Object introduction) {
+            this.introduction = introduction;
+        }
+
+        public Object getFollow() {
+            return follow;
+        }
+
+        public void setFollow(Object follow) {
+            this.follow = follow;
+        }
+    }
+
     public static class ShareListBean {
         /**
-         * wx : {"image":"http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=8429&gradeId=122&flag=0&isShare=1&py=1&essayId=0B3A2B3G1B0B0H5H3&version=3.2.6&platForm=android&channel=wx","title":"七绝·为女民兵题照"}
-         * weibo : {"image":"http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=8429&gradeId=122&flag=0&isShare=1&py=1&essayId=0B3A2B3G1B0B0H5H3&version=3.2.6&platForm=android&channel=weibo","title":"七绝·为女民兵题照"}
-         * qq : {"image":"http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=8429&gradeId=122&flag=0&isShare=1&py=1&essayId=0B3A2B3G1B0B0H5H3&version=3.2.6&platForm=android&channel=qq","title":"七绝·为女民兵题照"}
+         * wx : {"image":"http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=-1&gradeId=-1&flag=0&isShare=1&py=1&essayId=jB0A9D6E1F4E5G1F1&version=3.2.6&platForm=android&channel=wx","title":"好紧张\u2026\u2026第一次看到飞碟该怎么办"}
+         * weibo : {"image":"http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=-1&gradeId=-1&flag=0&isShare=1&py=1&essayId=jB0A9D6E1F4E5G1F1&version=3.2.6&platForm=android&channel=weibo","title":"好紧张\u2026\u2026第一次看到飞碟该怎么办"}
+         * qq : {"image":"http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/200/h/200","link":"https://check.pythe.cn/1readingModule/essayShare.html?studentId=-1&gradeId=-1&flag=0&isShare=1&py=1&essayId=jB0A9D6E1F4E5G1F1&version=3.2.6&platForm=android&channel=qq","title":"好紧张\u2026\u2026第一次看到飞碟该怎么办"}
          */
 
         private WxBean wx;
@@ -255,9 +511,9 @@ public class H5DataBean {
 
         public static class WxBean {
             /**
-             * image : http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/200/h/200
-             * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=8429&gradeId=122&flag=0&isShare=1&py=1&essayId=0B3A2B3G1B0B0H5H3&version=3.2.6&platForm=android&channel=wx
-             * title : 七绝·为女民兵题照
+             * image : http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/200/h/200
+             * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=-1&gradeId=-1&flag=0&isShare=1&py=1&essayId=jB0A9D6E1F4E5G1F1&version=3.2.6&platForm=android&channel=wx
+             * title : 好紧张……第一次看到飞碟该怎么办
              */
 
             private String image;
@@ -291,9 +547,9 @@ public class H5DataBean {
 
         public static class WeiboBean {
             /**
-             * image : http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/200/h/200
-             * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=8429&gradeId=122&flag=0&isShare=1&py=1&essayId=0B3A2B3G1B0B0H5H3&version=3.2.6&platForm=android&channel=weibo
-             * title : 七绝·为女民兵题照
+             * image : http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/200/h/200
+             * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=-1&gradeId=-1&flag=0&isShare=1&py=1&essayId=jB0A9D6E1F4E5G1F1&version=3.2.6&platForm=android&channel=weibo
+             * title : 好紧张……第一次看到飞碟该怎么办
              */
 
             private String image;
@@ -327,9 +583,9 @@ public class H5DataBean {
 
         public static class QqBean {
             /**
-             * image : http://web.pythe.cn/xd/bdshiwen/image/60910133083093.jpg?imageView2/1/w/200/h/200
-             * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=8429&gradeId=122&flag=0&isShare=1&py=1&essayId=0B3A2B3G1B0B0H5H3&version=3.2.6&platForm=android&channel=qq
-             * title : 七绝·为女民兵题照
+             * image : http://web.pythe.cn/xd/kl/images/7750289980061528.jpg?imageView2/1/w/200/h/200
+             * link : https://check.pythe.cn/1readingModule/essayShare.html?studentId=-1&gradeId=-1&flag=0&isShare=1&py=1&essayId=jB0A9D6E1F4E5G1F1&version=3.2.6&platForm=android&channel=qq
+             * title : 好紧张……第一次看到飞碟该怎么办
              */
 
             private String image;
@@ -364,28 +620,28 @@ public class H5DataBean {
 
     public static class MachineAudioListBean {
         /**
-         * duration : null
-         * name : null
-         * audio : http://media.pythe.cn/xd/bdshiwen/audio/932016056265028.mp3
+         * duration : 08:41
+         * name : milf
+         * audio : http://media.pythe.cn/machine/audio/article/2/615553795964036.mp3
          */
 
-        private Object duration;
-        private Object name;
+        private String duration;
+        private String name;
         private String audio;
 
-        public Object getDuration() {
+        public String getDuration() {
             return duration;
         }
 
-        public void setDuration(Object duration) {
+        public void setDuration(String duration) {
             this.duration = duration;
         }
 
-        public Object getName() {
+        public String getName() {
             return name;
         }
 
-        public void setName(Object name) {
+        public void setName(String name) {
             this.name = name;
         }
 

@@ -30,7 +30,6 @@ import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
-import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.ClipRevealFrame;
 import com.hhl.library.FlowTagLayout;
@@ -226,7 +225,7 @@ public class WordExplainActivity extends BaseActivity {
             return;
         }
         if (showLading) {
-            View view = LayoutInflater.from(this).inflate(R.layout.view_author_loading, null);
+            View view = LayoutInflater.from(this).inflate(R.layout.view_loading, null);
             ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
             GlideUtils.loadGIFImageWithNoOptions(this, R.drawable.image_loading, iv_loading);
             frameLayout.removeAllViews();

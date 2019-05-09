@@ -41,6 +41,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
     private AuthorDetailAdapter authorDetailAdapter;
     private AuthorWorksAdapter authorWorksAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

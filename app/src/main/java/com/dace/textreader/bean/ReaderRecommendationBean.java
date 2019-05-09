@@ -51,7 +51,7 @@ public class ReaderRecommendationBean {
 
         private int sentenceNum;
         private int format;
-        private int albumId;
+        private String albumId;
         private String albumTitle;
         private String albumCover;
         private int startLevel;
@@ -74,11 +74,11 @@ public class ReaderRecommendationBean {
             this.format = format;
         }
 
-        public int getAlbumId() {
+        public String getAlbumId() {
             return albumId;
         }
 
-        public void setAlbumId(int albumId) {
+        public void setAlbumId(String albumId) {
             this.albumId = albumId;
         }
 
@@ -138,7 +138,7 @@ public class ReaderRecommendationBean {
             private Object score;
             private String image;
             private int flag;
-            private int articleId;
+            private String articleId;
             private int format;
             private String source;
             private String sourceImage;
@@ -169,11 +169,11 @@ public class ReaderRecommendationBean {
                 this.flag = flag;
             }
 
-            public int getArticleId() {
+            public String getArticleId() {
                 return articleId;
             }
 
-            public void setArticleId(int articleId) {
+            public void setArticleId(String articleId) {
                 this.articleId = articleId;
             }
 

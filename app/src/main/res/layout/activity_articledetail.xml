@@ -46,6 +46,13 @@
                 android:layout_height="wrap_content">
 
             </com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview>
+            <FrameLayout
+                android:id="@+id/fm_exception"
+                android:layout_below="@id/rl_top"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#ffffff">
+            </FrameLayout>
 
 
             <com.dace.textreader.view.StatusBarHeightView
@@ -264,6 +271,7 @@
             android:layout_margin="10dp"
             android:layout_below="@id/view_dialog_line"/>
     </RelativeLayout>
+
 
 </RelativeLayout>
 <!--</android.support.design.widget.CoordinatorLayout>-->

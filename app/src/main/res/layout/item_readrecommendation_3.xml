@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:text="每日灵感"
         android:textSize="24sp"
-        android:textColor="#333333"/>
+        android:textColor="#333333"
+        android:textStyle="bold"/>
     <ImageView
         android:id="@+id/iv_big_1"
         android:layout_width="match_parent"

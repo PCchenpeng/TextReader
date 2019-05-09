@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -29,12 +30,21 @@ import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.ImageUtils;
+import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.ShareUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.dace.textreader.view.dialog.BaseNiceDialog;
+import com.dace.textreader.view.dialog.NiceDialog;
+import com.dace.textreader.view.dialog.ViewConvertListener;
+import com.dace.textreader.view.dialog.ViewHolder;
 import com.dace.textreader.view.weight.pullrecycler.album.AlbumView;
 import com.dace.textreader.view.weight.pullrecycler.album.CurlPage;
 import com.dace.textreader.view.weight.pullrecycler.album.OnFlipedLastPageListener;
 import com.dace.textreader.view.weight.pullrecycler.album.OnPageClickListener;
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.share.WbShareHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,6 +106,21 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private boolean isOnPageScroll = false;
 
+    private String title;
+    private Bitmap shareBitmap;
+    private String shareImgUrl;
+    private WbShareHandler shareHandler;
+    private String shareContent = "";
+    private String shareQQUrl;
+    private String shareWXUrl;
+    private String shareWBUrl;
+
+    private boolean isDataComplete;
+    private boolean isCollected;
+
+    private String collectUrl = HttpUrlPre.HTTP_URL_ + "/insert/essay/collect";
+    private String deleteCollectUrl = HttpUrlPre.HTTP_URL_ + "/delete/essay/collect" ;
+
 
 
     @Override
@@ -108,6 +133,10 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         initView();
 //        album_view.setZOrderMediaOverlay(true);
         mPlayer = new MediaPlayer();
+
+        shareHandler = new WbShareHandler(this);
+        shareHandler.registerApp();
+        shareHandler.setProgressColor(Color.parseColor("#ff9933"));
         loadData(essayId);
     }
 
@@ -126,6 +155,16 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         hasRender =false;
         tv_currNum.setText(String.valueOf(currentIndex+1));
         initAlbumView(currentIndex);
+
+        if(isCollected){
+            if(isPortrait){
+                if(isPortrait){
+                    iv_collect.setImageResource(R.drawable.picbook_icon_collect_selected);
+                }else {
+                    iv_collect.setImageResource(R.drawable.icon_bg_collect_select);
+                }
+            }
+        }
 
     }
 
@@ -200,8 +239,22 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
                 break;
             case R.id.iv_share:
+                if(isDataComplete){
+                    shareNote();
+                }else {
+                    MyToastUtil.showToast(this,"请等待数据加载完成之后再试");
+                }
+
                 break;
             case R.id.iv_collect:
+                if(isDataComplete){
+                    if(isCollected)
+                        deleteCollect();
+                    else
+                        collectedArticle();
+                }else {
+                    showTips("请等待页面加载完成");
+                }
                 break;
             case R.id.iv_fullscreen:
                 currentIndex = album_view.getCurrentIndex();
@@ -365,26 +418,31 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
      */
     private void analyzeRecommendData(String s) {
         mData = GsonUtil.GsonToBean(s,AudioArticleBean.class);
-
         audioUrl = mData.getData().getEssay().getAudio();
+        title = mData.getData().getEssay().getTitle();
+        isCollected = mData.getData().getCollectOrNot() == 1;
+        if(isCollected){
+            iv_collect.setImageResource(R.drawable.picbook_icon_collect_selected);
+            if(isPortrait){
+                if(isPortrait){
+
+                }else {
+                    iv_collect.setImageResource(R.drawable.icon_bg_collect_select);
+                }
+            }
+        }
 
         play(audioUrl);
-
         SpliterImg(mData);
-
-
-//        if (mPlayer != null) {
-//            mPlayer.start();
-//            mPlayState = MusicPlayAction.STATE_PLAYING;
-            //开始发送消息，执行进度条进度更新
-//            handler.sendEmptyMessage(UPDATE_PLAY_PROGRESS_SHOW);
-//            if (mListener != null) {
-//                mListener.onPlayerStart();
-//            }
-//            if (mAnimator != null) {
-//                mAnimator.resume();
-//            }
-//        }
+        AudioArticleBean.DataBean.ShareListBean shareListBean =  mData.getData().getShareList();
+        if(shareListBean != null){
+            shareQQUrl = shareListBean.getQq().getLink();
+            shareWXUrl = shareListBean.getWx().getLink();
+            shareWBUrl = shareListBean.getWeibo().getLink();
+            shareImgUrl = shareListBean.getWx().getImage();
+            prepareBitmap(shareImgUrl);
+            isDataComplete = true;
+        }
 
     }
 
@@ -561,6 +619,14 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     isAudioComplete = true;
+                    hasRender = false;
+                    initAlbumView(0);
+//                    AlbumView.PointerPosition pointerPosition = album_view.getmPointerPos();
+//                    pointerPosition.mPos.x =  0.22222221f;
+//                    pointerPosition.mPos.y =  0.21111113f;
+//                    pointerPosition.mPressure = 0.8f;
+//                    album_view.updateCurlPos(pointerPosition);
+//                    album_view.smoothPage(-20,false);
 //                    iv_playpause.setImageResource(R.drawable.picbook_btn_play);
                 }
             });
@@ -668,6 +734,214 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 //            currentime.setText(formatime(msg.what));
         }
     };
+
+    private void collectedArticle() {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("essayId",essayId);
+            params.put("gradeId",NewMainActivity.GRADE_ID);
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpManager.getInstance(this).requestAsyn(collectUrl,OkHttpManager.TYPE_POST_JSON,params,new OkHttpManager.ReqCallBack<Object>(){
+            @Override
+            public void onReqSuccess(Object result) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(result.toString());
+                    if (jsonObject.getString("status").equals("200")){
+                        showTips("收藏成功");
+                        isCollected = true;
+                        if(isPortrait){
+                            iv_collect.setImageResource(R.drawable.picbook_icon_collect_selected);
+                        }else {
+                            iv_collect.setImageResource(R.drawable.icon_bg_collect_select);
+                        }
+                    }else  if (jsonObject.getString("status").equals("400")){
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
+    }
+
+    private void deleteCollect() {
+        JSONObject params = new JSONObject();
+        String essayids  = "["+essayId+"]";
+        try {
+            params.put("essayIds",essayids);
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpManager.getInstance(this).requestAsyn(deleteCollectUrl,OkHttpManager.TYPE_POST_JSON,params,new OkHttpManager.ReqCallBack<Object>(){
+            @Override
+            public void onReqSuccess(Object result) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(result.toString());
+                    if (jsonObject.getString("status").equals("200")){
+                        showTips("删除收藏成功");
+                        isCollected = false;
+                        if(isPortrait){
+                            iv_collect.setImageResource(R.drawable.picbook_icon_collect);
+                        }else {
+                            iv_collect.setImageResource(R.drawable.icon_bg_collect_default);
+                        }
+                    }else  if (jsonObject.getString("status").equals("400")){
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
+    }
+
+
+    /**
+     * 分享笔记
+     */
+    private void shareNote() {
+        NiceDialog.init()
+                .setLayoutId(R.layout.dialog_share_layout)
+                .setConvertListener(new ViewConvertListener() {
+                    @Override
+                    protected void convertView(ViewHolder holder, final BaseNiceDialog dialog) {
+                        holder.setOnClickListener(R.id.share_cancel, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_wechat, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                shareArticleToWX(true,shareWXUrl);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_weixinpyq, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                shareArticleToWX(false,shareWXUrl);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_weibo, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (WbSdk.isWbInstall(HomeAudioDetailActivity.this)) {
+                                    shareToWeibo(shareWBUrl);
+                                } else {
+                                    showTips("请先安装微博");
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_qq, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                shareToQQ(shareQQUrl);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_qzone, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                shareToQZone(shareQQUrl);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_link, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setDimAmount(0.3f)
+                .setShowBottom(true)
+                .show(getSupportFragmentManager());
+    }
+
+    /**
+     * 分享到QQ空间
+     */
+    private void shareToQZone(String url) {
+        ShareUtil.shareToQZone(this, url, title, shareContent, shareImgUrl);
+    }
+
+    /**
+     * 分享笔记到微信
+     *
+     * @param friend true为分享到好友，false为分享到朋友圈
+     */
+    private void shareArticleToWX(boolean friend, String url) {
+
+        Bitmap thumb = shareBitmap;
+        if(thumb == null)
+            thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+
+        ShareUtil.shareToWx(this, url, title, shareContent,
+                ImageUtils.bmpToByteArrayCopy(thumb, false), friend);
+    }
+
+    /**
+     * 分享到QQ好友
+     */
+    private void shareToQQ(String url) {
+        ShareUtil.shareToQQ(this, url, title, shareContent, shareImgUrl);
+    }
+
+    /**
+     * 分享到微博
+     *
+     * @param url
+     */
+    private void shareToWeibo(String url) {
+
+        if (shareBitmap == null) {
+            shareBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.mipmap.ic_launcher);
+        }
+
+        ShareUtil.shareToWeibo(shareHandler, url, NewMainActivity.lessonTitle,
+                NewMainActivity.lessonContent, shareBitmap);
+
+    }
+
+    /**
+     * 准备Bitmap
+     */
+    private void prepareBitmap(final String shareImgUrl) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                shareBitmap = ImageUtils.GetNetworkBitmap(shareImgUrl);
+                if (shareBitmap == null) {
+                    shareBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                }
+            }
+        }.start();
+    }
 
 
 }

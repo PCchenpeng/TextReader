@@ -63,7 +63,7 @@ public class HomeTextBookFragment extends Fragment {
     private View view;
 
     private NestedScrollView scrollView;
-    private LinearLayout ll_search;
+//    private LinearLayout ll_search;
     private LinearLayout ll_knowledge;
     private RecyclerView recyclerView_knowledge;
     private RecyclerView recyclerView_grade;
@@ -119,12 +119,12 @@ public class HomeTextBookFragment extends Fragment {
                 }
             }
         });
-        ll_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        ll_search.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
         ll_knowledge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,7 +280,7 @@ public class HomeTextBookFragment extends Fragment {
 
     private void initView() {
         scrollView = view.findViewById(R.id.nested_scroll_read_text_book_fragment);
-        ll_search = view.findViewById(R.id.ll_search_read_text_book_fragment);
+//        ll_search = view.findViewById(R.id.ll_search_read_text_book_fragment);
         ll_knowledge = view.findViewById(R.id.ll_knowledge_read_text_book_fragment);
         recyclerView_knowledge = view.findViewById(R.id.rv_knowledge_read_text_book_fragment);
         LinearLayoutManager layoutManager_knowledge = new LinearLayoutManager(

@@ -30,6 +30,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -1335,5 +1336,16 @@ public class BaseActivity extends AppCompatActivity {
         }
         application.removeActivity(mContext);
         super.onDestroy();
+    }
+
+    protected void showLoading(FrameLayout frameLayout){
+        View view = LayoutInflater.from(mContext)
+                .inflate(R.layout.view_loading, null);
+
+        ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
+        GlideUtils.loadGIFImageWithNoOptions(mContext, R.drawable.image_loading, iv_loading);
+        frameLayout.removeAllViews();
+        frameLayout.addView(view);
+        frameLayout.setVisibility(View.VISIBLE);
     }
 }

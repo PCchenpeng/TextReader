@@ -18,7 +18,9 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.ReaderTabActivity;
+import com.dace.textreader.activity.ReaderTabAlbumDetailActivity;
 import com.dace.textreader.bean.ReaderChoiceBean;
 import com.dace.textreader.bean.ReaderRecommendationBean;
 import com.dace.textreader.bean.ReaderTabBean;
@@ -34,6 +36,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<ReaderRecommendationBean.DataBean> itemList;
     private List<ReaderChoiceBean.DataBean.EssayListBean> choiceList;
+    private String choiceTitle;
 
     private final int TYPE_HEAD = 1;
     private final int TYPE_TWO = 2;
@@ -42,9 +45,10 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
 
     public HomeHotAdapter(List<ReaderRecommendationBean.DataBean> itemList,
-                          List<ReaderChoiceBean.DataBean.EssayListBean> choiceList, Context context){
+                          List<ReaderChoiceBean.DataBean.EssayListBean> choiceList, String choiceTitle,Context context){
         this.itemList = itemList;
         this.choiceList = choiceList;
+        this.choiceTitle = choiceTitle;
         this.context = context;
     }
 
@@ -53,8 +57,9 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-    public void setChoiceData(List<ReaderChoiceBean.DataBean.EssayListBean> choiceList){
+    public void setChoiceData(List<ReaderChoiceBean.DataBean.EssayListBean> choiceList,String choiceTitle){
         this.choiceList = choiceList;
+        this.choiceTitle = choiceTitle;
         notifyDataSetChanged();
     }
 
@@ -141,6 +146,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 break;
             case TYPE_TWO:
+                ((TwoHolder)viewHolder).tv_title.setText(choiceTitle);
                 ChoiceAdapter choiceAdapter = new ChoiceAdapter(choiceList,context);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context,
                         LinearLayoutManager.HORIZONTAL, false);
@@ -170,6 +176,17 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         if(onItemClickListener != null)
                             onItemClickListener.onClick(1,"","",itemList.get(i-2).getAlbumCover());
+                    }
+                });
+                //大图跳转专辑
+                ((ItemHolder)viewHolder).iv_big_1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context,ReaderTabAlbumDetailActivity.class);
+                        intent.putExtra("format",itemList.get(i-2).getFormat());
+                        intent.putExtra("sentenceNum",String.valueOf(itemList.get(i-2).getSentenceNum()));
+                        intent.putExtra("albumId",itemList.get(i-2).getAlbumId());
+                        context.startActivity(intent);
                     }
                 });
 
@@ -214,16 +231,24 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((ItemHolder) viewHolder).ll_item_1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(onItemClickListener != null)
-                        onItemClickListener.onClick(1,"","",itemList.get(i-2).getArticleList().get(0).getImage());
+
+
+                        Intent intent = new Intent(context,ArticleDetailActivity.class);
+                        intent.putExtra("essayId", itemList.get(i-2).getArticleList().get(0).getArticleId());
+                        intent.putExtra("imgUrl", itemList.get(i-2).getArticleList().get(0).getImage());
+                        context.startActivity(intent);
                     }
                 });
 
                 ((ItemHolder) viewHolder).ll_item_2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(onItemClickListener != null)
-                            onItemClickListener.onClick(1,"","",itemList.get(i-2).getArticleList().get(1).getImage());
+//                        if(onItemClickListener != null)
+//                            onItemClickListener.onClick(1,"","",itemList.get(i-2).getArticleList().get(1).getImage());
+                        Intent intent = new Intent(context,ArticleDetailActivity.class);
+                        intent.putExtra("essayId", itemList.get(i-2).getArticleList().get(1).getArticleId());
+                        intent.putExtra("imgUrl", itemList.get(i-2).getArticleList().get(1).getImage());
+                        context.startActivity(intent);
                     }
                 });
 
@@ -264,9 +289,11 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     class TwoHolder extends RecyclerView.ViewHolder{
         RecyclerView rcl_banner;
+        TextView tv_title;
         public TwoHolder(@NonNull View itemView) {
             super(itemView);
             rcl_banner = itemView.findViewById(R.id.rlv_banner);
+            tv_title = itemView.findViewById(R.id.tv_title);
         }
     }
 
@@ -316,7 +343,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ChoiceHolder) viewHolder).iv_img.getLayoutParams();
             params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
@@ -325,6 +352,16 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             GlideUtils.loadImage(context, choiceList.get(i).getCover(),
                     ((ChoiceHolder) viewHolder).iv_img);
             ((ChoiceHolder)viewHolder).tv_type.setText(choiceList.get(i).getTitle());
+            ((ChoiceHolder)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context,ReaderTabAlbumDetailActivity.class);
+                    intent.putExtra("format",choiceList.get(i).getFormat());
+                    intent.putExtra("sentenceNum",String.valueOf(choiceList.get(i).getSentenceNum()));
+                    intent.putExtra("albumId",choiceList.get(i).getId());
+                    context.startActivity(intent);
+                }
+            });
         }
 
         @Override

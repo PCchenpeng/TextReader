@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.util.GlideUtils;
-import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 
 import org.json.JSONException;
@@ -82,7 +81,7 @@ public class MaterialDetailActivity extends BaseActivity implements View.OnClick
         if (isDestroyed()) {
             return;
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.view_author_loading, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.view_loading, null);
         ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
         GlideUtils.loadGIFImageWithNoOptions(mContext, R.drawable.image_loading, iv_loading);
         frameLayout.removeAllViews();

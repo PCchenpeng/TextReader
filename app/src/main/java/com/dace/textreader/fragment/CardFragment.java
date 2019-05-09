@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -312,7 +311,7 @@ public class CardFragment extends Fragment {
      */
     private void showLoadingView() {
         if (mContext != null) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.view_author_loading, null);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.view_loading, null);
             ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
 
             GlideUtils.loadGIFImageWithNoOptions(mContext, R.drawable.image_loading, iv_loading);

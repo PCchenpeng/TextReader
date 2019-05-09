@@ -53,8 +53,6 @@ import com.dace.textreader.util.DateUtil;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.HttpUrlPre;
-import com.dace.textreader.util.MyToastUtil;
-import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.TipsUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
@@ -662,7 +660,7 @@ public class MemberCentreActivity extends BaseActivity {
             return;
         }
         if (show) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.view_author_loading, null);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.view_loading, null);
             ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
             GlideUtils.loadGIFImageWithNoOptions(mContext, R.drawable.image_loading, iv_loading);
             frameLayout.removeAllViews();

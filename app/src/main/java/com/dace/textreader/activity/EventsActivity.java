@@ -36,7 +36,6 @@ import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.ImageUtils;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.ShareUtil;
-import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
@@ -194,7 +193,7 @@ public class EventsActivity extends BaseActivity {
      */
     private void showLoadingView(boolean show) {
         if (show) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.view_author_loading, null);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.view_loading, null);
             ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
             GlideUtils.loadGIFImageWithNoOptions(mContext, R.drawable.image_loading, iv_loading);
             frameLayout.removeAllViews();

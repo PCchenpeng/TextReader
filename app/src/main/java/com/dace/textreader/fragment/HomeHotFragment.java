@@ -68,7 +68,7 @@ public class HomeHotFragment extends Fragment implements PullListener {
 
     private void initView() {
         mRecycleView = view.findViewById(R.id.rcv_recommend);
-        homeHotAdapter = new HomeHotAdapter(mListData,mChoiceData,getContext());
+        homeHotAdapter = new HomeHotAdapter(mListData,mChoiceData,"",getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         mRecycleView.setHeadRefreshView(new SimpleRefreshHeadView(getContext()))
@@ -127,8 +127,9 @@ public class HomeHotFragment extends Fragment implements PullListener {
                     @Override
                     public void onReqSuccess(Object result) {
                         ReaderChoiceBean readerChoiceBean = GsonUtil.GsonToBean(result.toString(),ReaderChoiceBean.class);
+                        String choiceTitle = readerChoiceBean.getData().getName();
                         mChoiceData = readerChoiceBean.getData().getEssayList();
-                        homeHotAdapter.setChoiceData(mChoiceData);
+                        homeHotAdapter.setChoiceData(mChoiceData,choiceTitle);
                     }
 
                     @Override

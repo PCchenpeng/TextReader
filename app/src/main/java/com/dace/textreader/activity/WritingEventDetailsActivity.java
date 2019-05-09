@@ -231,7 +231,7 @@ public class WritingEventDetailsActivity extends BaseActivity {
             return;
         }
         frameLayout.setVisibility(View.VISIBLE);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.view_author_loading, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.view_loading, null);
         ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
         GlideUtils.loadGIFImageWithNoOptions(mContext, R.drawable.image_loading, iv_loading);
         frameLayout.removeAllViews();
