@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.bean.LevelFragmentBean;
+import com.dace.textreader.bean.ReadTabAlbumDetailBean;
+import com.dace.textreader.bean.SentenceListBean;
 
 import java.util.List;
 
@@ -18,11 +20,11 @@ import java.util.List;
  * Created by 70391 on 2017/7/31.
  */
 
-public class LevelFragmentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class SentenceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements View.OnClickListener {
 
     private Context mContext;
-    private List<LevelFragmentBean.DataBean> mList;
+    private List<SentenceListBean.DataBean> mList;
 
     @Override
     public void onClick(View v) {
@@ -32,17 +34,17 @@ public class LevelFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
     //自定义监听事件
-    public interface OnLevelItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(View view);
     }
 
-    private OnLevelItemClickListener mOnItemClickListener = null;
+    private OnItemClickListener mOnItemClickListener = null;
 
-    public void setOnItemClickListener(OnLevelItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
     }
 
-    public LevelFragmentRecyclerViewAdapter(Context mContext, List<LevelFragmentBean.DataBean> mList) {
+    public SentenceListAdapter(Context mContext, List<SentenceListBean.DataBean> mList) {
         this.mContext = mContext;
         this.mList = mList;
     }
@@ -50,7 +52,7 @@ public class LevelFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.item_fragment_level_choose_layout, parent, false);
+                .inflate(R.layout.item_sentence_list_layout, parent, false);
         //给布局设置点击和长点击监听
         view.setOnClickListener(this);
         ViewHolder holder = new ViewHolder(view);
@@ -59,15 +61,9 @@ public class LevelFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        LevelFragmentBean.DataBean levelBean = mList.get(position);
-        if (levelBean.isSelected()) {
-            ((ViewHolder) holder).tv_level.setTextColor(Color.parseColor("#ffffff"));
-            ((ViewHolder) holder).tv_level.setBackgroundResource(R.drawable.shape_level_bg_blue);
-        } else {
-            ((ViewHolder) holder).tv_level.setTextColor(Color.parseColor("#4D83FF"));
-            ((ViewHolder) holder).tv_level.setBackgroundResource(R.drawable.shape_level_bg_gray);
-        }
-        ((ViewHolder) holder).tv_level.setText(levelBean.getGradename());
+        SentenceListBean.DataBean dataBean = mList.get(position);
+        ((ViewHolder) holder).tv_content_sentence_collection_item.setText(dataBean.getContent());
+        ((ViewHolder) holder).tv_author_sentence_collection_item.setText(dataBean.getSource());
     }
 
     @Override
@@ -75,12 +71,21 @@ public class LevelFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         return mList.size();
     }
 
+    public void refreshData(List<SentenceListBean.DataBean> mList) {
+//        this.itemData.clear();
+//        this.itemData.addAll(itemata);
+        this.mList = mList;
+        notifyDataSetChanged();
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_level;
+        TextView tv_content_sentence_collection_item;
+        TextView tv_author_sentence_collection_item;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_level = itemView.findViewById(R.id.tv_level_choose_item);
+            tv_content_sentence_collection_item = itemView.findViewById(R.id.tv_content_sentence_collection_item);
+            tv_author_sentence_collection_item = itemView.findViewById(R.id.tv_author_sentence_collection_item);
         }
     }
 }

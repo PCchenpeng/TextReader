@@ -1,10 +1,8 @@
 package com.dace.textreader.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
-import com.dace.textreader.activity.AuthorDetailActivity;
-import com.dace.textreader.activity.KnowledgeDetailActivity;
 import com.dace.textreader.activity.MySubscriptionActivity;
-import com.dace.textreader.activity.ReaderTabAlbumDetailActivity;
-import com.dace.textreader.activity.UserHomepageActivity;
-import com.dace.textreader.bean.SubscriptionChildBean;
 import com.dace.textreader.bean.SubscriptionChildBean;
 import com.dace.textreader.util.GlideUtils;
 

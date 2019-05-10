@@ -565,6 +565,12 @@
             android:theme="@style/NewMainTheme">
         </activity>
         <activity
+            android:name=".activity.SentenceExplainationActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMainTheme">
+        </activity>
+        <activity
             android:name=".activity.MyselfNewsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

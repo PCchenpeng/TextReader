@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -454,6 +455,7 @@ public class DailySentenceActivity extends BaseActivity implements View.OnClickL
                     } else {
                         sentence_next.setDate(DateUtil.time2MD(object_next.getString("time")));
                     }
+                    Log.d("111","object_next.getString(\"author\")" + object_next.getString("author"));
                     sentence_next.setAuthor(object_next.getString("author"));
                     sentence_next.setContent(object_next.getString("content"));
                     if (1 == object_next.optInt("status", 0)) {
@@ -658,6 +660,7 @@ public class DailySentenceActivity extends BaseActivity implements View.OnClickL
 
         @Override
         protected void onPostExecute(DailySentenceActivity activity, String s) {
+            Log.d("111","sentenceId  " + s);
             if (s == null) {
                 activity.errorData();
             } else {

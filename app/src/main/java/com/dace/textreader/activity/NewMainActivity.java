@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -42,7 +43,9 @@ import com.dace.textreader.R;
 import com.dace.textreader.audioUtils.AppHelper;
 import com.dace.textreader.audioUtils.PlayService;
 import com.dace.textreader.bean.AutoSaveWritingBean;
+import com.dace.textreader.bean.HtmlLinkBean;
 import com.dace.textreader.bean.LessonBean;
+import com.dace.textreader.bean.LevelFragmentBean;
 import com.dace.textreader.bean.ReaderTabBean;
 import com.dace.textreader.fragment.HomeFragment;
 import com.dace.textreader.fragment.NewHomeFragment;
@@ -50,12 +53,14 @@ import com.dace.textreader.fragment.NewLessonFragment;
 import com.dace.textreader.fragment.NewMineFragment;
 import com.dace.textreader.fragment.NewReaderFragment;
 import com.dace.textreader.util.DataUtil;
+import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.JsonParser;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.SpeechRecognizerUtil;
+import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
@@ -73,6 +78,7 @@ import org.json.JSONObject;
 import org.litepal.LitePal;
 import org.litepal.crud.callback.FindMultiCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
@@ -90,6 +96,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     public static String TOKEN_URL = HttpUrlPre.HTTP_URL + "/tokenLogin";
     //统计用户流量
     private final String statisticsUrl = HttpUrlPre.HTTP_URL + "/statistics/flow";
+    //所有的HTML链接
+    private final String htmlLinkUrl = HttpUrlPre.HTTP_URL_ + "/select/all/html/link";
     //更新音频的播放次数
     private static final String updatePlayNumUrl = HttpUrlPre.HTTP_URL + "/lesson/update/playback";
     //TOKEN检测接口
@@ -124,6 +132,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     public static String DESCRIPTION = "";  //用户简介
 
     private RelativeLayout rl_root;
+    public View view_cover;
     private LinearLayout ll_home;
     private ImageView iv_home;
     private TextView tv_home;
@@ -194,6 +203,8 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     private String phoneModel = "";  //手机型号
 
+    private List<HtmlLinkBean.DataBean> htmlLinkBeanList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -244,6 +255,33 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         //绑定音频播放服务
         bindService();
 
+        loadhtmlLinkData();
+
+    }
+
+    private void loadhtmlLinkData() {
+        JSONObject params = new JSONObject();
+        OkHttpManager.getInstance(this).requestAsyn(htmlLinkUrl, OkHttpManager.TYPE_GET, params,
+                new OkHttpManager.ReqCallBack<Object>() {
+                    @Override
+                    public void onReqSuccess(Object result) {
+                        HtmlLinkBean htmlLinkBean = GsonUtil.GsonToBean(result.toString(),HtmlLinkBean.class);
+                        List<HtmlLinkBean.DataBean> data = htmlLinkBean.getData();
+                        if(htmlLinkBeanList != null) {
+                            htmlLinkBeanList.addAll(data);
+                            if (htmlLinkBeanList.size() > 0) {
+                                for (int i = 0;i < htmlLinkBeanList.size();i++) {
+                                    Log.d("111", "getName " + htmlLinkBeanList.get(i).getName() + "getName " + htmlLinkBeanList.get(i).getUrl());
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+
+                    }
+                });
     }
 
 
@@ -492,7 +530,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             public void run() {
                 super.run();
                 try {
-                    sleep(30000);
+                    sleep(60000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -502,6 +540,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                         OkHttpClient client = new OkHttpClient();
                         JSONObject json = new JSONObject();
                         json.put("token", TOKEN);
+                        json.put("phoneModel", android.os.Build.BRAND);
+                        json.put("studentId", NewMainActivity.STUDENT_ID);
+                        json.put("platform", "android");
                         RequestBody requestBody = RequestBody.create(DataUtil.JSON, json.toString());
                         Request request = new Request.Builder()
                                 .url(TOKEN_ACCOUNT_DETECTION_URL)
@@ -899,7 +940,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         NewMainActivity.USERNAME = "";
         NewMainActivity.GRADE = -1;
         NewMainActivity.LEVEL = -1;
-        NewMainActivity.PY_SCORE = "";
+        NewMainActivity.PY_SCORE = "-1";
         NewMainActivity.USERIMG = "";
         NewMainActivity.NEWS_COUNT = 0;
         NewMainActivity.PHONENUMBER = "";
@@ -964,6 +1005,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     private void initView() {
         rl_root = findViewById(R.id.rl_root_new_main);
+        view_cover = findViewById(R.id.view_cover);
         ll_home = findViewById(R.id.ll_new_home_bottom_main);
         iv_home = findViewById(R.id.iv_new_home_bottom_main);
         tv_home = findViewById(R.id.tv_new_home_bottom_main);
@@ -1307,5 +1349,14 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             broadcastReceiver = null;
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if( hasFocus ){
+            if (newHomeFragment != null)
+            newHomeFragment.setViewCoverTopMargin();
+        }
     }
 }

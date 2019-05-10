@@ -13,12 +13,14 @@ import android.view.ViewGroup;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivityTest;
+import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.HomeHotAdapter;
 import com.dace.textreader.bean.ReaderChoiceBean;
 import com.dace.textreader.bean.ReaderRecommendationBean;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.weight.pullrecycler.PullListener;
 import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
@@ -114,9 +116,9 @@ public class HomeHotFragment extends Fragment implements PullListener {
     private void loadChoiceData() {
         JSONObject params = new JSONObject();
         try {
-            params.put("studentId","-1");
-            params.put("gradeId","-1");
-            params.put("py","100");
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId","-1"));
+            params.put("py",NewMainActivity.PY_SCORE);
             params.put("width",DensityUtil.getScreenWidth(getContext()));
             params.put("height",DensityUtil.getScreenWidth(getContext())*194/345);
         } catch (JSONException e) {
@@ -143,9 +145,9 @@ public class HomeHotFragment extends Fragment implements PullListener {
 
         JSONObject params = new JSONObject();
         try {
-            params.put("studentId","-1");
-            params.put("gradeId","-1");
-            params.put("py","100");
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId","-1"));
+            params.put("py",NewMainActivity.PY_SCORE);
             params.put("pageNum",String.valueOf(pageNum));
             params.put("width",DensityUtil.getScreenWidth(getContext()));
             params.put("height",DensityUtil.getScreenWidth(getContext())*194/345);

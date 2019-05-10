@@ -154,6 +154,7 @@ public class MySubscriptionActivity extends BaseActivity {
             intent = new Intent(mContext, ReaderTabAlbumDetailActivity.class);
             intent.putExtra("format",mList.get(position).getRetList().get(childPosition).getFormat());
             intent.putExtra("sentenceNum",mList.get(position).getRetList().get(childPosition).getSentenceNum());
+            intent.putExtra("albumId",mList.get(position).getRetList().get(childPosition).getId() + "");
         } else if (mList.get(position).getRetType().equals("书")) {
             intent = new Intent(mContext, KnowledgeDetailActivity.class);
             intent.putExtra("id",mList.get(position).getRetList().get(childPosition).getId());

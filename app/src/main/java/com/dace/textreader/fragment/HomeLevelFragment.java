@@ -1,6 +1,8 @@
 package com.dace.textreader.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
@@ -48,6 +55,7 @@ import java.util.List;
 public class HomeLevelFragment extends Fragment implements PullListener {
     private View view;
     private PullRecyclerView mRecycleView;
+    private View line_pupop_window;
     private String url = HttpUrlPre.HTTP_URL_ + "/select/reading/py/list";
     private String level_url = HttpUrlPre.HTTP_URL_ + "/select/article/level/list";
     private int pageNum = 1;
@@ -57,6 +65,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
     private List<ReaderLevelBean.DataBean.ArticleListBean> mData = new ArrayList<>();
     private boolean isVisibleToUser = false;
     private List<LevelFragmentBean.DataBean> levelBeanList = new ArrayList<>();
+    private PopupWindow popupWindow;
 
     @Nullable
     @Override
@@ -69,8 +78,6 @@ public class HomeLevelFragment extends Fragment implements PullListener {
 
         return view;
     }
-
-
 
 
     private void loadData() {
@@ -124,10 +131,11 @@ public class HomeLevelFragment extends Fragment implements PullListener {
             @Override
             public void onClick() {
                 if(isVisibleToUser)
-                    showLevelDialog();
+                    showLevelView(line_pupop_window);
             }
         });
         mRecycleView = view.findViewById(R.id.rlv_reader_level);
+        line_pupop_window = view.findViewById(R.id.line_pupop_window);
         homeLevelAdapter = new HomeLevelAdapter(mData,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
@@ -177,6 +185,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
                                 if (levelBeanList.size() > 0) {
                                     grade = levelBeanList.get(0).getGrade() + "";
                                     loadData();
+                                    updateLevelState(0);
                                 }
                             }
                     }
@@ -189,43 +198,100 @@ public class HomeLevelFragment extends Fragment implements PullListener {
     }
 
 
-    private void showLevelDialog() {
-        NiceDialog.init()
-                .setLayoutId(R.layout.dialog_fragment_level_choose_layout)
-                .setConvertListener(new ViewConvertListener() {
-                    @Override
-                    protected void convertView(ViewHolder holder, final BaseNiceDialog dialog) {
-                        LinearLayout ll_doubt = holder.getView(R.id.ll_doubt_level_dialog);
-                        final RecyclerView recyclerView = holder.getView(R.id.recycler_view_level_dialog);
-                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),
-                                3);
-                        recyclerView.setLayoutManager(gridLayoutManager);
-                        LevelFragmentRecyclerViewAdapter adapter =
-                                new LevelFragmentRecyclerViewAdapter(getContext(), levelBeanList);
-                        recyclerView.setAdapter(adapter);
-                        ll_doubt.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                turnToDoubtView();
-                                dialog.dismiss();
-                            }
-                        });
-                        adapter.setOnItemClickListener(new LevelFragmentRecyclerViewAdapter.OnLevelItemClickListener() {
-                            @Override
-                            public void onItemClick(View view) {
-                                int pos = recyclerView.getChildAdapterPosition(view);
-                                if (levelBeanList.size() > 0) {
-                                    grade = levelBeanList.get(pos).getGrade() + "";
-                                    loadData();
-                                }
-                                dialog.dismiss();
-                            }
-                        });
+
+    /**
+     * 在分级界面顶部下面
+     */
+    public void showLevelView(View view) {
+        if (getContext() instanceof Activity && ((Activity) getContext()).isDestroyed()){
+            return;
+        }
+        final View popupView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_fragment_level_choose_layout, null);
+        LinearLayout ll_doubt = popupView.findViewById(R.id.ll_doubt_level_dialog);
+        final RecyclerView recyclerView = popupView.findViewById(R.id.recycler_view_level_dialog);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),
+                3);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        LevelFragmentRecyclerViewAdapter adapter =
+                new LevelFragmentRecyclerViewAdapter(getContext(), levelBeanList);
+        recyclerView.setAdapter(adapter);
+        ll_doubt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                turnToDoubtView();
+                popupWindow.dismiss();
+            }
+        });
+        adapter.setOnItemClickListener(new LevelFragmentRecyclerViewAdapter.OnLevelItemClickListener() {
+            @Override
+            public void onItemClick(View view) {
+                int pos = recyclerView.getChildAdapterPosition(view);
+                Log.d("111","pos  " + pos);
+                if (levelBeanList.size() > 0) {
+                    if (pos != getLevelSelectedState()) {
+                        updateLevelState(pos);
+                        grade = levelBeanList.get(pos).getGrade() + "";
+                        loadData();
                     }
-                })
-                .setShowBottom(false)
-                .show(getChildFragmentManager());
+
+                }
+                popupWindow.dismiss();
+            }
+        });
+
+
+
+//        PopupWindow popupWindow = new PopupWindow(DensityUtil.dip2px(getContext(), 130),DensityUtil.dip2px(getContext(), 80));
+        popupWindow = new PopupWindow(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setContentView(popupView);
+        popupWindow.setOutsideTouchable(true);
+        int offsetX = view.getWidth() / 2 - DensityUtil.dip2px(getContext(), 130) / 2;
+        popupWindow.showAsDropDown(view, offsetX, 0);
+
+        Animation animation=AnimationUtils.loadAnimation(getContext(), R.anim.level_enter_anim);
+        ((NewMainActivity)getActivity()).view_cover.startAnimation(animation);
+        ((NewMainActivity)getActivity()).view_cover.setVisibility(View.VISIBLE);
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            // 在dismiss中恢复透明度
+            public void onDismiss() {
+                Animation animation=AnimationUtils.loadAnimation(getContext(), R.anim.level_exit_anim);
+                ((NewMainActivity)getActivity()).view_cover.startAnimation(animation);
+                ((NewMainActivity)getActivity()).view_cover.setVisibility(View.GONE);
+            }
+        });
+//        this.popupWindow = popupWindow;
     }
+
+    /**
+     * 获取当前选择的等级
+     */
+    private int getLevelSelectedState() {
+        int pos = -1;
+        for (int i = 0; i < levelBeanList.size(); i++) {
+            if (levelBeanList.get(i).isSelected()) {
+                pos = i;
+                break;
+            }
+        }
+        return pos;
+    }
+
+    /**
+     * 更新等级选择视图
+     *
+     * @param pos
+     */
+    private void updateLevelState(int pos) {
+        if (levelBeanList.size() != 0) {
+            for (int i = 0; i < levelBeanList.size(); i++) {
+                levelBeanList.get(i).setSelected(false);
+            }
+            levelBeanList.get(pos).setSelected(true);
+        }
+    }
+
 
     /**
      * 前往疑问解释视图

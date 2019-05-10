@@ -65,6 +65,10 @@
         <item name="android:windowEnterAnimation">@anim/enter_anim</item>
         <item name="android:windowExitAnimation">@anim/exit_anim</item>
     </style>
+    <style name="LevelAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/level_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/level_exit_anim</item>
+    </style>
 
     <style name="OperateTextView">
         <item name="android:layout_width">wrap_content</item>

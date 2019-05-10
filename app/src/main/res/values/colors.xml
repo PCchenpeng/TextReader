@@ -304,5 +304,7 @@
 
     <color name="color_4D72FF">#4D72FF</color>
     <color name="color_80B9FF">#80B9FF</color>
+    <color name="blue_level">#4D83FF</color>
+    <color name="gray_level">#EEF2FF</color>
 
 </resources>

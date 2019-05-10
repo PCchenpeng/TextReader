@@ -124,6 +124,7 @@ public class ReaderTabAlbumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         Intent intent = new Intent(context, ReaderTabAlbumDetailActivity.class);
                         intent.putExtra("format",itemData.get(i-1).getFormat());
                         intent.putExtra("sentenceNum",String.valueOf(itemData.get(i-1).getSentenceNum()));
+                        intent.putExtra("albumId",String.valueOf(itemData.get(i-1).getAlbumId()));
                         context.startActivity(intent);
                     }
                 });

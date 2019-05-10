@@ -411,10 +411,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 editor.putString("phoneNum", phoneNum);
                 editor.apply();
 
-                PreferencesUtil.saveData(LoginActivity.this,"studentId",id);
+                PreferencesUtil.saveData(LoginActivity.this,"studentId",id + "");
                 PreferencesUtil.saveData(LoginActivity.this,"token",token);
                 PreferencesUtil.saveData(LoginActivity.this,"phoneNum",phoneNum);
-                EventBus.getDefault().post(new MessageEvent(""));
+                EventBus.getDefault().postSticky(new MessageEvent(""));
 
                 broadcastUpdate(HttpUrlPre.ACTION_BROADCAST_JIGUANG_LOGIN);
 

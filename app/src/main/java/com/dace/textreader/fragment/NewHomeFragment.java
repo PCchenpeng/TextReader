@@ -18,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.util.Utils;
+import com.dace.textreader.view.StatusBarHeightView;
 import com.dace.textreader.view.tab.SmartTabLayout;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class NewHomeFragment extends Fragment {
     private RelativeLayout rl_search;
 
     private Context mContext;
+    private StatusBarHeightView view_status;
     private SmartTabLayout tabLayout;
     private ViewPager viewPager;
     private List<String> mList_title = new ArrayList<>();
@@ -105,6 +108,7 @@ public class NewHomeFragment extends Fragment {
 
     private void initView() {
         rl_search = view.findViewById(R.id.rl_search_new_reader_fragment);
+        view_status = view.findViewById(R.id.view_status);
         tabLayout = view.findViewById(R.id.tab_layout_new_reader_fragment);
         viewPager = view.findViewById(R.id.view_pager_new_reader_fragment);
 //        iv_search = view.findViewById(R.id.iv_search);
@@ -123,6 +127,8 @@ public class NewHomeFragment extends Fragment {
         });
 
     }
+
+
 
     private void initEvents() {
         rl_search.setOnClickListener(new View.OnClickListener() {
@@ -172,5 +178,12 @@ public class NewHomeFragment extends Fragment {
 
     public void setOnTabLevelClickListener(OnTabLevelClickListener onTabLevelClickListener) {
         this.onTabLevelClickListener = onTabLevelClickListener;
+    }
+
+    public void setViewCoverTopMargin() {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ((NewMainActivity)getActivity()).view_cover.getLayoutParams();
+        layoutParams.topMargin = view_status.getMeasuredHeight();
+        Log.d("111","view_status.getMeasuredHeight(); " + view_status.getMeasuredHeight());
+        ((NewMainActivity)getActivity()).view_cover.setLayoutParams(layoutParams);
     }
 }

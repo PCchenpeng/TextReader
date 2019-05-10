@@ -55,7 +55,7 @@ public class ReadTabAlbumDetailBean {
         private int sentenceNum;
         private int stopLevel;
         private int format;
-        private int albumId;
+        private String albumId;
         private int startLevel;
         private String title;
         private ShareListBean shareList;
@@ -94,11 +94,11 @@ public class ReadTabAlbumDetailBean {
             this.format = format;
         }
 
-        public int getAlbumId() {
+        public String getAlbumId() {
             return albumId;
         }
 
-        public void setAlbumId(int albumId) {
+        public void setAlbumId(String albumId) {
             this.albumId = albumId;
         }
 
@@ -292,14 +292,14 @@ public class ReadTabAlbumDetailBean {
              * level1 : null
              */
 
-            private Object level1;
+            private String level1;
             private List<ArticleListBean> articleList;
 
-            public Object getLevel1() {
+            public String getLevel1() {
                 return level1;
             }
 
-            public void setLevel1(Object level1) {
+            public void setLevel1(String level1) {
                 this.level1 = level1;
             }
 
@@ -327,12 +327,13 @@ public class ReadTabAlbumDetailBean {
                 private int score;
                 private String image;
                 private int flag;
-                private int articleId;
+                private String articleId;
                 private int format;
                 private String source;
                 private String sourceImage;
                 private String title;
                 private String subContent;
+                private String level1;
 
                 public int getScore() {
                     return score;
@@ -358,11 +359,11 @@ public class ReadTabAlbumDetailBean {
                     this.flag = flag;
                 }
 
-                public int getArticleId() {
+                public String getArticleId() {
                     return articleId;
                 }
 
-                public void setArticleId(int articleId) {
+                public void setArticleId(String articleId) {
                     this.articleId = articleId;
                 }
 
@@ -404,6 +405,14 @@ public class ReadTabAlbumDetailBean {
 
                 public void setSubContent(String subContent) {
                     this.subContent = subContent;
+                }
+
+                public String getLevel1() {
+                    return level1;
+                }
+
+                public void setLevel1(String level1) {
+                    this.level1 = level1;
                 }
             }
         }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingBottom="20dp"
+              android:layout_marginBottom="10dp"
+              android:gravity="center_vertical"
+              android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/tv_content_sentence_collection_item"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:lineSpacingMultiplier="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/colorTextImportant"
+            android:textSize="17sp"/>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="——出自"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/colorTextNormal"
+            android:textSize="15sp"/>
+        <TextView
+            android:id="@+id/tv_author_sentence_collection_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/colorTextNormal"
+            android:textSize="15sp"/>
+
+        </LinearLayout>
+
+
+</LinearLayout>

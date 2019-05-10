@@ -3,13 +3,20 @@ package com.dace.textreader.util;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.adapter.LevelFragmentRecyclerViewAdapter;
+import com.dace.textreader.bean.LevelFragmentBean;
+
+import java.util.List;
 
 /**
  * =============================================================================
@@ -150,6 +157,8 @@ public class TipsUtil {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         this.popupWindow = popupWindow;
     }
+
+
 
     /**
      * 写作界面显示倒计时提示

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dace.textreader.R;
+import com.dace.textreader.adapter.BookAdapter;
 import com.dace.textreader.adapter.ReaderTabAlbumDetailListAdapter;
 import com.dace.textreader.bean.ReadTabAlbumDetailBean;
 import com.dace.textreader.util.DensityUtil;
@@ -33,18 +34,18 @@ public class ReaderTabAlbumDetailListFragment extends Fragment {
     private View view;
     private ReaderTabAlbumDetailListAdapter readerTabAlbumDetailListAdapter;
     private String url = HttpUrlPre.HTTP_URL_+"/select/album/detail";
-    private boolean isRefresh = false;
     private List<ReadTabAlbumDetailBean.DataBean.BookBean.ArticleListBean> mData = new ArrayList<>();
     private RecyclerView recyclerView;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_reader_tab, container, false);
+        view = inflater.inflate(R.layout.fragment_album_detail_list, container, false);
 
         initData();
         initView();
-        loadTopData();
-        loadItemData();
+//        loadTopData();
+//        loadItemData();
 
         return view;
     }
@@ -107,5 +108,11 @@ public class ReaderTabAlbumDetailListFragment extends Fragment {
 
                     }
                 });
+    }
+
+    public void setmData(List<ReadTabAlbumDetailBean.DataBean.BookBean.ArticleListBean> mData) {
+        this.mData = mData;
+        if(mData !=null)
+        readerTabAlbumDetailListAdapter.refreshData(mData);
     }
 }

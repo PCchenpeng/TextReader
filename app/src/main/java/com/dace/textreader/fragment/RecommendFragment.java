@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,7 @@ public class RecommendFragment extends Fragment implements PullListener {
         return view;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void Event(MessageEvent messageEvent) {
         loadData();
     }
@@ -80,7 +81,6 @@ public class RecommendFragment extends Fragment implements PullListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        super.onDestroy();
         if(EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }

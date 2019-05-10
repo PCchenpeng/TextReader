@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -21,7 +22,7 @@
                 android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:contentScrim="?attr/colorPrimary"
+                app:contentScrim="@color/colorWhite"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +40,7 @@
                 <RelativeLayout
                     android:id="@+id/rl_back"
                     android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
@@ -48,17 +49,33 @@
                         android:layout_margin="5dp"
                         android:src="@drawable/icon_bg_back"/>
                 </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rl_share"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/icon_share"/>
+                </RelativeLayout>
             </RelativeLayout>
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
                 android:text="山海经"
                 android:textColor="#333333"
                 android:textSize="20sp"/>
             <com.ms.square.android.expandabletextview.ExpandableTextView
                 android:id="@+id/expand_text_view"
+                android:layout_marginTop="19dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 expandableTextView:maxCollapsedLines="2">
@@ -66,6 +83,8 @@
                     android:id="@+id/expandable_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text=""
+                    android:lineSpacingMultiplier="1.3"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:ellipsize="end"
@@ -97,13 +116,34 @@
 
             </com.ms.square.android.expandabletextview.ExpandableTextView>
 
-            <android.support.design.widget.TabLayout
+            <!--<android.support.design.widget.TabLayout-->
+                <!--android:id="@+id/tabLayout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:tabIndicatorColor="#4D72FF"-->
+                <!--app:tabSelectedTextColor="#4D72FF"-->
+                <!--app:tabTextColor="#333333" />-->
+            <View
+                android:background="#f7f7f9"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+            <com.dace.textreader.view.tab.SmartTabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabIndicatorColor="#4D72FF"
-                app:tabSelectedTextColor="#4D72FF"
-                app:tabTextColor="#333333" />
+                android:layout_height="48dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                app:stl_defaultTabTextColor="@drawable/color_tab_articlenote"
+                app:stl_defaultTabTextSize="17sp"
+                app:stl_dividerColor="@color/colorTransparent"
+                app:stl_dividerThickness="0dp"
+                app:stl_indicatorColor="#4D83FF"
+                app:stl_indicatorCornerRadius="2dp"
+                app:stl_indicatorThickness="4dp"
+                app:stl_indicatorWidth="20dp"
+                app:stl_underlineColor="@color/colorTransparent"
+                app:stl_distributeEvenly="true"
+                app:stl_underlineThickness="0dp"/>
         </LinearLayout>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>

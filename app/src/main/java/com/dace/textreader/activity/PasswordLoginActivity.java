@@ -19,13 +19,16 @@ import android.widget.TextView;
 
 import com.dace.textreader.App;
 import com.dace.textreader.R;
+import com.dace.textreader.bean.MessageEvent;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -343,6 +346,11 @@ public class PasswordLoginActivity extends BaseActivity implements View.OnClickL
             editor.putString("phoneNum", phoneNum);
             editor.apply();
 
+            PreferencesUtil.saveData(PasswordLoginActivity.this,"studentId",id + "");
+            PreferencesUtil.saveData(PasswordLoginActivity.this,"token",token);
+            PreferencesUtil.saveData(PasswordLoginActivity.this,"phoneNum",phoneNum);
+            EventBus.getDefault().postSticky(new MessageEvent(""));
+
             broadcastUpdate(HttpUrlPre.ACTION_BROADCAST_JIGUANG_LOGIN);
 
             if (hideBack) {
@@ -351,6 +359,7 @@ public class PasswordLoginActivity extends BaseActivity implements View.OnClickL
             }
 
             showTips("登录成功");
+            EventBus.getDefault().postSticky(new MessageEvent(""));
 
             finish();
         } catch (JSONException e) {
