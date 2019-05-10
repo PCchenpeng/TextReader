@@ -271,7 +271,7 @@ public class H5DataBean {
         private Object parentId;
         private String sentenceNum;
         private String searchId;
-        private int albumSequence;
+        private String albumSequence;
         private String subIntroduction;
         private Object authorId;
         private Object author;
@@ -401,11 +401,11 @@ public class H5DataBean {
             this.searchId = searchId;
         }
 
-        public int getAlbumSequence() {
+        public String getAlbumSequence() {
             return albumSequence;
         }
 
-        public void setAlbumSequence(int albumSequence) {
+        public void setAlbumSequence(String albumSequence) {
             this.albumSequence = albumSequence;
         }
 
