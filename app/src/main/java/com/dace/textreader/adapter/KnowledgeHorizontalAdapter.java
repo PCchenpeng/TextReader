@@ -47,12 +47,12 @@ public class KnowledgeHorizontalAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        if (i == 0) {
-            viewHolder.itemView.setPadding(DensityUtil.dip2px(mContext, 15),
-                    0, 0, 0);
-        } else {
-            viewHolder.itemView.setPadding(0, 0, 0, 0);
-        }
+//        if (i == 0) {
+//            viewHolder.itemView.setPadding(DensityUtil.dip2px(mContext, 15),
+//                    0, 0, 0);
+//        } else {
+//            viewHolder.itemView.setPadding(0, 0, 0, 0);
+//        }
         ((ViewHolder) viewHolder).textView.setText(mList.get(i).getTitle());
     }
 

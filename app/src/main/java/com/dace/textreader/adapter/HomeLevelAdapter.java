@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -16,6 +17,7 @@ import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.HomeAudioDetailActivity;
 import com.dace.textreader.bean.ReaderLevelBean;
+import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
 
 import java.util.List;
@@ -50,6 +52,10 @@ public class HomeLevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 .load(imgUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .preload();
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ((ListHolder) viewHolder).iv_big.getLayoutParams();
+        layoutParams.width = DensityUtil.getScreenWidth(mContext);
+        layoutParams.height = DensityUtil.getScreenWidth(mContext) * 2/3;
+        ((ListHolder) viewHolder).iv_big.setLayoutParams(layoutParams);
         GlideUtils.loadHomeImage(mContext, imgUrl,
                 ((ListHolder) viewHolder).iv_big);
         GlideUtils.loadHomeUserImage(mContext, mData.get(i).getSourceImage(),
@@ -58,6 +64,7 @@ public class HomeLevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ((ListHolder) viewHolder).tv_sub.setText(mData.get(i).getSubContent());
         ((ListHolder) viewHolder).tv_source.setText(mData.get(i).getSource());
         ((ListHolder) viewHolder).tv_type.setText("#"+mData.get(i).getType()+"#");
+        ((ListHolder) viewHolder).tv_py.setText(mData.get(i).getScore()+"PY");
 
 
 
@@ -144,7 +151,7 @@ public class HomeLevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     class ListHolder  extends RecyclerView.ViewHolder{
         ImageView iv_big,iv_source,iv_type;
-        TextView tv_title,tv_sub,tv_source,tv_type;
+        TextView tv_title,tv_sub,tv_source,tv_type,tv_py;
         public ListHolder(@NonNull View itemView) {
             super(itemView);
             iv_type = itemView.findViewById(R.id.iv_type);
@@ -154,6 +161,7 @@ public class HomeLevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             tv_sub = itemView.findViewById(R.id.tv_sub);
             tv_source = itemView.findViewById(R.id.tv_source);
             tv_type = itemView.findViewById(R.id.tv_type);
+            tv_py = itemView.findViewById(R.id.tv_py);
         }
     }
 }

@@ -13,6 +13,6 @@
         android:gravity="center"
         android:background="@drawable/shape_level_bg_gray"
         android:textColor="@color/blue_level"
-        android:textSize="17sp"/>
+        android:textSize="15sp"/>
 
 </RelativeLayout>

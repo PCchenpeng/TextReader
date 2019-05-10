@@ -37,7 +37,7 @@ public class SearchAlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         GlideUtils.loadImage(mContext,mData.get(i).getImage(),((ItemHolder)viewHolder).iv_img);
         ((ItemHolder)viewHolder).tv_album_name.setText(mData.get(i).getTitle());
-        ((ItemHolder)viewHolder).tv_title.setText(mData.get(i).getCategory());
+        ((ItemHolder)viewHolder).tv_title.setText("#" + mData.get(i).getCategory()+"#");
     }
 
     @Override

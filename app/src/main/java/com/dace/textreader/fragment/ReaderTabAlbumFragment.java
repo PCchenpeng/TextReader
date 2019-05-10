@@ -116,10 +116,7 @@ public class ReaderTabAlbumFragment extends Fragment {
     private void loadTopData() {
         JSONObject params = new JSONObject();
         try {
-            params.put("studentId",NewMainActivity.STUDENT_ID);
-            params.put("gradeId",NewMainActivity.GRADE_ID);
-            params.put("py","100");
-            params.put("type",type);
+            params.put("category",type);
             params.put("width",DensityUtil.getScreenWidth(getContext()));
             params.put("height",DensityUtil.getScreenWidth(getContext())*194/345);
         } catch (JSONException e) {
@@ -147,9 +144,7 @@ public class ReaderTabAlbumFragment extends Fragment {
         JSONObject params = new JSONObject();
         try {
             params.put("studentId",NewMainActivity.STUDENT_ID);
-            params.put("gradeId",NewMainActivity.GRADE_ID);
-            params.put("py","100");
-            params.put("type",type);
+            params.put("category",type);
             params.put("pageNum",pageNum);
             params.put("width",DensityUtil.getScreenWidth(getContext()));
             params.put("height",DensityUtil.getScreenWidth(getContext())*194/345);

@@ -201,7 +201,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }else {
                         ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
                         ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
-                        ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getPv()+"PY");
+                        ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getScore()+"PY");
 //                        final String py = String.valueOf(itemList.get(itemPosition).getArticle().getScore());
 
                         ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -216,7 +216,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 }else {
                     ((BigHolder) viewHolder).iv_type.setVisibility(View.GONE);
-                    ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getPv()+"PY");
+                    ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getScore()+"PY");
                     ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

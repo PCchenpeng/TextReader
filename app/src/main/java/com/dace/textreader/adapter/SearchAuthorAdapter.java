@@ -44,7 +44,7 @@ public class SearchAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        GlideUtils.loadHomeUserImage(mContext,mData.get(i).getImage(),((ItemHolder)viewHolder).iv_author);
+        GlideUtils.loadHomeUserImage(mContext,mData.get(i).getSource_image(),((ItemHolder)viewHolder).iv_author);
         ((ItemHolder)viewHolder).tv_author_name.setText(mData.get(i).getAuthor());
         final String authorId = mData.get(i).getIndex_id();
         ((ItemHolder)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {

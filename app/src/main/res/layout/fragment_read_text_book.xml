@@ -52,6 +52,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="更多"
+                            android:textStyle="bold"
                             android:textColor="@color/color_4D72FF"
                             android:textSize="15sp"/>
 
@@ -59,16 +60,21 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_knowledge_read_text_book_fragment"
+                        android:layout_marginLeft="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="147dp"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:background="@color/colorOrderDetailBg"/>
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="课文汇总"
+                        android:textColor="@color/colorTextImportant"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
                 </LinearLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -106,19 +112,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="课文汇总"
-                android:textColor="@color/colorTextImportant"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_read_text_book_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginBottom="60dp"/>
 
         </LinearLayout>

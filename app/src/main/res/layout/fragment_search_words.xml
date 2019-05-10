@@ -23,6 +23,9 @@
                     android:background="@color/colorOrderDetailBg"/>
                 <com.dace.textreader.view.LineWrapLayout
                     android:id="@+id/lwl_words"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </com.dace.textreader.view.LineWrapLayout>

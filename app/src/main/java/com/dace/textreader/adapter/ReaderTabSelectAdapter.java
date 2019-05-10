@@ -266,104 +266,107 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-            ((ItemHolder)viewHolder).tv_title.setText(data.get(0).getArticleList().get(i).getTitle());
-            ((ItemHolder)viewHolder).tv_subContent.setText(data.get(0).getArticleList().get(i).getSubContent());
-            ((ItemHolder)viewHolder).tv_source.setText(data.get(0).getArticleList().get(i).getSource());
-            ((ItemHolder)viewHolder).tv_type.setText("#"+data.get(0).getArticleList().get(i).getType()+"#");
+            for(int j=0;j<data.size();j++){
+                if(data.get(j).getOrderBy().equals("lastUpdate")){
+                    ((ItemHolder)viewHolder).tv_title.setText(data.get(j).getArticleList().get(i).getTitle());
+                    ((ItemHolder)viewHolder).tv_subContent.setText(data.get(j).getArticleList().get(i).getSubContent());
+                    ((ItemHolder)viewHolder).tv_source.setText(data.get(j).getArticleList().get(i).getSource());
+                    ((ItemHolder)viewHolder).tv_type.setText("#"+data.get(j).getArticleList().get(i).getType()+"#");
 
-            LinearLayout.LayoutParams params0 = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).ll_content.getLayoutParams();
-            params0.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
-            ((ItemHolder) viewHolder).ll_content.setLayoutParams(params0);
+                    LinearLayout.LayoutParams params0 = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).ll_content.getLayoutParams();
+                    params0.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
+                    ((ItemHolder) viewHolder).ll_content.setLayoutParams(params0);
 
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
-            params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
-            ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
-            final String imgUrl = data.get(0).getArticleList().get(i).getImage();
-            GlideApp.with(context)
-                    .load(imgUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .preload();
-            GlideUtils.loadImage(context, imgUrl,
-                    ((ItemHolder) viewHolder).iv_img);
-            GlideUtils.loadHomeUserImage(context, data.get(0).getArticleList().get(i).getSourceImage(),
-                    ((ItemHolder) viewHolder).iv_source);
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
+                    params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
+                    ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
+                    final String imgUrl = data.get(j).getArticleList().get(i).getImage();
+                    GlideApp.with(context)
+                            .load(imgUrl)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .preload();
+                    GlideUtils.loadImage(context, imgUrl,
+                            ((ItemHolder) viewHolder).iv_img);
+                    GlideUtils.loadHomeUserImage(context, data.get(j).getArticleList().get(i).getSourceImage(),
+                            ((ItemHolder) viewHolder).iv_source);
 
 
 
-            String audio = data.get(0).getArticleList().get(i).getAudio();
-            String video = data.get(0).getArticleList().get(i).getVideo();
-            final String id = data.get(0).getArticleList().get(i).getId();
-            final int flag = data.get(0).getArticleList().get(i).getFlag();
-            if(audio != null ){
-                if(video != null){
-                    ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
-                    ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
+                    String audio = data.get(j).getArticleList().get(i).getAudio();
+                    String video = data.get(j).getArticleList().get(i).getVideo();
+                    final String id = data.get(j).getArticleList().get(i).getId();
+                    final int flag = data.get(j).getArticleList().get(i).getFlag();
+                    if(audio != null ){
+                        if(video != null){
+                            ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+                            ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
 
-                    ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //跳转带video的详情页
-                            Intent intent = new Intent(context, ArticleDetailActivity.class);
-                            intent.putExtra("essayId", id);
-                            intent.putExtra("imgUrl", imgUrl);
-                            intent.putExtra("isVideo",true);
-                            context.startActivity(intent);
+                            ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //跳转带video的详情页
+                                    Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                    intent.putExtra("essayId", id);
+                                    intent.putExtra("imgUrl", imgUrl);
+                                    intent.putExtra("isVideo",true);
+                                    context.startActivity(intent);
+                                }
+                            });
+
+                        }else {
+                            ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+                            ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
+
+                            final int finalJ1 = j;
+                            ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if(flag == 0){
+                                        //跳转正常详情页
+                                        Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                        intent.putExtra("essayId", id);
+                                        intent.putExtra("imgUrl", imgUrl);
+                                        context.startActivity(intent);
+                                    }else if(flag == 1){
+                                        //跳转绘本
+                                        int py = data.get(finalJ1).getArticleList().get(i).getScore();
+                                        Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                                        intent.putExtra("id", id);
+                                        intent.putExtra("py",py);
+                                        context.startActivity(intent);
+                                    }
+
+                                }
+                            });
                         }
-                    });
 
-                }else {
-                    ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
-                    ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
 
-                    ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(flag == 0){
-                                //跳转正常详情页
-                                Intent intent = new Intent(context, ArticleDetailActivity.class);
-                                intent.putExtra("essayId", id);
-                                intent.putExtra("imgUrl", imgUrl);
-                                 context.startActivity(intent);
-                            }else if(flag == 1){
-                                //跳转绘本
-                                int py = data.get(0).getArticleList().get(i).getScore();
-                                Intent intent = new Intent(context, HomeAudioDetailActivity.class);
-                                intent.putExtra("id", id);
-                                intent.putExtra("py",py);
-                                context.startActivity(intent);
+                    }else {
+                        ((ItemHolder) viewHolder).iv_type.setVisibility(View.GONE);
+                        final int finalJ = j;
+                        ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(flag == 0){
+                                    //跳转正常详情页
+                                    Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                    intent.putExtra("essayId", id);
+                                    intent.putExtra("imgUrl", imgUrl);
+                                    context.startActivity(intent);
+                                }else if(flag == 1){
+                                    //跳转绘本
+                                    int py = data.get(finalJ).getArticleList().get(i).getScore();
+                                    Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                                    intent.putExtra("id", id);
+                                    intent.putExtra("py",py);
+                                    context.startActivity(intent);
+                                }
+
                             }
-
-                        }
-                    });
-                }
-
-
-            }else {
-                ((ItemHolder) viewHolder).iv_type.setVisibility(View.GONE);
-                ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(flag == 0){
-                            //跳转正常详情页
-                            Intent intent = new Intent(context, ArticleDetailActivity.class);
-                            intent.putExtra("essayId", id);
-                            intent.putExtra("imgUrl", imgUrl);
-                            context.startActivity(intent);
-                        }else if(flag == 1){
-                            //跳转绘本
-                            int py = data.get(0).getArticleList().get(i).getScore();
-                            Intent intent = new Intent(context, HomeAudioDetailActivity.class);
-                            intent.putExtra("id", id);
-                            intent.putExtra("py",py);
-                            context.startActivity(intent);
-                        }
-
+                        });
                     }
-                });
+                }
             }
-
-
-
         }
 
         @Override
@@ -410,89 +413,97 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-            ((ItemHolder)viewHolder).tv_title.setText(data.get(1).getArticleList().get(i).getTitle());
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
-            params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
-            ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
-            final String imgUrl = data.get(1).getArticleList().get(i).getImage();
-            GlideApp.with(context)
-                    .load(imgUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .preload();
-            GlideUtils.loadImage(context, imgUrl,
-                    ((ItemHolder) viewHolder).iv_img);
+            for(int j=0;j<data.size();j++) {
+                if (data.get(j).getOrderBy().equals("lastUpdate")) {
+                    ((ItemHolder)viewHolder).tv_title.setText(data.get(j).getArticleList().get(i).getTitle());
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
+                    params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
+                    ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
+                    final String imgUrl = data.get(j).getArticleList().get(i).getImage();
+                    GlideApp.with(context)
+                            .load(imgUrl)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .preload();
+                    GlideUtils.loadImage(context, imgUrl,
+                            ((ItemHolder) viewHolder).iv_img);
 
-            String audio = data.get(1).getArticleList().get(i).getAudio();
-            String video = data.get(1).getArticleList().get(i).getVideo();
-            final String id = data.get(1).getArticleList().get(i).getId();
-            final int flag = data.get(1).getArticleList().get(i).getFlag();
-            if(audio != null ){
-                if(video != null){
+                    String audio = data.get(j).getArticleList().get(i).getAudio();
+                    String video = data.get(j).getArticleList().get(i).getVideo();
+                    final String id = data.get(j).getArticleList().get(i).getId();
+                    final int flag = data.get(j).getArticleList().get(i).getFlag();
+                    if(audio != null ){
+                        if(video != null){
 //                    ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
 //                    ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
 
-                    ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //跳转带video的详情页
-                            Intent intent = new Intent(context, ArticleDetailActivity.class);
-                            intent.putExtra("essayId", id);
-                            intent.putExtra("imgUrl", imgUrl);
-                            intent.putExtra("isVideo",true);
-                            context.startActivity(intent);
-                        }
-                    });
+                            ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //跳转带video的详情页
+                                    Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                    intent.putExtra("essayId", id);
+                                    intent.putExtra("imgUrl", imgUrl);
+                                    intent.putExtra("isVideo",true);
+                                    context.startActivity(intent);
+                                }
+                            });
 
-                }else {
+                        }else {
 //                    ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
 //                    ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
 
-                    ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(flag == 0){
-                                //跳转正常详情页
-                                Intent intent = new Intent(context, ArticleDetailActivity.class);
-                                intent.putExtra("essayId", id);
-                                intent.putExtra("imgUrl", imgUrl);
-                                context.startActivity(intent);
-                            }else if(flag == 1){
-                                //跳转绘本
-                                int py = data.get(1).getArticleList().get(i).getScore();
-                                Intent intent = new Intent(context, HomeAudioDetailActivity.class);
-                                intent.putExtra("id", id);
-                                intent.putExtra("py",py);
-                                context.startActivity(intent);
-                            }
+                            final int finalJ = j;
+                            ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if(flag == 0){
+                                        //跳转正常详情页
+                                        Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                        intent.putExtra("essayId", id);
+                                        intent.putExtra("imgUrl", imgUrl);
+                                        context.startActivity(intent);
+                                    }else if(flag == 1){
+                                        //跳转绘本
+                                        int py = data.get(finalJ).getArticleList().get(i).getScore();
+                                        Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                                        intent.putExtra("id", id);
+                                        intent.putExtra("py",py);
+                                        context.startActivity(intent);
+                                    }
 
+                                }
+                            });
                         }
-                    });
-                }
 
 
-            }else {
+                    }else {
 //                ((ItemHolder) viewHolder).iv_type.setVisibility(View.GONE);
-                ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(flag == 0){
-                            //跳转正常详情页
-                            Intent intent = new Intent(context, ArticleDetailActivity.class);
-                            intent.putExtra("essayId", id);
-                            intent.putExtra("imgUrl", imgUrl);
-                            context.startActivity(intent);
-                        }else if(flag == 1){
-                            //跳转绘本
-                            int py = data.get(1).getArticleList().get(i).getScore();
-                            Intent intent = new Intent(context, HomeAudioDetailActivity.class);
-                            intent.putExtra("id", id);
-                            intent.putExtra("py",py);
-                            context.startActivity(intent);
-                        }
+                        final int finalJ1 = j;
+                        ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(flag == 0){
+                                    //跳转正常详情页
+                                    Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                    intent.putExtra("essayId", id);
+                                    intent.putExtra("imgUrl", imgUrl);
+                                    context.startActivity(intent);
+                                }else if(flag == 1){
+                                    //跳转绘本
+                                    int py = data.get(finalJ1).getArticleList().get(i).getScore();
+                                    Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                                    intent.putExtra("id", id);
+                                    intent.putExtra("py",py);
+                                    context.startActivity(intent);
+                                }
 
+                            }
+                        });
                     }
-                });
+                }
             }
+
+
 
 
         }

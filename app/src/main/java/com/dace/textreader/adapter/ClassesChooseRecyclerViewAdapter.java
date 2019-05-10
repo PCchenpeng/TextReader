@@ -3,6 +3,7 @@ package com.dace.textreader.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,10 +62,13 @@ public class ClassesChooseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         String item = mList.get(position);
         ((ViewHolder) holder).tv_item.setText(item);
+        TextPaint tp = ((ViewHolder) holder).tv_item.getPaint();
         if (position == selectedItem) {
             ((ViewHolder) holder).tv_item.setTextColor(Color.parseColor("#4D72FF"));
+            tp.setFakeBoldText(true);
         } else {
             ((ViewHolder) holder).tv_item.setTextColor(Color.parseColor("#999999"));
+            tp.setFakeBoldText(false);
         }
     }
 

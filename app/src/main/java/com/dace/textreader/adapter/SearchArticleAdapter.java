@@ -40,17 +40,20 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //        GlideUtils.loadHomeUserImage(mContext,imgUrl,((ItemHolder)viewHolder).iv_author);
 //        ((ItemHolder)viewHolder).tv_author_name.setText(mData.get(i).getAuthor());
 
-//        String
-        GlideUtils.loadImage(mContext, mData.get(itemPosition).getImage(),
-                ((ItemHolder) viewHolder).iv_cover);
+        String imgUrl = mData.get(itemPosition).getImage();
+        if (imgUrl != null && !imgUrl.equals("") && !imgUrl.equals("null")){
+            ((ItemHolder) viewHolder).iv_cover.setVisibility(View.VISIBLE);
+            GlideUtils.loadImage(mContext, mData.get(itemPosition).getImage(),
+                    ((ItemHolder) viewHolder).iv_cover,4);
+        }else {
+            ((ItemHolder) viewHolder).iv_cover.setVisibility(View.GONE);
+        }
         ((ItemHolder) viewHolder).tv_content.setText(mData.get(itemPosition).getTitle());
         ((ItemHolder) viewHolder).tv_subContent.setText(mData.get(itemPosition).getContent());
         ((ItemHolder) viewHolder).tv_fenlei.setText("#"+mData.get(itemPosition).getCategory()+"#");
         ((ItemHolder) viewHolder).tv_user.setText(mData.get(itemPosition).getSource());
         GlideUtils.loadHomeUserImage(mContext, mData.get(itemPosition).getSource_image(),
                 ((ItemHolder) viewHolder).iv_user);
-
-
     }
 
     @Override

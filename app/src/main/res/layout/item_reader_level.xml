@@ -14,6 +14,18 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerInParent="true"/>
+        <TextView
+            android:id="@+id/tv_py"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123PY"
+            android:textColor="#ffffff"
+            android:textSize="11sp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorBlack"/>
     </RelativeLayout>
 
     <TextView
@@ -22,9 +34,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:text="每日灵感"
         android:textSize="20sp"
-        android:textColor="#333333"/>
+        android:textColor="#333333"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tv_sub"
@@ -36,7 +50,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:textColor="#999999"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:maxLines="2"
         android:ellipsize="end"/>
 
@@ -68,5 +82,14 @@
             android:textColor="#4D72FF"
             android:textSize="12sp"/>
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="25dp"
+        android:background="#E5E5E5"/>
 
 </LinearLayout>

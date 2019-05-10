@@ -29,7 +29,8 @@
                 android:ellipsize="end"
                 android:text="作文题目作文题目作文题目作文题目作文题目"
                 android:textSize="20sp"
-                android:textColor="#333333"/>
+                android:textColor="#333333"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tv_subContent"
@@ -79,7 +80,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5px"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"

@@ -57,6 +57,34 @@ public class GlideUtils {
     }
 
 
+//加载指定圆角图片
+
+    public static void loadImage(Context context, String imageUrl, ImageView imageView,int radius) {
+        if (!isValidContextForGlide(context)){
+            return;
+        }
+
+        DrawableCrossFadeFactory drawableCrossFadeFactory =
+                new DrawableCrossFadeFactory.Builder(1000)
+                        .setCrossFadeEnabled(true).build();
+//        DrawableCrossFadeFactory drawableCrossFadeFactory =
+//                new DrawableCrossFadeFactory.Builder(1000)
+//                        .setCrossFadeEnabled(true).build();
+
+        RequestOptions options = new RequestOptions()
+//                .placeholder(R.drawable.image_placeholder_rectangle)
+//                .error(R.drawable.image_placeholder_rectangle)
+                .centerCrop()
+                .transform(new GlideRoundImage(context, radius));
+        Glide.with(context)
+                .load(imageUrl)
+                .apply(options)
+//                .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
+                .transition(DrawableTransitionOptions.withCrossFade(1000))
+                .into(imageView);
+    }
+
+
 
     /**
      * 加载矩形图片

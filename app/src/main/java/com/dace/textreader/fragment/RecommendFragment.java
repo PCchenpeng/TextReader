@@ -26,6 +26,7 @@ import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.weight.pullrecycler.PullListener;
 import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
 import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
