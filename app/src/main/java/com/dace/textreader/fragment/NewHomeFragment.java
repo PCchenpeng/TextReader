@@ -183,7 +183,6 @@ public class NewHomeFragment extends Fragment {
     public void setViewCoverTopMargin() {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ((NewMainActivity)getActivity()).view_cover.getLayoutParams();
         layoutParams.topMargin = view_status.getMeasuredHeight();
-        Log.d("111","view_status.getMeasuredHeight(); " + view_status.getMeasuredHeight());
         ((NewMainActivity)getActivity()).view_cover.setLayoutParams(layoutParams);
     }
 }

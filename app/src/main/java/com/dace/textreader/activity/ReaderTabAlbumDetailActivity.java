@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -50,6 +51,8 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
     private ExpandableTextView expTv1;
     private ImageView iv_img;
     private TextView tv_title;
+    private RelativeLayout rl_back;
+    private RelativeLayout rl_share;
     private SmartTabLayout tabLayout;
     private ViewPager viewPager;
     private int currentIndex ;
@@ -82,7 +85,6 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
         albumId = getIntent().getStringExtra("albumId");
         sentenceNum = getIntent().getStringExtra("sentenceNum");
         if (getIntent().getStringExtra("sentenceNum").contains(".")){
-            Log.d("111","format  " + format + " sentenceNum " + sentenceNum + " albumId " + albumId);
             sentenceNum = getIntent().getStringExtra("sentenceNum").split("\\.")[0];
         }
 
@@ -128,7 +130,6 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
             params.put("width","750");
             params.put("height","420");
 
-            Log.d("111","sign " + sign);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -136,7 +137,6 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                 new OkHttpManager.ReqCallBack<Object>() {
                     @Override
                     public void onReqSuccess(Object result) {
-                        Log.d("111","result.toString() " + result.toString());
                         readTabAlbumDetailBean = GsonUtil.GsonToBean(result.toString(),ReadTabAlbumDetailBean.class);
 
                         GlideApp.with(ReaderTabAlbumDetailActivity.this)
@@ -165,9 +165,11 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                         }
                         if (readerTabAlbumDetailBookFragment != null) {
                             readerTabAlbumDetailBookFragment.setmData(readTabAlbumDetailBean.getData().getBook());
+                            readerTabAlbumDetailBookFragment.setImgUrl(readTabAlbumDetailBean.getData().getCover());
                         }
                         if (readerTabAlbumDetailSentenceFragment != null) {
                             readerTabAlbumDetailSentenceFragment.setAlbumId(readTabAlbumDetailBean.getData().getAlbumId());
+                            readerTabAlbumDetailSentenceFragment.setImgUrl(readTabAlbumDetailBean.getData().getCover());
                         }
 
                     }
@@ -205,6 +207,10 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
         smartRefreshLayout = findViewById(R.id.smart_refresh);
         iv_img = findViewById(R.id.iv_img);
         tv_title = findViewById(R.id.tv_title);
+        rl_share = findViewById(R.id.rl_back);
+        rl_share.setOnClickListener(this);
+        rl_back = findViewById(R.id.rl_back);
+        rl_back.setOnClickListener(this);
 
 
         smartRefreshLayout.setRefreshHeader(new MyRefreshHeader(this));
@@ -262,7 +268,14 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.rl_back:
+                finish();
+                break;
+            case R.id.rl_share:
 
+                break;
+        }
     }
 
     /**

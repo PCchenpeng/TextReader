@@ -25,6 +25,7 @@
                 app:contentScrim="@color/colorWhite"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
         <LinearLayout
+            android:background="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -75,7 +76,9 @@
                 android:textSize="20sp"/>
             <com.ms.square.android.expandabletextview.ExpandableTextView
                 android:id="@+id/expand_text_view"
+                android:background="@color/colorWhite"
                 android:layout_marginTop="19dp"
+                android:paddingBottom="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 expandableTextView:maxCollapsedLines="2">
@@ -129,10 +132,11 @@
                 android:layout_height="10dp"/>
             <com.dace.textreader.view.tab.SmartTabLayout
                 android:id="@+id/tabLayout"
+                android:background="@color/colorWhite"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
                 app:stl_defaultTabTextColor="@drawable/color_tab_articlenote"
                 app:stl_defaultTabTextSize="17sp"
                 app:stl_dividerColor="@color/colorTransparent"

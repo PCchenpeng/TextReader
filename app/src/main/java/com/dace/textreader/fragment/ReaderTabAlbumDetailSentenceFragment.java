@@ -40,6 +40,7 @@ public class ReaderTabAlbumDetailSentenceFragment extends Fragment {
     private SentenceListAdapter sentenceListAdapter;
     private RecyclerView recyclerView;
     private String albumId = "-1";
+    private String imgUrl = "";
 
 
     @Override
@@ -84,6 +85,7 @@ public class ReaderTabAlbumDetailSentenceFragment extends Fragment {
         intent.putExtra("content", sentenceBean.getContent());
         intent.putExtra("source", sentenceBean.getSource());
         intent.putExtra("annotation", sentenceBean.getAnnotation());
+        intent.putExtra("imgUrl", imgUrl);
         startActivity(intent);
     }
 
@@ -101,7 +103,6 @@ public class ReaderTabAlbumDetailSentenceFragment extends Fragment {
                     @Override
                     public void onReqSuccess(Object result) {
                         SentenceListBean sentenceListBean = GsonUtil.GsonToBean(result.toString(),SentenceListBean.class);
-                        Log.d("111","readTabAlbumDetailBean  " + GsonUtil.BeanToJson(sentenceListBean));
                         mData = sentenceListBean.getData();
                         if(mData !=null)
                         sentenceListAdapter.refreshData(mData);
@@ -117,5 +118,9 @@ public class ReaderTabAlbumDetailSentenceFragment extends Fragment {
     public void setAlbumId(String albumId) {
         this.albumId = albumId;
         loadItemData();
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

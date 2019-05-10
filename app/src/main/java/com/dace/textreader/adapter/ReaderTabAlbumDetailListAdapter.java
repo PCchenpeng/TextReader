@@ -15,7 +15,7 @@ import com.dace.textreader.util.GlideUtils;
 
 import java.util.List;
 
-public class ReaderTabAlbumDetailListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ReaderTabAlbumDetailListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
 
     private List<ReadTabAlbumDetailBean.DataBean.BookBean.ArticleListBean> itemData;
     private Context context;
@@ -29,6 +29,7 @@ public class ReaderTabAlbumDetailListAdapter extends RecyclerView.Adapter<Recycl
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(
                 R.layout.item_reader_rocommend_tab_album, viewGroup, false);
+        view.setOnClickListener(this);
         return new ItemHolder(view);
     }
 
@@ -49,6 +50,13 @@ public class ReaderTabAlbumDetailListAdapter extends RecyclerView.Adapter<Recycl
         return itemData == null ? 0 : itemData.size();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListen != null) {
+            mOnItemClickListen.onClick(v);
+        }
+    }
+
     public void refreshData(List<ReadTabAlbumDetailBean.DataBean.BookBean.ArticleListBean> itemData) {
 //        this.itemData.clear();
 //        this.itemData.addAll(itemata);
@@ -66,5 +74,15 @@ public class ReaderTabAlbumDetailListAdapter extends RecyclerView.Adapter<Recycl
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_sub = itemView.findViewById(R.id.tv_sub);
         }
+    }
+
+    public interface OnItemClickListen {
+        void onClick(View view);
+    }
+
+    private OnItemClickListen mOnItemClickListen;
+
+    public void setOnItemClickListen(OnItemClickListen onItemClickListen) {
+        this.mOnItemClickListen = onItemClickListen;
     }
 }

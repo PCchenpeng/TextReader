@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.KnowledgeDetailActivity;
 import com.dace.textreader.adapter.BookAdapter;
 import com.dace.textreader.adapter.KnowledgeSummaryAdapter;
@@ -29,6 +30,7 @@ public class ReaderTabAlbumDetailBookFragment extends Fragment {
     private BookAdapter bookAdapter;
     private List<ReadTabAlbumDetailBean.DataBean.BookBean> mData = new ArrayList<>();
     private RecyclerView recyclerView;
+    private String imgUrl = "";
 
 
     @Override
@@ -71,13 +73,12 @@ public class ReaderTabAlbumDetailBookFragment extends Fragment {
 
     public void setmData(List<ReadTabAlbumDetailBean.DataBean.BookBean> mData) {
         this.mData = mData;
-        Log.d("111",mData.toString());
         if(mData !=null)
         bookAdapter.refreshData(mData);
     }
 
     /**
-     * 前往详情
+     * 查看文章详细内容
      *
      * @param position
      * @param childPosition
@@ -86,15 +87,18 @@ public class ReaderTabAlbumDetailBookFragment extends Fragment {
         if (position == -1 || position > mData.size()) {
             return;
         }
-        String title = mData.get(position).getLevel1();
         if (childPosition == -1 || childPosition > mData.get(position).getArticleList().size()) {
             return;
         }
         String id = mData.get(position).getArticleList().get(childPosition).getArticleId();
-        Intent intent = new Intent(getContext(), KnowledgeDetailActivity.class);
-        intent.putExtra("id", id);
-        intent.putExtra("title", title);
+        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+        intent.putExtra("essayId", id);
+        intent.putExtra("imgUrl", imgUrl);
         startActivity(intent);
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
 }

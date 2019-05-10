@@ -181,7 +181,6 @@ public class MySubscriptionActivity extends BaseActivity {
         if (childPosition == -1 || childPosition > mList.get(position).getRetList().size()) {
             return;
         }
-        Log.d("111","position " + position + " childPosition " + childPosition);
         String albumId = "";
         String type = "";
         String followingId = "";
@@ -211,7 +210,6 @@ public class MySubscriptionActivity extends BaseActivity {
         }
         refreshing = true;
         mList.clear();
-        Log.d("111","STUDENT_ID " + NewMainActivity.STUDENT_ID);
         new GetData(mContext).execute(url,String.valueOf(NewMainActivity.STUDENT_ID), "200","200");
     }
 
@@ -248,7 +246,6 @@ public class MySubscriptionActivity extends BaseActivity {
             JSONObject jsonObject = new JSONObject(s);
             if (200 == jsonObject.optInt("status", -1)) {
                 JSONArray jsonArray = jsonObject.getJSONArray("data");
-                Log.d("111","jsonArray " + jsonArray.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
                     SubscriptionBean subscriptionBean = new SubscriptionBean();
@@ -372,7 +369,6 @@ public class MySubscriptionActivity extends BaseActivity {
                 Response response = client.newCall(request).execute();
                 return response.body().string();
             } catch (Exception e) {
-                Log.d("111","e " + e.toString());
                 e.printStackTrace();
             }
             return null;
@@ -381,7 +377,6 @@ public class MySubscriptionActivity extends BaseActivity {
         @Override
         protected void onPostExecute(MySubscriptionActivity activity, String s) {
             activity.refreshLayout.finishRefresh();
-            Log.d("111","s " + s);
             if (s == null) {
                 activity.noConnect(s);
             } else {
@@ -476,7 +471,6 @@ public class MySubscriptionActivity extends BaseActivity {
                 activity.noConnect(s);
             } else {
                 try {
-                    Log.d("111","s " + s);
                     JSONObject jsonObject = new JSONObject(s);
                     if (200 == jsonObject.optInt("status", -1)) {
                         activity.initData();

@@ -1,5 +1,6 @@
 package com.dace.textreader.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.adapter.BookAdapter;
 import com.dace.textreader.adapter.ReaderTabAlbumDetailListAdapter;
 import com.dace.textreader.bean.ReadTabAlbumDetailBean;
@@ -61,7 +63,13 @@ public class ReaderTabAlbumDetailListFragment extends Fragment {
                 LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager_recommend);
         recyclerView.setAdapter(readerTabAlbumDetailListAdapter);
-
+        readerTabAlbumDetailListAdapter.setOnItemClickListen(new ReaderTabAlbumDetailListAdapter.OnItemClickListen() {
+            @Override
+            public void onClick(View view) {
+                int position = recyclerView.getChildAdapterPosition(view);
+                turnToDetail(position);
+            }
+        });
     }
 
     private void loadTopData() {
@@ -85,7 +93,6 @@ public class ReaderTabAlbumDetailListFragment extends Fragment {
                     @Override
                     public void onReqSuccess(Object result) {
                         ReadTabAlbumDetailBean readTabAlbumDetailBean = GsonUtil.GsonToBean(result.toString(),ReadTabAlbumDetailBean.class);
-                        Log.d("111","readTabAlbumDetailBean  " + GsonUtil.BeanToJson(readTabAlbumDetailBean));
                         mData = readTabAlbumDetailBean.getData().getBook().get(0).getArticleList();
                         readerTabAlbumDetailListAdapter.refreshData(mData);
 
@@ -115,4 +122,21 @@ public class ReaderTabAlbumDetailListFragment extends Fragment {
         if(mData !=null)
         readerTabAlbumDetailListAdapter.refreshData(mData);
     }
+
+    /**
+     * 查看文章详细内容
+     *
+     * @param position
+     */
+    private void turnToDetail(int position) {
+        if (position == -1 || position > mData.size()) {
+            return;
+        }
+        String id = mData.get(position).getArticleId();
+        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+        intent.putExtra("essayId", id);
+        intent.putExtra("imgUrl", mData.get(position).getImage());
+        startActivity(intent);
+    }
+
 }

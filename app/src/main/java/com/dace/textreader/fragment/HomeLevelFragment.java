@@ -97,7 +97,6 @@ public class HomeLevelFragment extends Fragment implements PullListener {
 
                     @Override
                     public void onReqSuccess(Object result) {
-                        Log.d("111","result.toString() " + result.toString());
                         ReaderLevelBean readerLevelBean = GsonUtil.GsonToBean(result.toString(),ReaderLevelBean.class);
                         List<ReaderLevelBean.DataBean.ArticleListBean> data = readerLevelBean.getData().getArticleList();
                         if(isRefresh){
@@ -226,7 +225,6 @@ public class HomeLevelFragment extends Fragment implements PullListener {
             @Override
             public void onItemClick(View view) {
                 int pos = recyclerView.getChildAdapterPosition(view);
-                Log.d("111","pos  " + pos);
                 if (levelBeanList.size() > 0) {
                     if (pos != getLevelSelectedState()) {
                         updateLevelState(pos);
@@ -246,7 +244,11 @@ public class HomeLevelFragment extends Fragment implements PullListener {
         popupWindow.setContentView(popupView);
         popupWindow.setOutsideTouchable(true);
         int offsetX = view.getWidth() / 2 - DensityUtil.dip2px(getContext(), 130) / 2;
-        popupWindow.showAsDropDown(view, offsetX, 0);
+        if (!popupWindow.isShowing()){
+            popupWindow.showAsDropDown(view, offsetX, 0);
+        } else {
+            popupWindow.dismiss();
+        }
 
         Animation animation=AnimationUtils.loadAnimation(getContext(), R.anim.level_enter_anim);
         ((NewMainActivity)getActivity()).view_cover.startAnimation(animation);

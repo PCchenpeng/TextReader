@@ -70,9 +70,10 @@ public class SentenceExplainationActivity extends BaseActivity {
      *
      * @param pos
      */
-    private void turnToArticleDetail( ) {
-        Intent intent = new Intent(this, DailySentenceActivity.class);
-        intent.putExtra("sentenceId", getIntent().getLongExtra("articleId",-1));
+    private void turnToArticleDetail() {
+        Intent intent = new Intent(this, ArticleDetailActivity.class);
+        intent.putExtra("essayId", getIntent().getLongExtra("articleId", -1) + "");
+        intent.putExtra("imgUrl", getIntent().getStringExtra("imgUrl"));
         startActivity(intent);
     }
 
@@ -88,8 +89,6 @@ public class SentenceExplainationActivity extends BaseActivity {
         tv_explaination.setText(getIntent().getStringExtra("annotation"));
 
     }
-
-
 
 
 }
