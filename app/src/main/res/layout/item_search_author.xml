@@ -20,20 +20,36 @@
             android:textSize="15sp"
             android:textColor="#333333"
             android:layout_centerVertical="true"/>
-        <TextView
-            android:id="@+id/tv_follow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="3dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:text=" +  关注"
-            android:textSize="15sp"
-            android:textColor="@color/colorWhite"
+        <RelativeLayout
+            android:id="@+id/rl_follow"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
             android:background="@drawable/shape_4d72ff_bg"
+
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/icon_concern_add"/>
+                <TextView
+                    android:id="@+id/tv_follow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="关注"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorWhite"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

@@ -24,9 +24,11 @@
             android:text="123PY"
             android:textColor="#ffffff"
             android:textSize="11sp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
-            android:background="@color/colorCoverTextBg"/>
+            android:background="@color/colorBlack"/>
     </RelativeLayout>
 
 
@@ -49,7 +51,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textColor="#999999"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:maxLines="2"
+            android:ellipsize="end"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -60,8 +64,8 @@
         android:layout_marginRight="10dp">
         <ImageView
             android:id="@+id/iv_source"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
         <TextView
             android:id="@+id/tv_source"
             android:layout_width="wrap_content"

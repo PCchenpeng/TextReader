@@ -328,12 +328,13 @@ public class PasswordLoginActivity extends BaseActivity implements View.OnClickL
             JSONObject student = json.getJSONObject("data");
             String token = student.getString("token");
             long id = student.optLong("studentid", -1);
+            int gradeId = student.optInt("gradeid", 110);
             NewMainActivity.TOKEN = token;
             NewMainActivity.STUDENT_ID = id;
             NewMainActivity.USERNAME = student.getString("username");
             NewMainActivity.USERIMG = student.getString("userimg");
             NewMainActivity.GRADE = student.optInt("level", -1);
-            NewMainActivity.GRADE_ID = student.optInt("gradeid", 110);
+            NewMainActivity.GRADE_ID = gradeId;
             NewMainActivity.PY_SCORE = student.getString("score");
             NewMainActivity.LEVEL = student.optInt("level", -1);
             NewMainActivity.DESCRIPTION = student.getString("description");
@@ -347,6 +348,7 @@ public class PasswordLoginActivity extends BaseActivity implements View.OnClickL
             editor.apply();
 
             PreferencesUtil.saveData(PasswordLoginActivity.this,"studentId",id + "");
+            PreferencesUtil.saveData(PasswordLoginActivity.this,"gradeId",gradeId + "");
             PreferencesUtil.saveData(PasswordLoginActivity.this,"token",token);
             PreferencesUtil.saveData(PasswordLoginActivity.this,"phoneNum",phoneNum);
             EventBus.getDefault().postSticky(new MessageEvent(""));

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
@@ -83,12 +84,14 @@ public class SearchAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageView iv_author;
         TextView tv_author_name;
         TextView tv_follow;
+        RelativeLayout rl_follow;
 
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
             iv_author = itemView.findViewById(R.id.iv_author);
             tv_author_name = itemView.findViewById(R.id.tv_author_name);
             tv_follow = itemView.findViewById(R.id.tv_follow);
+            rl_follow = itemView.findViewById(R.id.rl_follow);
         }
     }
 

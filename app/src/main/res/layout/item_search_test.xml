@@ -8,6 +8,9 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:textColor="#666666"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
 
 </LinearLayout>

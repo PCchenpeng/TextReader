@@ -69,7 +69,8 @@
                     android:text="试试这样搜"
                     android:layout_centerVertical="true"
                     android:textColor="#333333"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
                 <ImageView
                     android:id="@+id/iv_talk"
                     android:layout_width="38dp"
@@ -86,7 +87,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
                 android:textColor="#4D72FF"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:textStyle="bold"/>
 
             <View
                 android:id="@+id/v1"
@@ -105,7 +107,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="#333333"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
             <com.dace.textreader.view.LineWrapLayout
                 android:layout_below="@id/tv_hot"
@@ -144,7 +147,8 @@
                         android:layout_centerVertical="true"
                         android:text="试试这样搜"
                         android:textSize="20sp"
-                        android:textColor="#333333"/>
+                        android:textColor="#333333"
+                        android:textStyle="bold"/>
                     <ImageView
                         android:id="@+id/iv_close"
                         android:layout_width="30dp"
@@ -162,7 +166,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:layout_gravity="center_horizontal">
+                    android:layout_gravity="center_horizontal"
+                    android:divider="@null">
                 </ListView>
 
 

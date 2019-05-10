@@ -40,6 +40,7 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //        GlideUtils.loadHomeUserImage(mContext,imgUrl,((ItemHolder)viewHolder).iv_author);
 //        ((ItemHolder)viewHolder).tv_author_name.setText(mData.get(i).getAuthor());
 
+//        String
         GlideUtils.loadImage(mContext, mData.get(itemPosition).getImage(),
                 ((ItemHolder) viewHolder).iv_cover);
         ((ItemHolder) viewHolder).tv_content.setText(mData.get(itemPosition).getTitle());

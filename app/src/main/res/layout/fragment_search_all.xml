@@ -33,12 +33,14 @@
                         android:layout_height="wrap_content"
                         android:text="字词"
                         android:textSize="24sp"
-                        android:textColor="#333333"/>
+                        android:textColor="#333333"
+                        android:textStyle="bold"/>
                     <TextView
                         android:id="@+id/tv_words_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="更多"
+                        android:textStyle="bold"
                         android:textColor="#4D83FF"
                         android:textSize="15sp"
                         android:layout_centerVertical="true"
@@ -46,6 +48,7 @@
                 </RelativeLayout>
                 <com.dace.textreader.view.LineWrapLayout
                     android:id="@+id/lwl_words"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -69,6 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="作者"
+                    android:textStyle="bold"
                     android:textSize="24sp"
                     android:textColor="#333333"/>
                 <TextView
@@ -76,6 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="更多"
+                    android:textStyle="bold"
                     android:textColor="#4D83FF"
                     android:textSize="15sp"
                     android:layout_centerVertical="true"
@@ -83,8 +88,11 @@
             </RelativeLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcl_author"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
 
             <LinearLayout
@@ -104,6 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="专辑"
+                        android:textStyle="bold"
                         android:textSize="24sp"
                         android:textColor="#333333"/>
                     <TextView
@@ -111,6 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="更多"
+                        android:textStyle="bold"
                         android:textColor="#4D83FF"
                         android:textSize="15sp"
                         android:layout_centerVertical="true"
@@ -118,8 +128,11 @@
                 </RelativeLayout>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rcl_album"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
             </LinearLayout>
 
             <LinearLayout
@@ -139,6 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="文章"
+                        android:textStyle="bold"
                         android:textSize="24sp"
                         android:textColor="#333333"/>
                     <TextView
@@ -146,15 +160,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="更多"
+                        android:textStyle="bold"
                         android:textColor="#4D83FF"
                         android:textSize="15sp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
                 </RelativeLayout>
                 <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="10dp"
                     android:id="@+id/rcl_article"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
             </LinearLayout>
 
         </LinearLayout>

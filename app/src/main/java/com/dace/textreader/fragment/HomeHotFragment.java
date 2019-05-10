@@ -146,7 +146,7 @@ public class HomeHotFragment extends Fragment implements PullListener {
         JSONObject params = new JSONObject();
         try {
             params.put("studentId",NewMainActivity.STUDENT_ID);
-            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId","-1"));
+            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId",-1));
             params.put("py",NewMainActivity.PY_SCORE);
             params.put("pageNum",String.valueOf(pageNum));
             params.put("width",DensityUtil.getScreenWidth(getContext()));

@@ -52,14 +52,18 @@
         android:layout_marginRight="10dp">
         <ImageView
             android:id="@+id/iv_user"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
         <TextView
             android:id="@+id/tv_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#333333"
             android:textSize="12sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:lines="1"
+            android:ellipsize="end"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_user"/>
         <TextView

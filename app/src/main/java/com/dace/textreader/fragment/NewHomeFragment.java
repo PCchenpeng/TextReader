@@ -122,6 +122,7 @@ public class NewHomeFragment extends Fragment {
             public void onTabClicked(int position) {
                 if(position == 2 && onTabLevelClickListener != null){
                     onTabLevelClickListener.onClick();
+                    View view = tabLayout.getTabAt(position);
                 }
             }
         });

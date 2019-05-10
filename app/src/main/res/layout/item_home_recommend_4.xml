@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@drawable/home_nav_bg"
-    android:layout_height="125dp">
+    android:layout_height="145dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:layout_margin="20dp"
         android:background="@drawable/shape_home_select_bg">
         <ImageView
@@ -15,7 +15,7 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/icon_search"/>
+            android:src="@drawable/nav_searchbar_icon_search_gray"/>
         <TextView
             android:id="@+id/et_search"
             android:layout_width="wrap_content"
