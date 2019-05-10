@@ -385,9 +385,12 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     audioUrl = h5DataBean.getMachineAudioList().get(0).getAudio();
                 }
 
-                albumId = h5DataBean.getAlbum().getId();
-                sentenceNum = h5DataBean.getAlbum().getSentenceNum();
-                format = h5DataBean.getAlbum().getFormat();
+                if(h5DataBean.getAlbum() != null){
+                    albumId = h5DataBean.getAlbum().getId();
+                    sentenceNum = h5DataBean.getAlbum().getSentenceNum();
+                    format = h5DataBean.getAlbum().getFormat();
+                }
+
                 shareImgUrl = h5DataBean.getShareList().getWx().getImage();
                 prepareBitmap(shareImgUrl);
 

@@ -104,7 +104,7 @@ public class ReaderLevelBean {
              */
 
             private String sequence;
-            private int id;
+            private String id;
             private String type;
             private String title;
             private String subContent;
@@ -118,12 +118,12 @@ public class ReaderLevelBean {
             private int status;
             private int pv;
             private long time;
-            private Object audio;
+            private String audio;
             private String image;
-            private Object video;
+            private String video;
             private Object authorId;
             private String author;
-            private Object score;
+            private int score;
             private int grade;
             private int commentNum;
             private int isMachine;
@@ -149,11 +149,11 @@ public class ReaderLevelBean {
                 this.sequence = sequence;
             }
 
-            public int getId() {
+            public String getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(String id) {
                 this.id = id;
             }
 
@@ -261,11 +261,11 @@ public class ReaderLevelBean {
                 this.time = time;
             }
 
-            public Object getAudio() {
+            public String getAudio() {
                 return audio;
             }
 
-            public void setAudio(Object audio) {
+            public void setAudio(String audio) {
                 this.audio = audio;
             }
 
@@ -277,11 +277,11 @@ public class ReaderLevelBean {
                 this.image = image;
             }
 
-            public Object getVideo() {
+            public String getVideo() {
                 return video;
             }
 
-            public void setVideo(Object video) {
+            public void setVideo(String video) {
                 this.video = video;
             }
 
@@ -301,11 +301,11 @@ public class ReaderLevelBean {
                 this.author = author;
             }
 
-            public Object getScore() {
+            public int getScore() {
                 return score;
             }
 
-            public void setScore(Object score) {
+            public void setScore(int score) {
                 this.score = score;
             }
 
