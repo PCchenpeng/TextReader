@@ -116,8 +116,8 @@ public class HomeHotFragment extends Fragment implements PullListener {
     private void loadChoiceData() {
         JSONObject params = new JSONObject();
         try {
-            params.put("studentId",NewMainActivity.STUDENT_ID);
-            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId","-1"));
+            params.put("studentId",PreferencesUtil.getData(getContext(),"studentId","-1"));
+            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId",-1));
             params.put("py",NewMainActivity.PY_SCORE);
             params.put("width",DensityUtil.getScreenWidth(getContext()));
             params.put("height",DensityUtil.getScreenWidth(getContext())*194/345);
@@ -145,7 +145,7 @@ public class HomeHotFragment extends Fragment implements PullListener {
 
         JSONObject params = new JSONObject();
         try {
-            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("studentId",PreferencesUtil.getData(getContext(),"studentId","-1"));
             params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId",-1));
             params.put("py",NewMainActivity.PY_SCORE);
             params.put("pageNum",String.valueOf(pageNum));

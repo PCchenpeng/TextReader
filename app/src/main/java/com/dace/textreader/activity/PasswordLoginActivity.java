@@ -348,7 +348,7 @@ public class PasswordLoginActivity extends BaseActivity implements View.OnClickL
             editor.apply();
 
             PreferencesUtil.saveData(PasswordLoginActivity.this,"studentId",id + "");
-            PreferencesUtil.saveData(PasswordLoginActivity.this,"gradeId",gradeId + "");
+            PreferencesUtil.saveData(PasswordLoginActivity.this,"gradeId",gradeId );
             PreferencesUtil.saveData(PasswordLoginActivity.this,"token",token);
             PreferencesUtil.saveData(PasswordLoginActivity.this,"phoneNum",phoneNum);
             EventBus.getDefault().postSticky(new MessageEvent(""));
