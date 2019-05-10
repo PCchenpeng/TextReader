@@ -9,6 +9,7 @@
         android:layout_height="194dp"
         android:layout_marginRight="5dp"/>
 
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"

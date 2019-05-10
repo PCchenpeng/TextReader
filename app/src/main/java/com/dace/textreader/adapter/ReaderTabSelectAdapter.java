@@ -1,6 +1,7 @@
 package com.dace.textreader.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
+import com.dace.textreader.activity.HomeAudioDetailActivity;
 import com.dace.textreader.bean.ReaderTabSelectItemBean;
 import com.dace.textreader.bean.ReaderTabSelectTopBean;
 import com.dace.textreader.util.DensityUtil;
@@ -58,7 +64,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         int viewType = getItemViewType(i);
         switch (viewType){
             case TYPE_TOP:
@@ -87,13 +93,95 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((ItemHolder)viewHolder).tv_source.setText(itemData.get(i-1).getSource());
                 ((ItemHolder)viewHolder).tv_type.setText("#"+ itemData.get(i-1).getType()+"#");
 
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
                 params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
                 ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
-                GlideUtils.loadImage(context, itemData.get(i-1).getImage(),
+
+                final String imgUrl = itemData.get(i-1).getImage();
+                GlideApp.with(context)
+                        .load(imgUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .preload();
+                GlideUtils.loadImage(context, imgUrl,
                         ((ItemHolder) viewHolder).iv_img);
                 GlideUtils.loadHomeUserImage(context, itemData.get(i-1).getSourceImage(),
                         ((ItemHolder) viewHolder).iv_source);
+
+
+
+                String audio = itemData.get(i-1).getAudio();
+                String video = itemData.get(i-1).getVideo();
+                final String id = itemData.get(i-1).getId();
+                final int flag = itemData.get(i-1).getFlag();
+                if(audio != null ){
+                    if(video != null){
+                        ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+                        ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
+
+                        ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //跳转带video的详情页
+                                Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                intent.putExtra("essayId", id);
+                                intent.putExtra("imgUrl", imgUrl);
+                                intent.putExtra("isVideo",true);
+                                context.startActivity(intent);
+                            }
+                        });
+
+                    }else {
+                        ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+                        ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
+
+                        ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(flag == 0){
+                                    //跳转正常详情页
+                                    Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                    intent.putExtra("essayId", id);
+                                    intent.putExtra("imgUrl", imgUrl);
+                                    context.startActivity(intent);
+                                }else if(flag == 1){
+                                    //跳转绘本
+                                    int py = itemData.get(i-1).getScore();
+                                    Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                                    intent.putExtra("id", id);
+                                    intent.putExtra("py",py);
+                                    context.startActivity(intent);
+                                }
+
+                            }
+                        });
+                    }
+
+
+                }else {
+                    ((ItemHolder) viewHolder).iv_type.setVisibility(View.GONE);
+                    ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(flag == 0){
+                                //跳转正常详情页
+                                Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                intent.putExtra("essayId", id);
+                                intent.putExtra("imgUrl", imgUrl);
+                                context.startActivity(intent);
+                            }else if(flag == 1){
+                                //跳转绘本
+                                int py = itemData.get(i-1).getScore();
+                                Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                                intent.putExtra("id", id);
+                                intent.putExtra("py",py);
+                                context.startActivity(intent);
+                            }
+
+                        }
+                    });
+                }
+
+
                 break;
         }
 
@@ -145,11 +233,12 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     class ItemHolder extends RecyclerView.ViewHolder {
-        ImageView iv_img,iv_source;
+        ImageView iv_img,iv_source,iv_type;
         TextView tv_title,tv_subContent,tv_source,tv_type;
 
         ItemHolder(@NonNull View itemView) {
             super(itemView);
+            iv_type = itemView.findViewById(R.id.iv_type);
             iv_img =  itemView.findViewById(R.id.iv_img);
             iv_source = itemView.findViewById(R.id.iv_source);
             tv_title = itemView.findViewById(R.id.tv_title);
@@ -176,7 +265,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
             ((ItemHolder)viewHolder).tv_title.setText(data.get(0).getArticleList().get(i).getTitle());
             ((ItemHolder)viewHolder).tv_subContent.setText(data.get(0).getArticleList().get(i).getSubContent());
             ((ItemHolder)viewHolder).tv_source.setText(data.get(0).getArticleList().get(i).getSource());
@@ -186,13 +275,94 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             params0.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
             ((ItemHolder) viewHolder).ll_content.setLayoutParams(params0);
 
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
             params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
             ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
-            GlideUtils.loadImage(context, data.get(0).getArticleList().get(i).getImage(),
+            final String imgUrl = data.get(0).getArticleList().get(i).getImage();
+            GlideApp.with(context)
+                    .load(imgUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .preload();
+            GlideUtils.loadImage(context, imgUrl,
                     ((ItemHolder) viewHolder).iv_img);
             GlideUtils.loadHomeUserImage(context, data.get(0).getArticleList().get(i).getSourceImage(),
                     ((ItemHolder) viewHolder).iv_source);
+
+
+
+            String audio = data.get(0).getArticleList().get(i).getAudio();
+            String video = data.get(0).getArticleList().get(i).getVideo();
+            final String id = data.get(0).getArticleList().get(i).getId();
+            final int flag = data.get(0).getArticleList().get(i).getFlag();
+            if(audio != null ){
+                if(video != null){
+                    ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+                    ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
+
+                    ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //跳转带video的详情页
+                            Intent intent = new Intent(context, ArticleDetailActivity.class);
+                            intent.putExtra("essayId", id);
+                            intent.putExtra("imgUrl", imgUrl);
+                            intent.putExtra("isVideo",true);
+                            context.startActivity(intent);
+                        }
+                    });
+
+                }else {
+                    ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+                    ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
+
+                    ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(flag == 0){
+                                //跳转正常详情页
+                                Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                intent.putExtra("essayId", id);
+                                intent.putExtra("imgUrl", imgUrl);
+                                 context.startActivity(intent);
+                            }else if(flag == 1){
+                                //跳转绘本
+                                int py = data.get(0).getArticleList().get(i).getScore();
+                                Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                                intent.putExtra("id", id);
+                                intent.putExtra("py",py);
+                                context.startActivity(intent);
+                            }
+
+                        }
+                    });
+                }
+
+
+            }else {
+                ((ItemHolder) viewHolder).iv_type.setVisibility(View.GONE);
+                ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(flag == 0){
+                            //跳转正常详情页
+                            Intent intent = new Intent(context, ArticleDetailActivity.class);
+                            intent.putExtra("essayId", id);
+                            intent.putExtra("imgUrl", imgUrl);
+                            context.startActivity(intent);
+                        }else if(flag == 1){
+                            //跳转绘本
+                            int py = data.get(0).getArticleList().get(i).getScore();
+                            Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                            intent.putExtra("id", id);
+                            intent.putExtra("py",py);
+                            context.startActivity(intent);
+                        }
+
+                    }
+                });
+            }
+
+
 
         }
 
@@ -202,12 +372,13 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         class ItemHolder extends RecyclerView.ViewHolder {
-            ImageView iv_img,iv_source;
+            ImageView iv_img,iv_source,iv_type;
             TextView tv_title,tv_subContent,tv_source,tv_type;
             LinearLayout ll_content;
 
             ItemHolder(@NonNull View itemView) {
                 super(itemView);
+                iv_type = itemView.findViewById(R.id.iv_type);
                 ll_content = itemView.findViewById(R.id.ll_content);
                 iv_img =  itemView.findViewById(R.id.iv_img);
                 iv_source = itemView.findViewById(R.id.iv_source);
@@ -238,13 +409,92 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
             ((ItemHolder)viewHolder).tv_title.setText(data.get(1).getArticleList().get(i).getTitle());
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
             params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
             ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
-            GlideUtils.loadImage(context, data.get(1).getArticleList().get(i).getImage(),
+            final String imgUrl = data.get(1).getArticleList().get(i).getImage();
+            GlideApp.with(context)
+                    .load(imgUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .preload();
+            GlideUtils.loadImage(context, imgUrl,
                     ((ItemHolder) viewHolder).iv_img);
+
+            String audio = data.get(1).getArticleList().get(i).getAudio();
+            String video = data.get(1).getArticleList().get(i).getVideo();
+            final String id = data.get(1).getArticleList().get(i).getId();
+            final int flag = data.get(1).getArticleList().get(i).getFlag();
+            if(audio != null ){
+                if(video != null){
+//                    ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+//                    ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
+
+                    ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //跳转带video的详情页
+                            Intent intent = new Intent(context, ArticleDetailActivity.class);
+                            intent.putExtra("essayId", id);
+                            intent.putExtra("imgUrl", imgUrl);
+                            intent.putExtra("isVideo",true);
+                            context.startActivity(intent);
+                        }
+                    });
+
+                }else {
+//                    ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+//                    ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
+
+                    ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(flag == 0){
+                                //跳转正常详情页
+                                Intent intent = new Intent(context, ArticleDetailActivity.class);
+                                intent.putExtra("essayId", id);
+                                intent.putExtra("imgUrl", imgUrl);
+                                context.startActivity(intent);
+                            }else if(flag == 1){
+                                //跳转绘本
+                                int py = data.get(1).getArticleList().get(i).getScore();
+                                Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                                intent.putExtra("id", id);
+                                intent.putExtra("py",py);
+                                context.startActivity(intent);
+                            }
+
+                        }
+                    });
+                }
+
+
+            }else {
+//                ((ItemHolder) viewHolder).iv_type.setVisibility(View.GONE);
+                ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(flag == 0){
+                            //跳转正常详情页
+                            Intent intent = new Intent(context, ArticleDetailActivity.class);
+                            intent.putExtra("essayId", id);
+                            intent.putExtra("imgUrl", imgUrl);
+                            context.startActivity(intent);
+                        }else if(flag == 1){
+                            //跳转绘本
+                            int py = data.get(1).getArticleList().get(i).getScore();
+                            Intent intent = new Intent(context, HomeAudioDetailActivity.class);
+                            intent.putExtra("id", id);
+                            intent.putExtra("py",py);
+                            context.startActivity(intent);
+                        }
+
+                    }
+                });
+            }
+
+
         }
 
         @Override

@@ -209,13 +209,24 @@ public class ReaderTabAlbumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
             ((TopAdapter.ItemHolder)viewHolder).tv_title.setText(data.get(i).getTitle());
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((TopAdapter.ItemHolder) viewHolder).iv_img.getLayoutParams();
             params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
             ((TopAdapter.ItemHolder) viewHolder).iv_img.setLayoutParams(params);
             GlideUtils.loadImage(context, data.get(i).getCover(),
                     ((TopAdapter.ItemHolder) viewHolder).iv_img);
+
+            ((ItemHolder)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ReaderTabAlbumDetailActivity.class);
+                    intent.putExtra("format",data.get(i).getFormat());
+                    intent.putExtra("sentenceNum",data.get(i).getSentenceNum());
+                    intent.putExtra("albumId",data.get(i).getAlbumId());
+                    context.startActivity(intent);
+                }
+            });
         }
 
         @Override

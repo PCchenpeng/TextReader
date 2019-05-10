@@ -49,10 +49,10 @@ public class ReaderTabAlbumTopBean {
          */
 
         private String cover;
-        private int sentenceNum;
+        private String sentenceNum;
         private String searchId;
         private int format;
-        private int albumId;
+        private String albumId;
         private String title;
         private String subIntroduction;
 
@@ -64,11 +64,11 @@ public class ReaderTabAlbumTopBean {
             this.cover = cover;
         }
 
-        public int getSentenceNum() {
+        public String getSentenceNum() {
             return sentenceNum;
         }
 
-        public void setSentenceNum(int sentenceNum) {
+        public void setSentenceNum(String sentenceNum) {
             this.sentenceNum = sentenceNum;
         }
 
@@ -88,11 +88,11 @@ public class ReaderTabAlbumTopBean {
             this.format = format;
         }
 
-        public int getAlbumId() {
+        public String getAlbumId() {
             return albumId;
         }
 
-        public void setAlbumId(int albumId) {
+        public void setAlbumId(String albumId) {
             this.albumId = albumId;
         }
 

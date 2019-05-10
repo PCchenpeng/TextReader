@@ -1,5 +1,8 @@
 package com.dace.textreader.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,15 +30,24 @@ import com.dace.textreader.fragment.ReaderTabAlbumDetailSentenceFragment;
 import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.ImageUtils;
+import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.PreferencesUtil;
+import com.dace.textreader.util.ShareUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.MyRefreshHeader;
+import com.dace.textreader.view.dialog.BaseNiceDialog;
+import com.dace.textreader.view.dialog.NiceDialog;
+import com.dace.textreader.view.dialog.ViewConvertListener;
+import com.dace.textreader.view.dialog.ViewHolder;
 import com.dace.textreader.view.tab.SmartTabLayout;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.share.WbShareHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,8 +63,6 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
     private ExpandableTextView expTv1;
     private ImageView iv_img;
     private TextView tv_title;
-    private RelativeLayout rl_back;
-    private RelativeLayout rl_share;
     private SmartTabLayout tabLayout;
     private ViewPager viewPager;
     private int currentIndex ;
@@ -66,12 +76,27 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
     private ReaderTabAlbumDetailBookFragment readerTabAlbumDetailBookFragment;
     private ReaderTabAlbumDetailSentenceFragment readerTabAlbumDetailSentenceFragment;
     private ReaderTabAlbumDetailListFragment readerTabAlbumDetailListFragment;
+    private RelativeLayout rl_back,rl_share;
+
+    private String content = "";
+    private String title;
+    private Bitmap shareBitmap;
+    private String shareImgUrl;
+    private WbShareHandler shareHandler;
+    private String shareContent = "";
+    private String shareQQUrl;
+    private String shareWXUrl;
+    private String shareWBUrl;
+    private boolean isDataComplete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader_tab_album_detail);
 //
+        shareHandler = new WbShareHandler(this);
+        shareHandler.registerApp();
+        shareHandler.setProgressColor(Color.parseColor("#ff9933"));
         initData();
         initView();
         loadDetailData();
@@ -85,6 +110,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
         albumId = getIntent().getStringExtra("albumId");
         sentenceNum = getIntent().getStringExtra("sentenceNum");
         if (getIntent().getStringExtra("sentenceNum").contains(".")){
+            Log.d("111","format  " + format + " sentenceNum " + sentenceNum + " albumId " + albumId);
             sentenceNum = getIntent().getStringExtra("sentenceNum").split("\\.")[0];
         }
 
@@ -130,6 +156,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
             params.put("width","750");
             params.put("height","420");
 
+            Log.d("111","sign " + sign);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -137,29 +164,27 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                 new OkHttpManager.ReqCallBack<Object>() {
                     @Override
                     public void onReqSuccess(Object result) {
+                        Log.d("111","result.toString() " + result.toString());
                         readTabAlbumDetailBean = GsonUtil.GsonToBean(result.toString(),ReadTabAlbumDetailBean.class);
 
+                        ReadTabAlbumDetailBean.DataBean.ShareListBean shareListBean =  readTabAlbumDetailBean.getData().getShareList();
+                        if(shareListBean != null){
+                            shareQQUrl = shareListBean.getQq().getLink();
+                            shareWXUrl = shareListBean.getWx().getLink();
+                            shareWBUrl = shareListBean.getWeibo().getLink();
+                            shareImgUrl = shareListBean.getWx().getImage();
+                            title = readTabAlbumDetailBean.getData().getTitle();
+                            prepareBitmap(shareImgUrl);
+                            isDataComplete = true;
+                        }
+
                         GlideApp.with(ReaderTabAlbumDetailActivity.this)
-                        .load(readTabAlbumDetailBean.getData().getCover())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(iv_img);
+                                .load(readTabAlbumDetailBean.getData().getCover())
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(iv_img);
                         tv_title.setText(readTabAlbumDetailBean.getData().getTitle());
                         expTv1.setText(readTabAlbumDetailBean.getData().getIntroduction());
-//                        List<AlbumDetailBean.DataBean.ArticleListBean> data = albumDetailBean.getData().getArticleList();
-////                        if(isRefresh){
-//////                            Toast.makeText(getContext(),"hahhaha",Toast.LENGTH_SHORT).show();
-////                            if(mData != null){
-////                                mData.clear();
-////                                mData.addAll(data);
-////
-////                            }
-////                            mRecycleView.onPullComplete();
-////                        } else{
-//                            if(mData != null)
-//                                mData.addAll(data);
-////                        }
 
-//                        homeLevelAdapter.setData(mData);
                         if (readerTabAlbumDetailListFragment != null) {
                             readerTabAlbumDetailListFragment.setmData(readTabAlbumDetailBean.getData().getBook().get(0).getArticleList());
                         }
@@ -181,19 +206,14 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                 });
     }
 
-//    private OnCreateViewListener onCreateViewListener;
-//
-//    public void setOnCreateViewListener(OnCreateViewListener onCreateViewListener) {
-//        this.onCreateViewListener = onCreateViewListener;
-//    }
-//
-//    public interface OnCreateViewListener{
-//        void onCreateView();
-//    }
 
 
     private void initView() {
-         expTv1 = findViewById(R.id.expand_text_view);
+        expTv1 = findViewById(R.id.expand_text_view);
+        rl_back = findViewById(R.id.rl_back);
+        rl_share = findViewById(R.id.rl_share);
+        rl_back.setOnClickListener(this);
+        rl_share.setOnClickListener(this);
 
         expTv1.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
             @Override
@@ -207,10 +227,6 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
         smartRefreshLayout = findViewById(R.id.smart_refresh);
         iv_img = findViewById(R.id.iv_img);
         tv_title = findViewById(R.id.tv_title);
-        rl_share = findViewById(R.id.rl_back);
-        rl_share.setOnClickListener(this);
-        rl_back = findViewById(R.id.rl_back);
-        rl_back.setOnClickListener(this);
 
 
         smartRefreshLayout.setRefreshHeader(new MyRefreshHeader(this));
@@ -273,7 +289,11 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                 finish();
                 break;
             case R.id.rl_share:
-
+                if(isDataComplete){
+                    share();
+                }else {
+                    MyToastUtil.showToast(this,"请等待数据加载完成之后再试");
+                }
                 break;
         }
     }
@@ -308,4 +328,131 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
 
         }
     }
+
+    private void share() {
+        NiceDialog.init()
+                .setLayoutId(R.layout.dialog_share_layout)
+                .setConvertListener(new ViewConvertListener() {
+                    @Override
+                    protected void convertView(ViewHolder holder, final BaseNiceDialog dialog) {
+                        holder.setOnClickListener(R.id.share_cancel, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_wechat, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                shareArticleToWX(true,shareWXUrl);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_weixinpyq, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                shareArticleToWX(false,shareWXUrl);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_weibo, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (WbSdk.isWbInstall(ReaderTabAlbumDetailActivity.this)) {
+                                    shareToWeibo(shareWBUrl);
+                                } else {
+                                    showTips("请先安装微博");
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_qq, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                shareToQQ(shareQQUrl);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_qzone, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                shareToQZone(shareQQUrl);
+                                dialog.dismiss();
+                            }
+                        });
+                        holder.setOnClickListener(R.id.share_to_link, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                })
+                .setDimAmount(0.3f)
+                .setShowBottom(true)
+                .show(getSupportFragmentManager());
+    }
+
+    /**
+     * 分享到QQ空间
+     */
+    private void shareToQZone(String url) {
+        ShareUtil.shareToQZone(this, url, title, content, shareImgUrl);
+    }
+
+    /**
+     * 分享笔记到微信
+     *
+     * @param friend true为分享到好友，false为分享到朋友圈
+     */
+    private void shareArticleToWX(boolean friend, String url) {
+
+        Bitmap thumb = shareBitmap;
+        if(thumb == null)
+            thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+
+        ShareUtil.shareToWx(this, url, title, content,
+                ImageUtils.bmpToByteArrayCopy(thumb, false), friend);
+    }
+
+    /**
+     * 分享到QQ好友
+     */
+    private void shareToQQ(String url) {
+        ShareUtil.shareToQQ(this, url, title, content, shareImgUrl);
+    }
+
+    /**
+     * 分享到微博
+     *
+     * @param url
+     */
+    private void shareToWeibo(String url) {
+
+        if (shareBitmap == null) {
+            shareBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.mipmap.ic_launcher);
+        }
+
+        ShareUtil.shareToWeibo(shareHandler, url, NewMainActivity.lessonTitle,
+                NewMainActivity.lessonContent, shareBitmap);
+
+    }
+
+    /**
+     * 准备Bitmap
+     */
+    private void prepareBitmap(final String shareImgUrl) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                shareBitmap = ImageUtils.GetNetworkBitmap(shareImgUrl);
+                if (shareBitmap == null) {
+                    shareBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                }
+            }
+        }.start();
+    }
+
 }
