@@ -77,7 +77,7 @@
                     android:layout_marginBottom="4dp"
                     android:layout_marginRight="4dp"
                     android:layout_marginTop="4dp"
-                    android:background="@color/colorTextOrange"/>
+                    android:background="@color/color_4D72FF"/>
 
                 <TextView
                     android:id="@+id/tv_add_note_content"
@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textColor="@color/colorTextOrange"
+                    android:textColor="@color/color_4D72FF"
                     android:textSize="16sp"/>
 
                 <TextView

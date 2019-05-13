@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,6 +74,12 @@ public class ReaderTabAlbumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 SnapHelper snapHelper= new GravityPagerSnapHelper(Gravity.START);
                 snapHelper.attachToRecyclerView(((TopHolder)viewHolder).rcv_favourite);
                 ((TopHolder)viewHolder).rcv_favourite.setAdapter(topAdapter1);
+                if (topData != null && topData.size() != 0){
+                    ((TopHolder)viewHolder).tv_favorite.setVisibility(View.VISIBLE);
+                } else {
+                    ((TopHolder)viewHolder).tv_favorite.setVisibility(View.INVISIBLE);
+                }
+
 //                ((TopHolder)viewHolder).rcv_favourite.setOnFlingListener(new RecyclerView.OnFlingListener() {
 //                    @Override
 //                    public boolean onFling(int i, int i1) {
@@ -170,10 +175,12 @@ public class ReaderTabAlbumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     class TopHolder extends  RecyclerView.ViewHolder{
         RecyclerView rcv_favourite;
+        TextView tv_favorite;
         public TopHolder(@NonNull View itemView) {
 
             super(itemView);
             rcv_favourite = itemView.findViewById(R.id.rcv_favourite);
+            tv_favorite = itemView.findViewById(R.id.tv_favorite);
         }
     }
 

@@ -1,25 +1,20 @@
 package com.dace.textreader.fragment;
 
-import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.NewMainActivity;
-import com.dace.textreader.util.Utils;
 import com.dace.textreader.view.StatusBarHeightView;
 import com.dace.textreader.view.tab.SmartTabLayout;
 
@@ -50,8 +45,13 @@ public class NewHomeFragment extends Fragment {
     private List<String> mList_title = new ArrayList<>();
     private List<Fragment> mList_fragment = new ArrayList<>();
     private ViewPagerAdapter adapter;
+    private HomeLevelFragment homeLevelFragment;
+    private float mPosX;
+    private float mPosY;
+    private float mCurPosX;
+    private float mCurPosY;
 
-//    private ImageView iv_search;
+    //    private ImageView iv_search;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class NewHomeFragment extends Fragment {
 //        mList_fragment.add(homeFragment);
         HomeHotFragment homeHotFragment = new HomeHotFragment();
         mList_fragment.add(homeHotFragment);
-        HomeLevelFragment homeLevelFragment = new HomeLevelFragment();
+        homeLevelFragment = new HomeLevelFragment();
         mList_fragment.add(homeLevelFragment);
 //        ReaderFragment readerFragment = new ReaderFragment();
 //        mList_fragment.add(readerFragment);
@@ -123,6 +123,11 @@ public class NewHomeFragment extends Fragment {
                 if(position == 2 && onTabLevelClickListener != null){
                     onTabLevelClickListener.onClick();
                     View view = tabLayout.getTabAt(position);
+                }
+                if(position != 2){
+                    if (homeLevelFragment.getPopupWindow() != null && homeLevelFragment.getPopupWindow().isShowing()){
+                        homeLevelFragment.getPopupWindow().dismiss();
+                    }
                 }
             }
         });

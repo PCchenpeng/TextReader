@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -105,9 +104,9 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
 
                         Intent intent = new Intent(context, ReaderTabActivity.class);
-                        TabImgAndType tabImgAndType = tabImgUrl(readerTabBean,"国学");
-                        intent.putExtra("type", tabImgAndType.type);
-                        intent.putExtra("imgurl", tabImgAndType.imgUrl);
+                        intent.putExtra("typename", "国学");
+                        intent.putExtra("type", readerTabBean.getData().get(0).getType());
+                        intent.putExtra("imgurl", readerTabBean.getData().get(0).getImage());
                         context.startActivity(intent);
                     }
                 });
@@ -117,9 +116,9 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
 
                         Intent intent = new Intent(context, ReaderTabActivity.class);
-                        TabImgAndType tabImgAndType = tabImgUrl(readerTabBean,"故事");
-                        intent.putExtra("type", tabImgAndType.type);
-                        intent.putExtra("imgurl", tabImgAndType.imgUrl);
+                        intent.putExtra("typename", "故事");
+                        intent.putExtra("type", readerTabBean.getData().get(1).getType());
+                        intent.putExtra("imgurl", readerTabBean.getData().get(1).getImage());
                         context.startActivity(intent);
                     }
                 });
@@ -129,9 +128,9 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
 
                         Intent intent = new Intent(context, ReaderTabActivity.class);
-                        TabImgAndType tabImgAndType = tabImgUrl(readerTabBean,"科普");
-                        intent.putExtra("type", tabImgAndType.type);
-                        intent.putExtra("imgurl", tabImgAndType.imgUrl);
+                        intent.putExtra("typename", "科普");
+                        intent.putExtra("type", readerTabBean.getData().get(2).getType());
+                        intent.putExtra("imgurl", readerTabBean.getData().get(2).getImage());
                         context.startActivity(intent);
                     }
                 });
@@ -141,9 +140,9 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
 
                         Intent intent = new Intent(context, ReaderTabActivity.class);
-                        TabImgAndType tabImgAndType = tabImgUrl(readerTabBean,"美文");
-                        intent.putExtra("type", tabImgAndType.type);
-                        intent.putExtra("imgurl", tabImgAndType.imgUrl);
+                        intent.putExtra("typename", "美文");
+                        intent.putExtra("type", readerTabBean.getData().get(3).getType());
+                        intent.putExtra("imgurl", readerTabBean.getData().get(3).getImage());
                         context.startActivity(intent);
                     }
                 });
@@ -396,26 +395,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.onItemClickListener = onItemClickListener;
     }
 
-    private  TabImgAndType tabImgUrl(ReaderTabBean readerTabBean, String tab){
-        TabImgAndType tabImgAndType = null;
-        for(int i=0;i<readerTabBean.getData().size();i++){
-            if(readerTabBean.getData().get(i).getTitle().equals(tab)){
-
-                String imgUrl = readerTabBean.getData().get(i).getImage();
-                String type = readerTabBean.getData().get(i).getType();
-                tabImgAndType = new TabImgAndType(imgUrl,type);
-            }
-        }
-        return tabImgAndType;
+    public List<ReaderRecommendationBean.DataBean> getItemList() {
+        return itemList;
     }
-
-    class TabImgAndType{
-        String imgUrl;
-        String type;
-        public TabImgAndType(String imgUrl,String type){
-            this.type = type;
-            this.imgUrl = imgUrl;
-        }
-    }
-
 }

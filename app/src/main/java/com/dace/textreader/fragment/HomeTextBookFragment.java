@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,7 +55,7 @@ import okhttp3.Response;
  * History:
  * ==============================================================================
  */
-public class HomeTextBookFragment extends Fragment {
+public class HomeTextBookFragment extends BaseFragment{
 
     private static final String url_knowledge = HttpUrlPre.HTTP_URL_ + "/knowledge/point/all";
     private static final String url = HttpUrlPre.HTTP_URL + "/kewen?";
@@ -90,6 +90,7 @@ public class HomeTextBookFragment extends Fragment {
 
     private boolean refreshing = false;
     private boolean isEnd = false;
+    private AppBarLayout appBarLayout;
 
     @Nullable
     @Override
@@ -117,6 +118,12 @@ public class HomeTextBookFragment extends Fragment {
                 if (i1 > i3) {
                     getMoreData();
                 }
+//                if (i1 > i3 && ((NewMainActivity)getActivity()).getRl_tab().getVisibility() == View.GONE){
+//                    ((NewMainActivity)getActivity()).getRl_tab().setVisibility(View.GONE);
+//                } else if (i1 < i3 && ((NewMainActivity)getActivity()).getRl_tab().getVisibility() == View.VISIBLE){
+//                    ((NewMainActivity)getActivity()).getRl_tab().setVisibility(View.VISIBLE);
+//                }
+
             }
         });
 //        ll_search.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +176,7 @@ public class HomeTextBookFragment extends Fragment {
             }
         });
     }
+
 
     /**
      * 前往知识点详情
@@ -280,6 +288,7 @@ public class HomeTextBookFragment extends Fragment {
 
     private void initView() {
         scrollView = view.findViewById(R.id.nested_scroll_read_text_book_fragment);
+        appBarLayout = view.findViewById(R.id.appbar);
 //        ll_search = view.findViewById(R.id.ll_search_read_text_book_fragment);
         ll_knowledge = view.findViewById(R.id.ll_knowledge_read_text_book_fragment);
         recyclerView_knowledge = view.findViewById(R.id.rv_knowledge_read_text_book_fragment);
@@ -377,6 +386,8 @@ public class HomeTextBookFragment extends Fragment {
 
         }
     }
+
+
 
     /**
      * 获取数据

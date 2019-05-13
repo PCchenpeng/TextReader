@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
-        android:background="@drawable/shape_gradient_blue_light"
+        android:background="@drawable/shape_gradient_home_top"
         app:use_type="use_padding_top">
         <RelativeLayout
             android:id="@+id/rl_top"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@drawable/shape_gradient_blue_light">
+            android:background="@drawable/shape_gradient_home_top">
             <ImageView
                 android:id="@+id/iv_back"
                 android:layout_width="25dp"

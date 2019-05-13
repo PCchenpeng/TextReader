@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
@@ -31,13 +32,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderTabAlbumDetailListFragment extends Fragment {
+public class ReaderTabAlbumDetailListFragment extends BaseFragment {
 
     private View view;
     private ReaderTabAlbumDetailListAdapter readerTabAlbumDetailListAdapter;
     private String url = HttpUrlPre.HTTP_URL_+"/select/album/detail";
     private List<ReadTabAlbumDetailBean.DataBean.BookBean.ArticleListBean> mData = new ArrayList<>();
     private RecyclerView recyclerView;
+    private FrameLayout framelayout;
 
 
     @Override
@@ -58,6 +60,7 @@ public class ReaderTabAlbumDetailListFragment extends Fragment {
 
     private void initView() {
         recyclerView = view.findViewById(R.id.rcv_tab);
+        framelayout = view.findViewById(R.id.framelayout);
         readerTabAlbumDetailListAdapter = new ReaderTabAlbumDetailListAdapter(getContext(),mData);
         LinearLayoutManager layoutManager_recommend = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
@@ -121,6 +124,9 @@ public class ReaderTabAlbumDetailListFragment extends Fragment {
         this.mData = mData;
         if(mData !=null)
         readerTabAlbumDetailListAdapter.refreshData(mData);
+        if (readerTabAlbumDetailListAdapter.getItemData().size() == 0){
+            showDefaultView(framelayout, R.drawable.image_state_empty, "暂无内容～", false, false, "", null);
+        }
     }
 
     /**

@@ -163,7 +163,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:textColor="@color/colorTextOrange"
+                            android:textColor="@color/color_4D72FF"
                             android:textSize="14sp"/>
 
                         <TextView
@@ -185,7 +185,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="余额不足，请充值"
-                            android:textColor="@color/colorTextOrange"
+                            android:textColor="@color/color_4D72FF"
                             android:textSize="16sp"
                             android:visibility="gone"/>
 
@@ -271,7 +271,7 @@
                             android:layout_marginRight="16dp"
                             android:gravity="center"
                             android:text="了解更多"
-                            android:textColor="@color/colorTextOrange"
+                            android:textColor="@color/color_4D72FF"
                             android:textSize="12sp"/>
 
                         <ImageView

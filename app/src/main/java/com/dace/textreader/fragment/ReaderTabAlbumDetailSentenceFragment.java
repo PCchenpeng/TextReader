@@ -103,7 +103,9 @@ public class ReaderTabAlbumDetailSentenceFragment extends Fragment {
                     @Override
                     public void onReqSuccess(Object result) {
                         SentenceListBean sentenceListBean = GsonUtil.GsonToBean(result.toString(),SentenceListBean.class);
-                        mData = sentenceListBean.getData();
+                        if (sentenceListBean.getStatus() == 200) {
+                            mData = sentenceListBean.getData();
+                        }
                         if(mData !=null)
                         sentenceListAdapter.refreshData(mData);
                     }

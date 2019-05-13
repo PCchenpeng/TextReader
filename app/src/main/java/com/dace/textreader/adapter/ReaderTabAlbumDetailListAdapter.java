@@ -85,4 +85,8 @@ public class ReaderTabAlbumDetailListAdapter extends RecyclerView.Adapter<Recycl
     public void setOnItemClickListen(OnItemClickListen onItemClickListen) {
         this.mOnItemClickListen = onItemClickListen;
     }
+
+    public List<ReadTabAlbumDetailBean.DataBean.BookBean.ArticleListBean> getItemData() {
+        return itemData;
+    }
 }

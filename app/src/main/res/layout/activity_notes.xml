@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:use_type="use_padding_top"
-        android:background="@drawable/shape_gradient_blue_light">
+        android:background="@drawable/shape_gradient_home_top">
 
         <RelativeLayout
             android:layout_width="match_parent"

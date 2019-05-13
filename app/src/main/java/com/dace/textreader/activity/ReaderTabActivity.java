@@ -1,11 +1,9 @@
 package com.dace.textreader.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dace.textreader.GlideApp;
@@ -23,6 +22,7 @@ import com.dace.textreader.R;
 import com.dace.textreader.bean.ReaderTabBean;
 import com.dace.textreader.fragment.ReaderTabAlbumFragment;
 import com.dace.textreader.fragment.ReaderTabSelectFragment;
+import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.view.MyRefreshHeader;
 import com.dace.textreader.view.tab.SmartTabLayout;
@@ -44,9 +44,11 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
     private SmartRefreshLayout smartRefreshLayout;
 
     private String type;
+    private String typeName;
     private String imgUrl;
     private int currentIndex;
     private ImageView iv_img;
+    private TextView tv_title;
     private ReaderTabBean readerTabBean;
     private RelativeLayout rl_back;
     private RelativeLayout rl_back_1;
@@ -71,6 +73,7 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
         smartRefreshLayout = findViewById(R.id.smart_refresh);
         rl_back = findViewById(R.id.rl_back);
         iv_img = findViewById(R.id.iv_img);
+        tv_title = findViewById(R.id.tv_title);
         GlideApp.with(this)
                 .load(imgUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -150,8 +153,8 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
 
     private void loadData(){
         type = getIntent().getStringExtra("type");
+        typeName = getIntent().getStringExtra("typename");
         imgUrl = getIntent().getStringExtra("imgurl");
-
     }
 
 
@@ -166,15 +169,18 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
 
         int scrollRangle = appBarLayout.getTotalScrollRange();
 
-        if(i < -270){
+        if(i < -DensityUtil.dip2px(this,123)){
             toolbar1.setVisibility(View.VISIBLE);
+            tv_title.setText(typeName);
             toolbar.setVisibility(View.VISIBLE);
         }else {
+            tv_title.setText("");
             toolbar1.setVisibility(View.GONE);
             toolbar.setVisibility(View.GONE);
         }

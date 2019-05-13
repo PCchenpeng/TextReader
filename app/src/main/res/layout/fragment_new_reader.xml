@@ -1,60 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/colorWhite"
-              android:orientation="vertical">
-
-    <com.dace.textreader.view.StatusBarHeightView
-        android:id="@+id/view_status"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/upsdk_white"
+    >
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_gradient_home_top"
-        app:use_type="use_padding_top">
-
-        <com.dace.textreader.view.tab.SmartTabLayout
-            android:id="@+id/tab_layout_new_reader_fragment"
+        android:fadingEdge="none"
+        app:elevation="0dp"
+        >
+        <com.dace.textreader.view.StatusBarHeightView
+            android:id="@+id/view_status"
+            app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            app:stl_defaultTabTextColor="@color/colorWhite"
-            app:stl_defaultTabTextSize="15sp"
-            app:stl_dividerColor="@color/colorTransparent"
-            app:stl_dividerThickness="0dp"
-            app:stl_indicatorColor="@color/colorWhite"
-            app:stl_indicatorCornerRadius="2dp"
-            app:stl_indicatorThickness="4dp"
-            app:stl_indicatorWidth="20dp"
-            app:stl_underlineColor="@color/colorTransparent"
-            app:stl_distributeEvenly="true"
-            app:stl_underlineThickness="0dp"/>
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_gradient_home_top"
+            app:use_type="use_padding_top">
 
-        <RelativeLayout
-            android:id="@+id/rl_search_new_reader_fragment"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:visibility="gone"
-            android:layout_alignParentRight="true">
+            <com.dace.textreader.view.tab.SmartTabLayout
+                android:id="@+id/tab_layout_new_reader_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                app:stl_defaultTabTextColor="@color/colorWhite"
+                app:stl_defaultTabTextSize="15sp"
+                app:stl_dividerColor="@color/colorTransparent"
+                app:stl_dividerThickness="0dp"
+                app:stl_indicatorColor="@color/colorWhite"
+                app:stl_indicatorCornerRadius="2dp"
+                app:stl_indicatorThickness="4dp"
+                app:stl_indicatorWidth="20dp"
+                app:stl_underlineColor="@color/colorTransparent"
+                app:stl_distributeEvenly="true"
+                app:stl_underlineThickness="0dp"/>
 
-            <ImageView
+            <RelativeLayout
+                android:id="@+id/rl_search_new_reader_fragment"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:padding="12dp"
-                android:src="@drawable/icon_search_white"/>
+                android:visibility="gone"
+                android:layout_alignParentRight="true">
 
-        </RelativeLayout>
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/icon_search_white"/>
 
-    </com.dace.textreader.view.StatusBarHeightView>
+            </RelativeLayout>
+
+        </com.dace.textreader.view.StatusBarHeightView>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_new_reader_fragment"
         android:layout_below="@id/view_status"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"//这个属性只有在布局是CoordinatorLayout 时才有，是让让控件在AppBarLayout之下的-->
     
     <!--<ImageView-->
         <!--android:id="@+id/iv_search"-->
@@ -68,4 +78,4 @@
 
 
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -67,7 +67,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/iv_product_order_detail"
-            android:textColor="@color/colorTextOrange"
+            android:textColor="@color/color_4D72FF"
             android:textSize="15sp"/>
 
     </RelativeLayout>
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:text="复制"
-                android:textColor="@color/colorTextOrange"
+                android:textColor="@color/color_4D72FF"
                 android:textSize="11sp"/>
 
         </LinearLayout>
@@ -173,7 +173,7 @@
                 android:id="@+id/tv_actually_paid_order_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorTextOrange"
+                android:textColor="@color/color_4D72FF"
                 android:textSize="14sp"/>
 
         </LinearLayout>

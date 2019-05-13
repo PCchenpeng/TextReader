@@ -9,7 +9,7 @@
     <com.dace.textreader.view.StatusBarHeightView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_gradient_blue_light"
+        android:background="@drawable/shape_gradient_home_top"
         app:use_type="use_padding_top">
 
         <RelativeLayout
@@ -38,7 +38,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="保存"
-                android:textColor="@color/colorTextOrange"
+                android:textColor="@color/color_4D72FF"
                 android:textSize="16sp"/>
 
             <View

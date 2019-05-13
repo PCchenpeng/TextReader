@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +78,13 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 SnapHelper snapHelper= new GravityPagerSnapHelper(Gravity.START);
                 snapHelper.attachToRecyclerView(((TopHolder)viewHolder).rcv_update);
                 ((TopHolder)viewHolder).rcv_update.setAdapter(topAdapter1);
+                if (topData != null && topData.size() != 0){
+                    ((TopHolder)viewHolder).tv_recently.setVisibility(View.VISIBLE);
+                    ((TopHolder)viewHolder).tv_favorite.setVisibility(View.VISIBLE);
+                } else {
+                    ((TopHolder)viewHolder).tv_recently.setVisibility(View.INVISIBLE);
+                    ((TopHolder)viewHolder).tv_favorite.setVisibility(View.INVISIBLE);
+                }
 
 
                 LinearLayoutManager layoutManager1 = new LinearLayoutManager(context,
@@ -85,6 +93,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 SnapHelper snapHelper1= new GravityPagerSnapHelper(Gravity.START);
                 snapHelper1.attachToRecyclerView(((TopHolder)viewHolder).rcv_favourite);
                 ((TopHolder)viewHolder).rcv_favourite.setAdapter(topAdapter2);
+
 
                 break;
             case TYPE_ITEM:
@@ -224,11 +233,15 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     class TopHolder extends  RecyclerView.ViewHolder{
         RecyclerView rcv_favourite;
         RecyclerView rcv_update;
+        TextView tv_recently;
+        TextView tv_favorite;
         public TopHolder(@NonNull View itemView) {
 
             super(itemView);
             rcv_favourite = itemView.findViewById(R.id.rcv_favourite);
             rcv_update = itemView.findViewById(R.id.rcv_update);
+            tv_recently = itemView.findViewById(R.id.tv_recently);
+            tv_favorite = itemView.findViewById(R.id.tv_favorite);
         }
     }
 
@@ -270,6 +283,9 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 if(data.get(j).getOrderBy().equals("lastUpdate")){
                     ((ItemHolder)viewHolder).tv_title.setText(data.get(j).getArticleList().get(i).getTitle());
                     ((ItemHolder)viewHolder).tv_subContent.setText(data.get(j).getArticleList().get(i).getSubContent());
+                    if (TextUtils.isEmpty(data.get(j).getArticleList().get(i).getSubContent())){
+                        ((ItemHolder)viewHolder).tv_subContent.setVisibility(View.GONE);
+                    }
                     ((ItemHolder)viewHolder).tv_source.setText(data.get(j).getArticleList().get(i).getSource());
                     ((ItemHolder)viewHolder).tv_type.setText("#"+data.get(j).getArticleList().get(i).getType()+"#");
 

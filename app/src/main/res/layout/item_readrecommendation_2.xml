@@ -8,13 +8,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="24sp"
+        android:text="精选"
+        android:textSize="22sp"
         android:textColor="#333333"
         android:textStyle="bold"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rlv_banner"
         android:visibility="visible"
         android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>

@@ -2,25 +2,22 @@ package com.dace.textreader.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.EventsActivity;
@@ -28,33 +25,26 @@ import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.HomeLevelAdapter;
 import com.dace.textreader.adapter.LevelFragmentRecyclerViewAdapter;
 import com.dace.textreader.bean.LevelFragmentBean;
-import com.dace.textreader.bean.MessageEvent;
 import com.dace.textreader.bean.ReaderLevelBean;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
-import com.dace.textreader.view.dialog.BaseNiceDialog;
-import com.dace.textreader.view.dialog.NiceDialog;
-import com.dace.textreader.view.dialog.ViewConvertListener;
-import com.dace.textreader.view.dialog.ViewHolder;
 import com.dace.textreader.view.weight.pullrecycler.PullListener;
 import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
 import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeLevelFragment extends Fragment implements PullListener {
+public class HomeLevelFragment extends BaseFragment implements PullListener {
     private View view;
     private PullRecyclerView mRecycleView;
+    private FrameLayout framelayout;
     private View line_pupop_window;
     private String url = HttpUrlPre.HTTP_URL_ + "/select/reading/py/list";
     private String level_url = HttpUrlPre.HTTP_URL_ + "/select/article/level/list";
@@ -66,6 +56,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
     private boolean isVisibleToUser = false;
     private List<LevelFragmentBean.DataBean> levelBeanList = new ArrayList<>();
     private PopupWindow popupWindow;
+    private boolean popupWindowShowing = false;
 
     @Nullable
     @Override
@@ -81,6 +72,9 @@ public class HomeLevelFragment extends Fragment implements PullListener {
 
 
     private void loadData() {
+//        if (pageNum == 1) {
+//            showLoadingView(framelayout);
+//        }
         JSONObject params = new JSONObject();
         try {
             params.put("studentId",PreferencesUtil.getData(getContext(),"studentId","-1"));
@@ -97,27 +91,53 @@ public class HomeLevelFragment extends Fragment implements PullListener {
 
                     @Override
                     public void onReqSuccess(Object result) {
+                        framelayout.setVisibility(View.GONE);
+
                         ReaderLevelBean readerLevelBean = GsonUtil.GsonToBean(result.toString(),ReaderLevelBean.class);
-                        List<ReaderLevelBean.DataBean.ArticleListBean> data = readerLevelBean.getData().getArticleList();
-                        if(isRefresh){
+                        if (readerLevelBean.getStatus() == 200) {
+                            List<ReaderLevelBean.DataBean.ArticleListBean> data = readerLevelBean.getData().getArticleList();
+                            if (isRefresh) {
 //                            Toast.makeText(getContext(),"hahhaha",Toast.LENGTH_SHORT).show();
-                            if(mData != null){
-                                mData.clear();
-                                mData.addAll(data);
+                                if (mData != null) {
+                                    mData.clear();
+                                    mData.addAll(data);
+
+                                }
+                                mRecycleView.onPullComplete();
+                            } else {
+                                if (mData != null)
+                                    mData.addAll(data);
+                            }
+
+                            homeLevelAdapter.setData(mData);
+                        } else if (readerLevelBean != null && readerLevelBean.getStatus() == 400 && homeLevelAdapter.getmData().size() == 0) {//如果所有分页没有数据
+                            showDefaultView(framelayout, R.drawable.image_state_empty, "暂无内容～", false, false, "", null);
+                        } else {
+                            if (pageNum == 1) {//如果是第一页
+                                showNetFailView(framelayout, new OnButtonClick() {
+                                    @Override
+                                    public void onButtonClick() {
+                                        framelayout.setVisibility(View.GONE);
+                                        mRecycleView.onRefresh();
+                                    }
+                                });
+                            } else {
 
                             }
-                            mRecycleView.onPullComplete();
-                        } else{
-                            if(mData != null)
-                                mData.addAll(data);
                         }
-
-                        homeLevelAdapter.setData(mData);
 
                     }
 
                     @Override
                     public void onReqFailed(String errorMsg) {
+                        framelayout.setVisibility(View.GONE);
+                        showNetFailView(framelayout, new OnButtonClick() {
+                            @Override
+                            public void onButtonClick() {
+                                framelayout.setVisibility(View.GONE);
+                                mRecycleView.onRefresh();
+                            }
+                        });
                         mRecycleView.onPullComplete();
                     }
                 });
@@ -129,11 +149,19 @@ public class HomeLevelFragment extends Fragment implements PullListener {
         newHomeFragment.setOnTabLevelClickListener(new NewHomeFragment.OnTabLevelClickListener() {
             @Override
             public void onClick() {
-                if(isVisibleToUser)
-                    showLevelView(line_pupop_window);
+                if(isVisibleToUser) {
+                    if (!popupWindowShowing){
+                        Log.d("111","111");
+                            showLevelView(line_pupop_window);
+                    } else {
+                        Log.d("111","222");
+                        popupWindow.dismiss();
+                    }
+                }
             }
         });
         mRecycleView = view.findViewById(R.id.rlv_reader_level);
+        framelayout = view.findViewById(R.id.framelayout);
         line_pupop_window = view.findViewById(R.id.line_pupop_window);
         homeLevelAdapter = new HomeLevelAdapter(mData,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
@@ -163,7 +191,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
                 }
             }
         });
-
+        setOnScrollListener(mRecycleView);
     }
 
     private void loadLevelData() {
@@ -178,15 +206,18 @@ public class HomeLevelFragment extends Fragment implements PullListener {
                     @Override
                     public void onReqSuccess(Object result) {
                         LevelFragmentBean readerLevelBean = GsonUtil.GsonToBean(result.toString(),LevelFragmentBean.class);
-                        List<LevelFragmentBean.DataBean> data = readerLevelBean.getData();
-                            if(levelBeanList != null) {
+                        if (readerLevelBean.getStatus() == 200) {
+                            List<LevelFragmentBean.DataBean> data = readerLevelBean.getData();
+                            if (levelBeanList != null) {
                                 levelBeanList.addAll(data);
                                 if (levelBeanList.size() > 0) {
                                     grade = levelBeanList.get(0).getGrade() + "";
+                                    pageNum = 1;
                                     loadData();
                                     updateLevelState(0);
                                 }
                             }
+                        }
                     }
 
                     @Override
@@ -229,6 +260,8 @@ public class HomeLevelFragment extends Fragment implements PullListener {
                     if (pos != getLevelSelectedState()) {
                         updateLevelState(pos);
                         grade = levelBeanList.get(pos).getGrade() + "";
+                        isRefresh = true;
+                        pageNum = 1;
                         loadData();
                     }
 
@@ -242,22 +275,27 @@ public class HomeLevelFragment extends Fragment implements PullListener {
 //        PopupWindow popupWindow = new PopupWindow(DensityUtil.dip2px(getContext(), 130),DensityUtil.dip2px(getContext(), 80));
         popupWindow = new PopupWindow(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setContentView(popupView);
-        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOutsideTouchable(false);
         int offsetX = view.getWidth() / 2 - DensityUtil.dip2px(getContext(), 130) / 2;
-        if (!popupWindow.isShowing()){
-            popupWindow.showAsDropDown(view, offsetX, 0);
-        } else {
-            popupWindow.dismiss();
-        }
-
+        Log.d("111","popupWindow.isShowing() " + popupWindow.isShowing());
+        popupWindow.showAsDropDown(view, offsetX, 0);
+        popupWindowShowing = true;
         Animation animation=AnimationUtils.loadAnimation(getContext(), R.anim.level_enter_anim);
         ((NewMainActivity)getActivity()).view_cover.startAnimation(animation);
         ((NewMainActivity)getActivity()).view_cover.setVisibility(View.VISIBLE);
-
+        ((NewMainActivity)getActivity()).view_cover.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             // 在dismiss中恢复透明度
             public void onDismiss() {
+                Log.d("111","333");
+                popupWindowShowing = false;
                 Animation animation=AnimationUtils.loadAnimation(getContext(), R.anim.level_exit_anim);
                 ((NewMainActivity)getActivity()).view_cover.startAnimation(animation);
                 ((NewMainActivity)getActivity()).view_cover.setVisibility(View.GONE);
@@ -328,4 +366,7 @@ public class HomeLevelFragment extends Fragment implements PullListener {
 
     }
 
+    public PopupWindow getPopupWindow() {
+        return popupWindow;
+    }
 }

@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:textColor="@color/colorTextOrange"
+            android:textColor="@color/color_4D72FF"
             android:textSize="14sp"/>
 
     </LinearLayout>
@@ -105,7 +105,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="24dp"
-            android:textColor="@color/colorTextOrange"
+            android:textColor="@color/color_4D72FF"
             android:textSize="14sp"/>
 
         <ImageView

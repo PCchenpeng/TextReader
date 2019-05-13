@@ -22,9 +22,7 @@ import com.dace.textreader.R;
 import com.dace.textreader.bean.MessageEvent;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
-import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.PreferencesUtil;
-import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
@@ -348,7 +346,7 @@ public class PasswordLoginActivity extends BaseActivity implements View.OnClickL
             editor.apply();
 
             PreferencesUtil.saveData(PasswordLoginActivity.this,"studentId",id + "");
-            PreferencesUtil.saveData(PasswordLoginActivity.this,"gradeId",gradeId );
+            PreferencesUtil.saveData(PasswordLoginActivity.this,"gradeId",gradeId + "");
             PreferencesUtil.saveData(PasswordLoginActivity.this,"token",token);
             PreferencesUtil.saveData(PasswordLoginActivity.this,"phoneNum",phoneNum);
             EventBus.getDefault().postSticky(new MessageEvent(""));

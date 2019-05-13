@@ -45,7 +45,6 @@ import com.dace.textreader.audioUtils.PlayService;
 import com.dace.textreader.bean.AutoSaveWritingBean;
 import com.dace.textreader.bean.HtmlLinkBean;
 import com.dace.textreader.bean.LessonBean;
-import com.dace.textreader.bean.LevelFragmentBean;
 import com.dace.textreader.bean.ReaderTabBean;
 import com.dace.textreader.fragment.HomeFragment;
 import com.dace.textreader.fragment.NewHomeFragment;
@@ -53,7 +52,6 @@ import com.dace.textreader.fragment.NewLessonFragment;
 import com.dace.textreader.fragment.NewMineFragment;
 import com.dace.textreader.fragment.NewReaderFragment;
 import com.dace.textreader.util.DataUtil;
-import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.JsonParser;
@@ -178,6 +176,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     private ImageView iv_speak;
     private TextView tv_tips;
     private TextView tv_skip;
+    private RelativeLayout rl_tab;
 
     // 语音听写对象
     private SpeechRecognizerUtil speechRecognizerUtil;
@@ -209,6 +208,10 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_main);
+
+        //修改状态栏的文字颜色为黑色
+//        int flag = StatusBarUtil.StatusBarLightMode(this);
+//        StatusBarUtil.StatusBarLightMode(this, flag);
 
         mContext = this;
 
@@ -540,6 +543,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                         OkHttpClient client = new OkHttpClient();
                         JSONObject json = new JSONObject();
                         json.put("token", TOKEN);
+                        Log.d("111","android.os.Build.BRAND " + android.os.Build.BRAND);
                         json.put("phoneModel", android.os.Build.BRAND);
                         json.put("studentId", NewMainActivity.STUDENT_ID);
                         json.put("platform", "android");
@@ -1005,6 +1009,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
     private void initView() {
         rl_root = findViewById(R.id.rl_root_new_main);
+        rl_tab = findViewById(R.id.rl_tab);
         view_cover = findViewById(R.id.view_cover);
         ll_home = findViewById(R.id.ll_new_home_bottom_main);
         iv_home = findViewById(R.id.iv_new_home_bottom_main);
@@ -1359,4 +1364,9 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
             newHomeFragment.setViewCoverTopMargin();
         }
     }
+
+    public RelativeLayout getRl_tab() {
+        return rl_tab;
+    }
+
 }

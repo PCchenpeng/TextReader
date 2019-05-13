@@ -176,7 +176,7 @@
                     android:id="@+id/view_guide_article_text_fragment"
                     android:layout_width="8dp"
                     android:layout_height="16dp"
-                    android:background="@color/colorTextOrange"/>
+                    android:background="@color/color_4D72FF"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -382,7 +382,7 @@
                         android:layout_marginRight="12dp"
                         android:padding="4dp"
                         android:text="写读后感"
-                        android:textColor="@color/colorTextOrange"
+                        android:textColor="@color/color_4D72FF"
                         android:textSize="15sp"/>
                 </LinearLayout>
 
@@ -399,7 +399,7 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="暂无读后感"
-                    android:textColor="@color/colorTextOrange"
+                    android:textColor="@color/color_4D72FF"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -450,7 +450,7 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:text="更多推荐"
-                        android:textColor="@color/colorTextOrange"
+                        android:textColor="@color/color_4D72FF"
                         android:textSize="16sp"/>
                 </LinearLayout>
 

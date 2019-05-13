@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivityTest;
@@ -43,10 +44,11 @@ import java.util.List;
  * History:
  * ==============================================================================
  */
-public class HomeHotFragment extends Fragment implements PullListener {
+public class HomeHotFragment extends BaseFragment implements PullListener {
 
     private View view;
     private PullRecyclerView mRecycleView;
+    private FrameLayout framelayout;
     private HomeHotAdapter homeHotAdapter;
 
     private String url_choice = HttpUrlPre.HTTP_URL_ + "/select/reading/index/choice/list";
@@ -70,6 +72,7 @@ public class HomeHotFragment extends Fragment implements PullListener {
 
     private void initView() {
         mRecycleView = view.findViewById(R.id.rcv_recommend);
+        framelayout = view.findViewById(R.id.framelayout);
         homeHotAdapter = new HomeHotAdapter(mListData,mChoiceData,"",getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
@@ -107,7 +110,7 @@ public class HomeHotFragment extends Fragment implements PullListener {
                 startActivity(intent);
             }
         });
-
+        setOnScrollListener(mRecycleView);
 
         loadChoiceData();
         loadListData();
@@ -116,8 +119,8 @@ public class HomeHotFragment extends Fragment implements PullListener {
     private void loadChoiceData() {
         JSONObject params = new JSONObject();
         try {
-            params.put("studentId",PreferencesUtil.getData(getContext(),"studentId","-1"));
-            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId",-1));
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId","-1"));
             params.put("py",NewMainActivity.PY_SCORE);
             params.put("width",DensityUtil.getScreenWidth(getContext()));
             params.put("height",DensityUtil.getScreenWidth(getContext())*194/345);
@@ -142,11 +145,14 @@ public class HomeHotFragment extends Fragment implements PullListener {
     }
 
     private void loadListData(){
+        if (pageNum == 1) {
+            showLoadingView(framelayout);
+        }
 
         JSONObject params = new JSONObject();
         try {
-            params.put("studentId",PreferencesUtil.getData(getContext(),"studentId","-1"));
-            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId",-1));
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId","-1"));
             params.put("py",NewMainActivity.PY_SCORE);
             params.put("pageNum",String.valueOf(pageNum));
             params.put("width",DensityUtil.getScreenWidth(getContext()));
@@ -158,22 +164,49 @@ public class HomeHotFragment extends Fragment implements PullListener {
                 new OkHttpManager.ReqCallBack<Object>() {
                     @Override
                     public void onReqSuccess(Object result) {
-                        ReaderRecommendationBean readerRecommendationBean = GsonUtil.GsonToBean(result.toString(),ReaderRecommendationBean.class);
-                        mListData = readerRecommendationBean.getData();
-                        if(isRefresh){
+                        framelayout.setVisibility(View.GONE);
+
+                        Log.d("111","onReqSuccess " + result.toString());
+                        ReaderRecommendationBean readerRecommendationBean = GsonUtil.GsonToBean(result.toString(), ReaderRecommendationBean.class);
+                        if (readerRecommendationBean.getStatus() == 200) {
+                            mListData = readerRecommendationBean.getData();
+                            if (isRefresh) {
 //                            Toast.makeText(getContext(),"hahhaha",Toast.LENGTH_SHORT).show();
-                            if(mListData != null)
-                                homeHotAdapter.refreshData(mListData);
-                            mRecycleView.onPullComplete();
-                        } else{
-                            if(mListData != null)
-                                homeHotAdapter.addData(mListData);
+                                if (mListData != null)
+                                    homeHotAdapter.refreshData(mListData);
+                                mRecycleView.onPullComplete();
+                            } else {
+                                if (mListData != null)
+                                    homeHotAdapter.addData(mListData);
+                            }
+                        } else if (readerRecommendationBean != null && readerRecommendationBean.getStatus() == 400 && homeHotAdapter.getItemList().size() == 0) {//如果所有分页没有数据
+                            showDefaultView(framelayout, R.drawable.image_state_empty, "暂无内容～", false, false, "", null);
+                        } else {
+                            if (pageNum == 1) {//如果是第一页
+                                showDefaultView(framelayout, R.drawable.image_state_netfail, "加载数据失败，请重试～", false, true, "重新加载", new OnButtonClick() {
+                                    @Override
+                                    public void onButtonClick() {
+                                        framelayout.setVisibility(View.GONE);
+                                        mRecycleView.onRefresh();
+                                    }
+                                });
+                            } else {
+
+                            }
                         }
                     }
 
                     @Override
                     public void onReqFailed(String errorMsg) {
+                        framelayout.setVisibility(View.GONE);
                         mRecycleView.onPullComplete();
+                        showDefaultView(framelayout, R.drawable.image_state_netfail, "加载数据失败，请重试～", false, true, "重新加载", new OnButtonClick() {
+                            @Override
+                            public void onButtonClick() {
+                                framelayout.setVisibility(View.GONE);
+                                mRecycleView.onRefresh();
+                            }
+                        });
                     }
                 });
     }

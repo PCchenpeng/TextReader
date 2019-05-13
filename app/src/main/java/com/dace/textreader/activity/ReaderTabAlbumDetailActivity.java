@@ -6,13 +6,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,37 +164,37 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                     public void onReqSuccess(Object result) {
                         Log.d("111","result.toString() " + result.toString());
                         readTabAlbumDetailBean = GsonUtil.GsonToBean(result.toString(),ReadTabAlbumDetailBean.class);
+                        if (readTabAlbumDetailBean.getStatus() == 200) {
+                            ReadTabAlbumDetailBean.DataBean.ShareListBean shareListBean = readTabAlbumDetailBean.getData().getShareList();
+                            if (shareListBean != null) {
+                                shareQQUrl = shareListBean.getQq().getLink();
+                                shareWXUrl = shareListBean.getWx().getLink();
+                                shareWBUrl = shareListBean.getWeibo().getLink();
+                                shareImgUrl = shareListBean.getWx().getImage();
+                                title = readTabAlbumDetailBean.getData().getTitle();
+                                prepareBitmap(shareImgUrl);
+                                isDataComplete = true;
+                            }
 
-                        ReadTabAlbumDetailBean.DataBean.ShareListBean shareListBean =  readTabAlbumDetailBean.getData().getShareList();
-                        if(shareListBean != null){
-                            shareQQUrl = shareListBean.getQq().getLink();
-                            shareWXUrl = shareListBean.getWx().getLink();
-                            shareWBUrl = shareListBean.getWeibo().getLink();
-                            shareImgUrl = shareListBean.getWx().getImage();
-                            title = readTabAlbumDetailBean.getData().getTitle();
-                            prepareBitmap(shareImgUrl);
-                            isDataComplete = true;
-                        }
+                            GlideApp.with(ReaderTabAlbumDetailActivity.this)
+                                    .load(readTabAlbumDetailBean.getData().getCover())
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(iv_img);
+                            tv_title.setText(readTabAlbumDetailBean.getData().getTitle());
+                            expTv1.setText(readTabAlbumDetailBean.getData().getIntroduction());
 
-                        GlideApp.with(ReaderTabAlbumDetailActivity.this)
-                                .load(readTabAlbumDetailBean.getData().getCover())
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(iv_img);
-                        tv_title.setText(readTabAlbumDetailBean.getData().getTitle());
-                        expTv1.setText(readTabAlbumDetailBean.getData().getIntroduction());
-
-                        if (readerTabAlbumDetailListFragment != null) {
-                            readerTabAlbumDetailListFragment.setmData(readTabAlbumDetailBean.getData().getBook().get(0).getArticleList());
+                            if (readerTabAlbumDetailListFragment != null) {
+                                readerTabAlbumDetailListFragment.setmData(readTabAlbumDetailBean.getData().getBook().get(0).getArticleList());
+                            }
+                            if (readerTabAlbumDetailBookFragment != null) {
+                                readerTabAlbumDetailBookFragment.setmData(readTabAlbumDetailBean.getData().getBook());
+                                readerTabAlbumDetailBookFragment.setImgUrl(readTabAlbumDetailBean.getData().getCover());
+                            }
+                            if (readerTabAlbumDetailSentenceFragment != null) {
+                                readerTabAlbumDetailSentenceFragment.setAlbumId(readTabAlbumDetailBean.getData().getAlbumId());
+                                readerTabAlbumDetailSentenceFragment.setImgUrl(readTabAlbumDetailBean.getData().getCover());
+                            }
                         }
-                        if (readerTabAlbumDetailBookFragment != null) {
-                            readerTabAlbumDetailBookFragment.setmData(readTabAlbumDetailBean.getData().getBook());
-                            readerTabAlbumDetailBookFragment.setImgUrl(readTabAlbumDetailBean.getData().getCover());
-                        }
-                        if (readerTabAlbumDetailSentenceFragment != null) {
-                            readerTabAlbumDetailSentenceFragment.setAlbumId(readTabAlbumDetailBean.getData().getAlbumId());
-                            readerTabAlbumDetailSentenceFragment.setImgUrl(readTabAlbumDetailBean.getData().getCover());
-                        }
-
                     }
 
                     @Override

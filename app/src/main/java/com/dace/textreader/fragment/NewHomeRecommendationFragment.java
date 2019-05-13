@@ -13,6 +13,7 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -552,7 +553,8 @@ public class NewHomeRecommendationFragment extends Fragment {
 
         banner = view.findViewById(R.id.banner_home_recommendation);
         banner.setImageLoader(new BannerGlideImageLoader());
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        banner.setIndicatorGravity(BannerConfig.RIGHT);
         banner.isAutoPlay(true);
         banner.setDelayTime(3000);
 

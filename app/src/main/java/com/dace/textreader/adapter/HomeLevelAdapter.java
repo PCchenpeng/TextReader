@@ -164,4 +164,8 @@ public class HomeLevelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             tv_py = itemView.findViewById(R.id.tv_py);
         }
     }
+
+    public List<ReaderLevelBean.DataBean.ArticleListBean> getmData() {
+        return mData;
+    }
 }

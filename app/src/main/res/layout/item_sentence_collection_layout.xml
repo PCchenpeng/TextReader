@@ -31,7 +31,7 @@
             android:id="@+id/tv_date_sentence_collection_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorTextOrange"
+            android:textColor="@color/color_4D72FF"
             android:textSize="14sp"/>
 
         <TextView

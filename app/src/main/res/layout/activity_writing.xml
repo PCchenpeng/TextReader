@@ -61,6 +61,7 @@
 
             <RelativeLayout
                 android:id="@+id/rl_error_writing"
+                android:visibility="gone"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginRight="10dp"

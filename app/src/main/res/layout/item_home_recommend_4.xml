@@ -6,8 +6,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="20dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/shape_home_select_bg">
         <ImageView
             android:id="@+id/iv_search"
@@ -33,6 +35,6 @@
        android:layout_height="50dp"
        android:layout_gravity="right"
        android:layout_marginRight="20dp"
-       android:layout_marginTop="-13dp"/>
+       android:layout_marginTop="10dp"/>
 
 </LinearLayout>

@@ -35,7 +35,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingBottom="16dp"
-            android:textColor="@color/colorTextOrange"
+            android:textColor="@color/color_4D72FF"
             android:textSize="22sp"/>
 
         <ImageView
@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textColor="@color/colorTextOrange"
+                android:textColor="@color/color_4D72FF"
                 android:textSize="12sp"/>
         </LinearLayout>
 
@@ -124,7 +124,7 @@
             android:layout_marginLeft="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/colorTextOrange"
+            android:textColor="@color/color_4D72FF"
             android:textSize="12sp"/>
 
         <Space

@@ -36,7 +36,7 @@
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:paddingTop="1dp"
-        android:textColor="@color/colorTextOrange"
+        android:textColor="@color/color_4D72FF"
         android:textSize="11sp"/>
 
     <TextView
@@ -52,7 +52,7 @@
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:paddingTop="1dp"
-        android:textColor="@color/colorTextOrange"
+        android:textColor="@color/color_4D72FF"
         android:textSize="11sp"/>
 
     <TextView

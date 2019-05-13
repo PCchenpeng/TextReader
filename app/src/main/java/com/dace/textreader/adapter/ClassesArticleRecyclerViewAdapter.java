@@ -13,7 +13,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dace.textreader.R;
 import com.dace.textreader.bean.Classes;
 import com.dace.textreader.util.GlideRoundImage;
-import com.github.florent37.glidepalette.GlidePalette;
 
 import java.util.List;
 
@@ -72,7 +71,7 @@ public class ClassesArticleRecyclerViewAdapter extends RecyclerView.Adapter<Recy
                     .placeholder(R.drawable.image_placeholder_square)
                     .error(R.drawable.image_placeholder_square)
                     .centerCrop()
-                    .transform(new GlideRoundImage(mContext, 4));
+                    .transform(new GlideRoundImage(mContext, 8));
             Glide.with(mContext)
                     .load(url)
                     .apply(options)
@@ -82,6 +81,11 @@ public class ClassesArticleRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 //                            .crossfade(true)
 //                    )
                     .into(((ViewHolder) holder).iv_bg);
+        }
+        if (position == mList.size() -1){
+            ((ViewHolder) holder).view_bottom.setVisibility(View.VISIBLE);
+        } else {
+            ((ViewHolder) holder).view_bottom.setVisibility(View.GONE);
         }
     }
 
@@ -94,11 +98,13 @@ public class ClassesArticleRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         TextView tv_title;
         TextView tv_author;
         ImageView iv_bg;
+        View view_bottom;
 
         public ViewHolder(View itemView) {
             super(itemView);
             iv_bg = itemView.findViewById(R.id.iv_background_classes_article_item);
             tv_title = itemView.findViewById(R.id.tv_title_classes_article_item);
+            view_bottom = itemView.findViewById(R.id.view_bottom);
 //            tv_author = itemView.findViewById(R.id.tv_author_classes_article_item);
         }
     }

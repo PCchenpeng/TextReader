@@ -372,4 +372,8 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
     }
+
+    public List<ArticleListBean> getItemList() {
+        return itemList;
+    }
 }

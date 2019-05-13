@@ -10,7 +10,6 @@
     <com.dace.textreader.view.StatusBarHeightView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_gradient_blue_light"
         app:use_type="use_padding_top">
 
         <RelativeLayout
@@ -97,7 +96,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:text="发送验证码"
-                    android:textColor="@color/colorOrange"
+                    android:textColor="@color/color_4D72FF"
                     android:textSize="16sp"/>
 
                 <View
@@ -156,7 +155,7 @@
                 android:paddingRight="20dp"
                 android:paddingTop="10dp"
                 android:text="密码登录"
-                android:textColor="@color/colorTextOrange"
+                android:textColor="@color/color_4D72FF"
                 android:textSize="16sp"/>
 
             <Space

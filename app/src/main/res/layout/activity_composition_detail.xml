@@ -11,7 +11,7 @@
     <com.dace.textreader.view.StatusBarHeightView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_gradient_blue_light"
+        android:background="@drawable/shape_gradient_home_top"
         app:use_type="use_padding_top">
 
         <LinearLayout
@@ -247,7 +247,7 @@
                         android:layout_above="@id/iv_line_composition_detail"
                         android:layout_alignLeft="@id/iv_line_composition_detail"
                         android:layout_alignRight="@id/iv_line_composition_detail"
-                        android:textColor="@color/colorTextOrange"
+                        android:textColor="@color/color_4D72FF"
                         android:textSize="22sp"
                         android:textStyle="bold"/>
 
@@ -416,7 +416,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="查看详情>"
-                            android:textColor="@color/colorTextOrange"
+                            android:textColor="@color/color_4D72FF"
                             android:textSize="13sp"/>
                     </LinearLayout>
 
@@ -492,7 +492,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="24dp"
                                 android:text="98"
-                                android:textColor="@color/colorTextOrange"
+                                android:textColor="@color/color_4D72FF"
                                 android:textSize="40sp"/>
 
                             <TextView

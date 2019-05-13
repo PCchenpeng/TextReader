@@ -116,7 +116,7 @@ s
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-                            android:textColor="@color/colorTextOrange"
+                            android:textColor="@color/color_4D72FF"
                             android:textSize="12sp"/>
 
                     </LinearLayout>
@@ -146,7 +146,7 @@ s
                     android:layout_height="30dp"
                     android:background="@drawable/shape_my_composition_operate_selected"
                     android:gravity="center"
-                    android:textColor="@color/colorTextOrange"
+                    android:textColor="@color/color_4D72FF"
                     android:textSize="14sp"/>
 
                 <TextView

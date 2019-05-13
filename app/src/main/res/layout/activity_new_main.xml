@@ -9,7 +9,7 @@
         android:id="@+id/frame_new_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="48dp"/>
+        />
 
     <include
         layout="@layout/new_main_bottom_layout"

@@ -87,4 +87,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    public List<ReadTabAlbumDetailBean.DataBean.BookBean> getmList() {
+        return mList;
+    }
 }

@@ -90,7 +90,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:maxLines="1"
-                    android:textColor="@color/colorTextOrange"
+                    android:textColor="@color/color_4D72FF"
                     android:textSize="12sp"/>
 
                 <TextView

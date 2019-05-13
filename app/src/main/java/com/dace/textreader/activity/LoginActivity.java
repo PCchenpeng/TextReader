@@ -22,10 +22,7 @@ import com.dace.textreader.R;
 import com.dace.textreader.bean.MessageEvent;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
-import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.PreferencesUtil;
-import com.dace.textreader.util.ShareUtil;
-import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.VerifyCodeView;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -33,7 +30,6 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.util.SharedUtil;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -391,6 +387,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 JSONObject student = json.getJSONObject("data");
                 String token = student.getString("token");
                 int id = student.optInt("studentid", -1);
+                int gradeId = student.optInt("gradeid", 110);
                 NewMainActivity.TOKEN = token;
                 NewMainActivity.STUDENT_ID = id;
                 NewMainActivity.USERNAME = student.getString("username");
@@ -412,6 +409,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 editor.apply();
 
                 PreferencesUtil.saveData(LoginActivity.this,"studentId",id + "");
+                PreferencesUtil.saveData(LoginActivity.this,"gradeId",gradeId + "");
                 PreferencesUtil.saveData(LoginActivity.this,"token",token);
                 PreferencesUtil.saveData(LoginActivity.this,"phoneNum",phoneNum);
                 EventBus.getDefault().postSticky(new MessageEvent(""));

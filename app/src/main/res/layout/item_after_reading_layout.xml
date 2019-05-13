@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:textColor="@color/colorTextOrange"
+            android:textColor="@color/color_4D72FF"
             android:textSize="14sp"/>
     </LinearLayout>
 

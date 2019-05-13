@@ -91,7 +91,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginBottom="3dp"
                         android:layout_marginTop="3dp"
-                        android:background="@color/colorTextOrange"/>
+                        android:background="@color/color_4D72FF"/>
 
                     <TextView
                         android:id="@+id/tv_lesson_name_micro_lesson"
@@ -128,7 +128,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginBottom="3dp"
                         android:layout_marginTop="3dp"
-                        android:background="@color/colorTextOrange"/>
+                        android:background="@color/color_4D72FF"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -195,7 +195,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginBottom="3dp"
                         android:layout_marginTop="3dp"
-                        android:background="@color/colorTextOrange"/>
+                        android:background="@color/color_4D72FF"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -275,7 +275,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginBottom="3dp"
                             android:layout_marginTop="3dp"
-                            android:background="@color/colorTextOrange"/>
+                            android:background="@color/color_4D72FF"/>
 
                         <TextView
                             android:layout_width="wrap_content"

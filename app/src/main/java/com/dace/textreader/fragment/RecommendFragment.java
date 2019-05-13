@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
@@ -26,7 +25,6 @@ import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.WeakAsyncTask;
-import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.weight.pullrecycler.PullListener;
 import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
 import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
@@ -39,16 +37,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RecommendFragment extends Fragment implements PullListener {
+public class RecommendFragment extends BaseFragment implements PullListener {
 
     private View view;
     private PullRecyclerView mRecycleView;
+    private FrameLayout framelayout;
 
     private HomeRecommendAdapter mHomeRecommendAdapter;
     private int pageNum = 1;
@@ -89,6 +87,7 @@ public class RecommendFragment extends Fragment implements PullListener {
 
     private void initView() {
         mRecycleView = view.findViewById(R.id.rcv_recommend);
+        framelayout = view.findViewById(R.id.framelayout);
         mHomeRecommendAdapter = new HomeRecommendAdapter(data,getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
@@ -182,10 +181,14 @@ public class RecommendFragment extends Fragment implements PullListener {
                 }
             }
         });
+        setOnScrollListener(mRecycleView);
         loadData();
     }
 
     private void loadData(){
+        if (pageNum == 1) {
+            showLoadingView(framelayout);
+        }
         new GetRecommendData(RecommendFragment.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
                 String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(pageNum));
     }
@@ -236,7 +239,7 @@ public class RecommendFragment extends Fragment implements PullListener {
     /**
      * 获取推荐数据
      */
-    private static class GetRecommendData
+    private class GetRecommendData
             extends WeakAsyncTask<String, Void, String, RecommendFragment> {
 
         protected GetRecommendData(RecommendFragment fragment) {
@@ -272,7 +275,19 @@ public class RecommendFragment extends Fragment implements PullListener {
 
         @Override
         protected void onPostExecute(RecommendFragment fragment, String s) {
+            framelayout.setVisibility(View.GONE);
             if (s == null) {
+                if (pageNum == 1) {//如果是第一页
+                    showNetFailView(framelayout, new OnButtonClick() {
+                        @Override
+                        public void onButtonClick() {
+                            framelayout.setVisibility(View.GONE);
+                            mRecycleView.onRefresh();
+                        }
+                    });
+                } else {
+
+                }
 //                fragment.errorRecommendData();
             } else {
                 fragment.analyzeRecommendData(s);
@@ -299,19 +314,35 @@ public class RecommendFragment extends Fragment implements PullListener {
         }catch (Exception e){
             e.printStackTrace();
         }
+        if (recommendBean.getStatus() == 200) {
+            if (recommendBean != null && recommendBean.getData() != null) {
+                data = recommendBean.getData().getArticleList();
 
-        if(recommendBean != null && recommendBean.getData() != null)
-            data = recommendBean.getData().getArticleList();
-        else{
-            mRecycleView.onPullComplete();
-            return;
-        }
+            } else {
+                mRecycleView.onPullComplete();
+                return;
+            }
 
-        if(isRefresh){
-            mHomeRecommendAdapter.refreshData(data);
-            mRecycleView.onPullComplete();
-        } else{
-            mHomeRecommendAdapter.addData(data);
+            if (isRefresh) {
+                mHomeRecommendAdapter.refreshData(data);
+                mRecycleView.onPullComplete();
+            } else {
+                mHomeRecommendAdapter.addData(data);
+            }
+        } else if (recommendBean.getStatus() == 400 && mHomeRecommendAdapter.getItemList().size() == 0) {
+            showDefaultView(framelayout, R.drawable.image_state_empty, "暂无内容～", false, false, "", null);
+        } else {
+            if (isRefresh) {//如果是第一页
+                showNetFailView(framelayout, new OnButtonClick() {
+                    @Override
+                    public void onButtonClick() {
+                        framelayout.setVisibility(View.GONE);
+                        mRecycleView.onRefresh();
+                    }
+                });
+            } else {
+
+            }
         }
 
     }

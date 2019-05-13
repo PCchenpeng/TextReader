@@ -3,23 +3,25 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
     android:padding="10dp">
     <TextView
         android:id="@+id/tv_big_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="每日灵感"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textColor="#333333"
         android:textStyle="bold"/>
     <ImageView
         android:id="@+id/iv_big_1"
         android:layout_width="match_parent"
         android:layout_height="194dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="12dp"/>
 
     <LinearLayout
         android:id="@+id/ll_item_1"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -39,7 +41,7 @@
                 android:layout_toLeftOf="@id/iv_small_1"
                 android:layout_marginRight="10dp"
                 android:textColor="#333333"
-                android:textSize="20sp"
+                android:textSize="19sp"
                 android:maxLines="2"
                 android:ellipsize="end"/>
 
@@ -49,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/iv_small_1"
                 android:layout_below="@id/tv_title_1"
+                android:lineSpacingMultiplier="1.2"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:textColor="#999999"
@@ -86,6 +89,7 @@
     </LinearLayout>
    <LinearLayout
        android:id="@+id/ll_item_2"
+       android:layout_marginTop="5dp"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="vertical">
@@ -105,7 +109,7 @@
                android:layout_toLeftOf="@id/iv_small_2"
                android:layout_marginRight="10dp"
                android:textColor="#333333"
-               android:textSize="20sp"
+               android:textSize="19sp"
                android:maxLines="2"
                android:ellipsize="end"/>
 
@@ -113,6 +117,7 @@
                android:id="@+id/tv_des_2"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
+               android:lineSpacingMultiplier="1.2"
                android:layout_toLeftOf="@id/iv_small_2"
                android:layout_below="@id/tv_title_2"
                android:layout_marginRight="10dp"

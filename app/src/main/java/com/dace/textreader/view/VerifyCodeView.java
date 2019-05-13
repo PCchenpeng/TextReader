@@ -190,7 +190,7 @@ public class VerifyCodeView extends RelativeLayout {
      */
     private void setColor() {
         int color_default = Color.parseColor("#e5e5e5");
-        int color_focus = Color.parseColor("#ff9933");
+        int color_focus = Color.parseColor("#4D72FF");
         v1.setBackgroundColor(color_default);
         v2.setBackgroundColor(color_default);
         v3.setBackgroundColor(color_default);

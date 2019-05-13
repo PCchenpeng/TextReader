@@ -82,7 +82,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:paddingBottom="16dp"
-                    android:textColor="@color/colorTextOrange"
+                    android:textColor="@color/color_4D72FF"
                     android:textSize="22sp"/>
 
                 <ImageView
@@ -123,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textColor="@color/colorTextOrange"
+                        android:textColor="@color/color_4D72FF"
                         android:textSize="20sp"
                         android:textStyle="bold"/>
 
@@ -133,7 +133,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="分"
-                        android:textColor="@color/colorTextOrange"
+                        android:textColor="@color/color_4D72FF"
                         android:textSize="11sp"/>
                 </LinearLayout>
 
