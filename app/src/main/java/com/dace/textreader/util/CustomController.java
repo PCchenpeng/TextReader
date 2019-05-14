@@ -142,6 +142,9 @@ public class CustomController  extends NiceVideoPlayerController
 
         mCenterStart.setImageResource(R.drawable.article_icon_video);
 
+        mSeek.setThumb(getResources().getDrawable(R.drawable.seek_thumb));
+        mSeek.setProgressDrawable(getResources().getDrawable(R.drawable.seek_progress));
+
         mCenterStart.setOnClickListener(this);
         mBack.setOnClickListener(this);
         mRestartPause.setOnClickListener(this);

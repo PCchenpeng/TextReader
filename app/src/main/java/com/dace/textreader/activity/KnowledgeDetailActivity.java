@@ -112,6 +112,7 @@ public class KnowledgeDetailActivity extends BaseActivity {
                 if (pos != -1 && pos < mList.size()) {
                     recyclerView.smoothScrollToPosition(pos);
                 }
+                showMenu();
             }
         });
     }

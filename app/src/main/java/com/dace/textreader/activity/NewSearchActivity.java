@@ -71,6 +71,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     private String hotUrl = HttpUrlPre.SEARCHE_URL + "/search/select/search/word/list";
     private String searchUrl = HttpUrlPre.SEARCHE_URL + "/search/search/full/text";
     private Refreshpage resh = new Refreshpage();
+    private String searchWord;
 
 
     @Override
@@ -149,6 +150,11 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initData() {
+        if(getIntent().getExtras() != null && getIntent().getExtras().getString("word") != null){
+            searchWord = getIntent().getExtras().getString("word");
+            et_search.setText(searchWord);
+        }
+
         getTestData();
         getHotData();
         resh.handler.postDelayed(resh.runnable, 5000);

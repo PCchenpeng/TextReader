@@ -1,5 +1,124 @@
 package com.dace.textreader.activity;
 
-public class ArticleAppreciationActivity extends BaseActivity{
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.dace.textreader.R;
+import com.dace.textreader.adapter.AppreciationAdapter;
+import com.dace.textreader.bean.AppreciationBean;
+import com.dace.textreader.util.GsonUtil;
+import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.PreferencesUtil;
+import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ArticleAppreciationActivity extends BaseActivity{
+    private RecyclerView recyclerView;
+    private FrameLayout fly_exception;
+    private ImageView iv_edit;
+    private String essayId;
+    private String studentId;
+    private String url = HttpUrlPre.HTTP_URL_+"/select/article/appreciation/list";
+    private int pageNum = 1;
+    private AppreciationAdapter appreciationAdapter;
+    private List<AppreciationBean.DataBean.MyselfBean> mData = new ArrayList<>();
+    private boolean isRefresh = true;
+    private boolean hasMyself;
+    private SmartRefreshLayout refreshLayout;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_appreciation);
+
+        initData();
+        initView();
+        initEvents();
+        getData();
+//        showLoading(fm_exception);
+
+    }
+
+
+
+    private void initData() {
+        essayId = getIntent().getExtras().getString("essayId");
+        studentId = PreferencesUtil.getData(this,"sutdentId","-1").toString();
+    }
+
+    private void initView() {
+        recyclerView = findViewById(R.id.rcl_appreciation);
+        fly_exception = findViewById(R.id.rly_exception);
+        iv_edit = findViewById(R.id.iv_edit);
+
+        appreciationAdapter = new AppreciationAdapter(this, mData);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(appreciationAdapter);
+    }
+
+    private void initEvents() {
+
+    }
+
+    private void getData() {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("essayId",essayId);
+            params.put("studentId",studentId);
+            params.put("pageNum",pageNum);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        OkHttpManager.getInstance(this).requestAsyn(url, OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                AppreciationBean appreciationBean = GsonUtil.GsonToBean(result.toString(),AppreciationBean.class);
+                AppreciationBean.DataBean.MyselfBean myselfBean = appreciationBean.getData().getMyself();
+                List<AppreciationBean.DataBean.MyselfBean> itemData = appreciationBean.getData().getAppreciationList();
+                List<AppreciationBean.DataBean.MyselfBean> refreshData = new ArrayList<>();
+                if(isRefresh){
+                    if(appreciationBean.getData()!= null){
+                        if(myselfBean != null){
+                            refreshData.add(myselfBean);
+                            hasMyself = true;
+                        }
+                        if(itemData != null){
+                            refreshData.addAll(itemData);
+                        }else {
+                            if(!hasMyself){
+                                //没有数据
+                            }
+                        }
+                        appreciationAdapter.refreshData(refreshData);
+                    }
+                }else {
+                    if(itemData != null){
+
+                    }else {
+                        MyToastUtil.showToast(ArticleAppreciationActivity.this,"没有更多了");
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
+
+    }
 }

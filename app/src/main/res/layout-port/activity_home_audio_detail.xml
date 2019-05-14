@@ -53,6 +53,64 @@
 
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_top_land"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rl_back_land"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_back_land"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/picbook_icon_back_lan"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_share_land"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+
+            <ImageView
+                android:id="@+id/iv_share_land"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/picbook_icon_share_lan"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_collect_land"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/rl_share_land">
+            <ImageView
+                android:id="@+id/iv_collect_land"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/picbook_icon_collect_lan"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
@@ -103,9 +161,10 @@
 
         <ImageView
             android:id="@+id/iv_playpause_land"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:src="@drawable/video_icon_play"/>

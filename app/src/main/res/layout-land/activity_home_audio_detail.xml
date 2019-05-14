@@ -11,63 +11,66 @@
         <com.dace.textreader.view.weight.pullrecycler.album.AlbumView
             android:id="@+id/album_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/rl_top"
-            android:layout_above="@id/rl_bottom">
+            android:layout_height="match_parent">
         </com.dace.textreader.view.weight.pullrecycler.album.AlbumView>
     </RelativeLayout>
 
-
-
     <RelativeLayout
-        android:id="@+id/rl_back"
-        android:layout_width="wrap_content"
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/picbook_icon_back_lan"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+
+            <ImageView
+                android:id="@+id/iv_share"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/picbook_icon_share_lan"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/picbook_icon_back_lan"/>
+            android:layout_toLeftOf="@id/rl_share">
+            <ImageView
+                android:id="@+id/iv_collect"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/picbook_icon_collect_lan"/>
+        </RelativeLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
 
-
-        <ImageView
-            android:id="@+id/iv_share"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/picbook_icon_share_lan"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_collect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/rl_share">
-        <ImageView
-            android:id="@+id/iv_collect"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/picbook_icon_collect_lan"/>
-    </RelativeLayout>
 
 
     <RelativeLayout

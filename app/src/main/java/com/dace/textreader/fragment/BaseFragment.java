@@ -71,6 +71,10 @@ public class BaseFragment extends Fragment {
         showDefaultView(frameLayout, R.drawable.image_loading, "", true, false, "", null);
     }
 
+    protected void showEmptyView(FrameLayout frameLayout){
+        showDefaultView(frameLayout, R.drawable.image_state_empty, "暂无内容", false, true, "", null);
+    }
+
     public interface OnButtonClick{
         void onButtonClick();
     }

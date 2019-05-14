@@ -1,5 +1,6 @@
 package com.dace.textreader.activity;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -86,6 +87,20 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
         webSettings.setTextZoom(100);
         //自动加载图片
         webSettings.setLoadsImagesAutomatically(true);
+
+        webSettings.setDatabaseEnabled(true);
+        //取得缓存路径
+        String path = getApplicationContext().getDir("cache", Context.MODE_PRIVATE).getPath();
+        //设置路径
+        webSettings.setDatabasePath(path);
+        //设置支持DomStorage
+        webSettings.setDomStorageEnabled(true);
+        //设置存储模式
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        webSettings.setAppCacheEnabled(true);
+        mWebview.requestFocus();
+
     }
 
 

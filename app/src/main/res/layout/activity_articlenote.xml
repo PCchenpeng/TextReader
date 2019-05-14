@@ -28,6 +28,14 @@
             </RelativeLayout>
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="素材"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"/>
+
+            <TextView
                 android:visibility="gone"
                 android:id="@+id/tv_edit"
                 android:layout_width="wrap_content"

@@ -130,8 +130,10 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private ImageView iv_playpause_land,iv_fullscreen_land;
     private TextView tv_currNum_land,tv_totalNum_land;
-    private RelativeLayout rl_bottom,rl_bottom_land;
+    private RelativeLayout rl_bottom,rl_bottom_land,rl_top_land,rl_top;
     private SeekBar seekBar;
+
+    private long seconds;
 
 
 
@@ -198,6 +200,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         tv_currNum = findViewById(R.id.tv_currNum);
         tv_totalNum = findViewById(R.id.tv_totalNum);
         rl_bottom = findViewById(R.id.rl_bottom);
+        rl_top = findViewById(R.id.rl_top);
 
         iv_back.setOnClickListener(this);
         iv_share.setOnClickListener(this);
@@ -213,6 +216,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             rl_bottom_land = findViewById(R.id.rl_bottom_land);
             tv_currNum_land = findViewById(R.id.tv_currNum_land);
             tv_totalNum_land = findViewById(R.id.tv_totalNum_land);
+            rl_top_land = findViewById(R.id.rl_top_land);
             seekBar = findViewById(R.id.seek_bar);
             iv_playpause_land.setOnClickListener(this);
             iv_fullscreen_land.setOnClickListener(this);
@@ -296,6 +300,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                         layoutParams.height = height;
                         album_view.setLayoutParams(layoutParams);
                         rl_bottom.setVisibility(View.GONE);
+                        rl_top.setVisibility(View.GONE);
+                        rl_top_land.setVisibility(View.VISIBLE);
                         rl_bottom_land.setVisibility(View.VISIBLE);
                     }else {
                         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -334,6 +340,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.iv_fullscreen_land:
                 rl_bottom_land.setVisibility(View.GONE);
+                rl_top_land.setVisibility(View.GONE);
+                rl_top.setVisibility(View.VISIBLE);
                 rl_bottom.setVisibility(View.VISIBLE);
                 break;
         }
@@ -595,16 +603,21 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             album_view.setOnClickListener(new AlbumView.OnClickListener() {
                 @Override
                 public void onClick() {
+                    seconds = 0;
                     if(isPortrait){
                         if(rl_bottom_land.getVisibility() == View.VISIBLE){
                             rl_bottom_land.setVisibility(View.GONE);
+                            rl_top_land.setVisibility(View.GONE);
                         }else {
                             rl_bottom_land.setVisibility(View.VISIBLE);
+                            rl_top_land.setVisibility(View.VISIBLE);
                         }
                     }else {
                         if(rl_bottom.getVisibility() == View.VISIBLE){
+                            rl_top.setVisibility(View.GONE);
                             rl_bottom.setVisibility(View.GONE);
                         }else {
+                            rl_top.setVisibility(View.VISIBLE);
                             rl_bottom.setVisibility(View.VISIBLE);
                         }
                     }
@@ -800,6 +813,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                seconds = seconds + 100;
                 //发出的信息
                 if(mPlayer != null)
                 handler.sendEmptyMessage(mPlayer.getCurrentPosition());
@@ -815,6 +829,19 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
+            if(seconds > 3000 && seconds % 3000 == 0){
+                if(isPortrait){
+                    if(islandspaceBitmap){
+                        rl_top_land.setVisibility(View.GONE);
+                        rl_bottom_land.setVisibility(View.GONE);
+                    }
+                }else {
+                    rl_bottom.setVisibility(View.GONE);
+                    rl_top.setVisibility(View.GONE);
+                }
+            }
+
 
             for(int i=0;i<mData.getData().getEssay().getContentList().size()-1;i++){
                 if(msg.what/100 == mData.getData().getEssay().getContentList().get(i).getSecond()*10){

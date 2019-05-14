@@ -224,8 +224,13 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public void addData(List<ReaderTabSelectItemBean.DataBean> itemata) {
+
+        int start = this.itemData.size()+1;
+        int count = itemData.size();
         this.itemData.addAll(itemata);
-        notifyDataSetChanged();
+        notifyItemRangeChanged(start, count);
+
+//        notifyDataSetChanged();
     }
 
 

@@ -761,6 +761,9 @@
         <activity android:name=".activity.WordDetailActivity"
             android:launchMode="singleTop"
             android:theme="@style/NewMainTheme"/>
+        <activity android:name=".activity.TranslatePageActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/NewMainTheme"/>
         <activity android:name=".activity.ArticleNoteActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

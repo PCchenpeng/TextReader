@@ -31,6 +31,7 @@ public class ArticleNoteActivity extends BaseActivity implements View.OnClickLis
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private RelativeLayout rl_back;
+    private String essayId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class ArticleNoteActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initData() {
+        essayId = getIntent().getExtras().getString("essayId");
+
         mList_title.add("生词");
         mList_title.add("摘抄");
         mList_title.add("想法");
@@ -57,7 +60,7 @@ public class ArticleNoteActivity extends BaseActivity implements View.OnClickLis
         GlossaryFragment glossaryFragment = new GlossaryFragment();
         ExcerptFragment excerptFragment = new ExcerptFragment();
         NoteFragment noteFragment = new NoteFragment();
-        NewAppreciationFragment newAppreciationFragment = new NewAppreciationFragment();
+        NewAppreciationFragment newAppreciationFragment =  NewAppreciationFragment.newInstance(essayId);
         mList_fragment.add(glossaryFragment);
         mList_fragment.add(excerptFragment);
         mList_fragment.add(noteFragment);
@@ -75,6 +78,7 @@ public class ArticleNoteActivity extends BaseActivity implements View.OnClickLis
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(4);
         tabLayout.setViewPager(viewPager);
     }
 

@@ -19,6 +19,7 @@ import com.dace.textreader.bean.ReaderTabSelectTopBean;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -177,6 +178,9 @@ public class ReaderTabSelectFragment extends Fragment {
                             if(itemata != null){
                                 readerTabSelectAdapter.addData(itemata);
                                 refreshLayout.finishLoadMore();
+                            }else {
+                                refreshLayout.finishLoadMore();
+                                MyToastUtil.showToast(getContext(),"没有更多了");
                             }
 
                         }

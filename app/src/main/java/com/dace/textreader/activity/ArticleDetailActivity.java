@@ -281,6 +281,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initWebSettings() {
         WebSettings webSettings = mWebview.getSettings();
         //5.0以上开启混合模式加载
@@ -299,6 +300,19 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         webSettings.setTextZoom(100);
         //自动加载图片
         webSettings.setLoadsImagesAutomatically(true);
+
+        webSettings.setDatabaseEnabled(true);
+        //取得缓存路径
+        String path = getApplicationContext().getDir("cache", Context.MODE_PRIVATE).getPath();
+        //设置路径
+        webSettings.setDatabasePath(path);
+        //设置支持DomStorage
+        webSettings.setDomStorageEnabled(true);
+        //设置存储模式
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        webSettings.setAppCacheEnabled(true);
+        mWebview.requestFocus();
     }
 
     private void initData() {
@@ -333,11 +347,11 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         scroll_view.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if(scrollY > oldScrollY && ((scrollY - oldScrollY) > 15)){
+                if(scrollY > oldScrollY && ((scrollY - oldScrollY) > 30)){
 //                    Log.e("ScrollType","上划");
                     statusView_top.setVisibility(View.GONE);
                     rl_bottom.setVisibility(View.GONE);
-                }else if(oldScrollY > scrollY && (oldScrollY - scrollY) > 15){
+                }else if(oldScrollY > scrollY && (oldScrollY - scrollY) > 30){
 //                    Log.e("ScrollType","下滑");
                     if(scrollY>statusView_top_copy.getHeight()){
                         statusView_top.setVisibility(View.VISIBLE);
@@ -452,6 +466,18 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 ReadSpeedDialog readSpeedDialog = new ReadSpeedDialog(ArticleDetailActivity.this,data);
                 readSpeedDialog.show();
                 Log.e("ReadSpeed", "指定Handler接收来自web的数据：" + data);
+                function.onCallBack("123");
+            }
+        });
+
+        mWebview.registerHandler("toTranslatePage", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                Log.e("toTranslatePage", "指定Handler接收来自web的数据：" + data);
+                Intent intent = new Intent(ArticleDetailActivity.this,TranslatePageActivity.class);
+                intent.putExtra("url",data);
+                intent.putExtra("title",title);
+                startActivity(intent);
                 function.onCallBack("123");
             }
         });
@@ -1300,13 +1326,13 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 PreferencesUtil.saveData(ArticleDetailActivity.this,"backgroundPosition",backgroundPosition);
                 break;
             case R.id.rl_appreciation:
-                 intent = new Intent(ArticleDetailActivity.this,ArticleAppreciationActivity.class);
-//                intent.putExtra("word",s1);
+                intent = new Intent(ArticleDetailActivity.this,ArticleAppreciationActivity.class);
+                intent.putExtra("essayId",essayId);
                 startActivity(intent);
                 break;
             case R.id.rl_note:
                  intent = new Intent(ArticleDetailActivity.this,ArticleNoteActivity.class);
-//                intent.putExtra("word",s1);
+                intent.putExtra("essayId",essayId);
                 startActivity(intent);
                 break;
             case R.id.tv_cancle:

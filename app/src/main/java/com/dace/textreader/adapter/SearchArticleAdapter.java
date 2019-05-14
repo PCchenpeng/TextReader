@@ -1,6 +1,7 @@
 package com.dace.textreader.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.bean.SearchResultBean;
 import com.dace.textreader.bean.SubListBean;
 import com.dace.textreader.util.GlideUtils;
@@ -40,8 +44,12 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //        GlideUtils.loadHomeUserImage(mContext,imgUrl,((ItemHolder)viewHolder).iv_author);
 //        ((ItemHolder)viewHolder).tv_author_name.setText(mData.get(i).getAuthor());
 
-        String imgUrl = mData.get(itemPosition).getImage();
+        final String imgUrl = mData.get(itemPosition).getImage();
         if (imgUrl != null && !imgUrl.equals("") && !imgUrl.equals("null")){
+            GlideApp.with(mContext)
+                    .load(mData.get(itemPosition).getImage())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .preload();
             ((ItemHolder) viewHolder).iv_cover.setVisibility(View.VISIBLE);
             GlideUtils.loadImage(mContext, mData.get(itemPosition).getImage(),
                     ((ItemHolder) viewHolder).iv_cover,4);
@@ -55,9 +63,29 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
         GlideUtils.loadHomeUserImage(mContext, mData.get(itemPosition).getSource_image(),
                 ((ItemHolder) viewHolder).iv_user);
 
-        String category = mData.get(itemPosition).getCategory();
+        final String category = mData.get(itemPosition).getCategory();
         int flag = mData.get(itemPosition).getFlag();
-//        String videoUrl = mData.get(itemPosition)
+        final String id = mData.get(itemPosition).getIndex_id();
+
+        ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                if(category .equals("创作")){
+                    intent = new Intent(mContext, ArticleDetailActivity.class);
+                    intent.putExtra("essayId", id);
+                    intent.putExtra("imgUrl", imgUrl);
+                    intent.putExtra("isVideo",true);
+                }else {
+                    intent = new Intent(mContext, ArticleDetailActivity.class);
+                    intent.putExtra("essayId", id);
+                    intent.putExtra("imgUrl", imgUrl);
+                    intent.putExtra("isVideo",true);
+                }
+
+                mContext.startActivity(intent);
+            }
+        });
 
 
     }
