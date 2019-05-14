@@ -185,20 +185,20 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                 String video = itemList.get(itemPosition).getArticle().getVideo();
                 final String id = itemList.get(itemPosition).getArticle().getId();
                 final int flag = itemList.get(itemPosition).getArticle().getFlag();
-                if(audio != null ){
-                    if(video != null){
-                        ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
-                        ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
-                        ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getVideoTime());
 
-                        ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                onItemClickListener.onClick(VIDEO,id,itemList.get(itemPosition).getArticle().getImage(),flag,-1);
-                            }
-                        });
+                if(video != null){
+                    ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
+                    ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
+                    ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getVideoTime());
 
-                    }else {
+                    ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onItemClickListener.onClick(VIDEO,id,itemList.get(itemPosition).getArticle().getImage(),flag,-1);
+                        }
+                    });
+                }else {
+                    if(audio != null){
                         ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
                         ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
                         ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getScore()+"PY");
@@ -211,26 +211,38 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                                         itemList.get(itemPosition).getArticle().getScore());
                             }
                         });
-                    }
+                    }else {
+                        ((BigHolder) viewHolder).iv_type.setVisibility(View.GONE);
+                        ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getScore()+"PY");
+                        ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int flag = itemList.get(itemPosition).getArticle().getFlag();
+                                String id = itemList.get(itemPosition).getArticle().getId();
+                                if(flag == 0){
+                                    onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getImage(),flag,-1);
+                                }else if(flag == 1){
+                                    onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getImage(),flag,-1);
+                                }
 
-
-                }else {
-                    ((BigHolder) viewHolder).iv_type.setVisibility(View.GONE);
-                    ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getScore()+"PY");
-                    ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int flag = itemList.get(itemPosition).getArticle().getFlag();
-                            String id = itemList.get(itemPosition).getArticle().getId();
-                            if(flag == 0){
-                                onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getImage(),flag,-1);
-                            }else if(flag == 1){
-                                onItemClickListener.onClick(IMG,id,itemList.get(itemPosition).getArticle().getImage(),flag,-1);
                             }
-
-                        }
-                    });
+                        });
+                    }
                 }
+
+
+//                if(audio != null ){
+//                    if(video != null){
+//
+//
+//                    }else {
+//
+//                    }
+//
+//
+//                }else {
+//
+//                }
 
                 break;
             case TYPE_IMG:

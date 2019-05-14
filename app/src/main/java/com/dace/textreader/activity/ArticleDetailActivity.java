@@ -115,7 +115,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private TextView tv_cancle,tv_keep;
     private EditText et_think;
     private String[] textSize = new String[]{"1.0rem", "1.1rem", "1.4rem", "1.6rem", "1.8rem"};  //字体大小
-    private String[] textShowSize = new String[]{"15px", "16px", "18px", "20px", "22px"};
+    private String[] textShowSize = new String[]{"15", "16", "18", "20", "22"};
     private int textSizePosition = 1;
     private String[] textLineSpace = new String[]{"2.4", "2.2", "2.0"};  //行间距
     private int textLineSpacePosition = 1;
@@ -333,13 +333,11 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         scroll_view.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                Log.e("scroll_view",String.valueOf("scrollY = "+scrollY));
-                Log.e("scroll_view",String.valueOf("oldScrollY = "+oldScrollY));
-                if(scrollY > oldScrollY){
+                if(scrollY > oldScrollY && ((scrollY - oldScrollY) > 15)){
 //                    Log.e("ScrollType","上划");
                     statusView_top.setVisibility(View.GONE);
                     rl_bottom.setVisibility(View.GONE);
-                }else {
+                }else if(oldScrollY > scrollY && (oldScrollY - scrollY) > 15){
 //                    Log.e("ScrollType","下滑");
                     if(scrollY>statusView_top_copy.getHeight()){
                         statusView_top.setVisibility(View.VISIBLE);
@@ -1136,7 +1134,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private void refreshH5View() {
         JSONObject params = new JSONObject();
         try {
-            params.put("fontSize",textShowSize[textSizePosition]);
+            params.put("fontSize",textShowSize[textSizePosition]+"px");
             params.put("lineHeight",textLineSpace[textLineSpacePosition]);
             params.put("backgroundColor",background[backgroundPosition]);
             params.put("readModule",readModule);

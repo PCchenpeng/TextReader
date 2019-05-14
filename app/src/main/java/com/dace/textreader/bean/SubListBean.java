@@ -48,6 +48,8 @@ public class SubListBean implements Parcelable {
         dest.writeString(id);
         dest.writeString(category);
         dest.writeString(index_id);
+        dest.writeInt(format);
+        dest.writeString(sentenceNum);
     }
 
     public static final Creator<SubListBean> CREATOR = new Creator<SubListBean>() {
@@ -71,6 +73,8 @@ public class SubListBean implements Parcelable {
             subListBean.id = in.readString();
             subListBean.category = in.readString();
             subListBean.index_id = in.readString();
+            subListBean.format = in.readInt();
+            subListBean.sentenceNum = in.readString();
             return new SubListBean();
         }
 
@@ -99,6 +103,9 @@ public class SubListBean implements Parcelable {
     private String id;
     private String category;
     private String index_id;
+    private int format;
+    private String sentenceNum;
+
 
     public String getDynasty() {
         return dynasty;
@@ -234,5 +241,21 @@ public class SubListBean implements Parcelable {
 
     public void setIndex_id(String index_id) {
         this.index_id = index_id;
+    }
+
+    public int getFormat() {
+        return format;
+    }
+
+    public void setFormat(int format) {
+        this.format = format;
+    }
+
+    public String getSentenceNum() {
+        return sentenceNum;
+    }
+
+    public void setSentenceNum(String sentenceNum) {
+        this.sentenceNum = sentenceNum;
     }
 }

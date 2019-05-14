@@ -114,6 +114,7 @@ public class NewHomeFragment extends Fragment {
 //        iv_search = view.findViewById(R.id.iv_search);
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(4);
         tabLayout.setCustomTabView(R.layout.test_1,R.id.tv_test,2);
         tabLayout.setViewPager(viewPager);
 

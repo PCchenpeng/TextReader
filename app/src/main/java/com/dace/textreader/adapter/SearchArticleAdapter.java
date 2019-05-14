@@ -54,6 +54,12 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
         ((ItemHolder) viewHolder).tv_user.setText(mData.get(itemPosition).getSource());
         GlideUtils.loadHomeUserImage(mContext, mData.get(itemPosition).getSource_image(),
                 ((ItemHolder) viewHolder).iv_user);
+
+        String category = mData.get(itemPosition).getCategory();
+        int flag = mData.get(itemPosition).getFlag();
+//        String videoUrl = mData.get(itemPosition)
+
+
     }
 
     @Override

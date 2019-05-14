@@ -107,13 +107,13 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
         format = getIntent().getIntExtra("format",-1);
         albumId = getIntent().getStringExtra("albumId");
         sentenceNum = getIntent().getStringExtra("sentenceNum");
-        if (getIntent().getStringExtra("sentenceNum").contains(".")){
+        if (sentenceNum != null && sentenceNum.contains(".")){
             Log.d("111","format  " + format + " sentenceNum " + sentenceNum + " albumId " + albumId);
             sentenceNum = getIntent().getStringExtra("sentenceNum").split("\\.")[0];
         }
 
         //format
-        if(!sentenceNum.equals("null")&&!sentenceNum.equals("0")){
+        if(sentenceNum != null && !sentenceNum.equals("null")&&!sentenceNum.equals("0")){
             if(format == 0){
                 titles = new String[]{"章节","名句"};
                 readerTabAlbumDetailListFragment = new  ReaderTabAlbumDetailListFragment();

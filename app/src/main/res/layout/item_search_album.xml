@@ -11,11 +11,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:layout_marginTop="10dp">
         <TextView
             android:id="@+id/tv_album_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:textColor="#333333"
             android:textSize="20sp"/>
         <TextView

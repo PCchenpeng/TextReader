@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -18,6 +19,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -121,12 +124,22 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private String collectUrl = HttpUrlPre.HTTP_URL_ + "/insert/essay/collect";
     private String deleteCollectUrl = HttpUrlPre.HTTP_URL_ + "/delete/essay/collect" ;
 
+    private int bitmipHeight;
+    private int bitmipWidth;
+    private boolean islandspaceBitmap;//是否是高度大于宽度的图片
+
+    private ImageView iv_playpause_land,iv_fullscreen_land;
+    private TextView tv_currNum_land,tv_totalNum_land;
+    private RelativeLayout rl_bottom,rl_bottom_land;
+    private SeekBar seekBar;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_audio_detail);
+//        essayId = "10000004";
         essayId = getIntent().getStringExtra("id");
         pyNum = getIntent().getIntExtra("py",-1);
 
@@ -184,6 +197,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         iv_fullscreen = findViewById(R.id.iv_fullscreen);
         tv_currNum = findViewById(R.id.tv_currNum);
         tv_totalNum = findViewById(R.id.tv_totalNum);
+        rl_bottom = findViewById(R.id.rl_bottom);
 
         iv_back.setOnClickListener(this);
         iv_share.setOnClickListener(this);
@@ -192,6 +206,20 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         iv_fullscreen.setOnClickListener(this);
         if (getLastCustomNonConfigurationInstance() != null) {
             lastIndex = (Integer) getLastCustomNonConfigurationInstance();
+        }
+        if(isPortrait){
+            iv_playpause_land = findViewById(R.id.iv_playpause_land);
+            iv_fullscreen_land = findViewById(R.id.iv_fullscreen_land);
+            rl_bottom_land = findViewById(R.id.rl_bottom_land);
+            tv_currNum_land = findViewById(R.id.tv_currNum_land);
+            tv_totalNum_land = findViewById(R.id.tv_totalNum_land);
+            seekBar = findViewById(R.id.seek_bar);
+            iv_playpause_land.setOnClickListener(this);
+            iv_fullscreen_land.setOnClickListener(this);
+            seekBar.getThumb().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);//设置滑块颜色、样式
+
+            seekBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);//设置进度条颜色、样式
+
         }
     }
 
@@ -259,14 +287,28 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             case R.id.iv_fullscreen:
                 currentIndex = album_view.getCurrentIndex();
                 if(isPortrait){
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    isPortrait = false;
+                    if(islandspaceBitmap){
+                        int width = DensityUtil.getScreenWidth(this);
+
+                        int height = (int)((float)bitmipHeight/bitmipWidth * width);
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) album_view.getLayoutParams();
+                        layoutParams.width = width;
+                        layoutParams.height = height;
+                        album_view.setLayoutParams(layoutParams);
+                        rl_bottom.setVisibility(View.GONE);
+                        rl_bottom_land.setVisibility(View.VISIBLE);
+                    }else {
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                        isPortrait = false;
+                    }
+
                 }else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     isPortrait = true;
                 }
 
                 break;
+            case R.id.iv_playpause_land:
             case R.id.iv_playpause:
                 if(isPortrait){
 //                    if(mPlayer.get){}
@@ -274,11 +316,25 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                     if(mPlayer.isPlaying()){
                         mPlayer.pause();
                         iv_playpause.setImageResource(R.drawable.picbook_btn_play);
+                        iv_playpause_land.setImageResource(R.drawable.video_icon_play);
                     }else {
                         mPlayer.start();
                         iv_playpause.setImageResource(R.drawable.picbook_btn_pause);
+                        iv_playpause_land.setImageResource(R.drawable.video_icon_pause);
+                    }
+                }else {
+                    if(mPlayer.isPlaying()){
+                        mPlayer.pause();
+                        iv_playpause.setImageResource(R.drawable.video_icon_play);
+                    }else {
+                        mPlayer.start();
+                        iv_playpause.setImageResource(R.drawable.video_icon_pause);
                     }
                 }
+                break;
+            case R.id.iv_fullscreen_land:
+                rl_bottom_land.setVisibility(View.GONE);
+                rl_bottom.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -481,6 +537,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
         if(isPortrait){
             tv_totalNum.setText("/"+String.valueOf(albumSize/2));
+            tv_totalNum_land.setText(String.valueOf(albumSize/2));
+            seekBar.setMax(albumSize/2-1);
         }else {
             tv_totalNum.setText(String.valueOf(albumSize/2));
         }
@@ -502,6 +560,10 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 public void onPageEnd(int currentIndex) {
                     isOnPageScroll = false;
                     tv_currNum.setText(String.valueOf(currentIndex+1));
+                    if (isPortrait){
+                        seekBar.setProgress(currentIndex);
+                        tv_currNum_land.setText(String.valueOf(currentIndex+1));
+                    }
                     if(currentIndex == 0){
 
                         if(isAudioComplete){
@@ -516,10 +578,36 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                         if(isAudioComplete){
                             isAudioComplete = false;
                             mPlayer.start();
-                            iv_playpause.setImageResource(R.drawable.picbook_btn_pause);
+                            if(isPortrait){
+                                iv_playpause.setImageResource(R.drawable.picbook_btn_pause);
+                                iv_playpause_land.setImageResource(R.drawable.video_icon_pause);
+                            }else {
+                                iv_playpause.setImageResource(R.drawable.video_icon_pause);
+                            }
+
                         }
                     }
 
+                }
+
+            });
+
+            album_view.setOnClickListener(new AlbumView.OnClickListener() {
+                @Override
+                public void onClick() {
+                    if(isPortrait){
+                        if(rl_bottom_land.getVisibility() == View.VISIBLE){
+                            rl_bottom_land.setVisibility(View.GONE);
+                        }else {
+                            rl_bottom_land.setVisibility(View.VISIBLE);
+                        }
+                    }else {
+                        if(rl_bottom.getVisibility() == View.VISIBLE){
+                            rl_bottom.setVisibility(View.GONE);
+                        }else {
+                            rl_bottom.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
             });
 
@@ -571,6 +659,15 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 //            }
 
             if(imageArray[imageBean.size -1] != null && imageArray[0] != null && imageArray[1] != null){
+                bitmipWidth = imageArray[imageBean.size -1].getWidth();
+                bitmipHeight = imageArray[imageBean.size -1].getHeight();
+                if(bitmipHeight > bitmipWidth){
+                    islandspaceBitmap = true;
+                }else {
+                    islandspaceBitmap = false;
+                }
+                Log.d("bitmapsize", "width: " + bitmipWidth); //400px
+                Log.d("bitmapsize", "height: " + bitmipHeight); //400px
                 initAlbumView(0);
             }
         }
@@ -648,7 +745,13 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             musicThread =new Thread(new MuiscThread());
             // 启动线程
             musicThread.start();
-            iv_playpause.setImageResource(R.drawable.picbook_btn_pause);
+            if(isPortrait){
+                iv_playpause.setImageResource(R.drawable.picbook_btn_pause);
+                iv_playpause_land.setImageResource(R.drawable.video_icon_pause);
+            }else {
+                iv_playpause.setImageResource(R.drawable.video_icon_pause);
+            }
+
 //            }
         }
     };
@@ -723,6 +826,9 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                         Log.e("HomeAudioDetailActivity","currentindex="+String.valueOf(album_view.getCurrentIndex()));
                         album_view.setCurrentIndex(i+1);
                         tv_currNum.setText(String.valueOf(i+2));
+                        if (isPortrait){
+                            seekBar.setProgress(i+1);
+                        }
                     }
 
 

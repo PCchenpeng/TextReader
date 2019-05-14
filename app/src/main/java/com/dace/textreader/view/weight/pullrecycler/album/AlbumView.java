@@ -398,6 +398,10 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
         switch (me.getAction()) {
             case MotionEvent.ACTION_DOWN: {
 
+                if(onClickListener != null){
+                    onClickListener.onClick();
+                }
+
                 // Once we receive pointer down eventits position is mapped to
                 // right or left edge of page and that'll be the position from where
                 // user is holding the paper to make curl happen.
@@ -1594,6 +1598,16 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
 
     public void setOnPageEndListener(PageEndListener pageEndListener){
         this.pageEndListener = pageEndListener;
+    }
+
+    public interface OnClickListener {
+        void onClick();
+    }
+
+    private OnClickListener onClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener){
+        this.onClickListener = onClickListener;
     }
 
 

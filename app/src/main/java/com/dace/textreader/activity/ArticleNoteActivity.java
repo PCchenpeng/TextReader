@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.dace.textreader.R;
 import com.dace.textreader.fragment.ExcerptFragment;
@@ -20,7 +22,7 @@ import com.dace.textreader.view.tab.SmartTabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleNoteActivity extends BaseActivity{
+public class ArticleNoteActivity extends BaseActivity implements View.OnClickListener {
 
     private List<String> mList_title = new ArrayList<>();
     private List<Fragment> mList_fragment = new ArrayList<>();
@@ -28,6 +30,7 @@ public class ArticleNoteActivity extends BaseActivity{
     private SmartTabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
+    private RelativeLayout rl_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class ArticleNoteActivity extends BaseActivity{
     private void initView() {
         tabLayout = findViewById(R.id.tab_layout_new_reader_fragment);
         viewPager = findViewById(R.id.view_pager_new_reader_fragment);
+        rl_back = findViewById(R.id.rl_back);
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
@@ -75,7 +79,16 @@ public class ArticleNoteActivity extends BaseActivity{
     }
 
     private void initEvents() {
+        rl_back.setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.rl_back:
+                finish();
+                break;
+        }
     }
 
     /**

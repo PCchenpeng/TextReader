@@ -1,6 +1,7 @@
 package com.dace.textreader.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ReaderTabAlbumDetailActivity;
 import com.dace.textreader.bean.SearchResultBean;
 import com.dace.textreader.bean.SubListBean;
 import com.dace.textreader.util.GlideUtils;
@@ -38,6 +40,22 @@ public class SearchAlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         GlideUtils.loadImage(mContext,mData.get(i).getImage(),((ItemHolder)viewHolder).iv_img);
         ((ItemHolder)viewHolder).tv_album_name.setText(mData.get(i).getTitle());
         ((ItemHolder)viewHolder).tv_title.setText("#" + mData.get(i).getCategory()+"#");
+
+        final int format = mData.get(i).getFormat();
+        final String sentenceNum = mData.get(i).getSentenceNum();
+        final String albumId = mData.get(i).getIndex_id();
+
+        ((ItemHolder)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,ReaderTabAlbumDetailActivity.class);
+                intent.putExtra("format",format);
+                intent.putExtra("sentenceNum",sentenceNum);
+                intent.putExtra("albumId",albumId);
+                mContext.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
