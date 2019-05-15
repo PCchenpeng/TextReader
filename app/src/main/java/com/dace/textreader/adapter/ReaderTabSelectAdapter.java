@@ -435,7 +435,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
             for(int j=0;j<data.size();j++) {
-                if (data.get(j).getOrderBy().equals("lastUpdate")) {
+                if (data.get(j).getOrderBy().equals("liked")) {
                     ((ItemHolder)viewHolder).tv_title.setText(data.get(j).getArticleList().get(i).getTitle());
                     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
                     params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);

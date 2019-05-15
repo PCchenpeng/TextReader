@@ -45,7 +45,7 @@ public class ReaderTabAlbumFragment extends Fragment {
     private String tab_type;
     public static String  TYPE = "type";
     public static String  TAB_TYPE = "tab_type";
-    private boolean isRefresh = false;
+    private boolean isRefresh = true;
     private int pageNum = 1;
     private List<ReaderTabAlbumTopBean.DataBean> topData = new ArrayList<>();
     private List<ReaderTabAlbumItemBean.DataBean> itemata = new ArrayList<>();
@@ -68,7 +68,7 @@ public class ReaderTabAlbumFragment extends Fragment {
         initData();
         initView();
         loadTopData();
-        loadItemData();;
+        loadItemData();
 
         return view;
     }
