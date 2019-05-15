@@ -16,6 +16,7 @@ import com.dace.textreader.R;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.PreferencesUtil;
 
 public class BaseFragment extends Fragment {
     protected void showDefaultView(FrameLayout frameLayout, int imageResource, String tipsText, boolean isGif, boolean isButton, String buttonText, final OnButtonClick onButtonClick){
@@ -72,7 +73,7 @@ public class BaseFragment extends Fragment {
     }
 
     protected void showEmptyView(FrameLayout frameLayout){
-        showDefaultView(frameLayout, R.drawable.image_state_empty, "暂无内容", false, true, "", null);
+        showDefaultView(frameLayout, R.drawable.image_state_empty, "暂无内容", false, false, "", null);
     }
 
     public interface OnButtonClick{
@@ -93,5 +94,14 @@ public class BaseFragment extends Fragment {
                 }
             }
         });
+    }
+
+    protected boolean isLogin(){
+        Object studeenObj = PreferencesUtil.getData(getContext(),"studentId","-1");
+        if(studeenObj == null)
+            return false;
+        String studentId = studeenObj.toString();
+
+        return !studentId.equals("-1");
     }
 }

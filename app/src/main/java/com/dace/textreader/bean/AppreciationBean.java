@@ -85,7 +85,7 @@ public class AppreciationBean {
             private int start;
             private int student_id;
             private int end;
-            private int id;
+            private String id;
             private long time;
             private int category;
             private String essay_title;
@@ -140,11 +140,11 @@ public class AppreciationBean {
                 this.end = end;
             }
 
-            public int getId() {
+            public String getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(String id) {
                 this.id = id;
             }
 

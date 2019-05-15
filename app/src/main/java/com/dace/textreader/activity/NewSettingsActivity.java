@@ -21,6 +21,7 @@ import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.ImageUtils;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.ShareUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.VersionInfoUtil;
@@ -343,6 +344,11 @@ public class NewSettingsActivity extends BaseActivity implements View.OnClickLis
         SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
         editor.putString("token", "");
         editor.apply();
+
+        PreferencesUtil.saveData(this,"studentId","-1");
+        PreferencesUtil.saveData(this,"gradeId","-1");
+        PreferencesUtil.saveData(this,"token","");
+        PreferencesUtil.saveData(this,"phoneNum","");
 
         broadcastUpdate(HttpUrlPre.ACTION_BROADCAST_USER_EXIT);
 

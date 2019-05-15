@@ -57,6 +57,7 @@ import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.NetWorkUtils;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.VersionInfoUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
@@ -1347,5 +1348,19 @@ public class BaseActivity extends AppCompatActivity {
         frameLayout.removeAllViews();
         frameLayout.addView(view);
         frameLayout.setVisibility(View.VISIBLE);
+    }
+
+    protected boolean isLogin(){
+        Object studeenObj = PreferencesUtil.getData(this,"studentId","-1");
+        if(studeenObj == null)
+            return false;
+        String studentId = studeenObj.toString();
+
+        return !studentId.equals("-1");
+    }
+
+    protected void toLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }

@@ -67,14 +67,5 @@ public class PreferencesUtil {
         return null;
     }
 
-//    /**
-//     * 删除关键字key对应的值
-//     * @param context	应用程序上下文
-//     * @param key		关键字key
-//     */
-//    public static void removeKey(Context context, String key){
-//        getEditor(context).remove(key);
-//        sharedPreferences.apply(getEditor(context));
-//    }
 
 }

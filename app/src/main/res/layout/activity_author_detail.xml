@@ -125,6 +125,7 @@
                         android:orientation="horizontal"
                         android:layout_gravity="center_horizontal|bottom">
                         <TextView
+                            android:id="@+id/button_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"

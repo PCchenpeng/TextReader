@@ -2,6 +2,7 @@ package com.dace.textreader.view.weight.pullrecycler.mywebview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -71,6 +72,12 @@ public class BridgeCustomWebview extends WebView implements WebViewJavascriptBri
     public BridgeCustomWebview(Context context) {
         super(context);
         init();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        Log.e("onPageFinished","onDraw");
     }
 
     /**

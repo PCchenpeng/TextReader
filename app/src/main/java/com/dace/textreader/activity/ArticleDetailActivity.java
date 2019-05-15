@@ -59,6 +59,7 @@ import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.ImageUtils;
+import com.dace.textreader.util.KeyboardUtils;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.ShareUtil;
@@ -97,6 +98,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private String wordDetailUrl = HttpUrlPre.HTTP_URL_ + "/select/fire/word/annotation";
     private String addWordUrl = HttpUrlPre.HTTP_URL_ + "/insert/raw/word";
     private String addNoteUrl = HttpUrlPre.HTTP_URL_ + "/insert/article/note";
+    private String updateUrl = HttpUrlPre.HTTP_URL_ + "/update/article/note";
     private String collectUrl = HttpUrlPre.HTTP_URL_ + "/insert/essay/collect";
     private String deleteCollectUrl = HttpUrlPre.HTTP_URL_ + "/delete/essay/collect" ;
     private String essayId;
@@ -158,6 +160,10 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private String albumId;
     private String sentenceNum;
     private int format;
+    private int keepNoteType = 1;
+
+    private String note;
+    private String noteId;
 
 
 
@@ -257,8 +263,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         mWebview.setOnPageFinished(new BridgeCustomWebview.OnPageFinished() {
             @Override
             public void onPageFinished() {
+                Log.e("onPageFinished","setOnPageFinished");
                 refreshH5View();
-                fm_exception.setVisibility(View.GONE);
             }
         });
         initWebSettings();
@@ -383,9 +389,10 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         mWebview.registerHandler("getMoreTranslateInfo", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
+                Log.e("onPageFinished","registerHandler");
                 Log.e("getMoreTranslateInfo", "指定Handler接收来自web的数据：" + data);
                 String mData = data.replace("\\/","/");
-
+                fm_exception.setVisibility(View.GONE);
                 h5DataBean = GsonUtil.GsonToBean(mData,H5DataBean.class);
                 if(h5DataBean != null){
                     isPageComplete = true;
@@ -482,6 +489,21 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
 
+        mWebview.registerHandler("translateNoteAndIdToAPP", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                try {
+                    JSONObject dataBean = new JSONObject(data);
+                    note = dataBean.getString("note");
+                    noteId = dataBean.getString("id");
+                    showThinkDialog(note,noteId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.e("toTranslatePage", "指定Handler接收来自web的数据：" + data);
+            }
+        });
+
         mWebview.registerHandler("h5IsPlayAudio", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
@@ -570,6 +592,65 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
     }
 
+    private void showThinkDialog(final String note, final String id) {
+        NiceDialog.init()
+                .setLayoutId(R.layout.dialog_article_think)
+                .setConvertListener(new ViewConvertListener() {
+                    @Override
+                    protected void convertView(ViewHolder holder, final BaseNiceDialog dialog) {
+                        LinearLayout ll_delete = holder.getView(R.id.ll_delete);
+                        LinearLayout ll_edit = holder.getView(R.id.ll_edit);
+                        TextView tv_think = holder.getView(R.id.tv_think);
+
+                        final JSONObject params = new JSONObject();
+                        try {
+                            params.put("note",note);
+                            params.put("noteId",id);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        ll_delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mWebview.callHandler("deleteReadNote", params.toString(), new CallBackFunction() {
+                                    @Override
+                                    public void onCallBack(String data) {
+
+//                Lo
+                                        Log.e("deleteReadNote",data);
+
+                                    }
+                                });
+                            }
+                        });
+
+                        ll_edit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(!isLogin()){
+                                    toLogin();
+                                    return;
+                                }
+                                dialog.dismiss();
+                                keepNoteType = 2;
+                                rl_dialog_think.setVisibility(View.VISIBLE);
+                                KeyboardUtils.showKeyboard(et_think);
+                                et_think.setText(note);
+                            }
+                        });
+
+                        tv_think.setText(note);
+
+                    }
+
+
+                })
+                .setOutCancel(true)
+                .setShowBottom(true)
+                .show(getSupportFragmentManager());
+    }
+
     private void showNoteDialog(final String s1,int start,int end) {
         NiceDialog.init()
                 .setLayoutId(R.layout.dialog_article_word_note)
@@ -590,8 +671,15 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         ll_think.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                if(!isLogin()){
+                                    toLogin();
+                                    return;
+                                }
                                 dialog.dismiss();
+                                keepNoteType = 1;
                                 rl_dialog_think.setVisibility(View.VISIBLE);
+                                KeyboardUtils.showKeyboard(et_think);
+                                et_think.setText("");
                             }
                         });
 
@@ -640,28 +728,66 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
     }
+//type 1 插入 2 更新
 
     private void keepNote() {
-            JSONObject params = new JSONObject();
+        if(keepNoteType == 1){
             try {
+                JSONObject params = new JSONObject();
                 params.put("text",selectText);
                 params.put("note",thinkText);
                 params.put("start",selectStart);
                 params.put("end",selectEnd);
-
+                mWebview.callHandler("setTextWithLine", params.toString(), new CallBackFunction() {
+                    @Override
+                    public void onCallBack(String data) {
+                        Log.e("setTextWithLine",data);
+                    }
+                });
+                rl_dialog_think.setVisibility(View.GONE);
+                KeyboardUtils.hideKeyboard(et_think);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            mWebview.callHandler("setTextWithLine", params.toString(), new CallBackFunction() {
-                @Override
-                public void onCallBack(String data) {
+        }else if(keepNoteType == 2){
+            JSONObject params = new JSONObject();
+            try {
+                params.put("studentId",PreferencesUtil.getData(this,"studentId","-1").toString());
+                params.put("noteId",noteId);
+                params.put("note",thinkText);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-//                Lo
-                    Log.e("setTextWithLine",data);
+            OkHttpManager.getInstance(this).requestAsyn(updateUrl, OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+                @Override
+                public void onReqSuccess(Object result) {
+                    try {
+                        JSONObject response = new JSONObject(result.toString());
+                        if(response.getInt("status") == 200){
+                            mWebview.callHandler("reloadNoteData","", new CallBackFunction() {
+                                @Override
+                                public void onCallBack(String data) {
+                                    Log.e("reloadNoteData",data);
+                                }
+                            });
+                            rl_dialog_think.setVisibility(View.GONE);
+                            KeyboardUtils.hideKeyboard(et_think);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onReqFailed(String errorMsg) {
 
                 }
             });
-        rl_dialog_think.setVisibility(View.GONE);
+        }
+
+
+
     }
 
     private void getWordList(String s1) {
@@ -1191,6 +1317,10 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.iv_collect:
             case R.id.iv_collect_copy:
                 if(isPageComplete){
+                    if(!isLogin()){
+                        toLogin();
+                        return;
+                    }
                     if(isCollected)
                         deleteCollect();
                     else
@@ -1203,6 +1333,10 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.iv_share:
             case R.id.iv_share_copy:
                 if (isPageComplete){
+                    if(!isLogin()){
+                        toLogin();
+                        return;
+                    }
                     shareNote("");
                 }else {
                     showTips("请等待页面加载完成");
@@ -1326,20 +1460,34 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 PreferencesUtil.saveData(ArticleDetailActivity.this,"backgroundPosition",backgroundPosition);
                 break;
             case R.id.rl_appreciation:
+                if(!isLogin()){
+                    toLogin();
+                    return;
+                }
                 intent = new Intent(ArticleDetailActivity.this,ArticleAppreciationActivity.class);
                 intent.putExtra("essayId",essayId);
+                intent.putExtra("title",title);
                 startActivity(intent);
                 break;
             case R.id.rl_note:
+                if(!isLogin()){
+                    toLogin();
+                    return;
+                }
                  intent = new Intent(ArticleDetailActivity.this,ArticleNoteActivity.class);
                 intent.putExtra("essayId",essayId);
                 startActivity(intent);
                 break;
             case R.id.tv_cancle:
                 rl_dialog_think.setVisibility(View.GONE);
+                KeyboardUtils.hideKeyboard(et_think);
                 break;
             case R.id.tv_keep:
                 thinkText = et_think.getText().toString();
+                if(thinkText.equals("")){
+                    MyToastUtil.showToast(this,"请输入想法");
+                    return;
+                }
                 keepNote();
                 break;
             case R.id.iv_playvideo:

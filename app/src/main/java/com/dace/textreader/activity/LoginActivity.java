@@ -408,8 +408,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 editor.putString("phoneNum", phoneNum);
                 editor.apply();
 
-                PreferencesUtil.saveData(LoginActivity.this,"studentId",id + "");
-                PreferencesUtil.saveData(LoginActivity.this,"gradeId",gradeId + "");
+                PreferencesUtil.saveData(LoginActivity.this,"studentId",String.valueOf(id));
+                PreferencesUtil.saveData(LoginActivity.this,"gradeId",String.valueOf(gradeId) );
                 PreferencesUtil.saveData(LoginActivity.this,"token",token);
                 PreferencesUtil.saveData(LoginActivity.this,"phoneNum",phoneNum);
                 EventBus.getDefault().postSticky(new MessageEvent(""));

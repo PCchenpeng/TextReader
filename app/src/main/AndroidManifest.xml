@@ -786,6 +786,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/NewMainTheme"/>
+        <activity android:name=".activity.EditAppreciationActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMainTheme"/>
     </application>
 
 </manifest>

@@ -14,7 +14,7 @@ import com.dace.textreader.R;
 import com.dace.textreader.bean.AppreciationBean;
 import com.dace.textreader.util.DateUtil;
 import com.dace.textreader.util.GlideUtils;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
+import com.dace.textreader.view.weight.pullrecycler.ExpandableTextView;
 
 import java.util.List;
 

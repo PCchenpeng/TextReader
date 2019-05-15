@@ -271,6 +271,8 @@
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:layout_margin="10dp"
+            android:textCursorDrawable="@drawable/my_cursor"
+            android:background="#333333"
             android:layout_below="@id/view_dialog_line"/>
     </RelativeLayout>
 

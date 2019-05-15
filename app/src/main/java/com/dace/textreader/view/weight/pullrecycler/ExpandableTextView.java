@@ -42,6 +42,8 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
 
     protected ImageButton mButton; // Button to expand/collapse
 
+    protected TextView mButtonText;
+
     private boolean mRelayout;
 
     private boolean mCollapsed = true; // Show short version as default.
@@ -169,6 +171,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         // Setup with optimistic case
         // i.e. Everything fits. No button needed
         mButton.setVisibility(View.GONE);
+        mButtonText.setVisibility(INVISIBLE);
         mTv.setMaxLines(Integer.MAX_VALUE);
 
         // Measure
@@ -188,6 +191,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
             mTv.setMaxLines(mMaxCollapsedLines);
         }
         mButton.setVisibility(View.VISIBLE);
+        mButtonText.setVisibility(VISIBLE);
 
         // Re-measure with new setup
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -262,7 +266,8 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     private void findViews() {
         mTv =  findViewById(R.id.expandable_text);
         mTv.setOnClickListener(this);
-        mButton = (ImageButton) findViewById(com.ms.square.android.expandabletextview.R.id.expand_collapse);
+        mButton = (ImageButton) findViewById(R.id.expand_collapse);
+        mButtonText = findViewById(R.id.button_text);
         mButton.setImageDrawable(mCollapsed ? mExpandDrawable : mCollapseDrawable);
         mButton.setOnClickListener(this);
     }

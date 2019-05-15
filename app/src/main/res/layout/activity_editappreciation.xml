@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+    <com.dace.textreader.view.StatusBarHeightView
+        android:id="@+id/statusView_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_gradient_home_top"
+        app:use_type="use_padding_top">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <RelativeLayout
+                android:id="@+id/rl_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="5dp">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/cancle_appreciation"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="完成"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+    </com.dace.textreader.view.StatusBarHeightView>
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="#333333"
+        android:textSize="17sp"/>
+
+    <EditText
+        android:id="@+id/edit_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:textCursorDrawable="@drawable/my_cursor_blue"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="请输入正文"
+        android:textSize="16sp"
+        android:textColorHint="#999999"/>
+
+</LinearLayout>
