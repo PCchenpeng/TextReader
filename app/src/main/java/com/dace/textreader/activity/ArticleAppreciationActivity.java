@@ -203,6 +203,10 @@ public class ArticleAppreciationActivity extends BaseActivity implements View.On
                 finish();
                 break;
             case R.id.iv_edit:
+                if(!isLogin()){
+                    toLogin();
+                    return;
+                }
                 Intent intent = new Intent(this,EditAppreciationActivity.class);
                 intent.putExtra("essayId",essayId);
                 intent.putExtra("title",title);

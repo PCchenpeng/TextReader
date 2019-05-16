@@ -96,7 +96,7 @@ public class NotesActivity extends BaseActivity {
 
         mFragment = new NoteFragment();
         mFragment.setAllNotes(isAllNotes);
-        mFragment.setEssayId(essayId);
+        mFragment.setEssayId(String.valueOf(essayId));
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.frame_notes, mFragment, "note").commit();
     }

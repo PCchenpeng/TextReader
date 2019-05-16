@@ -122,7 +122,7 @@ public class WalletDataBean {
              * seq : null
              */
 
-            private int cardId;
+            private String cardId;
             private Object type;
             private String title;
             private String img;
@@ -133,11 +133,11 @@ public class WalletDataBean {
             private Object status;
             private Object seq;
 
-            public int getCardId() {
+            public String  getCardId() {
                 return cardId;
             }
 
-            public void setCardId(int cardId) {
+            public void setCardId(String cardId) {
                 this.cardId = cardId;
             }
 
@@ -228,7 +228,7 @@ public class WalletDataBean {
              * seq : null
              */
 
-            private int cardId;
+            private String cardId;
             private Object type;
             private String title;
             private String img;
@@ -239,11 +239,11 @@ public class WalletDataBean {
             private Object status;
             private Object seq;
 
-            public int getCardId() {
+            public String  getCardId() {
                 return cardId;
             }
 
-            public void setCardId(int cardId) {
+            public void setCardId(String cardId) {
                 this.cardId = cardId;
             }
 

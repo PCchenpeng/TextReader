@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -21,6 +23,8 @@ import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,22 +49,37 @@ import com.bumptech.glide.request.transition.Transition;
 import com.dace.textreader.App;
 import com.dace.textreader.R;
 import com.dace.textreader.adapter.MemberCentreAdapter;
+import com.dace.textreader.bean.CardDetailBean;
+import com.dace.textreader.bean.CardListBean;
 import com.dace.textreader.bean.MemberCardBean;
 import com.dace.textreader.bean.MemberCardRecordBean;
+import com.dace.textreader.bean.MessageEvent;
 import com.dace.textreader.bean.PayResult;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DateUtil;
 import com.dace.textreader.util.DensityUtil;
+import com.dace.textreader.util.GlideRoundImage;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.TipsUtil;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.dace.textreader.view.RoundImageView;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
 import com.dace.textreader.view.dialog.ViewConvertListener;
 import com.dace.textreader.view.dialog.ViewHolder;
+import com.dace.textreader.view.gallyviewpager.GallerAdapter;
+import com.dace.textreader.view.gallyviewpager.GallerViewPager;
+import com.dace.textreader.view.gallyviewpager.ScaleGallerTransformer;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,7 +98,8 @@ import okhttp3.Response;
  */
 public class MemberCentreActivity extends BaseActivity {
 
-    private static final String url = HttpUrlPre.HTTP_URL + "/card/vip";
+    private static final String cardDetailUrl = HttpUrlPre.HTTP_URL + "/card/vip";
+    private String cardListUrl = HttpUrlPre.HTTP_URL + "/select/recommend/card/list";
     private static final String priceUrl = HttpUrlPre.HTTP_URL + "/card/vip/code/identify";
     private static final String wxUrl = HttpUrlPre.HTTP_URL + "/card/vip/purchase/wxpay";
     private static final String aliUrl = HttpUrlPre.HTTP_URL + "/card/vip/purchase/alipay";
@@ -92,11 +112,11 @@ public class MemberCentreActivity extends BaseActivity {
     private RelativeLayout rl_back;
     private TextView tv_title;
     private FrameLayout frameLayout;
-    private RelativeLayout rl_card;
-    private TextView tv_activated;
-    private ImageView iv_card;
-    private TextView tv_card;
-    private TextView tv_card_valid;
+    //    private RelativeLayout rl_card;
+//    private TextView tv_activated;
+//    private ImageView iv_card;
+//    private TextView tv_card;
+//    private TextView tv_card_valid;
     private LinearLayout ll_code;
     private EditText et_code;
     private ImageView iv_clear;
@@ -112,6 +132,7 @@ public class MemberCentreActivity extends BaseActivity {
 
     private String cardId = "";  //卡ID
     private String code = "";  //优惠码
+    private String oldCardId = "";
 
     private boolean activated;
     private boolean isDiscount;
@@ -124,7 +145,9 @@ public class MemberCentreActivity extends BaseActivity {
     private double card_post_price;
     private double card_original_price;
     private double card_price;
+    private int mCurrentIndex = 0;
     private List<MemberCardBean> mList = new ArrayList<>();
+    List<MemberCardRecordBean> recordList = new ArrayList<>();
     private MemberCentreAdapter adapter;
 
     private int pay_way = 0;  //支付方式，默认为0微信，1为支付宝
@@ -135,6 +158,12 @@ public class MemberCentreActivity extends BaseActivity {
     private String paySign;
     private String nonceStr;
     private String prepay_id;
+    private GallerViewPager viewPager;
+    private ViewPagerAdapter viewPagerAdapter;
+    private List<String> imgUrlList = new ArrayList<>();
+    private List<CardListBean.DataBean.ListBean> cardListData = new ArrayList<>();
+    private List<CardDetailBean.DataBean.FunctionsBean> cardDetailData = new ArrayList<>();
+
 
     private int mPosition = -1;  //当前选择的前往选择微课的item的索引
 
@@ -142,10 +171,16 @@ public class MemberCentreActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_centre);
+        EventBus.getDefault().register(this);
 
         mContext = this;
 
+        //修改状态栏的文字颜色为黑色
+        int flag = StatusBarUtil.StatusBarLightMode(mContext);
+        StatusBarUtil.StatusBarLightMode(mContext, flag);
+
         cardId = getIntent().getStringExtra("id");
+        oldCardId = getIntent().getStringExtra("id");
         code = getIntent().getStringExtra("code");
 
         initView();
@@ -162,6 +197,20 @@ public class MemberCentreActivity extends BaseActivity {
         if (isTurnToWx) {
             isTurnToWx = false;
             checkResult();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        if(messageEvent.getMessage().equals("buy_card_success")){
+            loadCardListData();
         }
     }
 
@@ -257,7 +306,9 @@ public class MemberCentreActivity extends BaseActivity {
                         turnToLiveShowLessonChoose(cardId, cardRecordId);
                     } else if (type == 5) {
                         requestAnswerData(cardId);
-                    } else {
+                    } else if(type == 6){
+                        turnToWebView(pos);
+                    }else {
                         showTips("功能正在开发中~");
                     }
                 } else {
@@ -265,8 +316,24 @@ public class MemberCentreActivity extends BaseActivity {
                         turnToMicro(cardId);
                     } else if (type == 3) {
                         turnToLiveShowLessonChoose(cardId, cardRecordId);
+                    }else if(type == 6){
+                        turnToWebView(pos);
+                    }else {
+                        showTips("亲～购买后才可使用哦～");
                     }
                 }
+
+//                if(type == 6){
+
+
+//                    if(recordList.size() > 0 ){
+//                        long id = mList.get(pos).getCardId();
+//                        long card = mList.get(pos).getCardRecordId();
+//                    }
+
+
+//                }
+
             }
         });
         frameLayout.setOnClickListener(new View.OnClickListener() {
@@ -382,20 +449,130 @@ public class MemberCentreActivity extends BaseActivity {
 
     private void initData() {
         showLoadingView(true);
-        new GetData(mContext).execute(url, String.valueOf(NewMainActivity.STUDENT_ID), cardId, code);
+        loadCardListData();
+
+//        new GetData(mContext).execute(cardDetailUrl, String.valueOf(NewMainActivity.STUDENT_ID), cardId, code);
+    }
+
+
+
+    private void loadCardListData() {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("cardId",oldCardId);
+            params.put("pageNum",String.valueOf(1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(this).requestAsyn(cardListUrl, OkHttpManager.TYPE_POST_JSON, params,
+                new OkHttpManager.ReqCallBack<Object>() {
+                    @Override
+                    public void onReqSuccess(Object result) {
+                        CardListBean cardListBean = GsonUtil.GsonToBean(result.toString(),CardListBean.class);
+                        List<CardListBean.DataBean.ListBean> data = cardListBean.getData().getList();
+                        if(cardListData.size()>0){
+                            cardListData.clear();
+
+                        }
+                        cardListData.addAll(data);
+                        cardId = String.valueOf(cardListData.get(0).getCardId());
+//                            loadCardDetailData(String.valueOf(cardListData.get(0).getCardId()));
+//                        new GetData(mContext).execute(cardDetailUrl, String.valueOf(NewMainActivity.STUDENT_ID), String.valueOf("2333"), code);
+                        if(mCurrentIndex != 0){
+                            new GetData(mContext).execute(cardDetailUrl, String.valueOf(NewMainActivity.STUDENT_ID), String.valueOf(cardListData.get(mCurrentIndex).getCardId()), code);
+                        }else {
+                            new GetData(mContext).execute(cardDetailUrl, String.valueOf(NewMainActivity.STUDENT_ID), String.valueOf(cardListData.get(0).getCardId()), code);
+                        }
+
+                        viewPagerAdapter.notifyDataSetChanged();
+                        viewPager.setCurrentItem(mCurrentIndex);
+//                        if(data != null){
+//                            cardDetailData.addAll(cardListBean.getData().getFunctions());
+//                        }
+
+
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+
+                        Log.e("errorMsg",errorMsg);
+                    }
+                });
+    }
+
+    private void loadCardDetailData(String cardId) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("cardId",cardId);
+//            params.put("width",DensityUtil.getScreenWidth(this));
+//            params.put("height",DensityUtil.getScreenWidth(this)*194/345);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(this).requestAsyn(cardDetailUrl, OkHttpManager.TYPE_POST_JSON, params,
+                new OkHttpManager.ReqCallBack<Object>() {
+                    @Override
+                    public void onReqSuccess(Object result) {
+                        CardDetailBean cardDetailBean = GsonUtil.GsonToBean(result.toString(),CardDetailBean.class);
+                        List<CardDetailBean.DataBean.FunctionsBean> data = cardDetailBean.getData().getFunctions();
+                        if(cardDetailData.size()>0){
+                            cardDetailData.clear();
+                            cardDetailData.addAll(data);
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+                    }
+                });
     }
 
     private void initView() {
+
+        viewPager = findViewById(R.id.view_pager);
+        viewPagerAdapter = new ViewPagerAdapter();
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setPageTransformer(true, new ScaleGallerTransformer());
+        viewPager.setCurrentItem(0);
+//        viewPager.setDuration(4000);
+//        viewPager.startAutoCycle();
+        viewPager.setSliderTransformDuration(1500, null);
+        viewPager.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+//                Log.e("position","position = "+position);
+
+//                loadCardDetailData(String.valueOf(cardListData.get(position).getCardId()));
+                mCurrentIndex = position;
+                cardId = String.valueOf(cardListData.get(position).getCardId());
+                new GetData(mContext).execute(cardDetailUrl, String.valueOf(NewMainActivity.STUDENT_ID), String.valueOf(cardListData.get(position).getCardId()), code);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         rl_back = findViewById(R.id.rl_page_back_top_layout);
         tv_title = findViewById(R.id.tv_page_title_top_layout);
         tv_title.setText("学霸之路");
 
         frameLayout = findViewById(R.id.frame_member_centre);
-        rl_card = findViewById(R.id.rl_card_member_centre);
-        tv_activated = findViewById(R.id.tv_activated_member_centre);
-        iv_card = findViewById(R.id.iv_card_member_centre);
-        tv_card = findViewById(R.id.tv_card_name_member_centre);
-        tv_card_valid = findViewById(R.id.tv_card_valid_member_centre);
+//        rl_card = findViewById(R.id.rl_card_member_centre);
+//        tv_activated = findViewById(R.id.tv_activated_member_centre);
+//        iv_card = findViewById(R.id.iv_card_member_centre);
+//        tv_card = findViewById(R.id.tv_card_name_member_centre);
+//        tv_card_valid = findViewById(R.id.tv_card_valid_member_centre);
         ll_code = findViewById(R.id.ll_code_member_centre);
         et_code = findViewById(R.id.et_code_member_centre);
         iv_clear = findViewById(R.id.iv_clear_member_centre);
@@ -420,18 +597,18 @@ public class MemberCentreActivity extends BaseActivity {
             et_code.setSelection(code.length());
         }
 
-        int width = DensityUtil.getScreenWidth(mContext);
-        int height = width * 364 / 750;
-        ViewGroup.LayoutParams layoutParams = iv_card.getLayoutParams();
-        layoutParams.height = height;
-
-        int size = width * 30 / 375;
-        int top_size = width * 28 / 375;
-        RelativeLayout.LayoutParams layoutParams_parent = (RelativeLayout.LayoutParams)
-                rl_card.getLayoutParams();
-        layoutParams_parent.leftMargin = size;
-        layoutParams_parent.topMargin = top_size;
-        layoutParams_parent.rightMargin = size;
+//        int width = DensityUtil.getScreenWidth(mContext);
+//        int height = width * 364 / 750;
+//        ViewGroup.LayoutParams layoutParams = iv_card.getLayoutParams();
+//        layoutParams.height = height;
+//
+//        int size = width * 30 / 375;
+//        int top_size = width * 28 / 375;
+//        RelativeLayout.LayoutParams layoutParams_parent = (RelativeLayout.LayoutParams)
+//                rl_card.getLayoutParams();
+//        layoutParams_parent.leftMargin = size;
+//        layoutParams_parent.topMargin = top_size;
+//        layoutParams_parent.rightMargin = size;
     }
 
     /**
@@ -556,6 +733,46 @@ public class MemberCentreActivity extends BaseActivity {
                 String.valueOf(cardId));
     }
 
+    private void turnToWebView(int pos){
+        long id = mList.get(pos).getCardId();
+        String url = "";
+        String paramCode = "";
+        String paramContentHtml ="" ;
+        if(activated){
+            String situation = mList.get(pos).getSituation();
+            try {
+                JSONObject jsonObject = new JSONObject(situation);
+                url = jsonObject.getString("link");
+                paramCode = jsonObject.getString("code");
+                paramContentHtml  = jsonObject.getString("contentHtml");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+
+            url = mList.get(pos).getOutSourcing();
+        }
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtra("url",url);
+        intent.putExtra("paramCode",paramCode);
+        intent.putExtra("paramContentHtml",paramContentHtml);
+        intent.putExtra("activated",activated);
+        intent.putExtra("isDiscount",isDiscount);
+        intent.putExtra("cardId",cardId);
+        intent.putExtra("code",code);
+        intent.putExtra("id",id);
+        if(isDiscount){
+            intent.putExtra("card_post_price",card_original_price);
+            intent.putExtra("card_original_price",card_price);
+        }else {
+            intent.putExtra("card_post_price",card_post_price);
+            intent.putExtra("card_original_price",card_original_price);
+        }
+
+
+        startActivity(intent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -660,7 +877,7 @@ public class MemberCentreActivity extends BaseActivity {
             return;
         }
         if (show) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.view_loading, null);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.view_author_loading, null);
             ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
             GlideUtils.loadGIFImageWithNoOptions(mContext, R.drawable.image_loading, iv_loading);
             frameLayout.removeAllViews();
@@ -707,13 +924,15 @@ public class MemberCentreActivity extends BaseActivity {
                     memberCardBean.setCardName(fuc.getString("name"));
                     memberCardBean.setCardDescription(fuc.getString("description"));
                     memberCardBean.setCardType(fuc.optInt("category", -1));
+                    memberCardBean.setOutSourcing(fuc.getString("outsourcing"));
                     mList.add(memberCardBean);
                 }
 
                 if (activated) {
+                    recordList.clear();
                     JSONObject card_detail = object.getJSONObject("cardRecord");
                     card_valid = DateUtil.timedate(card_detail.getString("stopTime"));
-                    List<MemberCardRecordBean> list = new ArrayList<>();
+//                    List<MemberCardRecordBean> list = new ArrayList<>();
                     JSONArray array_record = object.getJSONArray("functionRecord");
                     for (int i = 0; i < array_record.length(); i++) {
                         MemberCardRecordBean memberCardRecordBean = new MemberCardRecordBean();
@@ -721,9 +940,10 @@ public class MemberCentreActivity extends BaseActivity {
                         memberCardRecordBean.setCardId(object_record.optLong("cardId", 0));
                         memberCardRecordBean.setCount(object_record.optInt("times", -1));
                         memberCardRecordBean.setRecordId(object_record.optLong("id", -1));
-                        list.add(memberCardRecordBean);
+                        memberCardRecordBean.setSituation(object_record.getString("situation"));
+                        recordList.add(memberCardRecordBean);
                     }
-                    updateData(list);
+                    updateData(recordList);
                 }
 
                 updateUi();
@@ -751,6 +971,7 @@ public class MemberCentreActivity extends BaseActivity {
                 if (mList.get(i).getCardId() == recordBean.getCardId()) {
                     mList.get(i).setCount(recordBean.getCount());
                     mList.get(i).setCardRecordId(recordBean.getRecordId());
+                    mList.get(i).setSituation(recordBean.getSituation());
                 }
             }
         }
@@ -761,13 +982,13 @@ public class MemberCentreActivity extends BaseActivity {
      */
     private void updateUi() {
         if (activated) {
-            tv_activated.setVisibility(View.GONE);
+//            tv_activated.setVisibility(View.GONE);
             ll_code.setVisibility(View.GONE);
             ll_price.setVisibility(View.GONE);
             String valid = "有效期至：" + card_valid;
-            tv_card_valid.setText(valid);
+//            tv_card_valid.setText(valid);
         } else {
-            tv_activated.setVisibility(View.VISIBLE);
+//            tv_activated.setVisibility(View.VISIBLE);
             if (isDiscount) {
                 ll_code.setVisibility(View.GONE);
             } else {
@@ -775,7 +996,7 @@ public class MemberCentreActivity extends BaseActivity {
             }
             ll_price.setVisibility(View.VISIBLE);
         }
-        GlideUtils.loadImage(mContext, card_image, iv_card);
+//        GlideUtils.loadImage(mContext, card_image, iv_card);
 
         if (isDestroyed()) {
             return;
@@ -789,7 +1010,7 @@ public class MemberCentreActivity extends BaseActivity {
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        iv_card.setImageResource(R.drawable.image_placeholder_rectangle);
+//                        iv_card.setImageResource(R.drawable.image_placeholder_rectangle);
                         return false;
                     }
 
@@ -801,11 +1022,11 @@ public class MemberCentreActivity extends BaseActivity {
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        iv_card.setImageBitmap(resource);
+//                        iv_card.setImageBitmap(resource);
                     }
                 });
 
-        tv_card.setText(card_name);
+//        tv_card.setText(card_name);
         tv_welfare.setText(card_welfare);
         tv_welfare_detail.setText(card_welfare_detail);
         adapter.setActivated(activated);
@@ -1098,6 +1319,14 @@ public class MemberCentreActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 显示吐丝
+     *
+     * @param tips
+     */
+//    private void showTips(String tips) {
+//        MyToastUtil.showToast(mContext, tips);
+//    }
 
     /**
      * 获取数据
@@ -1353,6 +1582,55 @@ public class MemberCentreActivity extends BaseActivity {
                 activity.analyzeAnswerData(s);
             }
         }
+    }
+
+
+    class ViewPagerAdapter extends GallerAdapter {
+
+        @Override
+        public int getGallerSize() {
+            return cardListData.size();
+        }
+
+        @Override
+        public View getItemView(int position) {
+            View view = LayoutInflater.from(MemberCentreActivity.this).inflate(R.layout.fragment_membercenter_top, null);
+            RoundImageView iv_img =  view.findViewById(R.id.iv_img);
+            TextView tv_activated =  view.findViewById(R.id.tv_activated_member_centre);
+            boolean activated = cardListData.get(position).isActived();
+            if(activated){
+                String card_valid = DateUtil.timedate(String.valueOf(cardListData.get(position).getStopTime()));
+                tv_activated.setText("有效期至：" + card_valid);
+            }else {
+                tv_activated.setText("未激活");
+            }
+//           GlideUtils.loadImage(MemberCentreActivity.this,cardListData.get(position).getImg(),iv_img);
+            RequestOptions options = new RequestOptions()
+                    .transform(new GlideRoundImage(MemberCentreActivity.this, 8));
+            Glide.with(MemberCentreActivity.this).load(cardListData.get(position).getImg()).into(iv_img);
+
+            return view;
+        }
+    }
+
+    /**
+     * 将base64转为bitmap
+     *
+     * @param string
+     * @return
+     */
+    public Bitmap stringtoBitmap(String string) {
+        // 将字符串转换成Bitmap类型
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray;
+            bitmapArray = Base64.decode(string, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
+                    bitmapArray.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
 }

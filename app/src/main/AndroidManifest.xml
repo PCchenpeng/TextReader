@@ -794,6 +794,11 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NewMainTheme"/>
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

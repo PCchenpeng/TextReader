@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.github.lzyzsd.jsbridge.BridgeWebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.github.lzyzsd.jsbridge.BridgeWebView>
+
+    <com.github.lzyzsd.jsbridge.BridgeWebView
+        android:visibility="gone"
+        android:id="@+id/webView_after"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.github.lzyzsd.jsbridge.BridgeWebView>
+    <RelativeLayout
+        android:id="@+id/rl_back"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/icon_bg_back"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_price_member_centre"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_original_price_member_centre"
+            android:layout_width="195dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:textColor="@color/colorTextOrange"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_price_member_centre"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorOrange"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_member_centre"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

@@ -21,6 +21,26 @@ public class MemberCardBean {
     private int count;  //剩余次数
     private int cardType;  //-1表示没有类型，1表示写作，2表示微课，3表示直播，4表示语音测评，5表示一对一答疑
 
+    public String getSituation() {
+        return situation;
+    }
+
+    public void setSituation(String situation) {
+        this.situation = situation;
+    }
+
+    private String situation;
+
+    public String getOutSourcing() {
+        return outSourcing;
+    }
+
+    public void setOutSourcing(String outSourcing) {
+        this.outSourcing = outSourcing;
+    }
+
+    private String outSourcing;
+
     public MemberCardBean() {
     }
 

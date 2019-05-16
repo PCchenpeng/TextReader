@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.NotesRecyclerViewAdapter;
 import com.dace.textreader.bean.Notes;
@@ -102,7 +103,6 @@ public class NoteFragment extends Fragment {
     private List<Notes> mList = new ArrayList<>();
     private List<Notes> mSelectedList = new ArrayList<>();
 
-    private long essayId = -1;  //文章ID
     private boolean isAllNotes = true;//是否是所有笔记
     private String title = "";
     private String content = "";
@@ -134,6 +134,20 @@ public class NoteFragment extends Fragment {
     private boolean showPractice = false;
     private boolean isChoose = false;
     private int mSelectedPosition = -1;
+    private static String ESSAY_ID = "essay_id";
+    private static String TYPE = "type";//1 文章页 2 个人中心
+    private int type;
+    private static String essayId;
+    public static NoteFragment newInstance(String essayId,int type) {
+
+        Bundle args = new Bundle();
+        args.putString(ESSAY_ID,essayId);
+        args.putInt(TYPE,type);
+        NoteFragment fragment = new NoteFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Nullable
     @Override
@@ -218,33 +232,45 @@ public class NoteFragment extends Fragment {
                 }
             }
         });
+//        adapter.setOnItemClickListener(new NotesRecyclerViewAdapter.OnNotesItemClick() {
+//            @Override
+//            public void onItemClick(View view) {
+//                if (!refreshing) {
+//                    int pos = recyclerView.getChildAdapterPosition(view);
+//                    if (isEditor) {
+//                        itemSelected(pos);
+//                    } else if (isChoose) {
+//                        if (mSelectedPosition == -1) {
+//                            mList.get(pos).setSelected(true);
+//                            adapter.notifyItemChanged(pos);
+//                            mSelectedPosition = pos;
+//                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+//                        } else if (pos == mSelectedPosition) {
+//                            mList.get(pos).setSelected(false);
+//                            adapter.notifyItemChanged(pos);
+//                            mSelectedPosition = -1;
+//                            tv_sure.setBackgroundColor(Color.parseColor("#dddddd"));
+//                        } else {
+//                            mList.get(mSelectedPosition).setSelected(false);
+//                            mList.get(pos).setSelected(true);
+//                            adapter.notifyDataSetChanged();
+//                            mSelectedPosition = pos;
+//                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+//                        }
+//                    }
+//                }
+//            }
+//        });
+
         adapter.setOnItemClickListener(new NotesRecyclerViewAdapter.OnNotesItemClick() {
             @Override
-            public void onItemClick(View view) {
-                if (!refreshing) {
-                    int pos = recyclerView.getChildAdapterPosition(view);
-                    if (isEditor) {
-                        itemSelected(pos);
-                    } else if (isChoose) {
-                        if (mSelectedPosition == -1) {
-                            mList.get(pos).setSelected(true);
-                            adapter.notifyItemChanged(pos);
-                            mSelectedPosition = pos;
-                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
-                        } else if (pos == mSelectedPosition) {
-                            mList.get(pos).setSelected(false);
-                            adapter.notifyItemChanged(pos);
-                            mSelectedPosition = -1;
-                            tv_sure.setBackgroundColor(Color.parseColor("#dddddd"));
-                        } else {
-                            mList.get(mSelectedPosition).setSelected(false);
-                            mList.get(pos).setSelected(true);
-                            adapter.notifyDataSetChanged();
-                            mSelectedPosition = pos;
-                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
-                        }
-                    }
-                }
+            public void onItemClick(Notes notes) {
+                if(type == 1)
+                    return;
+                Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+                intent.putExtra("essayId", String.valueOf(notes.getEssayId()));
+                intent.putExtra("imgUrl","");
+                startActivity(intent);
             }
         });
         adapter.setOnItemShareClickListener(new NotesRecyclerViewAdapter.OnNotesShareItemClick() {
@@ -314,7 +340,7 @@ public class NoteFragment extends Fragment {
         isAllNotes = allNotes;
     }
 
-    public void setEssayId(long essayId) {
+    public void setEssayId(String essayId) {
         this.essayId = essayId;
     }
 
@@ -349,6 +375,8 @@ public class NoteFragment extends Fragment {
     }
 
     private void initView() {
+        essayId = getArguments().getString(ESSAY_ID);
+        type = getArguments().getInt(TYPE);
         frameLayout = view.findViewById(R.id.frame_notes_fragment);
         rl_editor = view.findViewById(R.id.rl_editor_notes_fragment);
         ll_select_all = view.findViewById(R.id.ll_select_all_new_collection_bottom);
@@ -672,6 +700,7 @@ public class NoteFragment extends Fragment {
                 object.put("category", 0);
                 object.put("studentId", NewMainActivity.STUDENT_ID);
                 object.put("pageNum", pageNum);
+                object.put("essayId",essayId);
                 RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(params[0])

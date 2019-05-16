@@ -118,12 +118,12 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private TextView tv_cancle,tv_keep;
     private EditText et_think;
     private String[] textSize = new String[]{"1.0rem", "1.1rem", "1.4rem", "1.6rem", "1.8rem"};  //字体大小
-    private String[] textShowSize = new String[]{"15", "16", "18", "20", "22"};
-    private int textSizePosition = 1;
-    private String[] textLineSpace = new String[]{"2.4", "2.2", "2.0"};  //行间距
+    private String[] textShowSize = new String[]{"15", "16", "17", "18", "19", "20"};
+    private int textSizePosition = 2;
+    private String[] textLineSpace = new String[]{"1.8", "1.6", "1.4"};  //行间距
     private int textLineSpacePosition = 1;
     private String[] background = new String[]{"#FFFFFF", "#FFFBE9", "#EDEDF8", "#DCEBCE"};  //背景色
-    private int backgroundPosition = 1;
+    private int backgroundPosition = 0;
     private String readModule = "1";
     private String imgUrl;
     private ImageView iv_topimg;
@@ -402,6 +402,16 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     videoPlayer.setVisibility(View.GONE);
                 }
 
+                if(imgUrl.equals("")){
+                    imgUrl = h5DataBean.getImage();
+                    GlideApp.with(ArticleDetailActivity.this)
+                            .load(imgUrl)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .centerCrop()
+                            .into(iv_topimg);
+
+                }
+
                 title = h5DataBean.getTitle();
                 if(h5DataBean.getMachineAudioList() != null && h5DataBean.getMachineAudioList().get(0) != null){
                     audioUrl = h5DataBean.getMachineAudioList().get(0).getAudio();
@@ -562,7 +572,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                 shareToQQ(h5DataBean.getShareList().getQq().getLink());
                                 break;
                             case "more":
-                                shareNote("");
+                                shareNote();
                                 break;
                         }
                     }
@@ -1358,11 +1368,11 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.iv_share:
             case R.id.iv_share_copy:
                 if (isPageComplete){
-                    if(!isLogin()){
-                        toLogin();
-                        return;
-                    }
-                    shareNote("");
+//                    if(!isLogin()){
+//                        toLogin();
+//                        return;
+//                    }
+                    shareNote();
                 }else {
                     showTips("请等待页面加载完成");
                 }
@@ -1485,10 +1495,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 PreferencesUtil.saveData(ArticleDetailActivity.this,"backgroundPosition",backgroundPosition);
                 break;
             case R.id.rl_appreciation:
-                if(!isLogin()){
-                    toLogin();
-                    return;
-                }
                 intent = new Intent(ArticleDetailActivity.this,ArticleAppreciationActivity.class);
                 intent.putExtra("essayId",essayId);
                 intent.putExtra("title",title);
@@ -1689,7 +1695,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     /**
      * 分享笔记
      */
-    private void shareNote(final String noteId) {
+    private void shareNote() {
         NiceDialog.init()
                 .setLayoutId(R.layout.dialog_share_layout)
                 .setConvertListener(new ViewConvertListener() {

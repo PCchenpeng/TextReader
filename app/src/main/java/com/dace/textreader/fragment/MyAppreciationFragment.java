@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.EditAppreciationActivity;
 import com.dace.textreader.adapter.AppreciationAdapter;
 import com.dace.textreader.bean.AppreciationBean;
@@ -128,6 +129,16 @@ public class MyAppreciationFragment extends BaseFragment{
                 pageNum = 1;
                 getData();
 
+            }
+        });
+
+        appreciationAdapter.setOnItemClick(new AppreciationAdapter.OnItemClick() {
+            @Override
+            public void onClick(AppreciationBean.DataBean.MyselfBean myselfBean) {
+                Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+                intent.putExtra("essayId", String.valueOf(myselfBean.getEssay_id()));
+                intent.putExtra("imgUrl","");
+                startActivity(intent);
             }
         });
 

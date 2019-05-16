@@ -55,6 +55,7 @@
         android:textCursorDrawable="@drawable/my_cursor_blue"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
         android:hint="请输入正文"
         android:textSize="16sp"
         android:textColorHint="#999999"/>

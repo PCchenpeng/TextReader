@@ -17,6 +17,16 @@ public class MemberCardRecordBean {
     private int count;
     private long recordId;
 
+    public String getSituation() {
+        return situation;
+    }
+
+    public void setSituation(String situation) {
+        this.situation = situation;
+    }
+
+    private String situation;
+
     public MemberCardRecordBean() {
     }
 

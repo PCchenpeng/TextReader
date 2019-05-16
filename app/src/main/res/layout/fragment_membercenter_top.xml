@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.dace.textreader.view.RoundImageView
+        android:id="@+id/iv_img"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/my_card_bg"
+        app:radius="5dp"/>
+    <TextView
+        android:id="@+id/tv_activated_member_centre"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape_gray_bottom_bg"
+        android:gravity="center"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:text="未激活"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp" />
+</RelativeLayout>

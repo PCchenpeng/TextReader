@@ -58,8 +58,8 @@ public class ArticleNoteActivity extends BaseActivity implements View.OnClickLis
         mList_title.add("赏析");
 
         GlossaryFragment glossaryFragment = new GlossaryFragment();
-        ExcerptFragment excerptFragment = new ExcerptFragment();
-        NoteFragment noteFragment = new NoteFragment();
+        ExcerptFragment excerptFragment = ExcerptFragment.newInstance(essayId,1);
+        NoteFragment noteFragment = NoteFragment.newInstance(essayId,1);
         NewAppreciationFragment newAppreciationFragment =  NewAppreciationFragment.newInstance(essayId);
         mList_fragment.add(glossaryFragment);
         mList_fragment.add(excerptFragment);

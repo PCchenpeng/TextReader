@@ -21,8 +21,7 @@ import java.util.List;
  * Created by 70391 on 2017/9/28.
  */
 
-public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements View.OnClickListener {
+public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<Notes> mList;
@@ -40,13 +39,13 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 .inflate(R.layout.item_notes_layout, parent, false);
         //给布局设置点击监听
         ViewHolder holder = new ViewHolder(view);
-        view.setOnClickListener(this);
+//        view.setOnClickListener(this);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        Notes notes = mList.get(position);
+        final Notes notes = mList.get(position);
         ((ViewHolder) holder).tv_title.setText(notes.getTitle());
         if (showTitle) {
             ((ViewHolder) holder).tv_title.setVisibility(View.VISIBLE);
@@ -97,6 +96,13 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
             }
         });
+
+        ((ViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(notes);
+            }
+        });
     }
 
     //跳转到文章页面
@@ -112,15 +118,15 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         return mList.size();
     }
 
-    @Override
-    public void onClick(View v) {
-        if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(v);
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        if (mOnItemClickListener != null) {
+//            mOnItemClickListener.onItemClick(v);
+//        }
+//    }
 
     public interface OnNotesItemClick {
-        void onItemClick(View view);
+        void onItemClick(Notes notes);
     }
 
     private OnNotesItemClick mOnItemClickListener;

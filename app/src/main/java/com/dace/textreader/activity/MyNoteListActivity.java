@@ -57,9 +57,9 @@ public class MyNoteListActivity extends BaseActivity implements View.OnClickList
         mList_title.add("赏析");
 
         GlossaryFragment glossaryFragment = new GlossaryFragment();
-        ExcerptFragment excerptFragment = new ExcerptFragment();
+        ExcerptFragment excerptFragment = ExcerptFragment.newInstance(essayId,2);
         SentenceCollectionFragment sentenceCollectionFragment = new SentenceCollectionFragment();
-        NoteFragment noteFragment = new NoteFragment();
+        NoteFragment noteFragment = NoteFragment.newInstance(essayId,2);
         MyAppreciationFragment myAppreciationFragment =  new MyAppreciationFragment();
         mList_fragment.add(glossaryFragment);
         mList_fragment.add(excerptFragment);
@@ -75,7 +75,7 @@ public class MyNoteListActivity extends BaseActivity implements View.OnClickList
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(5);
         tabLayout.setChangeTextSize(false);
         tabLayout.setViewPager(viewPager);
     }

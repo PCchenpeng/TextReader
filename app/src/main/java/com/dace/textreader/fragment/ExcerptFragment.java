@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ExcerptRecyclerViewAdapter;
 import com.dace.textreader.bean.ExcerptBean;
@@ -104,6 +105,19 @@ public class ExcerptFragment extends Fragment {
     private boolean showPractice = false;
     private boolean isChoose = false;
     private int mSelectedPosition = -1;
+    private static String ESSAY_ID = "essay_id";
+    private static String TYPE = "type";//1 文章页 2 个人中心
+    private static String essayId;
+    private int type;
+    public static ExcerptFragment newInstance(String essayId,int type) {
+
+        Bundle args = new Bundle();
+        args.putString(ESSAY_ID,essayId);
+        args.putInt(TYPE,type);
+        ExcerptFragment fragment = new ExcerptFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -189,33 +203,45 @@ public class ExcerptFragment extends Fragment {
                 }
             }
         });
+//        adapter.setOnItemClickListener(new ExcerptRecyclerViewAdapter.OnExcerptItemClick() {
+//            @Override
+//            public void onItemClick(View view) {
+//                if (!refreshing) {
+//                    int pos = recyclerView.getChildAdapterPosition(view);
+//                    if (isEditor) {
+//                        itemSelected(pos);
+//                    } else if (isChoose) {
+//                        if (mSelectedPosition == -1) {
+//                            mList.get(pos).setSelected(true);
+//                            adapter.notifyItemChanged(pos);
+//                            mSelectedPosition = pos;
+//                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+//                        } else if (pos == mSelectedPosition) {
+//                            mList.get(pos).setSelected(false);
+//                            adapter.notifyItemChanged(pos);
+//                            mSelectedPosition = -1;
+//                            tv_sure.setBackgroundColor(Color.parseColor("#dddddd"));
+//                        } else {
+//                            mList.get(mSelectedPosition).setSelected(false);
+//                            mList.get(pos).setSelected(true);
+//                            adapter.notifyDataSetChanged();
+//                            mSelectedPosition = pos;
+//                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+//                        }
+//                    }
+//                }
+//            }
+//        });
+
         adapter.setOnItemClickListener(new ExcerptRecyclerViewAdapter.OnExcerptItemClick() {
             @Override
-            public void onItemClick(View view) {
-                if (!refreshing) {
-                    int pos = recyclerView.getChildAdapterPosition(view);
-                    if (isEditor) {
-                        itemSelected(pos);
-                    } else if (isChoose) {
-                        if (mSelectedPosition == -1) {
-                            mList.get(pos).setSelected(true);
-                            adapter.notifyItemChanged(pos);
-                            mSelectedPosition = pos;
-                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
-                        } else if (pos == mSelectedPosition) {
-                            mList.get(pos).setSelected(false);
-                            adapter.notifyItemChanged(pos);
-                            mSelectedPosition = -1;
-                            tv_sure.setBackgroundColor(Color.parseColor("#dddddd"));
-                        } else {
-                            mList.get(mSelectedPosition).setSelected(false);
-                            mList.get(pos).setSelected(true);
-                            adapter.notifyDataSetChanged();
-                            mSelectedPosition = pos;
-                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
-                        }
-                    }
-                }
+            public void onItemClick(ExcerptBean itemData) {
+                if(type == 1)
+                    return;
+                Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+                intent.putExtra("essayId", String.valueOf(itemData.getEssayId()));
+                intent.putExtra("imgUrl","");
+                startActivity(intent);
             }
         });
         tv_sure.setOnClickListener(new View.OnClickListener() {
@@ -291,6 +317,8 @@ public class ExcerptFragment extends Fragment {
     }
 
     private void initView() {
+        essayId = getArguments().getString(ESSAY_ID);
+        type = getArguments().getInt(TYPE);
         frameLayout = view.findViewById(R.id.frame_excerpt_fragment);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_excerpt_fragment);
         swipeRefreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
@@ -568,6 +596,7 @@ public class ExcerptFragment extends Fragment {
                 object.put("category", 1);
                 object.put("studentId", NewMainActivity.STUDENT_ID);
                 object.put("pageNum", pageNum);
+                object.put("essayId",essayId);
                 RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(params[0])

@@ -41,6 +41,14 @@ public class AppreciationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ((ItemHolder)viewHolder).expTv1.setText(mData.get(i).getNote());
         ((ItemHolder)viewHolder).tv_time.setText(DateUtil.timedate(String.valueOf(mData.get(i).getTime())));
         GlideUtils.loadUserImage(mContext,mData.get(i).getUserImg(),((ItemHolder)viewHolder).iv_user);
+        final AppreciationBean.DataBean.MyselfBean myselfBean = mData.get(i);
+        ((ItemHolder)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onItemClick != null)
+                    onItemClick.onClick(myselfBean);
+            }
+        });
 
     }
 
@@ -74,4 +82,14 @@ public class AppreciationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             expTv1 = view.findViewById(R.id.expand_text_view);
         }
     }
+
+    public interface OnItemClick{
+        void onClick(AppreciationBean.DataBean.MyselfBean myselfBean);
+    }
+
+    public void setOnItemClick(OnItemClick onItemClick){
+        this.onItemClick = onItemClick;
+    }
+
+    private OnItemClick onItemClick;
 }

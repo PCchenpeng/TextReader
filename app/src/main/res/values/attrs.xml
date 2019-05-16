@@ -83,4 +83,9 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="RoundImageView">
+        <attr name="circle" format="boolean" />
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+
 </resources>

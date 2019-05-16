@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.CardActivity;
 import com.dace.textreader.activity.CouponActivity;
+import com.dace.textreader.activity.MemberCentreActivity;
 import com.dace.textreader.activity.RechargeActivity;
 import com.dace.textreader.bean.WalletDataBean;
 import com.dace.textreader.util.GlideUtils;
@@ -49,7 +50,7 @@ public class WalletAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int position) {
         int viewType = getItemViewType(position);
         Log.e("walletAdapter","position = " + position);
         Log.e("walletAdapter","viewType = " + viewType);
@@ -66,7 +67,10 @@ public class WalletAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     ((TopHolder)viewHolder).iv_img.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            Intent intent = new Intent(mContext, MemberCentreActivity.class);
+                            intent.putExtra("id", mData.getCard().getCardId());
+                            intent.putExtra("code", "");
+                            mContext.startActivity(intent);
                         }
                     });
                     ((TopHolder)viewHolder).tv_charge.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +103,10 @@ public class WalletAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((ItemHolder)viewHolder).iv_img.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent intent = new Intent(mContext, MemberCentreActivity.class);
+                        intent.putExtra("id", mData.getList().get(position - 1).getCardId());
+                        intent.putExtra("code", "");
+                        mContext.startActivity(intent);
                     }
                 });
                 break;

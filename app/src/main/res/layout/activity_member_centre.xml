@@ -3,76 +3,90 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    android:orientation="vertical">
+    android:clipChildren="false"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
 
     <include layout="@layout/top_back_title_layout"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="48dp"
                 android:orientation="vertical">
-
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/iv_card_member_centre"
+                    android:layout_height="200dp"
+                    android:background="@drawable/my_card_bg">
+                    <com.dace.textreader.view.gallyviewpager.GallerViewPager
+                        android:id="@+id/view_pager"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_marginTop="20dp"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false">
 
-                    <RelativeLayout
-                        android:id="@+id/rl_card_member_centre"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/tv_activated_member_centre"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_centerHorizontal="true"
-                            android:background="@drawable/shape_gray_bottom_bg"
-                            android:gravity="center"
-                            android:paddingLeft="7dp"
-                            android:paddingRight="7dp"
-                            android:text="未激活"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="12sp"
-                            android:visibility="gone"/>
-
-                        <TextView
-                            android:id="@+id/tv_card_name_member_centre"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="15dp"
-                            android:textColor="@color/colorTextImportant"
-                            android:textSize="20sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/tv_card_valid_member_centre"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_card_name_member_centre"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="6dp"
-                            android:textColor="@color/colorTextImportant"
-                            android:textSize="14sp"/>
-
-                    </RelativeLayout>
-
+                    </com.dace.textreader.view.gallyviewpager.GallerViewPager>
                 </RelativeLayout>
+
+
+
+                <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="200dp">-->
+
+
+                <!--<ImageView-->
+                <!--android:id="@+id/iv_card_member_centre"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"/>-->
+
+                <!--<RelativeLayout-->
+                <!--android:id="@+id/rl_card_member_centre"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_activated_member_centre"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:background="@drawable/shape_gray_bottom_bg"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingLeft="7dp"-->
+                <!--android:paddingRight="7dp"-->
+                <!--android:text="未激活"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="12sp"-->
+                <!--android:visibility="gone"/>-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_card_name_member_centre"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:textColor="@color/colorTextImportant"-->
+                <!--android:textSize="20sp"-->
+                <!--android:textStyle="bold"/>-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_card_valid_member_centre"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/tv_card_name_member_centre"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginTop="6dp"-->
+                <!--android:textColor="@color/colorTextImportant"-->
+                <!--android:textSize="14sp"/>-->
+
+                <!--</RelativeLayout>-->
+
+                <!--</RelativeLayout>-->
 
                 <LinearLayout
                     android:id="@+id/ll_code_member_centre"
@@ -172,7 +186,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorWhite"
                 android:gravity="center"
-                android:textColor="@color/color_4D72FF"
+                android:textColor="@color/colorTextOrange"
                 android:textSize="14sp"/>
 
             <TextView
@@ -187,12 +201,13 @@
                 android:textStyle="bold"/>
 
         </LinearLayout>
-
         <FrameLayout
             android:id="@+id/frame_member_centre"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+            android:layout_height="match_parent" />
     </RelativeLayout>
+
+
+
 
 </LinearLayout>

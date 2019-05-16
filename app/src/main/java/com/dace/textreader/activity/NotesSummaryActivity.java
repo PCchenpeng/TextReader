@@ -103,7 +103,7 @@ public class NotesSummaryActivity extends BaseActivity {
         NoteFragment noteFragment = new NoteFragment();
         noteFragment.setAllNotes(true);
         noteFragment.setShowPractice(true);
-        noteFragment.setEssayId(-1);
+        noteFragment.setEssayId("-1");
         mList_fragment.add(noteFragment);
 
         AfterReadingFragment afterReadingFragment = new AfterReadingFragment();

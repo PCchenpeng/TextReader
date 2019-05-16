@@ -24,8 +24,7 @@ import java.util.List;
  * Created by 70391 on 2017/9/28.
  */
 
-public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements View.OnClickListener {
+public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private Context mContext;
     private List<ExcerptBean> mList;
@@ -41,7 +40,7 @@ public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 .inflate(R.layout.item_excerpt_list_layout, parent, false);
         //给布局设置点击监听
         ViewHolder holder = new ViewHolder(view);
-        view.setOnClickListener(this);
+//        view.setOnClickListener(this);
         return holder;
     }
 
@@ -99,6 +98,13 @@ public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     ((ViewHolder) holder).iv_more.setImageResource(R.drawable.ic_expand_more_black_24dp);
                     ((ViewHolder) holder).tv_more.setText("展开");
                 }
+            }
+        });
+
+        ((ViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(excerptBean);
             }
         });
     }
@@ -161,15 +167,15 @@ public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         return mList.size();
     }
 
-    @Override
-    public void onClick(View v) {
-        if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(v);
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        if (mOnItemClickListener != null) {
+//            mOnItemClickListener.onItemClick(v);
+//        }
+//    }
 
     public interface OnExcerptItemClick {
-        void onItemClick(View view);
+        void onItemClick(ExcerptBean itemData);
     }
 
     private OnExcerptItemClick mOnItemClickListener;
