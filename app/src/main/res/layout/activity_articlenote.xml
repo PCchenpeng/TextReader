@@ -52,12 +52,11 @@
 
     <com.dace.textreader.view.tab.SmartTabLayout
         android:id="@+id/tab_layout_new_reader_fragment"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         app:stl_defaultTabTextColor="@drawable/color_tab_articlenote"
-        app:stl_defaultTabTextMinWidth="80dp"
         app:stl_defaultTabTextSize="15sp"
         app:stl_dividerColor="@color/colorTransparent"
         app:stl_dividerThickness="0dp"
@@ -65,8 +64,8 @@
         app:stl_indicatorCornerRadius="2dp"
         app:stl_indicatorThickness="4dp"
         app:stl_indicatorWidth="20dp"
-        app:stl_titleOffset="auto_center"
         app:stl_underlineColor="@color/colorTransparent"
+        app:stl_distributeEvenly="true"
         app:stl_underlineThickness="0dp"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_new_reader_fragment"

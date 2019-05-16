@@ -170,7 +170,7 @@ public class ReaderTabAlbumFragment extends Fragment {
                                 refreshLayout.finishLoadMore();
                             }else {
                                 refreshLayout.finishLoadMore();
-                                MyToastUtil.showToast(getContext(),"没有更多了");
+//                                MyToastUtil.showToast(getContext(),"没有更多了");
                             }
 
                         }

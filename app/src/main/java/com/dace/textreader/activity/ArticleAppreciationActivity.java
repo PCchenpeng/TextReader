@@ -143,19 +143,22 @@ public class ArticleAppreciationActivity extends BaseActivity implements View.On
                 if(appreciationBean.getData()!= null){
                     AppreciationBean.DataBean.MyselfBean myselfBean = appreciationBean.getData().getMyself();
                     List<AppreciationBean.DataBean.MyselfBean> itemData = appreciationBean.getData().getAppreciationList();
-                    List<AppreciationBean.DataBean.MyselfBean> refreshData = new ArrayList<>();
+//                    List<AppreciationBean.DataBean.MyselfBean> refreshData = new ArrayList<>();
                     if(isRefresh){
                         if(myselfBean != null){
                             content = myselfBean.getNote();
                             noteId = myselfBean.getId();
-                            refreshData.add(myselfBean);
+//                            refreshData.add(myselfBean);
                             hasMyself = true;
+                            fly_exception.setVisibility(View.GONE);
                         }
                         if(itemData != null){
-                            refreshData.addAll(itemData);
+//                            refreshData.addAll(itemData);
+                            fly_exception.setVisibility(View.GONE);
                         }else {
                             if(!hasMyself){
                                 //没有数据
+                                showEmptyView(fly_exception);
                             }
                         }
                         appreciationAdapter.refreshData(itemData);
@@ -170,7 +173,7 @@ public class ArticleAppreciationActivity extends BaseActivity implements View.On
                 }else {
                     //没有数据
                     if(isRefresh){
-
+                        showEmptyView(fly_exception);
                     }else {
                         MyToastUtil.showToast(ArticleAppreciationActivity.this,"没有更多了");
                     }

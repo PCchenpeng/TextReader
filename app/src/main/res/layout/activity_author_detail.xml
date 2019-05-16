@@ -6,28 +6,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <RelativeLayout
-                android:id="@+id/rl_top"
+            <com.xiao.nicevideoplayer.NiceVideoPlayer
+                android:visibility="gone"
+                android:id="@+id/videoplayer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_topimg"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:scaleType="fitXY"/>
-                <ImageView
-                    android:id="@+id/iv_playvideo"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/article_icon_video"/>
-            </RelativeLayout>
+                android:layout_height="250dp">
+            </com.xiao.nicevideoplayer.NiceVideoPlayer>
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/rl_top"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_topimg"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="250dp"-->
+                    <!--android:scaleType="fitXY"/>-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_playvideo"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:src="@drawable/article_icon_video"/>-->
+            <!--</RelativeLayout>-->
 
             <com.dace.textreader.view.StatusBarHeightView
                 android:id="@+id/statusView_top_copy"
@@ -56,7 +64,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/rl_top"
+                android:layout_below="@id/videoplayer"
                 android:orientation="vertical">
                 <RelativeLayout
                     android:layout_width="match_parent"

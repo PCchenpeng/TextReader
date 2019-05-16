@@ -149,8 +149,8 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
             params.put("studentId",PreferencesUtil.getData(this,"studentId","-1"));
             params.put("gradeId",PreferencesUtil.getData(this,"gradeId","-1"));
             params.put("isShare","0");
-            params.put("sign",sign);
-            params.put("albumId",albumId);
+//            params.put("sign",sign);
+            params.put("albumId",DataEncryption.encode(albumId));
             params.put("width","750");
             params.put("height","420");
 

@@ -28,6 +28,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -53,6 +54,7 @@ import com.dace.textreader.audioUtils.PlayService;
 import com.dace.textreader.service.DownloadService;
 import com.dace.textreader.util.ActivityUtils;
 import com.dace.textreader.util.DataUtil;
+import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
@@ -1338,6 +1340,70 @@ public class BaseActivity extends AppCompatActivity {
         application.removeActivity(mContext);
         super.onDestroy();
     }
+
+
+    protected void showDefaultView(FrameLayout frameLayout, int imageResource, String tipsText, boolean isGif, boolean isButton, String buttonText, final OnButtonClick onButtonClick){
+        View view = LayoutInflater.from(this)
+                .inflate(R.layout.list_default_layout, null);
+
+        ImageView imageView = view.findViewById(R.id.iv_state);
+        if (isGif) {
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+            layoutParams.width = DensityUtil.dip2px(this,110);
+            layoutParams.height = DensityUtil.dip2px(this,110);
+            imageView.setLayoutParams(layoutParams);
+            GlideUtils.loadGIFImageWithNoOptions(this, R.drawable.image_loading, imageView);
+        } else {
+            GlideUtils.loadImageWithNoOptions(this, imageResource, imageView);
+        }
+
+        TextView tv_tips = view.findViewById(R.id.tv_tips);
+        TextView tv_operation = view.findViewById(R.id.tv_operation);
+
+        tv_tips.setText(tipsText);
+        tv_operation.setText(buttonText);
+        if (isButton) {
+            tv_operation.setVisibility(View.VISIBLE);
+            if (onButtonClick != null) {
+                tv_operation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onButtonClick.onButtonClick();
+                    }
+                });
+            }
+        } else {
+            tv_operation.setVisibility(View.GONE);
+        }
+
+        frameLayout.removeAllViews();
+        frameLayout.addView(view);
+        frameLayout.setVisibility(View.VISIBLE);
+        frameLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+    }
+
+    protected void showNetFailView(FrameLayout frameLayout,final OnButtonClick onButtonClick){
+        showDefaultView(frameLayout, R.drawable.image_state_netfail, "加载数据失败，请重试～", false, true, "重新加载", onButtonClick);
+    }
+    protected void showLoadingView(FrameLayout frameLayout){
+        showDefaultView(frameLayout, R.drawable.image_loading, "", true, false, "", null);
+    }
+
+    protected void showEmptyView(FrameLayout frameLayout){
+        showDefaultView(frameLayout, R.drawable.image_state_empty, "暂无内容", false, false, "", null);
+    }
+
+    public interface OnButtonClick{
+        void onButtonClick();
+    }
+
+
 
     protected void showLoading(FrameLayout frameLayout){
         View view = LayoutInflater.from(mContext)

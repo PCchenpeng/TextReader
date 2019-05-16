@@ -482,6 +482,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
      */
     private void analyzeRecommendData(String s) {
         mData = GsonUtil.GsonToBean(s,AudioArticleBean.class);
+        if(mData == null || mData.getStatus() != 200)
+            return;
         audioUrl = mData.getData().getEssay().getAudio();
         title = mData.getData().getEssay().getTitle();
         isCollected = mData.getData().getCollectOrNot() == 1;

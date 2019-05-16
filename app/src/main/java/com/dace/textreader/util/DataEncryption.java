@@ -4,6 +4,7 @@ import android.util.Base64;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 /**
  * 用于数据加密/解密
@@ -122,6 +123,36 @@ public class DataEncryption {
         }
         return sb.toString();
     }
+
+
+
+    public static String encode(String original) {
+        // 加密
+        String str = original;
+        String result = "";
+        Random r = new Random();
+        for (char c : str.toCharArray()) {
+            //将字符转成数字
+            Integer b = Integer.valueOf(c);
+            Integer a = b + 17;
+            // 产生一个 0~9的随机数  r.nextInt(10)
+            result = result + byteAsciiToChar(a) + r.nextInt(10);
+        }
+        String base = "QWERTYUIOPSADFGHJKLZXCVBNMabcdefghijklmnopqrstuvwxyz0123456789-";
+        //产生一个随机数
+        int rondom = r.nextInt(base.length());
+        result = base.charAt(rondom) + result;
+        return result;
+    }
+
+    /**
+     * 同理，ascii转换为char 直接int强制转换为char
+     */
+    public static char byteAsciiToChar(int ascii) {
+        char ch = (char) ascii;
+        return ch;
+    }
+
 
 
 

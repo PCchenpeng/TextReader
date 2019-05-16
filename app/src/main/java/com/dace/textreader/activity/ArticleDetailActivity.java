@@ -55,6 +55,7 @@ import com.dace.textreader.bean.WordDetailBean;
 import com.dace.textreader.bean.WordListBean;
 import com.dace.textreader.listen.OnListDataOperateListen;
 import com.dace.textreader.util.CustomController;
+import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
@@ -238,11 +239,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 .load(imgUrl)
                 .placeholder(R.drawable.img_default)
                 .into(controller.imageView());
-        if(isVideo){
-            videoPlayer.setVisibility(View.VISIBLE);
-        }else {
-            videoPlayer.setVisibility(View.GONE);
-        }
 
         GlideApp.with(this)
                 .load(imgUrl)
@@ -280,7 +276,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         rl_bottom = findViewById(R.id.rl_bottom);
 //        essayId = "10032979";
         url = "https://check.pythe.cn/1readingModule/pyReadDetail0.html?platForm=android&fontSize=18px&readModule=1&py=1&studentId="+
-                NewMainActivity.STUDENT_ID+"&gradeId="+NewMainActivity.GRADE_ID+"&lineHeight=2.4&isShare=0&version=3.2.6&backgroundColor=FFFFFF&essayId="+essayId;
+                NewMainActivity.STUDENT_ID+"&gradeId="+NewMainActivity.GRADE_ID+"&lineHeight=2.4&isShare=0&version=3.2.6&backgroundColor=FFFFFF&essayId="+DataEncryption.encode(essayId);
         mWebview.loadUrl(url);
 
     }
@@ -324,7 +320,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private void initData() {
         imgUrl = getIntent().getStringExtra("imgUrl");
         essayId = getIntent().getStringExtra("essayId");
-        isVideo = getIntent().getBooleanExtra("isVideo",false);
+//        isVideo = getIntent().getBooleanExtra("isVideo",false);
 
         textLineSpacePosition = (int) PreferencesUtil.getData(this,"textLineSpacePosition",0);
         textSizePosition = (int) PreferencesUtil.getData(this,"textSizePosition",0);
@@ -399,6 +395,13 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 }else {
                     isPageComplete = false;
                 }
+
+                if(h5DataBean.getVideo() != null){
+                    videoPlayer.setVisibility(View.VISIBLE);
+                }else {
+                    videoPlayer.setVisibility(View.GONE);
+                }
+
                 title = h5DataBean.getTitle();
                 if(h5DataBean.getMachineAudioList() != null && h5DataBean.getMachineAudioList().get(0) != null){
                     audioUrl = h5DataBean.getMachineAudioList().get(0).getAudio();
@@ -451,7 +454,21 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         mWebview.registerHandler("transportPara", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
+
+                try {
+                    JSONObject params = new JSONObject(data);
+                    Intent intent = new Intent(ArticleDetailActivity.this, ArticleDetailActivity.class);
+                    intent.putExtra("essayId", params.getString("id"));
+                    String imageUrl =  params.getString("imageUrl");
+                    imageUrl = imageUrl.replace("\\/","/");
+                    intent.putExtra("imgUrl",imageUrl);
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Log.e("transportPara", "指定Handler接收来自web的数据：" + data);
+
+
                 function.onCallBack("123");
             }
         });
@@ -664,7 +681,13 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         ll_note.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                if(!isLogin()){
+                                    toLogin();
+                                    return;
+                                }
+
                                 addNote(s1);
+                                dialog.dismiss();
                             }
                         });
 
@@ -831,8 +854,10 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         for (int i = 0;i < wordListBean.getData().getMix().size();i++){
                             View child = View.inflate(ArticleDetailActivity.this,R.layout.item_dialog_word,null);
                             TextView textView = child.findViewById(R.id.tv_num);
+                            TextView textView1 = child.findViewById(R.id.tv_copy);
                             final String word = wordListBean.getData().getMix().get(i).getWord();
                             textView.setText(word);
+                            textView1.setText(word);
                             lwy_word.addView(child);
 
                             final int finalI = i;

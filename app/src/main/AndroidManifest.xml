@@ -790,6 +790,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NewMainTheme"/>
+        <activity android:name=".activity.MyNoteListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMainTheme"/>
     </application>
 
 </manifest>

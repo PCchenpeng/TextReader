@@ -47,11 +47,11 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
         final String imgUrl = mData.get(itemPosition).getImage();
         if (imgUrl != null && !imgUrl.equals("") && !imgUrl.equals("null")){
             GlideApp.with(mContext)
-                    .load(mData.get(itemPosition).getImage())
+                    .load(imgUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .preload();
             ((ItemHolder) viewHolder).iv_cover.setVisibility(View.VISIBLE);
-            GlideUtils.loadImage(mContext, mData.get(itemPosition).getImage(),
+            GlideUtils.loadImage(mContext, imgUrl,
                     ((ItemHolder) viewHolder).iv_cover,4);
         }else {
             ((ItemHolder) viewHolder).iv_cover.setVisibility(View.GONE);
@@ -73,14 +73,19 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Intent intent;
                 if(category .equals("创作")){
                     intent = new Intent(mContext, ArticleDetailActivity.class);
-                    intent.putExtra("essayId", id);
-                    intent.putExtra("imgUrl", imgUrl);
-                    intent.putExtra("isVideo",true);
+                    intent.putExtra("writingId", id);
+                    intent.putExtra("orderNum", "");
+                    intent.putExtra("area", 0);
+
+//                    intent = new Intent(mContext, ArticleDetailActivity.class);
+//                    intent.putExtra("essayId", id);
+//                    intent.putExtra("imgUrl", imgUrl);
+//                    intent.putExtra("isVideo",true);
                 }else {
                     intent = new Intent(mContext, ArticleDetailActivity.class);
                     intent.putExtra("essayId", id);
                     intent.putExtra("imgUrl", imgUrl);
-                    intent.putExtra("isVideo",true);
+//                    intent.putExtra("isVideo",true);
                 }
 
                 mContext.startActivity(intent);

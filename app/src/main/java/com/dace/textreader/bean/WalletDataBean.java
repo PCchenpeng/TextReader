@@ -80,7 +80,7 @@ public class WalletDataBean {
              */
 
             private int couponNum;
-            private int amount;
+            private float amount;
             private int cardNum;
 
             public int getCouponNum() {
@@ -91,11 +91,11 @@ public class WalletDataBean {
                 this.couponNum = couponNum;
             }
 
-            public int getAmount() {
+            public float getAmount() {
                 return amount;
             }
 
-            public void setAmount(int amount) {
+            public void setAmount(float amount) {
                 this.amount = amount;
             }
 

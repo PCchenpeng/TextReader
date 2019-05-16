@@ -34,6 +34,7 @@ import com.dace.textreader.activity.LoginActivity;
 import com.dace.textreader.activity.MaterialListActivity;
 import com.dace.textreader.activity.MemberCentreActivity;
 import com.dace.textreader.activity.MyCompositionActivity;
+import com.dace.textreader.activity.MyNoteListActivity;
 import com.dace.textreader.activity.NewCollectionActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.activity.NewSettingsActivity;
@@ -438,7 +439,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
         if (NewMainActivity.STUDENT_ID == -1) {
             turnToLogin();
         } else {
-            Intent intent = new Intent(getActivity(), MaterialListActivity.class);
+            Intent intent = new Intent(getActivity(), MyNoteListActivity.class);
             intent.putExtra("isWriting", false);
             intent.putExtra("isCorrection", false);
             startActivity(intent);
