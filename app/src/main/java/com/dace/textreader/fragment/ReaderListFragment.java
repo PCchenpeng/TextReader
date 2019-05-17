@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.LoginActivity;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ChildRecyclerViewAdapter;
 import com.dace.textreader.bean.Article;
@@ -216,10 +215,10 @@ public class ReaderListFragment extends Fragment {
      */
     private void turnToArticleDetail(int position) {
         this.position = position;
-        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
-        intent.putExtra("id", mList.get(position).getId());
-        intent.putExtra("type", mList.get(position).getType());
-        startActivityForResult(intent, 0);
+//        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
+//        intent.putExtra("id", mList.get(position).getId());
+//        intent.putExtra("type", mList.get(position).getType());
+//        startActivityForResult(intent, 0);
     }
 
     @Override

@@ -56,7 +56,7 @@ public class MyNoteListActivity extends BaseActivity implements View.OnClickList
         mList_title.add("想法");
         mList_title.add("赏析");
 
-        GlossaryFragment glossaryFragment = new GlossaryFragment();
+        GlossaryFragment glossaryFragment = GlossaryFragment.newInstance(essayId,2);
         ExcerptFragment excerptFragment = ExcerptFragment.newInstance(essayId,2);
         SentenceCollectionFragment sentenceCollectionFragment = new SentenceCollectionFragment();
         NoteFragment noteFragment = NoteFragment.newInstance(essayId,2);

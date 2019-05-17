@@ -50,10 +50,10 @@
     </RelativeLayout>
     </com.dace.textreader.view.StatusBarHeightView>
 
-    <WebView
+    <com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </WebView>
+    </com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview>
 
 </LinearLayout>

@@ -1006,6 +1006,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                         holder.setOnClickListener(R.id.share_to_link, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                DataUtil.copyContent(HomeAudioDetailActivity.this, shareQQUrl);
+                                MyToastUtil.showToast(HomeAudioDetailActivity.this,"复制成功");
                                 dialog.dismiss();
                             }
                         });

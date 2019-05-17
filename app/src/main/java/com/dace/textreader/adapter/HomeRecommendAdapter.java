@@ -189,6 +189,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if(video != null){
                     ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
                     ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
+                    ((BigHolder) viewHolder).tv_py.setVisibility(View.VISIBLE);
                     ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getVideoTime());
 
                     ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -198,10 +199,17 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                         }
                     });
                 }else {
+                    int score = itemList.get(itemPosition).getArticle().getScore();
+                    if(score == 0){
+                        ((BigHolder) viewHolder).tv_py.setVisibility(View.GONE);
+                    }else {
+                        ((BigHolder) viewHolder).tv_py.setVisibility(View.VISIBLE);
+                        ((BigHolder) viewHolder).tv_py.setText(String.valueOf(score)+"PY");
+                    }
                     if(audio != null){
                         ((BigHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
                         ((BigHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
-                        ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getScore()+"PY");
+
 //                        final String py = String.valueOf(itemList.get(itemPosition).getArticle().getScore());
 
                         ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +221,6 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                         });
                     }else {
                         ((BigHolder) viewHolder).iv_type.setVisibility(View.GONE);
-                        ((BigHolder) viewHolder).tv_py.setText(itemList.get(itemPosition).getArticle().getScore()+"PY");
                         ((BigHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

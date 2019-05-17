@@ -56,6 +56,7 @@ import com.dace.textreader.bean.WordListBean;
 import com.dace.textreader.listen.OnListDataOperateListen;
 import com.dace.textreader.util.CustomController;
 import com.dace.textreader.util.DataEncryption;
+import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
@@ -165,6 +166,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
     private String note;
     private String noteId;
+
+    private String authorId;
 
 
 
@@ -392,10 +395,9 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 h5DataBean = GsonUtil.GsonToBean(mData,H5DataBean.class);
                 if(h5DataBean != null){
                     isPageComplete = true;
-                }else {
-                    isPageComplete = false;
                 }
 
+                authorId = h5DataBean.getAuthorId();
                 if(h5DataBean.getVideo() != null){
                     videoPlayer.setVisibility(View.VISIBLE);
                 }else {
@@ -445,10 +447,20 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             }
         });
 
-        mWebview.registerHandler("h5IsPlayAudio", new BridgeHandler() {
+        mWebview.registerHandler("authorDetails", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
                 Log.e("h5IsPlayAudio", "指定Handler接收来自web的数据：" + data);
+
+                if(authorId != null){
+                    Intent intent = new Intent(ArticleDetailActivity.this,AuthorDetailActivity.class);
+                    intent.putExtra("authorId",authorId);
+                    startActivity(intent);
+                }else {
+                    MyToastUtil.showToast(ArticleDetailActivity.this,"亲,该作者暂无介绍哦");
+                }
+
+
                 function.onCallBack("123");
             }
         });
@@ -497,6 +509,11 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         mWebview.registerHandler("evaluateReadSpeedWithResult", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
+                if(!isLogin()){
+                    toLogin();
+                    return;
+                }
+
                 ReadSpeedDialog readSpeedDialog = new ReadSpeedDialog(ArticleDetailActivity.this,data);
                 readSpeedDialog.show();
                 Log.e("ReadSpeed", "指定Handler接收来自web的数据：" + data);
@@ -1749,6 +1766,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         holder.setOnClickListener(R.id.share_to_link, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                DataUtil.copyContent(ArticleDetailActivity.this, h5DataBean.getShareList().getWx().getLink());
+                                MyToastUtil.showToast(ArticleDetailActivity.this,"复制成功");
                                 dialog.dismiss();
                             }
                         });

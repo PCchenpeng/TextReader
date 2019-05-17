@@ -17,10 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.GlossaryRecyclerViewAdapter;
 import com.dace.textreader.bean.GlossaryBean;
 import com.dace.textreader.listen.OnListDataOperateListen;
+import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.WeakAsyncTask;
@@ -40,6 +42,7 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -56,7 +59,7 @@ import okhttp3.Response;
 
 public class GlossaryFragment extends Fragment {
 
-    private static final String url = HttpUrlPre.HTTP_URL + "/personal/rawbook?studentId=";
+    private static final String url = HttpUrlPre.HTTP_URL_ + "/select/raw/word/list";
 
     private View view;
 
@@ -76,7 +79,7 @@ public class GlossaryFragment extends Fragment {
     private GlossaryRecyclerViewAdapter adapter;
     private List<GlossaryBean> mList = new ArrayList<>();
 
-    private int pageNum = 1;
+    private static int pageNum = 1;
     private boolean refreshing = false;
     private boolean isEnd = false;
     private boolean isEditor = false;
@@ -88,6 +91,19 @@ public class GlossaryFragment extends Fragment {
     private boolean showPractice = false;
     private boolean isChoose = false;
     private int mSelectedPosition = -1;
+    private static String ESSAY_ID = "essay_id";
+    private static String TYPE = "type";//1 文章页 2 个人中心
+    private static String essayId;
+    private int type;
+    public static GlossaryFragment newInstance(String essayId,int type) {
+
+        Bundle args = new Bundle();
+        args.putString(ESSAY_ID,essayId);
+        args.putInt(TYPE,type);
+        GlossaryFragment fragment = new GlossaryFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -161,29 +177,41 @@ public class GlossaryFragment extends Fragment {
                 }
             }
         });
+//        adapter.setOnItemClickListen(new GlossaryRecyclerViewAdapter.OnItemClickListen() {
+//            @Override
+//            public void onClick(View view) {
+//                if (isChoose) {
+//                    int pos = recyclerView.getChildAdapterPosition(view);
+//                    if (mSelectedPosition == -1) {
+//                        mList.get(pos).setSelected(true);
+//                        adapter.notifyItemChanged(pos);
+//                        mSelectedPosition = pos;
+//                        tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+//                    } else if (pos == mSelectedPosition) {
+//                        mList.get(pos).setSelected(false);
+//                        adapter.notifyItemChanged(pos);
+//                        mSelectedPosition = -1;
+//                        tv_sure.setBackgroundColor(Color.parseColor("#dddddd"));
+//                    } else {
+//                        mList.get(mSelectedPosition).setSelected(false);
+//                        mList.get(pos).setSelected(true);
+//                        adapter.notifyDataSetChanged();
+//                        mSelectedPosition = pos;
+//                        tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+//                    }
+//                }
+//            }
+//        });
+
         adapter.setOnItemClickListen(new GlossaryRecyclerViewAdapter.OnItemClickListen() {
             @Override
-            public void onClick(View view) {
-                if (isChoose) {
-                    int pos = recyclerView.getChildAdapterPosition(view);
-                    if (mSelectedPosition == -1) {
-                        mList.get(pos).setSelected(true);
-                        adapter.notifyItemChanged(pos);
-                        mSelectedPosition = pos;
-                        tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
-                    } else if (pos == mSelectedPosition) {
-                        mList.get(pos).setSelected(false);
-                        adapter.notifyItemChanged(pos);
-                        mSelectedPosition = -1;
-                        tv_sure.setBackgroundColor(Color.parseColor("#dddddd"));
-                    } else {
-                        mList.get(mSelectedPosition).setSelected(false);
-                        mList.get(pos).setSelected(true);
-                        adapter.notifyDataSetChanged();
-                        mSelectedPosition = pos;
-                        tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
-                    }
-                }
+            public void onClick(GlossaryBean glossaryBean) {
+                if(type == 1)
+                    return;
+                Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+                intent.putExtra("essayId", String.valueOf(glossaryBean.getEssayId()));
+                intent.putExtra("imgUrl","");
+                startActivity(intent);
             }
         });
         tv_sure.setOnClickListener(new View.OnClickListener() {
@@ -250,12 +278,13 @@ public class GlossaryFragment extends Fragment {
             refreshing = true;
             isEnd = false;
             pageNum = 1;
-            new GetData(this).execute(url + NewMainActivity.STUDENT_ID +
-                    "&pageNum=" + pageNum + "&pageSize=10");
+            new GetData(this).execute(url);
         }
     }
 
     private void initView() {
+        essayId = getArguments().getString(ESSAY_ID);
+        type = getArguments().getInt(TYPE);
         frameLayout = view.findViewById(R.id.frame_glossary_fragment);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_glossary_fragment);
         swipeRefreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
@@ -288,9 +317,7 @@ public class GlossaryFragment extends Fragment {
         pageNum++;
         refreshing = true;
         new GetData(this)
-                .execute(url + NewMainActivity.STUDENT_ID +
-                        "&pageNum=" + pageNum +
-                        "&pageSize=" + 10);
+                .execute(url);
     }
 
     /**
@@ -307,12 +334,18 @@ public class GlossaryFragment extends Fragment {
         protected String doInBackground(GlossaryFragment fragment, String[] params) {
             try {
                 OkHttpClient client = new OkHttpClient();
+                JSONObject object = new JSONObject();
+                object.put("studentId", NewMainActivity.STUDENT_ID);
+                object.put("pageNum", pageNum);
+                object.put("essayId",essayId);
+                RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(params[0])
+                        .post(body)
                         .build();
                 Response response = client.newCall(request).execute();
                 return response.body().string();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -358,7 +391,8 @@ public class GlossaryFragment extends Fragment {
                         if (jsonArray.length() != 0) {
                             List<String> list = new ArrayList<>();
                             for (int j = 0; j < jsonArray.length(); j++) {
-                                list.add(jsonArray.getString(j));
+                                JSONObject wordJS = new JSONObject(jsonArray.getString(j));
+                                list.add(wordJS.getString("word"));
                             }
                             glossaryBean.setList(list);
                             glossaryBean.setEditor(false);

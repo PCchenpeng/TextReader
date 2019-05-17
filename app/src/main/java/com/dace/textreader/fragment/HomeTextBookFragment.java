@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.KnowledgeDetailActivity;
 import com.dace.textreader.activity.KnowledgeSummaryActivity;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ClassesArticleRecyclerViewAdapter;
 import com.dace.textreader.adapter.ClassesChooseRecyclerViewAdapter;
@@ -210,10 +209,10 @@ public class HomeTextBookFragment extends BaseFragment{
     private void turnToArticleDetail(int position) {
         long essayId = mList.get(position).getId();
         int type = mList.get(position).getType();
-        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
-        intent.putExtra("id", essayId);
-        intent.putExtra("type", type);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
+//        intent.putExtra("id", essayId);
+//        intent.putExtra("type", type);
+//        startActivity(intent);
     }
 
     private void initKnowledgeData() {

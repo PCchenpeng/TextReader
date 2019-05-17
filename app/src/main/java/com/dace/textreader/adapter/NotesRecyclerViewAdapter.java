@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.bean.Notes;
 
 import java.util.List;
@@ -107,10 +106,10 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     //跳转到文章页面
     private void turnToArticle(long id, int type) {
-        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
-        intent.putExtra("id", id);
-        intent.putExtra("type", type);
-        mContext.startActivity(intent);
+//        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
+//        intent.putExtra("id", id);
+//        intent.putExtra("type", type);
+//        mContext.startActivity(intent);
     }
 
     @Override

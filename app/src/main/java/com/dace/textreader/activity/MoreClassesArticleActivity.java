@@ -130,11 +130,11 @@ public class MoreClassesArticleActivity extends BaseActivity implements View.OnC
      * @param position
      */
     private void turnToArticleDetail(int position) {
-        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
-        intent.putExtra("id", mList.get(position).getId());
-        int type = mList.get(position).getType();
-        intent.putExtra("type", type);
-        startActivityForResult(intent, 0);
+//        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
+//        intent.putExtra("id", mList.get(position).getId());
+//        int type = mList.get(position).getType();
+//        intent.putExtra("type", type);
+//        startActivityForResult(intent, 0);
     }
 
     private void initData() {

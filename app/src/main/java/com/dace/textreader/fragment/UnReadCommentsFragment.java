@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.UnReadCommentAdapter;
 import com.dace.textreader.bean.UnReadComment;
@@ -156,10 +155,10 @@ public class UnReadCommentsFragment extends Fragment {
      * @param position
      */
     private void turnToArticle(int position) {
-        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
-        intent.putExtra("id", mList.get(position).getEssayId());
-        intent.putExtra("type", mList.get(position).getEssayType());
-        startActivityForResult(intent, 0);
+//        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
+//        intent.putExtra("id", mList.get(position).getEssayId());
+//        intent.putExtra("type", mList.get(position).getEssayType());
+//        startActivityForResult(intent, 0);
     }
 
     /**

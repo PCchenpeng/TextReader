@@ -26,6 +26,7 @@ import com.dace.textreader.fragment.ReaderTabAlbumDetailBookFragment;
 import com.dace.textreader.fragment.ReaderTabAlbumDetailListFragment;
 import com.dace.textreader.fragment.ReaderTabAlbumDetailSentenceFragment;
 import com.dace.textreader.util.DataEncryption;
+import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.ImageUtils;
@@ -381,6 +382,8 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                         holder.setOnClickListener(R.id.share_to_link, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                DataUtil.copyContent(ReaderTabAlbumDetailActivity.this, shareQQUrl);
+                                MyToastUtil.showToast(ReaderTabAlbumDetailActivity.this,"复制成功");
                                 dialog.dismiss();
                             }
                         });

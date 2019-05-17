@@ -52,8 +52,11 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void addData(List<ReaderRecommendationBean.DataBean> item){
+        int start = this.itemList.size()+3;
+        int count = item.size();
         this.itemList.addAll(item);
-        notifyDataSetChanged();
+        notifyItemRangeChanged(start, count);
+
     }
 
     public void setChoiceData(List<ReaderChoiceBean.DataBean.EssayListBean> choiceList,String choiceTitle){

@@ -23,7 +23,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.dace.textreader.R;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewClassesActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.activity.NewReaderActivity;
@@ -200,10 +199,10 @@ public class ReaderFragment extends Fragment {
      * @param position
      */
     private void turnToArticleDetail(int position) {
-        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
-        intent.putExtra("id", mList_recommend.get(position).getId());
-        intent.putExtra("type", mList_recommend.get(position).getType());
-        startActivity(intent);
+//        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
+//        intent.putExtra("id", mList_recommend.get(position).getId());
+//        intent.putExtra("type", mList_recommend.get(position).getType());
+//        startActivity(intent);
     }
 
     /**

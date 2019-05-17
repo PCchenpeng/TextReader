@@ -10,13 +10,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.dace.textreader.activity.CompositionDetailActivity;
 import com.dace.textreader.activity.EventsActivity;
 import com.dace.textreader.activity.MicroLessonActivity;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewDailySentenceActivity;
 import com.dace.textreader.activity.StartupPageActivity;
 import com.dace.textreader.util.ActivityUtils;
 import com.dace.textreader.util.HttpUrlPre;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
@@ -125,10 +123,10 @@ public class MyReceiver extends BroadcastReceiver {
                 case 1:
                     long essayId = jsonObject.optLong("productId", -1L);
                     int essayType = jsonObject.optInt("areaType", -1);
-                    Intent intent_essay = new Intent(context, NewArticleDetailActivity.class);
-                    intent_essay.putExtra("id", essayId);
-                    intent_essay.putExtra("type", essayType);
-                    context.startActivity(intent_essay);
+//                    Intent intent_essay = new Intent(context, NewArticleDetailActivity.class);
+//                    intent_essay.putExtra("id", essayId);
+//                    intent_essay.putExtra("type", essayType);
+//                    context.startActivity(intent_essay);
                     break;
                 case 2:
                     long lessonId = Long.valueOf(jsonObject.getString("productId"));

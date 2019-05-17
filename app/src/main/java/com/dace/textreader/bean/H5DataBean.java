@@ -37,7 +37,7 @@ public class H5DataBean {
     private Object audio;
     private String image;
     private String video;
-    private Object authorId;
+    private String authorId;
     private String author;
     private int score;
     private int grade;
@@ -116,11 +116,11 @@ public class H5DataBean {
         this.video = video;
     }
 
-    public Object getAuthorId() {
+    public String getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Object authorId) {
+    public void setAuthorId(String authorId) {
         this.authorId = authorId;
     }
 

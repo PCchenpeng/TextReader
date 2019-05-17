@@ -14,7 +14,6 @@ import com.dace.textreader.R;
 import com.dace.textreader.activity.AuthorActivity;
 import com.dace.textreader.activity.CompositionDetailActivity;
 import com.dace.textreader.activity.GlossaryWordExplainActivity;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.bean.ExcerptBean;
 
 import java.util.List;
@@ -69,20 +68,20 @@ public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             title = "作者信息：" + title;
         }
         ((ViewHolder) holder).tv_title.setText(title);
-        ((ViewHolder) holder).tv_title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (sourceType == 0) {
-                    turnToComposition(String.valueOf(excerptBean.getEssayId()), excerptBean.getEssayType());
-                } else if (sourceType == 1) {
-                    turnToArticle(excerptBean.getEssayId(), excerptBean.getEssayType());
-                } else if (sourceType == 2) {
-                    turnToGlossary(excerptBean.getEssayId(), excerptBean.getEssayTitle());
-                } else if (sourceType == 3) {
-                    turnToAuthor(excerptBean.getEssayTitle());
-                }
-            }
-        });
+//        ((ViewHolder) holder).tv_title.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (sourceType == 0) {
+//                    turnToComposition(String.valueOf(excerptBean.getEssayId()), excerptBean.getEssayType());
+//                } else if (sourceType == 1) {
+//                    turnToArticle(excerptBean.getEssayId(), excerptBean.getEssayType());
+//                } else if (sourceType == 2) {
+//                    turnToGlossary(excerptBean.getEssayId(), excerptBean.getEssayTitle());
+//                } else if (sourceType == 3) {
+//                    turnToAuthor(excerptBean.getEssayTitle());
+//                }
+//            }
+//        });
         ((ViewHolder) holder).tv_time.setText(excerptBean.getTime());
         ((ViewHolder) holder).ll_more.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,12 +127,12 @@ public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
      * @param essayId
      * @param essayType
      */
-    private void turnToArticle(long essayId, int essayType) {
-        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
-        intent.putExtra("id", essayId);
-        intent.putExtra("type", essayType);
-        mContext.startActivity(intent);
-    }
+//    private void turnToArticle(long essayId, int essayType) {
+//        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
+//        intent.putExtra("id", essayId);
+//        intent.putExtra("type", essayType);
+//        mContext.startActivity(intent);
+//    }
 
     /**
      * 前往生词解释

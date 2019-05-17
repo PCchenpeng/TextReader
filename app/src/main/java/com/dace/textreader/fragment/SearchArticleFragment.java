@@ -1,7 +1,6 @@
 package com.dace.textreader.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,44 +11,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.dace.textreader.R;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
-import com.dace.textreader.adapter.RecyclerViewAdapter;
 import com.dace.textreader.adapter.SearchArticleAdapter;
-import com.dace.textreader.bean.Article;
 import com.dace.textreader.bean.SearchItemBean;
 import com.dace.textreader.bean.SearchResultBean;
 import com.dace.textreader.bean.SubListBean;
-import com.dace.textreader.util.DataUtil;
-import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
-import com.dace.textreader.util.MyToastUtil;
-import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * =============================================================================

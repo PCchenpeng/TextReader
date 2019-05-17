@@ -4,9 +4,11 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -15,19 +17,22 @@ import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.ConfirmPopWindow;
+import com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview;
+import com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeHandler;
+import com.dace.textreader.view.weight.pullrecycler.mywebview.CallBackFunction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WordDetailActivity extends BaseActivity implements View.OnClickListener {
 
-    private WebView mWebview;
+    private BridgeCustomWebview mWebview;
     private RelativeLayout rl_back;
     private ImageView iv_add;
     private ImageView iv_more;
     private String url;
     private String addWordUrl = HttpUrlPre.HTTP_URL_ + "/insert/raw/word";
-    private String essayId;
+    private int essayId;
     private String title;
     private String word;
     private String sourceType;
@@ -47,9 +52,8 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
 
     private void initData() {
         url = getIntent().getStringExtra("url");
-//        url = "https://mp.weixin.qq.com/s/n1pfcfdYQlLX4xZsJYGCpQ";
         sourceType = getIntent().getStringExtra("sourceType");
-        essayId = getIntent().getStringExtra("essayId");
+        essayId = getIntent().getIntExtra("essayId",-1);
         title = getIntent().getStringExtra("title");
         word = getIntent().getStringExtra("word");
     }
@@ -67,6 +71,23 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
         rl_back.setOnClickListener(this);
         iv_add.setOnClickListener(this);
         iv_more.setOnClickListener(this);
+
+        mWebview.registerHandler("linkToEssayDetail", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                Log.e("linkToEssayDetail", "指定Handler接收来自web的数据：" + data);
+                function.onCallBack("123");
+            }
+        });
+
+        mWebview.registerHandler("collectWord", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                Log.e("collectWord", "指定Handler接收来自web的数据：" + data);
+                word = data;
+                function.onCallBack("123");
+            }
+        });
     }
 
     private void initWebSettings() {

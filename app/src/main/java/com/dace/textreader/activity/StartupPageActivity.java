@@ -204,11 +204,11 @@ public class StartupPageActivity extends AppCompatActivity {
     private void turnToArticle() {
         Intent[] intents = new Intent[2];
         intents[0] = new Intent(mContext, NewMainActivity.class);
-        intents[1] = new Intent(mContext, NewArticleDetailActivity.class);
-        intents[1].putExtra("id", Long.valueOf(id));
-        intents[1].putExtra("area", essayType);
-        startActivities(intents);
-        finish();
+//        intents[1] = new Intent(mContext, NewArticleDetailActivity.class);
+//        intents[1].putExtra("id", Long.valueOf(id));
+//        intents[1].putExtra("area", essayType);
+//        startActivities(intents);
+//        finish();
     }
 
     /**

@@ -14,7 +14,6 @@ import com.dace.textreader.R;
 import com.dace.textreader.activity.AuthorActivity;
 import com.dace.textreader.activity.CompositionDetailActivity;
 import com.dace.textreader.activity.GlossaryWordExplainActivity;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.bean.GlossaryBean;
 import com.dace.textreader.util.DataUtil;
@@ -39,8 +38,7 @@ import okhttp3.Response;
  * Created by 70391 on 2017/10/24.
  */
 
-public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements View.OnClickListener {
+public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final String deleteUrl = HttpUrlPre.HTTP_URL + "/personal/word/delete/new";
 
@@ -57,7 +55,7 @@ public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.item_glossary_layout, parent, false);
-        view.setOnClickListener(this);
+//        view.setOnClickListener(this);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -121,20 +119,29 @@ public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             title = "作者信息：" + title;
         }
         ((ViewHolder) holder).tv_title.setText(title);
-        ((ViewHolder) holder).tv_title.setOnClickListener(new View.OnClickListener() {
+//        ((ViewHolder) holder).tv_title.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (sourceType == 0) {
+//                    turnToComposition(String.valueOf(glossaryBean.getEssayId()), glossaryBean.getType());
+//                } else if (sourceType == 1) {
+//                    turnToArticle(glossaryBean.getEssayId(), glossaryBean.getType());
+//                } else if (sourceType == 2) {
+//                    turnToWordExplain(glossaryBean.getEssayId(), glossaryBean.getTitle());
+//                } else if (sourceType == 3) {
+//                    turnToAuthor(glossaryBean.getTitle());
+//                }
+//            }
+//        });
+
+        ((ViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sourceType == 0) {
-                    turnToComposition(String.valueOf(glossaryBean.getEssayId()), glossaryBean.getType());
-                } else if (sourceType == 1) {
-                    turnToArticle(glossaryBean.getEssayId(), glossaryBean.getType());
-                } else if (sourceType == 2) {
-                    turnToWordExplain(glossaryBean.getEssayId(), glossaryBean.getTitle());
-                } else if (sourceType == 3) {
-                    turnToAuthor(glossaryBean.getTitle());
-                }
+                if(onItemClickListen != null)
+                    onItemClickListen.onClick(glossaryBean);
             }
         });
+
     }
 
     /**
@@ -156,12 +163,12 @@ public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
      * @param essayId
      * @param essayType
      */
-    private void turnToArticle(long essayId, int essayType) {
-        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
-        intent.putExtra("id", essayId);
-        intent.putExtra("type", essayType);
-        mContext.startActivity(intent);
-    }
+//    private void turnToArticle(long essayId, int essayType) {
+//        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
+//        intent.putExtra("id", essayId);
+//        intent.putExtra("type", essayType);
+//        mContext.startActivity(intent);
+//    }
 
     /**
      * 跳转到词语解释
@@ -198,15 +205,15 @@ public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyDataSetChanged();
     }
 
-    @Override
-    public void onClick(View v) {
-        if (onItemClickListen != null) {
-            onItemClickListen.onClick(v);
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        if (onItemClickListen != null) {
+//            onItemClickListen.onClick(v);
+//        }
+//    }
 
     public interface OnItemClickListen {
-        void onClick(View view);
+        void onClick(GlossaryBean glossaryBean);
     }
 
     private OnItemClickListen onItemClickListen;

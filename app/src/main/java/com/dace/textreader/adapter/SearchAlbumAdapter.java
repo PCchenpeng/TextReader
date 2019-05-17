@@ -77,9 +77,15 @@ public class SearchAlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void addData(List<SubListBean> item){
-        if(item != null)
+        if(item == null)
+            return;
+        int start = this.mData.size()+1;
+        int count = item.size();
         this.mData.addAll(item);
-        notifyDataSetChanged();
+        notifyItemRangeChanged(start, count);
+
+//        this.mData.addAll(item);
+//        notifyDataSetChanged();
     }
 
     public void refreshData(List<SubListBean> item){

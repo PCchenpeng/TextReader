@@ -469,10 +469,10 @@ public class BridgeCustomWebview extends WebView implements WebViewJavascriptBri
                 Log.e("MotionEvent", "offsety = "+String.valueOf(offsety));
                 if (offsetx > offsety ) {
                     getParent().requestDisallowInterceptTouchEvent(true);
-                    Log.e("MotionEvent", "屏蔽了父控件");
+//                    Log.e("MotionEvent", "屏蔽了父控件");
                 } else {
                     getParent().requestDisallowInterceptTouchEvent(false);
-                    Log.e("MotionEvent", "事件传递给父控件");
+//                    Log.e("MotionEvent", "事件传递给父控件");
                 }
 
             default:

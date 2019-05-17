@@ -1052,7 +1052,7 @@ public class BaseActivity extends AppCompatActivity {
                         activity.appUpdateContent = data.getString("content");
                         activity.mDownloadUrl = data.getString("downloadAddress");
                         //检查新版本
-                        activity.checkVersionData();
+//                        activity.checkVersionData();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

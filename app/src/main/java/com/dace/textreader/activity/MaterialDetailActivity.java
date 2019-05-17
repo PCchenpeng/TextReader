@@ -166,10 +166,10 @@ public class MaterialDetailActivity extends BaseActivity implements View.OnClick
             if (0 == jsonObject.optInt("status", -1)) {
                 int type = jsonObject.optInt("type", -1);
                 int essayId = jsonObject.optInt("essayId", -1);
-                Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
-                intent.putExtra("id", essayId);
-                intent.putExtra("type", type);
-                startActivity(intent);
+//                Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
+//                intent.putExtra("id", essayId);
+//                intent.putExtra("type", type);
+//                startActivity(intent);
             } else if (1 == jsonObject.optInt("status", -1)) {
                 int id = jsonObject.optInt("essayId", -1);
                 String s_title = jsonObject.getString("title");

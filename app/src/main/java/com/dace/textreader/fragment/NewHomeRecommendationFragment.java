@@ -13,7 +13,6 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,6 @@ import com.dace.textreader.activity.LoginActivity;
 import com.dace.textreader.activity.MemberCentreActivity;
 import com.dace.textreader.activity.MicroLessonActivity;
 import com.dace.textreader.activity.MyCompositionActivity;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewDailySentenceActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.activity.UserHomepageActivity;
@@ -63,7 +61,6 @@ import com.dace.textreader.view.dialog.ViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
@@ -618,10 +615,10 @@ public class NewHomeRecommendationFragment extends Fragment {
      * @param essayType
      */
     private void turnToArticle(long essayId, int essayType) {
-        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
-        intent.putExtra("id", essayId);
-        intent.putExtra("type", essayType);
-        startActivity(intent);
+//        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
+//        intent.putExtra("id", essayId);
+//        intent.putExtra("type", essayType);
+//        startActivity(intent);
     }
 
     /**

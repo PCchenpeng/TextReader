@@ -120,10 +120,10 @@ public class PointsNewsActivity extends BaseActivity implements View.OnClickList
     private void turnToEssay(int position) {
         long id = Long.valueOf(mList.get(position).getId());
         int type = Integer.valueOf(mList.get(position).getType());
-        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
-        intent.putExtra("id", id);
-        intent.putExtra("type", type);
-        startActivity(intent);
+//        Intent intent = new Intent(mContext, NewArticleDetailActivity.class);
+//        intent.putExtra("id", id);
+//        intent.putExtra("type", type);
+//        startActivity(intent);
     }
 
     /**

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,6 +43,12 @@ public class TranslatePageActivity extends BaseActivity implements View.OnClickL
         tv_title = findViewById(R.id.tv_title);
         tv_title.setText(title);
         initWebSettings();
+        mWebview.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view,String url){
+                return super.shouldOverrideUrlLoading(view,url);
+            }
+        });
     }
 
     private void initEvents() {

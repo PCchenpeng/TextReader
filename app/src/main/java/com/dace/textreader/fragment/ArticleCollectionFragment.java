@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewCollectionActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ArticleCollectionRecyclerViewAdapter;
@@ -245,10 +244,10 @@ public class ArticleCollectionFragment extends Fragment {
         Article article = mList.get(pos);
         long essayId = article.getId();
         int type = article.getType();
-        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
-        intent.putExtra("id", essayId);
-        intent.putExtra("type", type);
-        startActivityForResult(intent, 0);
+//        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
+//        intent.putExtra("id", essayId);
+//        intent.putExtra("type", type);
+//        startActivityForResult(intent, 0);
     }
 
     @Override

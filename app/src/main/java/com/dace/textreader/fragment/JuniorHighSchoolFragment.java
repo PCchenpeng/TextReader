@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
-import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewClassesActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ClassesArticleRecyclerViewAdapter;
@@ -312,10 +311,10 @@ public class JuniorHighSchoolFragment extends Fragment {
     private void turnToArticleDetail(int position) {
         long essayId = mList.get(position).getId();
         int type = mList.get(position).getType();
-        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
-        intent.putExtra("id", essayId);
-        intent.putExtra("type", type);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
+//        intent.putExtra("id", essayId);
+//        intent.putExtra("type", type);
+//        startActivity(intent);
     }
 
     /**

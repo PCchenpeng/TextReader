@@ -424,11 +424,11 @@ public class SearchActivity extends BaseActivity {
      */
     private void turnToArticleDetail(int position) {
         this.position = position;
-        Intent intent = new Intent(SearchActivity.this, NewArticleDetailActivity.class);
-        intent.putExtra("id", list.get(position).getId());
-        int type = list.get(position).getType();
-        intent.putExtra("type", type);
-        startActivityForResult(intent, 0);
+//        Intent intent = new Intent(SearchActivity.this, NewArticleDetailActivity.class);
+//        intent.putExtra("id", list.get(position).getId());
+//        int type = list.get(position).getType();
+//        intent.putExtra("type", type);
+//        startActivityForResult(intent, 0);
     }
 
     @Override
