@@ -16,13 +16,12 @@ import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
-import com.dace.textreader.activity.NewArticleDetailActivity;
+import com.dace.textreader.activity.HomeAudioDetailActivity;
 import com.dace.textreader.activity.NewCollectionActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ArticleCollectionRecyclerViewAdapter;
 import com.dace.textreader.bean.Article;
 import com.dace.textreader.bean.CollectArticleBean;
-import com.dace.textreader.bean.FollowBean;
 import com.dace.textreader.listen.OnCollectionEditorListen;
 import com.dace.textreader.listen.OnListDataOperateListen;
 import com.dace.textreader.util.DataUtil;
@@ -42,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
