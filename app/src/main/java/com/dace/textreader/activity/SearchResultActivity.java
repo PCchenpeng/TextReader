@@ -18,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -75,7 +76,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     private ViewPagerAdapter adapter;
     private SearchAllFragment searchAllFragment;
     private SearchWordsFragment searchWordsFragment;
-    private SearchAuthorFragment searchAuthorFragment ;
+    private SearchAuthorFragment searchAuthorFragment;
     private SearchAlbumFragment searchAlbumFragment;
     private SearchArticleFragment searchArticleFragment;
     private SearchAllFragment searchAllFragment_accure;
@@ -123,6 +124,27 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
         tabLayout.setChangeTextSize(false);
         viewPager = findViewById(R.id.viewpager_search_result);
         fragmentManager = getSupportFragmentManager();
+
+        et_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)){
+                    iv_cancle.setVisibility(View.VISIBLE);
+                } else {
+                    iv_cancle.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void initData() {

@@ -185,7 +185,9 @@ public class InviteCodeActivity extends BaseActivity {
             if (200 == status || 400 == status) {
                 JSONObject object = jsonObject.getJSONObject("data");
                 userId = object.optLong("studentid", -1);
-                userImage = HttpUrlPre.FILE_URL + object.getString("userimg");
+                userImage =
+//                        HttpUrlPre.FILE_URL +
+                                object.getString("userimg");
                 username = object.getString("username");
                 userGrade = object.optInt("gradeid", 110);
                 updateUi();
@@ -228,7 +230,9 @@ public class InviteCodeActivity extends BaseActivity {
             if (200 == jsonObject.optInt("status", -1)) {
                 JSONObject object = jsonObject.getJSONObject("data");
                 userId = object.optLong("userId", -1);
-                userImage = HttpUrlPre.FILE_URL + object.getString("userImg");
+                userImage =
+//                        HttpUrlPre.FILE_URL +
+                        object.getString("userImg");
                 username = object.getString("userName");
                 userGrade = object.optInt("gradeId", 110);
                 updateUi();
@@ -237,7 +241,9 @@ public class InviteCodeActivity extends BaseActivity {
             } else if (400 == jsonObject.optInt("status", -1)) {
                 JSONObject object = jsonObject.getJSONObject("data");
                 userId = object.optLong("userId", -1);
-                userImage = HttpUrlPre.FILE_URL + object.getString("userImg");
+                userImage =
+//                        HttpUrlPre.FILE_URL +
+                                object.getString("userImg");
                 username = object.getString("userName");
                 userGrade = object.optInt("gradeId", 110);
                 updateUi();

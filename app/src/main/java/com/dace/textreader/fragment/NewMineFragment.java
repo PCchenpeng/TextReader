@@ -96,6 +96,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
     private LinearLayout ll_course;
 
     private LinearLayout ll_content;
+    private RelativeLayout rl_invite;
 
     private LinearLayout ll_word;
     private LinearLayout ll_excerpt;
@@ -159,7 +160,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
             tv_news_count.setVisibility(View.VISIBLE);
         }
         GlideUtils.loadUserImage(getActivity(),
-                HttpUrlPre.FILE_URL + NewMainActivity.USERIMG, iv_user);
+                 NewMainActivity.USERIMG, iv_user);
         tv_user.setText(NewMainActivity.USERNAME);
         String ability;
         if (NewMainActivity.GRADE_ID == -1 || NewMainActivity.PY_SCORE.equals("") ||
@@ -214,6 +215,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
         ll_course = view.findViewById(R.id.ll_new_course_new_mine);
 
         ll_content = view.findViewById(R.id.ll_content_new_mine);
+        rl_invite = view.findViewById(R.id.rl_invite);
 
         ll_word = view.findViewById(R.id.ll_new_words_new_mine);
         ll_excerpt = view.findViewById(R.id.ll_new_excerpt_new_mine);
@@ -601,35 +603,47 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
         try {
             JSONObject jsonObject = new JSONObject(s);
             if (200 == jsonObject.optInt("status", -1)) {
+                rl_invite.setVisibility(View.VISIBLE);
                 JSONObject object = jsonObject.getJSONObject("data");
                 int status = object.optInt("status", -1);
-                if (status == 1) {
+//                if (status == 1) {
                     final String id = object.getString("id");
                     final String title = object.getString("title");
                     final String content = object.getString("content");
                     String image = object.getString("indexImage");
 
-                    ImageView imageView = new ImageView(getContext());
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    if (getContext() != null && getActivity() != null) {
-                        Glide.with(getContext()).load(image).into(imageView);
-                    }
-                    imageView.setLayoutParams(layoutParams);
-                    ll_content.removeAllViews();
-                    ll_content.addView(imageView);
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getContext(), InviteActivity.class);
+//                    ImageView imageView = new ImageView(getContext());
+//                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+//                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    if (getContext() != null && getActivity() != null) {
+//                        Glide.with(getContext()).load(image).into(imageView);
+//                    }
+//                    imageView.setLayoutParams(layoutParams);
+//                    ll_content.removeAllViews();
+//                    ll_content.addView(imageView);
+//                    imageView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Intent intent = new Intent(getContext(), InviteActivity.class);
+//                            intent.putExtra("id", id);
+//                            intent.putExtra("title", title);
+//                            intent.putExtra("content", content);
+//                            intent.putExtra("url", "");
+//                            startActivity(intent);
+//                        }
+//                    });
+                rl_invite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), InviteActivity.class);
                             intent.putExtra("id", id);
                             intent.putExtra("title", title);
                             intent.putExtra("content", content);
                             intent.putExtra("url", "");
                             startActivity(intent);
-                        }
-                    });
-                }
+                    }
+                });
+//                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

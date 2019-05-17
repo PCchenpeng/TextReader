@@ -2,8 +2,11 @@ package com.dace.textreader.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,11 +15,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,9 +42,11 @@ import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.JsonParser;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.SoftKeyboardUtils;
 import com.dace.textreader.util.SpeechRecognizerUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.LineWrapLayout;
+import com.dace.textreader.view.WaveView;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.RecognizerListener;
@@ -48,16 +56,19 @@ import com.iflytek.cloud.SpeechError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class NewSearchActivity extends BaseActivity implements View.OnClickListener{
-
-
-    private ImageView iv_talk,iv_anim,iv_close,iv_playpause,iv_back,iv_playpause_small;
+    private ImageView iv_talk,iv_anim,iv_close,iv_playpause,iv_back,iv_playpause_small,iv_cancle;
     private TextView tv_test;
     private LineWrapLayout lineWrapLayout;
-    private LinearLayout ll_search_default,ll_talk_small,search_bottom;
+    private LinearLayout ll_search_default,ll_talk_small;
+    private RelativeLayout search_bottom;
     private RelativeLayout ll_search,rl_root;
     private ListView lv_test;
     private EditText et_search;
+    private WaveView waveView_simple;
     // 语音听写对象
     private SpeechRecognizerUtil speechRecognizerUtil;
     private final static int REQUEST_RECORD_AUDIO_PERMISSION_CODE = 1;
@@ -72,6 +83,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     private String searchUrl = HttpUrlPre.SEARCHE_URL + "/search/search/full/text";
     private Refreshpage resh = new Refreshpage();
     private String searchWord;
+    private boolean isKeyBoardShowing;
 
 
     @Override
@@ -91,6 +103,21 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         initData();
         initEvents();
 
+        et_search.setFocusable(true);
+        et_search.setFocusableInTouchMode(true);
+        et_search.findFocus();
+        et_search.requestFocus();//et_search是一个EditText控件
+//强制显示软键盘,必须先让EditText重新获取焦点,等待UI绘制完成,才能弹出软键盘,加一个0.3s的定时器
+        Timer timer =new Timer();//设置定时器
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {//弹出软键盘的代码
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(et_search, InputMethodManager.RESULT_SHOWN);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+        },300);//设置300毫秒的时长
+
     }
 
     private void initView() {
@@ -98,6 +125,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         iv_talk = findViewById(R.id.iv_talk);
         tv_test = findViewById(R.id.tv_test);
         iv_anim = findViewById(R.id.iv_anim);
+        iv_cancle = findViewById(R.id.iv_cancle);
         iv_close = findViewById(R.id.iv_close);
         iv_playpause = findViewById(R.id.iv_playpause);
         iv_playpause_small = findViewById(R.id.iv_playpause_small);
@@ -107,7 +135,13 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         iv_back = findViewById(R.id.iv_back);
         lv_test = findViewById(R.id.lv_test);
         search_bottom = findViewById(R.id.search_bottom);
+        waveView_simple = findViewById(R.id.wave_view_input_writing);
         et_search = findViewById(R.id.et_search);
+
+        waveView_simple.setStyle(Paint.Style.FILL);
+        waveView_simple.setColor(Color.parseColor("#4D72FF"));
+
+        setAnimationEnter(lineWrapLayout);
 
         iv_talk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,8 +150,11 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                     ll_search.setVisibility(View.GONE);
                 }else {
                     ll_search.setVisibility(View.VISIBLE);
+                    setAnimationEnter(lv_test);
+//                    SoftKeyboardUtils.hide(NewSearchActivity.this);
 //                    ll_search.setAnimation(AnimationUtil.moveToViewBottom());
                     ll_search.setAnimation(AnimationUtil.moveToViewLocation());
+                    SoftKeyboardUtils.hide(NewSearchActivity.this);
                 }
             }
         });
@@ -146,15 +183,29 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                 return false;
             }
         });
+        et_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)){
+                    iv_cancle.setVisibility(View.VISIBLE);
+                } else {
+                    iv_cancle.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void initData() {
-        if(getIntent().getExtras() != null && getIntent().getExtras().getString("word") != null){
-            searchWord = getIntent().getExtras().getString("word");
-            et_search.setText(searchWord);
-        }
-
         getTestData();
         getHotData();
         resh.handler.postDelayed(resh.runnable, 5000);
@@ -197,8 +248,10 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                 int heightDifference = screenHeight - r.bottom;
 
                 if(heightDifference == 0){
+                    isKeyBoardShowing = false;
                     showKeyboardOperate(false);
                 }else {
+                    isKeyBoardShowing = true;
                     showKeyboardOperate(true);
                 }
             }
@@ -418,7 +471,12 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_back:
-                finish();
+                InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (isKeyBoardShowing) {
+                    inputmanger.hideSoftInputFromWindow(et_search.getWindowToken(),0);
+                } else {
+                    finish();
+                }
                 break;
             case R.id.iv_close:
                 if(ll_search.getVisibility() == View.VISIBLE){
@@ -433,19 +491,26 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 //                    ll_search.setVisibility(View.GONE);
 //                }else {
                     ll_search.setVisibility(View.VISIBLE);
+                    setAnimationEnter(lv_test);
                     ll_search.setAnimation(AnimationUtil.moveToViewLocation());
+                SoftKeyboardUtils.hide(NewSearchActivity.this);
 //                }
                 break;
         }
     }
 
-
+    public void setAnimationEnter(View view){
+        Animation animation=AnimationUtils.loadAnimation(this, R.anim.level_enter_anim);
+        animation.setDuration(1000);
+        view.startAnimation(animation);
+    }
 
     /**
      * 开始听写
      */
     private void startSpeech() {
         isSpeeching = true;
+        waveView_simple.start();
         speechRecognizerUtil.setParams("1");
 
         int ret = speechRecognizerUtil.startVoice(mRecognizerListener);
@@ -461,6 +526,8 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
      */
     private void stopSpeech() {
         speechRecognizerUtil.stopVoice();
+
+        waveView_simple.stop();
 
         isSpeeching = false;
     }

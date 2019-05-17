@@ -454,7 +454,7 @@
                 android:gravity="center"
                 android:maxLines="2"
                 android:text="已优惠--"
-                android:textColor="@color/colorOrange"
+                android:textColor="@color/color_4D72FF"
                 android:textSize="14sp"/>
 
             <TextView
@@ -462,7 +462,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="18"
-                android:background="@color/colorOrange"
+                android:background="@color/color_4D72FF"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="2"

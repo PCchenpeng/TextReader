@@ -43,7 +43,7 @@ public class SearchTestAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_search_test, null);
             viewHolder = new ViewHolder();
-            viewHolder.tv_content = convertView.findViewById(R.id.tv_cotent);
+            viewHolder.tv_content = convertView.findViewById(R.id.tv_content);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

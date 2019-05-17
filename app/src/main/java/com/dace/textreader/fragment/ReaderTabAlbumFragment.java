@@ -21,6 +21,9 @@ import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.dace.textreader.view.weight.pullrecycler.PullListener;
+import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
+import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -32,11 +35,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderTabAlbumFragment extends Fragment {
+public class ReaderTabAlbumFragment extends Fragment implements PullListener {
 
     private View view;
-    private SmartRefreshLayout refreshLayout;
-    private RecyclerView recyclerView;
+    private PullRecyclerView recyclerView;
     private ReaderTabAlbumAdapter readerTabAlbumAdapter;
     private String topUrl = HttpUrlPre.HTTP_URL_+"/select/album/newalbumlist";
     private String itemUrl = HttpUrlPre.HTTP_URL_+"/select/album/list";
@@ -45,7 +47,7 @@ public class ReaderTabAlbumFragment extends Fragment {
     private String tab_type;
     public static String  TYPE = "type";
     public static String  TAB_TYPE = "tab_type";
-    private boolean isRefresh = true;
+    private boolean isRefresh = false;
     private int pageNum = 1;
     private List<ReaderTabAlbumTopBean.DataBean> topData = new ArrayList<>();
     private List<ReaderTabAlbumItemBean.DataBean> itemata = new ArrayList<>();
@@ -89,29 +91,51 @@ public class ReaderTabAlbumFragment extends Fragment {
     }
 
     private void initView() {
-        refreshLayout = view.findViewById(R.id.refreshLayout);
         recyclerView = view.findViewById(R.id.rcv_tab);
 
-        refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
-        refreshLayout.setEnableRefresh(false);
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                pageNum ++;
-                isRefresh = false;
-                loadItemData();
-            }
-        });
 //        recyclerView.setNestedScrollingEnabled(true);
 
 
 
         LinearLayoutManager layoutManager_recommend = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager_recommend);
         readerTabAlbumAdapter = new ReaderTabAlbumAdapter(getContext(),topData,itemata);
-        recyclerView.setAdapter(readerTabAlbumAdapter);
+        recyclerView
+//                .setHeadRefreshView(new SimpleRefreshHeadView(getContext()))
+                .setUseLoadMore(true)
+//                .setUseRefresh(true)
+                .setPullLayoutManager(layoutManager_recommend)
+                .setPullListener(this)
+                .setPullItemAnimator(null)
+                .build(readerTabAlbumAdapter);
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int childCount = recyclerView.getChildCount();
+                    int itemCount = recyclerView.getLayoutManager().getItemCount();
+                    int firstVisibleItem = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                    if (firstVisibleItem + childCount == (itemCount+1)) {
+//                        if (!loadingMore) {
+//                            loadingMore = true
+                        pageNum ++;
+                        isRefresh = false;
+                        loadItemData();
+//                        }
+                    }
+
+//                    if(firstVisibleItem==1 || firstVisibleItem == 0){
+//                        onSearchMissListener.onMiss();
+//                    }else if(firstVisibleItem>1){
+//                        onSearchMissListener.onShow();
+//                    }
+                }
+
+            }
+        });
     }
 
     private void loadTopData() {
@@ -167,10 +191,7 @@ public class ReaderTabAlbumFragment extends Fragment {
                         } else{
                             if(itemata != null){
                                 readerTabAlbumAdapter.addData(itemata);
-                                refreshLayout.finishLoadMore();
-                            }else {
-                                refreshLayout.finishLoadMore();
-//                                MyToastUtil.showToast(getContext(),"没有更多了");
+                                recyclerView.onPullComplete();
                             }
 
                         }
@@ -181,6 +202,18 @@ public class ReaderTabAlbumFragment extends Fragment {
 
                     }
                 });
+    }
+
+    @Override
+    public void onRefresh() {
+        pageNum = 1;
+        isRefresh = true;
+        loadItemData();
+    }
+
+    @Override
+    public void onLoadMore() {
+
     }
 }
 

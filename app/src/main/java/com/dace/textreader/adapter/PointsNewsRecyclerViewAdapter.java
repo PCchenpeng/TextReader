@@ -44,7 +44,8 @@ public class PointsNewsRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final PointsNews pointsNews = mList.get(position);
         GlideUtils.loadUserImage(mContext,
-                HttpUrlPre.FILE_URL + pointsNews.getUserImg(),
+//                HttpUrlPre.FILE_URL +
+                        pointsNews.getUserImg(),
                 ((ViewHolder) holder).iv_user);
         ((ViewHolder) holder).tv_user.setText(pointsNews.getUsername());
         ((ViewHolder) holder).tv_duration.setText(pointsNews.getDuration());

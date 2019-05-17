@@ -21,6 +21,9 @@ import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.dace.textreader.view.weight.pullrecycler.PullListener;
+import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
+import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -32,11 +35,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderTabSelectFragment extends Fragment {
+public class ReaderTabSelectFragment extends Fragment implements PullListener {
 
     private View view;
-    private SmartRefreshLayout refreshLayout;
-    private RecyclerView recyclerView;
+    private PullRecyclerView recyclerView;
     private ReaderTabSelectAdapter readerTabSelectAdapter;
     private String topUrl = HttpUrlPre.HTTP_URL_+"/select/article/newarticlelist";
     private String itemUrl = HttpUrlPre.HTTP_URL_+"/select/article/list";
@@ -94,28 +96,62 @@ public class ReaderTabSelectFragment extends Fragment {
     }
 
     private void initView() {
-        refreshLayout = view.findViewById(R.id.refreshLayout);
         recyclerView = view.findViewById(R.id.rcv_tab);
 
-        refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
-        refreshLayout.setEnableRefresh(false);
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                pageNum ++;
-                isRefresh = false;
-                loadItemData();
-            }
-        });
+
+//        refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
+//        refreshLayout.setEnableRefresh(false);
+//        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//                pageNum ++;
+//                isRefresh = false;
+//                loadItemData();
+//            }
+//        });
 //        recyclerView.setNestedScrollingEnabled(true);
 
 
 
         LinearLayoutManager layoutManager_recommend = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager_recommend);
         readerTabSelectAdapter = new ReaderTabSelectAdapter(getContext(),topData,itemata);
-        recyclerView.setAdapter(readerTabSelectAdapter);
+        recyclerView
+//                .setHeadRefreshView(new SimpleRefreshHeadView(getContext()))
+                .setUseLoadMore(true)
+//                .setUseRefresh(true)
+                .setPullLayoutManager(layoutManager_recommend)
+                .setPullListener(this)
+                .setPullItemAnimator(null)
+                .build(readerTabSelectAdapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int childCount = recyclerView.getChildCount();
+                    int itemCount = recyclerView.getLayoutManager().getItemCount();
+                    int firstVisibleItem = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                    if (firstVisibleItem + childCount == (itemCount+1)) {
+//                        if (!loadingMore) {
+//                            loadingMore = true
+                        pageNum ++;
+                        isRefresh = false;
+                        loadItemData();
+//                        }
+                    }
+
+//                    if(firstVisibleItem==1 || firstVisibleItem == 0){
+//                        onSearchMissListener.onMiss();
+//                    }else if(firstVisibleItem>1){
+//                        onSearchMissListener.onShow();
+//                    }
+                }
+
+            }
+        });
 
     }
 
@@ -124,7 +160,7 @@ public class ReaderTabSelectFragment extends Fragment {
         try {
             params.put("studentId",NewMainActivity.STUDENT_ID);
             params.put("gradeId",NewMainActivity.GRADE_ID);
-            params.put("py","100");
+            params.put("py",NewMainActivity.PY_SCORE);
             params.put("type",type);
             params.put("width",DensityUtil.getScreenWidth(getContext()));
             params.put("height",DensityUtil.getScreenWidth(getContext())*194/345);
@@ -154,7 +190,7 @@ public class ReaderTabSelectFragment extends Fragment {
         try {
             params.put("studentId",NewMainActivity.STUDENT_ID);
             params.put("gradeId",NewMainActivity.GRADE_ID);
-            params.put("py","100");
+            params.put("py",NewMainActivity.PY_SCORE);
             params.put("type",type);
             params.put("pageNum",pageNum);
             params.put("width",DensityUtil.getScreenWidth(getContext()));
@@ -177,10 +213,7 @@ public class ReaderTabSelectFragment extends Fragment {
                         } else{
                             if(itemata != null){
                                 readerTabSelectAdapter.addData(itemata);
-                                refreshLayout.finishLoadMore();
-                            }else {
-                                refreshLayout.finishLoadMore();
-//                                MyToastUtil.showToast(getContext(),"没有更多了");
+                                recyclerView.onPullComplete();
                             }
 
                         }
@@ -193,4 +226,15 @@ public class ReaderTabSelectFragment extends Fragment {
                 });
     }
 
+    @Override
+    public void onRefresh() {
+        pageNum = 1;
+        isRefresh = true;
+        loadItemData();
+    }
+
+    @Override
+    public void onLoadMore() {
+
+    }
 }

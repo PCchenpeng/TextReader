@@ -21,7 +21,7 @@
             android:id="@+id/tv_py"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="123PY"
+            android:text=""
             android:textColor="#ffffff"
             android:textSize="11sp"
             android:paddingLeft="3dp"
@@ -58,6 +58,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"

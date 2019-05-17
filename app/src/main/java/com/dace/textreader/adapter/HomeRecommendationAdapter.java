@@ -193,7 +193,9 @@ public class HomeRecommendationAdapter extends RecyclerView.Adapter<RecyclerView
                     }
                 }
             });
-            GlideUtils.loadUserImage(mContext, HttpUrlPre.FILE_URL + bean.getUserImage(),
+            GlideUtils.loadUserImage(mContext,
+//                    HttpUrlPre.FILE_URL +
+                            bean.getUserImage(),
                     ((WritingViewHolder) viewHolder).iv_user);
             ((WritingViewHolder) viewHolder).tv_user.setText(bean.getUserName());
             ((WritingViewHolder) viewHolder).tv_grade.setText(bean.getUserGrade());

@@ -113,7 +113,8 @@ public class UserInfoChangeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         GlideUtils.loadUserImage(mContext,
-                HttpUrlPre.FILE_URL + NewMainActivity.USERIMG, iv_head);
+//                HttpUrlPre.FILE_URL +
+                        NewMainActivity.USERIMG, iv_head);
         tv_name.setText(NewMainActivity.USERNAME);
         tv_grade.setText(DataUtil.gradeCode2Chinese(NewMainActivity.GRADE_ID));
         if (!NewMainActivity.DESCRIPTION.equals("") && !NewMainActivity.DESCRIPTION.equals("null")) {
@@ -426,7 +427,8 @@ public class UserInfoChangeActivity extends BaseActivity {
      */
     private void uploadImgFailed() {
         GlideUtils.loadUserImage(mContext,
-                HttpUrlPre.FILE_URL + NewMainActivity.USERIMG, iv_head);
+//                HttpUrlPre.FILE_URL +
+                        NewMainActivity.USERIMG, iv_head);
         MyToastUtil.showToast(mContext, "上传头像失败，请稍后重试！");
         ll_loading.setVisibility(View.INVISIBLE);
     }

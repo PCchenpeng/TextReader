@@ -791,6 +791,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activity.MoreMagnumOpusActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NewMainTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            ></activity>
     </application>
 
 </manifest>

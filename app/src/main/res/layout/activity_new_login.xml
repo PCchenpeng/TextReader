@@ -44,7 +44,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="30dp"
         android:fillViewport="true">
 
         <LinearLayout
@@ -57,11 +57,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="0dp"
                 android:text="派知语文"
                 android:textColor="@color/colorTextImportant"
                 android:textSize="30sp"
-                android:textStyle="bold"/>
+                android:textStyle="normal"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/selector_new_login_button_bg">
 
                 <TextView

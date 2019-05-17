@@ -3,12 +3,15 @@ package com.dace.textreader.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,12 +55,14 @@ import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.VersionInfoUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.MyRefreshHeader;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
 import com.dace.textreader.view.dialog.ViewConvertListener;
 import com.dace.textreader.view.dialog.ViewHolder;
+import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -93,7 +98,7 @@ import okhttp3.Response;
  * History:
  * ==============================================================================
  */
-public class NewHomeRecommendationFragment extends Fragment {
+public class NewHomeRecommendationFragment extends BaseFragment {
 
     private static final String bannerUrl = HttpUrlPre.HTTP_URL + "/home/banner";
     private static final String userUrl = HttpUrlPre.HTTP_URL + "/follow/recommend";
@@ -114,6 +119,7 @@ public class NewHomeRecommendationFragment extends Fragment {
     private LinearLayout ll_user_refresh;
     private RecyclerView recyclerView_user;
     private RecyclerView recyclerView;
+    private NestedScrollView nestedScrollView;
 
     private Context mContext;
 
@@ -544,9 +550,9 @@ public class NewHomeRecommendationFragment extends Fragment {
         refreshLayout = view.findViewById(R.id.smart_refresh_home_recommendation);
         refreshLayout.setRefreshHeader(new MyRefreshHeader(mContext));
 //        refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
-        refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
-        refreshLayout.setEnableAutoLoadMore(false);
-        refreshLayout.setEnableLoadMore(true);
+        refreshLayout.setRefreshFooter(new ClassicsFooter(mContext),0,0);
+        refreshLayout.setEnableAutoLoadMore(true);
+//        refreshLayout.setEnableLoadMore(true);
 
         banner = view.findViewById(R.id.banner_home_recommendation);
         banner.setImageLoader(new BannerGlideImageLoader());
@@ -577,6 +583,7 @@ public class NewHomeRecommendationFragment extends Fragment {
         adapter_user = new UserHorizontalListAdapter(mContext, mList_user);
         recyclerView_user.setAdapter(adapter_user);
 
+        nestedScrollView = view.findViewById(R.id.nestedScrollView);
         recyclerView = view.findViewById(R.id.recycler_view_writing_home_recommendation);
         recyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext,
@@ -584,6 +591,8 @@ public class NewHomeRecommendationFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new HomeRecommendationAdapter(mContext, mList);
         recyclerView.setAdapter(adapter);
+
+        setOnScrollListener(nestedScrollView);
     }
 
     /**
@@ -1269,6 +1278,8 @@ public class NewHomeRecommendationFragment extends Fragment {
                 object.put("studentId", strings[1]);
                 object.put("pageNum", strings[2]);
                 object.put("pageSize", 10);
+                object.put("appVersion",VersionInfoUtil.getVersionName(fragment.mContext));
+                object.put("platform","android");
                 RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(strings[0])

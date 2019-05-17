@@ -268,7 +268,8 @@ public class VoiceEvaluationResultActivity extends BaseActivity {
                         textView.setText(certificate);
                         GlideUtils.loadImageWithNoOptions(mContext, R.drawable.image_glory_certificate_logo, iv_logo);
                         GlideUtils.loadUserImage(mContext,
-                                HttpUrlPre.FILE_URL + NewMainActivity.USERIMG, iv_user);
+//                                HttpUrlPre.FILE_URL +
+                                        NewMainActivity.USERIMG, iv_user);
                         tv_user.setText(NewMainActivity.USERNAME);
                         String content = "在第三届“少年中国说”广东赛区海选选拔赛中勇创佳绩，通过选拔！";
                         SpannableStringBuilder ssb = new SpannableStringBuilder(content);

@@ -44,13 +44,14 @@
 
             <ImageView
                 android:id="@id/iv_cancle"
+                android:visibility="gone"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:padding="5dp"
-                android:src="@drawable/searchbar_icon_close"/>
+                android:src="@drawable/searchbar_icon_close" />
 
         </RelativeLayout>
 

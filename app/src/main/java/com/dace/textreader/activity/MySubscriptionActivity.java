@@ -165,6 +165,7 @@ public class MySubscriptionActivity extends BaseActivity {
         } else if (mList.get(position).getRetType().equals("作者")){
             intent = new Intent(mContext, AuthorDetailActivity.class);
             intent.putExtra("authorId",mList.get(position).getRetList().get(childPosition).getAuthorId());
+            intent.putExtra("author",mList.get(position).getRetList().get(childPosition).getAuthor());
         }
         startActivity(intent);
     }

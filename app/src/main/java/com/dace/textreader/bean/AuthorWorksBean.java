@@ -80,7 +80,7 @@ public class AuthorWorksBean {
          */
 
         private String sequence;
-        private int id;
+        private String id;
         private String type;
         private String title;
         private String subContent;
@@ -126,11 +126,11 @@ public class AuthorWorksBean {
             this.sequence = sequence;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 

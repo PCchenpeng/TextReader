@@ -388,7 +388,8 @@ public class InviteActivity extends BaseActivity {
                             ImageView iv_close = holder.getView(R.id.iv_close_qr_code_dialog);
                             ImageView iv_qr_code = holder.getView(R.id.iv_qr_code_dialog);
                             GlideUtils.loadUserImage(mContext,
-                                    HttpUrlPre.FILE_URL + NewMainActivity.USERIMG, iv_user);
+//                                    HttpUrlPre.FILE_URL +
+                                            NewMainActivity.USERIMG, iv_user);
                             tv_user.setText(NewMainActivity.USERNAME);
                             iv_qr_code.setImageBitmap(bitmap);
                             iv_close.setOnClickListener(new View.OnClickListener() {

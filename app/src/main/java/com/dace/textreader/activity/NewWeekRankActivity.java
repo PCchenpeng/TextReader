@@ -116,7 +116,8 @@ public class NewWeekRankActivity extends BaseActivity {
 
         GlideUtils.loadImageWithNoOptions(mContext, R.drawable.image_week_rank_bg, iv_bg);
         GlideUtils.loadUserImage(mContext,
-                HttpUrlPre.FILE_URL + NewMainActivity.USERIMG, iv_head);
+//                HttpUrlPre.FILE_URL +
+                        NewMainActivity.USERIMG, iv_head);
         tv_user.setText(NewMainActivity.USERNAME);
 
         recyclerView = findViewById(R.id.recycler_view_new_week_rank);

@@ -27,7 +27,7 @@
     <color name="colorGrade">#3399fe</color>
     <color name="colorRadiusBackground">#d4e4ee</color>
     <color name="colorShadow">#dddddd</color>
-    <color name="colorGlossaryBackground">#ededed</color>f
+    <color name="colorGlossaryBackground">#ededed</color>
     <color name="colorAfterReadingButton">#c5c5c5</color>
     <color name="colorAfterReadingPopupBackground">#f5f5f9</color>
     <color name="colorTransparent">#00ffffff</color>
@@ -247,8 +247,8 @@
 
     <!--微课-->
     <color name="colorMicroLessonItemPosition">#e6e6e6</color>
-    <color name="colorMicroLessonItemListen">#fecb00</color>
-    <color name="colorMicroLessonItemListenSel">#A85400</color>
+    <color name="colorMicroLessonItemListen">#3C93F7</color>
+    <color name="colorMicroLessonItemListenSel">#002f9a</color>
 
     <!--作文推荐-->
     <color name="colorCompositionItemBg">#f8f8f8</color>

@@ -108,11 +108,11 @@ public class GuideActivity extends AppCompatActivity
         this.mPosition = position;
         initIndicatorBg();
         if (position == 0) {
-            iv_one.setImageResource(R.drawable.shape_round_selected);
+            iv_one.setImageResource(R.drawable.guidepage_dot_selected);
         } else if (position == 1) {
-            iv_two.setImageResource(R.drawable.shape_round_selected);
+            iv_two.setImageResource(R.drawable.guidepage_dot_selected);
         } else {
-            iv_three.setImageResource(R.drawable.shape_round_selected);
+            iv_three.setImageResource(R.drawable.guidepage_dot_selected);
         }
         if (position == pageArrayList.size() - 1) {
             tv_root.setVisibility(View.VISIBLE);
@@ -125,9 +125,9 @@ public class GuideActivity extends AppCompatActivity
      * 初始化
      */
     private void initIndicatorBg() {
-        iv_one.setImageResource(R.drawable.shape_round);
-        iv_two.setImageResource(R.drawable.shape_round);
-        iv_three.setImageResource(R.drawable.shape_round);
+        iv_one.setImageResource(R.drawable.guidepage_dot_default);
+        iv_two.setImageResource(R.drawable.guidepage_dot_default);
+        iv_three.setImageResource(R.drawable.guidepage_dot_default);
     }
 
     @Override

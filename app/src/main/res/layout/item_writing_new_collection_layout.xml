@@ -52,7 +52,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:paddingBottom="16dp"
-                android:textColor="@color/color_4D72FF"
+                android:textColor="@color/colorTextOrange"
                 android:textSize="24sp"/>
 
             <ImageView
@@ -168,6 +168,7 @@
 
             <TextView
                 android:id="@+id/tv_views_new_collection_writing_item"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorTextNormal"

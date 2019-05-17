@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.KnowledgeDetailActivity;
 import com.dace.textreader.activity.KnowledgeSummaryActivity;
+import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ClassesArticleRecyclerViewAdapter;
 import com.dace.textreader.adapter.ClassesChooseRecyclerViewAdapter;
@@ -57,7 +58,8 @@ import okhttp3.Response;
 public class HomeTextBookFragment extends BaseFragment{
 
     private static final String url_knowledge = HttpUrlPre.HTTP_URL_ + "/knowledge/point/all";
-    private static final String url = HttpUrlPre.HTTP_URL + "/kewen?";
+//    private static final String url = HttpUrlPre.HTTP_URL + "/kewen?";
+    private static final String url = HttpUrlPre.HTTP_URL_ + "/select/kewen/list";
 
     private View view;
 
@@ -76,8 +78,8 @@ public class HomeTextBookFragment extends BaseFragment{
     private List<String> mList_grade = new ArrayList<>();
     private ClassesChooseRecyclerViewAdapter adapter_grade;
 
-    private List<Classes> mList = new ArrayList<>();
-    private ClassesArticleRecyclerViewAdapter adapter;
+    private List<ClassBean.DataBean> mList = new ArrayList<>();
+    private ClassesArticleAdapter adapter;
 
     private static final String version = "人教版";
     private String grade = "一年级上册";
@@ -89,7 +91,6 @@ public class HomeTextBookFragment extends BaseFragment{
 
     private boolean refreshing = false;
     private boolean isEnd = false;
-    private AppBarLayout appBarLayout;
 
     @Nullable
     @Override
@@ -115,7 +116,7 @@ public class HomeTextBookFragment extends BaseFragment{
             @Override
             public void onScrollChange(NestedScrollView nestedScrollView, int i, int i1, int i2, int i3) {
                 if (i1 > i3) {
-                    getMoreData();
+
                 }
 //                if (i1 > i3 && ((NewMainActivity)getActivity()).getRl_tab().getVisibility() == View.GONE){
 //                    ((NewMainActivity)getActivity()).getRl_tab().setVisibility(View.GONE);
@@ -165,7 +166,7 @@ public class HomeTextBookFragment extends BaseFragment{
                         }
                     }
                 });
-        adapter.setOnItemClickListener(new ClassesArticleRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+        adapter.setOnItemClickListener(new ClassesArticleAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view) {
                 int position = recyclerView.getChildAdapterPosition(view);
@@ -208,11 +209,15 @@ public class HomeTextBookFragment extends BaseFragment{
      */
     private void turnToArticleDetail(int position) {
         long essayId = mList.get(position).getId();
-        int type = mList.get(position).getType();
+        String imgUrl = mList.get(position).getImage();
+//        int type = mList.get(position).getType();
+        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
 //        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
 //        intent.putExtra("id", essayId);
+        intent.putExtra("essayId", essayId + "");
+        intent.putExtra("imgUrl", imgUrl);
 //        intent.putExtra("type", type);
-//        startActivity(intent);
+        startActivity(intent);
     }
 
     private void initKnowledgeData() {
@@ -262,11 +267,13 @@ public class HomeTextBookFragment extends BaseFragment{
         isEnd = false;
         pageNum = 1;
         mList.clear();
-        new GetData(this).execute(url + "gradeId=" + gradeId +
-                "&level1=" + version +
-                "&pageNum=" + pageNum +
-                "&pageSize=" + pageSize +
-                "&studentId=" + NewMainActivity.STUDENT_ID);
+        loadClassData();
+//        new GetData(this).execute(url + "gradeId=" + gradeId +
+//                "&level1=" + version +
+//                "&pageNum=" + pageNum +
+//                "&pageSize=" + pageSize +
+//                "&studentId=" + NewMainActivity.STUDENT_ID);
+
     }
 
     /**
@@ -277,17 +284,17 @@ public class HomeTextBookFragment extends BaseFragment{
             return;
         }
         refreshing = true;
-        pageNum = pageNum + 1;
-        new GetData(this).execute(url + "gradeId=" + gradeId +
-                "&level1=" + version +
-                "&pageNum=" + pageNum +
-                "&pageSize=" + pageSize +
-                "&studentId=" + NewMainActivity.STUDENT_ID);
+//        pageNum = pageNum + 1;
+        loadClassData();
+//        new GetData(this).execute(url + "gradeId=" + gradeId +
+//                "&level1=" + version +
+//                "&pageNum=" + pageNum +
+//                "&pageSize=" + pageSize +
+//                "&studentId=" + NewMainActivity.STUDENT_ID);
     }
 
     private void initView() {
         scrollView = view.findViewById(R.id.nested_scroll_read_text_book_fragment);
-        appBarLayout = view.findViewById(R.id.appbar);
 //        ll_search = view.findViewById(R.id.ll_search_read_text_book_fragment);
         ll_knowledge = view.findViewById(R.id.ll_knowledge_read_text_book_fragment);
         recyclerView_knowledge = view.findViewById(R.id.rv_knowledge_read_text_book_fragment);
@@ -308,45 +315,85 @@ public class HomeTextBookFragment extends BaseFragment{
         recyclerView.setNestedScrollingEnabled(false);
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ClassesArticleRecyclerViewAdapter(mContext, mList);
+        adapter = new ClassesArticleAdapter(mContext, mList);
         recyclerView.setAdapter(adapter);
     }
 
-    /**
-     * 分析数据
-     *
-     * @param s 从服务端获取的数据
-     */
-    private void analyzeData(String s) {
+    private void loadClassData() {
+//        if (pageNum == 1) {
+//            showLoadingView(framelayout);
+//        }
+        JSONObject params = new JSONObject();
         try {
-            JSONObject jsonObject = new JSONObject(s);
-            if (200 == jsonObject.optInt("status", -1)) {
-                JSONArray array = jsonObject.getJSONArray("data");
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    Classes classes = new Classes();
-                    classes.setId(object.optLong("id", -1));
-                    classes.setType(object.optInt("type", -1));
-                    classes.setTitle(object.getString("title"));
-                    String author = object.getString("author");
-                    if (author.equals("") || author.equals("null")) {
-                        author = "佚名";
-                    }
-                    classes.setAuthor(author);
-                    classes.setImagePath(object.getString("image"));
-                    mList.add(classes);
-                }
-                adapter.notifyDataSetChanged();
-            } else if (400 == jsonObject.optInt("status", -1)) {
-
-            } else {
-
-            }
+            params.put("studentId",PreferencesUtil.getData(getContext(),"studentId","-1"));
+            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId","-1"));
+            params.put("appVersion",VersionInfoUtil.getVersionName(getActivity()));
+            params.put("platform","android");
+            params.put("py",NewMainActivity.PY_SCORE);
+            params.put("pageNum",String.valueOf(pageNum));
+            params.put("width","300");
+            params.put("height","200");
         } catch (JSONException e) {
             e.printStackTrace();
-
         }
+        OkHttpManager.getInstance(getContext()).requestAsyn(url, OkHttpManager.TYPE_POST_JSON, params,
+                new OkHttpManager.ReqCallBack<Object>() {
+
+                    @Override
+                    public void onReqSuccess(Object result) {
+                        Log.d("111","result.toString()  " + result.toString());
+                        ClassBean classBean = GsonUtil.GsonToBean(result.toString(),ClassBean.class);
+                        if (classBean.getStatus() == 200) {
+                            List<ClassBean.DataBean> data = classBean.getData();
+                            mList.addAll(data);
+                            adapter.notifyDataSetChanged();
+                            refreshing = false;
+                        }
+
     }
+
+    @Override
+    public void onReqFailed(String errorMsg) {
+
+    }
+});
+        }
+
+//    /**
+//     * 分析数据
+//     *
+//     * @param s 从服务端获取的数据
+//     */
+//    private void analyzeData(String s) {
+//        try {
+//            JSONObject jsonObject = new JSONObject(s);
+//            if (200 == jsonObject.optInt("status", -1)) {
+//                JSONArray array = jsonObject.getJSONArray("data");
+//                for (int i = 0; i < array.length(); i++) {
+//                    JSONObject object = array.getJSONObject(i);
+//                    Classes classes = new Classes();
+//                    classes.setId(object.optLong("id", -1));
+//                    classes.setType(object.optInt("type", -1));
+//                    classes.setTitle(object.getString("title"));
+//                    String author = object.getString("author");
+//                    if (author.equals("") || author.equals("null")) {
+//                        author = "佚名";
+//                    }
+//                    classes.setAuthor(author);
+//                    classes.setImagePath(object.getString("image"));
+//                    mList.add(classes);
+//                }
+//                adapter.notifyDataSetChanged();
+//            } else if (400 == jsonObject.optInt("status", -1)) {
+//
+//            } else {
+//
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//
+//        }
+//    }
 
     /**
      * 分析数据
@@ -387,42 +434,41 @@ public class HomeTextBookFragment extends BaseFragment{
     }
 
 
-
-    /**
-     * 获取数据
-     */
-    private static class GetData
-            extends WeakAsyncTask<String, Void, String, HomeTextBookFragment> {
-
-        protected GetData(HomeTextBookFragment fragment) {
-            super(fragment);
-        }
-
-        @Override
-        protected String doInBackground(HomeTextBookFragment fragment, String[] strings) {
-            try {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(strings[0])
-                        .build();
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(HomeTextBookFragment fragment, String s) {
-            if (s == null) {
-
-            } else {
-                fragment.analyzeData(s);
-            }
-            fragment.refreshing = false;
-        }
-    }
+//    /**
+//     * 获取数据
+//     */
+//    private static class GetData
+//            extends WeakAsyncTask<String, Void, String, HomeTextBookFragment> {
+//
+//        protected GetData(HomeTextBookFragment fragment) {
+//            super(fragment);
+//        }
+//
+//        @Override
+//        protected String doInBackground(HomeTextBookFragment fragment, String[] strings) {
+//            try {
+//                OkHttpClient client = new OkHttpClient();
+//                Request request = new Request.Builder()
+//                        .url(strings[0])
+//                        .build();
+//                Response response = client.newCall(request).execute();
+//                return response.body().string();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(HomeTextBookFragment fragment, String s) {
+//            if (s == null) {
+//
+//            } else {
+//                fragment.analyzeData(s);
+//            }
+//            fragment.refreshing = false;
+//        }
+//    }
 
     /**
      * 获取数据

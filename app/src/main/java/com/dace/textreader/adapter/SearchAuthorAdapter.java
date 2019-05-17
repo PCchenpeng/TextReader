@@ -10,12 +10,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.AuthorDetailActivity;
+import com.dace.textreader.activity.NewMainActivity;
+import com.dace.textreader.bean.FollowBean;
+import com.dace.textreader.bean.SearchItemBean;
 import com.dace.textreader.bean.SearchResultBean;
 import com.dace.textreader.bean.SubListBean;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.GsonUtil;
+import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.okhttp.OkHttpManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -43,7 +53,7 @@ public class SearchAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, final int i) {
         GlideUtils.loadHomeUserImage(mContext,mData.get(i).getSource_image(),((ItemHolder)viewHolder).iv_author);
         ((ItemHolder)viewHolder).tv_author_name.setText(mData.get(i).getAuthor());
         final String authorId = mData.get(i).getIndex_id();
@@ -52,7 +62,79 @@ public class SearchAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,AuthorDetailActivity.class);
                 intent.putExtra("authorId",authorId);
+                intent.putExtra("author",mData.get(i).getAuthor());
                 mContext.startActivity(intent);
+            }
+        });
+        ((ItemHolder)viewHolder).rl_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (!mData.get(i).isFollow()){
+                    follow(((ItemHolder)viewHolder).rl_follow,((ItemHolder)viewHolder).tv_follow,((ItemHolder)viewHolder).iv_follow,i);
+//                } else {
+//                    unfollow(((ItemHolder)viewHolder).rl_follow,((ItemHolder)viewHolder).tv_follow,((ItemHolder)viewHolder).iv_follow,i);
+//                }
+            }
+        });
+    }
+
+
+    public void follow(final RelativeLayout rl_follow, final TextView tv_follow, final ImageView iv_follow, final int position){
+        JSONObject params = new JSONObject();
+        try {
+            params.put("type","2");
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("albumId",mData.get(position).getIndex_id());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(mContext).requestAsyn(HttpUrlPre.HTTP_URL_ + "/album/subscribe", OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                FollowBean followBean = GsonUtil.GsonToBean(result.toString(),FollowBean.class);
+                if (followBean.getStatus() == 600){//已经关注过
+//                    rl_follow.setSelected(true);
+//                    iv_follow.setVisibility(View.GONE);
+//                    tv_follow.setText("已关注");
+//                    mData.get(position).setFollow(true);
+                    Toast.makeText(mContext,followBean.getMsg(),Toast.LENGTH_SHORT).show();
+                } else if (followBean.getStatus() == 200){
+                    mData.get(position).setFollow(true);
+                    rl_follow.setSelected(true);
+                    iv_follow.setVisibility(View.GONE);
+                    tv_follow.setText("已关注");
+                }
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+            }
+        });
+    }
+
+    public void unfollow(final RelativeLayout rl_follow, final TextView tv_follow, final ImageView iv_follow, final int position){
+        JSONObject params = new JSONObject();
+        try {
+            params.put("type","2");
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("albumId",mData.get(position).getIndex_id());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(mContext).requestAsyn(HttpUrlPre.HTTP_URL_ + "/album/unsubscribe", OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                FollowBean followBean = GsonUtil.GsonToBean(result.toString(),FollowBean.class);
+                if (followBean.getStatus() == 200){
+                    mData.get(position).setFollow(false);
+                    rl_follow.setSelected(false);
+                    iv_follow.setVisibility(View.VISIBLE);
+                    tv_follow.setText("关注");
+                }
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
             }
         });
     }
@@ -84,12 +166,14 @@ public class SearchAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageView iv_author;
         TextView tv_author_name;
         TextView tv_follow;
+        ImageView iv_follow;
         RelativeLayout rl_follow;
 
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
             iv_author = itemView.findViewById(R.id.iv_author);
             tv_author_name = itemView.findViewById(R.id.tv_author_name);
+            iv_follow = itemView.findViewById(R.id.iv_follow);
             tv_follow = itemView.findViewById(R.id.tv_follow);
             rl_follow = itemView.findViewById(R.id.rl_follow);
         }

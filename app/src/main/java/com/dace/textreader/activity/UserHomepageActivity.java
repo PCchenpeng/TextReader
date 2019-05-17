@@ -640,7 +640,9 @@ public class UserHomepageActivity extends BaseActivity {
                 JSONObject user = object.getJSONObject("student");
                 userId = user.optLong("studentid", -1);
                 name = user.getString("username");
-                userImage = HttpUrlPre.FILE_URL + user.getString("userimg");
+                userImage =
+//                        HttpUrlPre.FILE_URL +
+                                user.getString("userimg");
                 gradeId = user.optInt("gradeid", 110);
                 backgroundFilePath = user.getString("surface");
                 description = user.getString("description");
@@ -1174,7 +1176,9 @@ public class UserHomepageActivity extends BaseActivity {
      * 更新头像成功
      */
     private void uploadImgSuccess(String imageUrl) {
-        GlideUtils.loadUserImage(mContext, HttpUrlPre.FILE_URL + imageUrl, iv_user);
+        GlideUtils.loadUserImage(mContext,
+//                HttpUrlPre.FILE_URL +
+                        imageUrl, iv_user);
         NewMainActivity.USERIMG = imageUrl;
     }
 

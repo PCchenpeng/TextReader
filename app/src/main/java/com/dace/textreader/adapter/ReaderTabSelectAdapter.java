@@ -35,8 +35,8 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private List<ReaderTabSelectTopBean.DataBean> topData ;
     private List<ReaderTabSelectItemBean.DataBean> itemData;
 
-    private final int TYPE_TOP = 10001;
-    private final int TYPE_ITEM = 10002;
+    private final int TYPE_TOP = 1;
+    private final int TYPE_ITEM = 2;
 
     public ReaderTabSelectAdapter(Context context,List<ReaderTabSelectTopBean.DataBean> topData,List<ReaderTabSelectItemBean.DataBean> itemData){
         this.context = context;

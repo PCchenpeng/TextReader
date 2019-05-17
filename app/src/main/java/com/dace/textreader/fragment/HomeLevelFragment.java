@@ -101,15 +101,15 @@ public class HomeLevelFragment extends BaseFragment implements PullListener {
                                 if (mData != null) {
                                     mData.clear();
                                     mData.addAll(data);
-
+                                    mRecycleView.scrollToPosition(0);
                                 }
                                 mRecycleView.onPullComplete();
                             } else {
                                 if (mData != null)
                                     mData.addAll(data);
                             }
-
                             homeLevelAdapter.setData(mData);
+
                         } else if (readerLevelBean != null && readerLevelBean.getStatus() == 400 && homeLevelAdapter.getmData().size() == 0) {//如果所有分页没有数据
                             showDefaultView(framelayout, R.drawable.image_state_empty, "暂无内容～", false, false, "", null);
                         } else {

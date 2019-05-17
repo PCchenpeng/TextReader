@@ -1,7 +1,10 @@
 package com.dace.textreader.fragment;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -89,6 +92,20 @@ public class BaseFragment extends Fragment {
                     Log.d("111","444");
                     ((NewMainActivity)getActivity()).getRl_tab().setVisibility(View.VISIBLE);
                 } else if (dy > 0 && ((NewMainActivity)getActivity()).getRl_tab().getVisibility() == View.VISIBLE){
+                    Log.d("111","555");
+                    ((NewMainActivity)getActivity()).getRl_tab().setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+    protected void setOnScrollListener(NestedScrollView nestedScrollView){
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY < oldScrollY && ((NewMainActivity)getActivity()).getRl_tab().getVisibility() == View.GONE){
+                    Log.d("111","444");
+                    ((NewMainActivity)getActivity()).getRl_tab().setVisibility(View.VISIBLE);
+                } else if (scrollY > oldScrollY && ((NewMainActivity)getActivity()).getRl_tab().getVisibility() == View.VISIBLE){
                     Log.d("111","555");
                     ((NewMainActivity)getActivity()).getRl_tab().setVisibility(View.GONE);
                 }

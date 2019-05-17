@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewCollectionActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ArticleCollectionRecyclerViewAdapter;
@@ -60,7 +61,7 @@ import okhttp3.Response;
 
 public class ArticleCollectionFragment extends Fragment {
 
-    private final String url = HttpUrlPre.HTTP_URL + "/me/collectEssays?studentId=";
+    private final String url = HttpUrlPre.HTTP_URL_ + "/select/essay/collect";
     private final String deleteUrl = HttpUrlPre.HTTP_URL + "/essays/collect/delete";
 
     private View view;
@@ -72,8 +73,8 @@ public class ArticleCollectionFragment extends Fragment {
 
     private LinearLayoutManager mLayoutManager;
 
-    private List<Article> mList = new ArrayList<>();
-    private List<Article> mSelectedList = new ArrayList<>();
+    private List<CollectArticleBean.DataBean> mList = new ArrayList<>();
+    private List<CollectArticleBean.DataBean> mSelectedList = new ArrayList<>();
     private int selectedNum = 0;  //选中的item数量
 
     private ArticleCollectionRecyclerViewAdapter adapter;
@@ -241,13 +242,12 @@ public class ArticleCollectionFragment extends Fragment {
      */
     private void turnToArticleDetail(int pos) {
         this.position = pos;
-        Article article = mList.get(pos);
-        long essayId = article.getId();
-        int type = article.getType();
-//        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
-//        intent.putExtra("id", essayId);
+        CollectArticleBean.DataBean article = mList.get(pos);
+        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+        intent.putExtra("essayId", article.getId() + "");
+        intent.putExtra("imgUrl", article.getImage());
 //        intent.putExtra("type", type);
-//        startActivityForResult(intent, 0);
+        startActivityForResult(intent, 0);
     }
 
     @Override
@@ -259,8 +259,8 @@ public class ArticleCollectionFragment extends Fragment {
                     int likeNum = mList.get(position).getLikeNum();
                     mList.get(position).setLikeNum(likeNum + 1);
                 }
-                int views = mList.get(position).getViews();
-                mList.get(position).setViews(views + 1);
+                int views = mList.get(position).getPv();
+                mList.get(position).setPv(views + 1);
                 adapter.notifyItemChanged(position);
                 position = -1;
             }
@@ -273,7 +273,7 @@ public class ArticleCollectionFragment extends Fragment {
      * @param pos
      */
     private void selectedOrNot(int pos) {
-        Article article = mList.get(pos);
+        CollectArticleBean.DataBean article = mList.get(pos);
         if (article.isSelected()) {
             unchecked(pos);
         } else {
@@ -364,9 +364,7 @@ public class ArticleCollectionFragment extends Fragment {
         pageNum++;
         refreshing = true;
         new GetData(this)
-                .execute(url + NewMainActivity.STUDENT_ID +
-                        "&type=" + 0 +
-                        "&pageNum=" + pageNum);
+                .execute(url,NewMainActivity.STUDENT_ID + "",pageNum + "","750","420");
     }
 
     /**
@@ -391,9 +389,7 @@ public class ArticleCollectionFragment extends Fragment {
             mList.clear();
             adapter.notifyDataSetChanged();
             new GetData(this)
-                    .execute(url + NewMainActivity.STUDENT_ID +
-                            "&type=" + 0 +
-                            "&pageNum=" + pageNum);
+                    .execute(url,NewMainActivity.STUDENT_ID + "",pageNum + "","750","420");
         }
     }
 

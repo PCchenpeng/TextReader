@@ -53,7 +53,7 @@ public class NewCollectionActivity extends BaseActivity implements View.OnClickL
     //文字未选中颜色
     private int color_unselected = Color.parseColor("#999999");
     //文字选中颜色
-    private int color_selected = Color.parseColor("#ff9933");
+    private int color_selected = Color.parseColor("#4D72FF");
 
     private boolean isEditor = false;  //是否是编辑状态
     private boolean isSelectAll = false;  //是否是全选

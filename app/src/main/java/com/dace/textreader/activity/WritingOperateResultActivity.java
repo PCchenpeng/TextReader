@@ -312,7 +312,8 @@ public class WritingOperateResultActivity extends BaseActivity implements View.O
                         TextView tv_cancel = holder.getView(R.id.tv_cancel_writing_share_dialog);
 
                         GlideUtils.loadUserImage(mContext,
-                                HttpUrlPre.FILE_URL + NewMainActivity.USERIMG, iv_user);
+//                                HttpUrlPre.FILE_URL +
+                                        NewMainActivity.USERIMG, iv_user);
                         tv_user.setText(NewMainActivity.USERNAME);
                         tv_grade.setText(DataUtil.gradeCode2Chinese(NewMainActivity.GRADE_ID));
                         tv_title.setText(writingTitle);

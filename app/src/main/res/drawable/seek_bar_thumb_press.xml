@@ -7,7 +7,7 @@
                 android:width="16dp"
                 android:height="16dp"/>
 
-            <solid android:color="#ff9933"/>
+            <solid android:color="@color/color_4D72FF"/>
 
         </shape>
     </item>
@@ -18,11 +18,11 @@
                 android:width="16dp"
                 android:height="16dp"/>
 
-            <solid android:color="#ff9933"/>
+            <solid android:color="#4D72FF"/>
 
             <stroke
                 android:width="8dp"
-                android:color="#88ff9933"/>
+                android:color="#884D72FF"/>
         </shape>
     </item>
 

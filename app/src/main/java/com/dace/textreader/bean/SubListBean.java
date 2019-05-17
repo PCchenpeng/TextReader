@@ -75,6 +75,7 @@ public class SubListBean implements Parcelable {
             subListBean.index_id = in.readString();
             subListBean.format = in.readInt();
             subListBean.sentenceNum = in.readString();
+            subListBean.sentenceNum = in.readString();
             return new SubListBean();
         }
 
@@ -106,6 +107,7 @@ public class SubListBean implements Parcelable {
     private int format;
     private String sentenceNum;
 
+    private boolean isFollow;
 
     public String getDynasty() {
         return dynasty;
@@ -257,5 +259,13 @@ public class SubListBean implements Parcelable {
 
     public void setSentenceNum(String sentenceNum) {
         this.sentenceNum = sentenceNum;
+    }
+
+    public boolean isFollow() {
+        return isFollow;
+    }
+
+    public void setFollow(boolean follow) {
+        isFollow = follow;
     }
 }

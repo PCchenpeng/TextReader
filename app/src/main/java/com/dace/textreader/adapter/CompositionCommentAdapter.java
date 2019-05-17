@@ -67,7 +67,8 @@ public class CompositionCommentAdapter extends RecyclerView.Adapter<RecyclerView
         final WritingCommentBean comment = mList.get(position);
         if (holder instanceof CommentViewHolder) {
             GlideUtils.loadUserImage(mContext,
-                    HttpUrlPre.FILE_URL + comment.getCommentUserImg(),
+//                    HttpUrlPre.FILE_URL +
+                            comment.getCommentUserImg(),
                     ((CommentViewHolder) holder).iv_head);
             ((CommentViewHolder) holder).tv_name.setText(comment.getCommentUsername());
             ((CommentViewHolder) holder).tv_content.setText(comment.getCommentContent());
@@ -90,7 +91,8 @@ public class CompositionCommentAdapter extends RecyclerView.Adapter<RecyclerView
             });
         } else if (holder instanceof ReplyViewHolder) {
             GlideUtils.loadUserImage(mContext,
-                    HttpUrlPre.FILE_URL + comment.getCommentUserImg(),
+//                    HttpUrlPre.FILE_URL +
+                            comment.getCommentUserImg(),
                     ((ReplyViewHolder) holder).iv_head);
             ((ReplyViewHolder) holder).tv_name.setText(comment.getCommentUsername());
             String replyUsername = comment.getReplyUsername();

@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
-import com.dace.textreader.bean.Article;
+import com.dace.textreader.bean.CollectArticleBean;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.GlideUtils;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
@@ -25,9 +25,9 @@ import java.util.List;
 public class ArticleCollectionRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<Article> mList;
+    private List<CollectArticleBean.DataBean> mList;
 
-    public ArticleCollectionRecyclerViewAdapter(Context context, List<Article> list) {
+    public ArticleCollectionRecyclerViewAdapter(Context context, List<CollectArticleBean.DataBean> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -43,7 +43,7 @@ public class ArticleCollectionRecyclerViewAdapter extends RecyclerView.Adapter<R
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        Article article = mList.get(position);
+        CollectArticleBean.DataBean article = mList.get(position);
         if (article.isEditor()) {
             ((ViewHolder) holder).iv_select.setVisibility(View.VISIBLE);
         } else {
@@ -55,13 +55,13 @@ public class ArticleCollectionRecyclerViewAdapter extends RecyclerView.Adapter<R
             ((ViewHolder) holder).iv_select.setImageResource(R.drawable.icon_edit_unselected);
         }
         ((ViewHolder) holder).tv_title.setText(article.getTitle());
-        ((ViewHolder) holder).tv_content.setText(article.getContent());
-        String level = article.getPyScore() + "PY";
+        ((ViewHolder) holder).tv_content.setText(article.getSubContent());
+        String level = article.getScore() + "PY";
         ((ViewHolder) holder).tv_level.setText(level);
-        ((ViewHolder) holder).tv_type.setText(DataUtil.typeConversion(article.getType()));
-        String views = String.valueOf(article.getViews()) + "人阅读";
-        ((ViewHolder) holder).tv_views.setText(views);
-        GlideUtils.loadSmallImage(mContext, article.getImagePath(), ((ViewHolder) holder).iv_article);
+        ((ViewHolder) holder).tv_type.setText(article.getType());
+//        String views = String.valueOf(article.get()) + "人阅读";
+//        ((ViewHolder) holder).tv_views.setText(views);
+        GlideUtils.loadSmallImage(mContext, article.getImage(), ((ViewHolder) holder).iv_article);
         ((ViewHolder) holder).tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -34,12 +34,22 @@
                 android:singleLine="true"
                 android:hint="请输入字、词、文章、作者"
                 android:textColor="#ffffff"
-                android:textColorHint="#FFFFFF"
+                android:textColorHint="#90FFFFFF"
                 android:textSize="16sp"
                 android:layout_centerVertical="true"
                 android:background="#00ffffff"
                 android:textCursorDrawable="@drawable/my_cursor"
                 android:layout_toRightOf="@id/iv_back"/>
+            <ImageView
+                android:id="@id/iv_cancle"
+                android:visibility="gone"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"
+                android:src="@drawable/searchbar_icon_close" />
         </RelativeLayout>
 
     </com.dace.textreader.view.StatusBarHeightView>
@@ -59,10 +69,10 @@
                 android:id="@+id/rl_talk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -82,13 +92,14 @@
             <TextView
                 android:layout_below="@id/rl_talk"
                 android:id="@+id/tv_test"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="12dp"
                 android:textColor="#4D72FF"
                 android:textSize="17sp"
-                android:textStyle="bold"/>
+                android:textStyle="normal"/>
 
             <View
                 android:id="@+id/v1"
@@ -103,9 +114,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="热门搜索"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="12dp"
                 android:textColor="#333333"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
@@ -113,10 +123,11 @@
             <com.dace.textreader.view.LineWrapLayout
                 android:layout_below="@id/tv_hot"
                 android:id="@+id/lineWrapLayout"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp">
 
             </com.dace.textreader.view.LineWrapLayout>
 
@@ -171,28 +182,34 @@
                 </ListView>
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@id/search_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
                 android:layout_alignParentBottom="true"
-                android:orientation="vertical">
+                >
                 <TextView
                     android:id="@+id/tv_talk_tip"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#4D83FF"
                     android:textSize="14sp"
                     android:text="按住说话"/>
-
+                <com.dace.textreader.view.WaveView
+                    android:id="@+id/wave_view_input_writing"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"/>
                 <ImageView
                     android:id="@+id/iv_playpause"
+                    android:layout_centerInParent="true"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@drawable/search_try_talk_play"
-                    android:layout_gravity="center_horizontal"/>
-            </LinearLayout>
+                    />
+            </RelativeLayout>
 
         </RelativeLayout>
     </FrameLayout>
