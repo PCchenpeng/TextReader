@@ -49,7 +49,9 @@ public class CompositionRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         WritingBean writingBean = mList.get(position);
         ((ViewHolder) holder).tv_title.setText(writingBean.getTitle());
         ((ViewHolder) holder).tv_content.setText(writingBean.getContent());
-        GlideUtils.loadUserImage(mContext, HttpUrlPre.FILE_URL + writingBean.getUserImg(),
+        GlideUtils.loadUserImage(mContext,
+//                HttpUrlPre.FILE_URL +
+                        writingBean.getUserImg(),
                 ((ViewHolder) holder).iv_user);
         String userInfo = writingBean.getUsername() + "·" + writingBean.getUserGrade();
         ((ViewHolder) holder).tv_username.setText(userInfo);

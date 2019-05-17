@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -60,6 +62,7 @@ import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.NetWorkUtils;
 import com.dace.textreader.util.PreferencesUtil;
+import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.VersionInfoUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
@@ -130,7 +133,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        StatusBarUtil.transparencyBar(this);
         if (application == null) {
             application = (App) getApplication();
         }
@@ -1046,14 +1049,23 @@ public class BaseActivity extends AppCompatActivity {
             if (s != null) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    if (200 == jsonObject.getInt("status")) {
+                    int status = jsonObject.getInt("status");
+
+
+                    if (status!=200){
                         JSONObject data = jsonObject.getJSONObject("data");
                         activity.app_version = data.getString("version");
                         activity.appUpdateContent = data.getString("content");
                         activity.mDownloadUrl = data.getString("downloadAddress");
-                        //检查新版本
-                        activity.checkVersionData();
                     }
+
+
+
+                        //检查新版本
+                        activity.checkVersionData(status);
+
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1064,35 +1076,32 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * 检查新版本数据
      */
-    private void checkVersionData() {
+    private void checkVersionData(int status) {
         if (!isResume) {
             isNeedCheckVersion = true;
             return;
         }
-        if (app_version.contains("i")) {
+
+
+        if (status!=200){
+            String[] appContentString = appUpdateContent.split("\n");
+            for (int i = 0; i < appContentString.length; i++) {
+                mList_version.add(appContentString[i]);
+            }
+        }
+        if(status==700){
+            showAppUpdateDialog(false);
+        }
+        if (status==800) {
+            showAppUpdateDialog(true);
+        }
+
+        if (status==600) {
             showSystemUpgradeDialog();
-        } else {
+        }
+
+        if (status == 200){
             hideSystemUpgradeDialog();
-            String version;
-            if (app_version.contains("f")) {
-                version = app_version.split("f")[0];
-            } else {
-                version = app_version;
-            }
-            if (VersionInfoUtil.checkNewVersion(mContext, version)) {
-                for (int i = 0; i < appUpdateContent.split("\n").length; i++) {
-                    mList_version.add(appUpdateContent.split("\n")[i]);
-                }
-                boolean hasForce = false;
-                if (app_version.contains("f")) {
-                    hasForce = true;
-                }
-                if (hasForce) {
-                    showAppUpdateDialog(true);
-                } else {
-                    showAppUpdateDialog(false);
-                }
-            }
         }
     }
 
@@ -1102,6 +1111,10 @@ public class BaseActivity extends AppCompatActivity {
      * 显示App更新提示
      */
     private void showAppUpdateDialog(final boolean hasForce) {
+        if (SystemClock.currentThreadTimeMillis() - (long)PreferencesUtil.getData(getApplicationContext(),"lastCloseDialogTime",0) < 24 * 60 * 60 * 1000){
+            return;
+        }
+
         if (isShowAppUpdateDialog) {
             return;
         }
@@ -1187,13 +1200,24 @@ public class BaseActivity extends AppCompatActivity {
                     if (ContextCompat.checkSelfPermission(mContext,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_GRANTED) {  //先判断是否有写入文件的权限
+                        Log.d("111","==================>WRITE_EXTERNAL_STORAGE");
                         if (NetWorkUtils.isWifiConnected(mContext) && !file.exists()) {
                             NewMainActivity.isInitiativeClose = true;
                             startDownloadAPK();
                         }
+                    } else {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            if (ContextCompat.checkSelfPermission(BaseActivity.this,
+//                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                                    != PackageManager.PERMISSION_GRANTED) {
+//                                requestPermissions(new String[]{
+//                                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 111);
+//                            }
+//                        }
                     }
                     ((ViewGroup) getWindow().getDecorView()).removeView(view);
                     isShowAppUpdateDialog = false;
+                    PreferencesUtil.saveData(getApplicationContext(),"lastCloseDialogTime",SystemClock.currentThreadTimeMillis());
                 }
             }
         });
@@ -1264,6 +1288,11 @@ public class BaseActivity extends AppCompatActivity {
         if (requestCode == 110) {
             installationAPK(apkName);
         }
+        if (grantResults[0]==PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == 111) {
+                startDownloadAPK();
+            }
+        }
     }
 
     /**
@@ -1271,6 +1300,7 @@ public class BaseActivity extends AppCompatActivity {
      */
     private void startDownloadAPK() {
         if (mDownloadBinder != null) {
+            Log.d("111","==================>startDownloadAPK");
             mDownloadBinder.startDownload(mDownloadUrl, app_version);
         }
     }
@@ -1341,6 +1371,16 @@ public class BaseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    protected void showLoading(FrameLayout frameLayout){
+        View view = LayoutInflater.from(mContext)
+                .inflate(R.layout.view_loading, null);
+
+        ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
+        GlideUtils.loadGIFImageWithNoOptions(mContext, R.drawable.image_loading, iv_loading);
+        frameLayout.removeAllViews();
+        frameLayout.addView(view);
+        frameLayout.setVisibility(View.VISIBLE);
+    }
 
     protected void showDefaultView(FrameLayout frameLayout, int imageResource, String tipsText, boolean isGif, boolean isButton, String buttonText, final OnButtonClick onButtonClick){
         View view = LayoutInflater.from(this)
@@ -1402,20 +1442,6 @@ public class BaseActivity extends AppCompatActivity {
     public interface OnButtonClick{
         void onButtonClick();
     }
-
-
-
-    protected void showLoading(FrameLayout frameLayout){
-        View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.view_loading, null);
-
-        ImageView iv_loading = view.findViewById(R.id.iv_loading_content);
-        GlideUtils.loadGIFImageWithNoOptions(mContext, R.drawable.image_loading, iv_loading);
-        frameLayout.removeAllViews();
-        frameLayout.addView(view);
-        frameLayout.setVisibility(View.VISIBLE);
-    }
-
     protected boolean isLogin(){
         Object studeenObj = PreferencesUtil.getData(this,"studentId","-1");
         if(studeenObj == null)
@@ -1429,4 +1455,6 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+
 }

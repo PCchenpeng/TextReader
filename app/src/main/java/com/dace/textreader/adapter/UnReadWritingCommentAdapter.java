@@ -49,7 +49,7 @@ public class UnReadWritingCommentAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final UnReadWritingComment unReadComment = mList.get(position);
         GlideUtils.loadUserImage(mContext,
-                HttpUrlPre.FILE_URL + unReadComment.getCommentUserImg(),
+                 unReadComment.getCommentUserImg(),
                 ((ViewHolder) holder).iv_head);
         ((ViewHolder) holder).tv_reply_username.setText(unReadComment.getCommentUsername());
         ((ViewHolder) holder).tv_reply_time.setText(unReadComment.getCommentTime());

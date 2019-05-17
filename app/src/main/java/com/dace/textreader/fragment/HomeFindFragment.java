@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,6 +39,7 @@ import com.dace.textreader.util.DateUtil;
 import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.VersionInfoUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -70,7 +72,7 @@ import okhttp3.Response;
  * History:
  * ==============================================================================
  */
-public class HomeFindFragment extends Fragment {
+public class HomeFindFragment extends BaseFragment {
 
     private static final String url = HttpUrlPre.HTTP_URL + "/discover/recommend/list";
     private static final String bannerUrl = HttpUrlPre.HTTP_URL + "/introduction/banner";
@@ -81,6 +83,7 @@ public class HomeFindFragment extends Fragment {
     private LinearLayout ll_introduction;
     private RecyclerView recyclerView_introduction;
     private RecyclerView recyclerView;
+    private NestedScrollView nestedScrollView;
 
     private Context mContext;
 
@@ -163,6 +166,8 @@ public class HomeFindFragment extends Fragment {
                 }
             }
         });
+
+        setOnScrollListener(nestedScrollView);
     }
 
     /**
@@ -214,8 +219,11 @@ public class HomeFindFragment extends Fragment {
         frameLayout = view.findViewById(R.id.frame_home_find_fragment);
         refreshLayout = view.findViewById(R.id.smart_refresh_home_find_fragment);
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
-        refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
+//        refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
+        refreshLayout.setRefreshFooter(new ClassicsFooter(mContext),0,0);
+        refreshLayout.setEnableAutoLoadMore(true);
 
+        nestedScrollView = view.findViewById(R.id.nestedScrollView);
         recyclerView = view.findViewById(R.id.recycler_view_home_find_fragment);
         recyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext,
@@ -545,6 +553,8 @@ public class HomeFindFragment extends Fragment {
                 JSONObject object = new JSONObject();
                 object.put("studentId", strings[1]);
                 object.put("gradeId", NewMainActivity.GRADE_ID);
+                object.put("appVersion",VersionInfoUtil.getVersionName(fragment.mContext));
+                object.put("platform","android");
                 object.put("pageNum", strings[2]);
                 object.put("pageSize", 6);
                 RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());

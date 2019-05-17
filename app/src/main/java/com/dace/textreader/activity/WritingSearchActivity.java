@@ -29,6 +29,7 @@ import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.StatusBarUtil;
+import com.dace.textreader.util.VersionInfoUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 
@@ -386,6 +387,8 @@ public class WritingSearchActivity extends BaseActivity {
                 object.put("keyword", strings[1]);
                 object.put("pageNum", strings[2]);
                 object.put("pageSize", 10);
+                object.put("appVersion",VersionInfoUtil.getVersionName(activity));
+                object.put("platform","android");
                 if (activity.taskId.equals("")) {
                     if (!activity.searchType.equals("")) {
                         object.put("level", activity.searchType);

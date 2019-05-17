@@ -76,7 +76,9 @@ public class AfterReadingRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
             ((ViewHolder) holder).iv_liker.setImageResource(R.drawable.bottom_points_unselected);
         }
         ((ViewHolder) holder).tv_name.setText(afterReading.getUsername());
-        GlideUtils.loadUserImage(mContext, HttpUrlPre.FILE_URL + afterReading.getUserImg(),
+        GlideUtils.loadUserImage(mContext,
+//                HttpUrlPre.FILE_URL +
+                        afterReading.getUserImg(),
                 ((ViewHolder) holder).iv_head);
         ((ViewHolder) holder).tv_liker.setText(String.valueOf(afterReading.getLikeNum()));
         ((ViewHolder) holder).tv_date.setText(afterReading.getDate());

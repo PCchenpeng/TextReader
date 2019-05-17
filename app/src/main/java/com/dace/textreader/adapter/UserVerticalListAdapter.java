@@ -84,7 +84,7 @@ public class UserVerticalListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         UserBean userBean = mList.get(i);
-        GlideUtils.loadUserImage(mContext, HttpUrlPre.FILE_URL + userBean.getUserImage(),
+        GlideUtils.loadUserImage(mContext,  userBean.getUserImage(),
                 ((ViewHolder) viewHolder).iv_user);
         ((ViewHolder) viewHolder).tv_user.setText(userBean.getUsername());
         ((ViewHolder) viewHolder).tv_grade.setText(userBean.getUserGrade());

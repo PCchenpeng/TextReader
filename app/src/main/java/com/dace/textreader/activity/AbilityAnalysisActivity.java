@@ -346,7 +346,8 @@ public class AbilityAnalysisActivity extends BaseActivity {
         iv_total = findViewById(R.id.iv_ability_total);
 
         GlideUtils.loadUserImage(this,
-                HttpUrlPre.FILE_URL + NewMainActivity.USERIMG,
+//                HttpUrlPre.FILE_URL +
+                        NewMainActivity.USERIMG,
                 iv_head);
         String grade = "阅读能力 " + NewMainActivity.PY_SCORE + "PY";
         tv_grade.setText(grade);

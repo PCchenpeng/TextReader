@@ -60,7 +60,9 @@ public class RankRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((TotalViewHolder) holder).tv_rank.setVisibility(View.VISIBLE);
             ((TotalViewHolder) holder).tv_rank.setText(String.valueOf(position + 1));
         }
-        GlideUtils.loadUserImage(mContext, HttpUrlPre.FILE_URL + total.getImage(),
+        GlideUtils.loadUserImage(mContext, 
+                
+                        total.getImage(),
                 ((TotalViewHolder) holder).iv_head);
         ((TotalViewHolder) holder).tv_name.setText(total.getName());
         ((TotalViewHolder) holder).tv_time.setText(String.valueOf(total.getDuration()));

@@ -21,7 +21,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="12dp"
-                android:src="@drawable/icon_search"/>
+                android:src="@drawable/icon_search_white"/>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -29,11 +29,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <include
-            layout="@layout/grade_filter_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_writing_sort_list"
@@ -54,7 +49,10 @@
             android:layout_height="match_parent"
             android:background="@color/colorOrderDetailBg"
             android:visibility="gone"/>
-
+        <include
+            layout="@layout/grade_filter_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 </LinearLayout>

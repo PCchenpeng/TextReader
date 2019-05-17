@@ -52,7 +52,7 @@ public class UserImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             viewHolder.itemView.setVisibility(View.VISIBLE);
             UserBean userBean = mList.get(i - 1);
             GlideUtils.loadUserImage(mContext,
-                    HttpUrlPre.FILE_URL + userBean.getUserImage(),
+                     userBean.getUserImage(),
                     ((ViewHolder) viewHolder).imageView);
         }
     }

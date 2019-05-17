@@ -367,11 +367,15 @@
             <RelativeLayout
                 android:id="@+id/rl_invite"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
+                android:visibility="gone"
                 android:background="@color/colorWhite"
-                android:padding="10dp">
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                >
                 <ImageView
                     android:id="@+id/iv_invite"
+                    android:layout_centerVertical="true"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/my_icon_invitegift"/>
@@ -385,6 +389,13 @@
                     android:text="邀请有礼"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp"/>
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_invite"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="50dp"/>
                 <ImageView
                     android:layout_width="8dp"
                     android:layout_height="13dp"

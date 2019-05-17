@@ -1,5 +1,6 @@
 package com.dace.textreader.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -12,13 +13,16 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
 import com.dace.textreader.adapter.AuthorDetailAdapter;
 import com.dace.textreader.adapter.AuthorWorksAdapter;
+import com.dace.textreader.adapter.HomeRecommendAdapter;
 import com.dace.textreader.bean.AuthorDetailBean;
 import com.dace.textreader.bean.AuthorWorksBean;
+import com.dace.textreader.bean.FollowBean;
 import com.dace.textreader.util.CustomController;
 import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.GsonUtil;
@@ -39,16 +43,18 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
     private String url = HttpUrlPre.HTTP_URL_ + "/select/author/detail";
     private String worksUrl = HttpUrlPre.HTTP_URL_ + "/select/author/article/list";
     private String authorId;
+    private String author;
     private ExpandableTextView expandableTextView;
-//    private ImageView iv_topimg ,iv_playvideo;
-    private RelativeLayout rl_back_copy;
-    private ImageView iv_author,iv_audio;
-    private TextView tv_author,tv_follow;
+    private ImageView iv_topimg ,iv_playvideo;
+    private RelativeLayout rl_back_copy,rl_follow;
+    private ImageView iv_author,iv_audio,iv_follow;
+    private TextView tv_author,tv_follow,tv_more;
     private RecyclerView rcl_author_detail,rcl_author_works;
     private List<AuthorDetailBean.DataBean.DescriptionListBean> detailList = new ArrayList<>();
     private List<AuthorWorksBean.DataBean> worksList = new ArrayList<>();
     private AuthorDetailAdapter authorDetailAdapter;
     private AuthorWorksAdapter authorWorksAdapter;
+    private boolean isFollow;
     private NiceVideoPlayer videoPlayer;
     private CustomController controller;
     private NestedScrollView scroll_view;
@@ -60,6 +66,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_author_detail);
+
         initData();
         initView();
         initEvents();
@@ -71,10 +78,13 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         expandableTextView = findViewById(R.id.expand_text_view);
-//        iv_topimg = findViewById(R.id.iv_topimg);
-//        iv_topimg = findViewById(R.id.iv_topimg);
-//        iv_playvideo = findViewById(R.id.iv_playvideo);
+        iv_topimg = findViewById(R.id.iv_topimg);
+        iv_topimg = findViewById(R.id.iv_topimg);
+        iv_playvideo = findViewById(R.id.iv_playvideo);
         rl_back_copy = findViewById(R.id.rl_back_copy);
+        rl_follow = findViewById(R.id.rl_follow);
+        tv_more = findViewById(R.id.tv_more);
+        iv_follow = findViewById(R.id.iv_follow);
         iv_author = findViewById(R.id.iv_author);
         iv_audio = findViewById(R.id.iv_audio);
         tv_author = findViewById(R.id.tv_author);
@@ -119,9 +129,68 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
         rcl_author_works.setLayoutManager(linearLayoutManager1);
         rcl_author_works.setAdapter(authorWorksAdapter);
 
+        authorWorksAdapter.setOnItemClickListener(new AuthorWorksAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int type, String id, String imgUrl, int flag, int py) {
+                Intent intent;
+                switch (type) {
+                    case HomeRecommendAdapter.AUDIO_PIC:
+
+                        if (flag == 1) {
+                            intent = new Intent(AuthorDetailActivity.this, HomeAudioDetailActivity.class);
+                            intent.putExtra("id", id);
+                            intent.putExtra("py", py);
+                        } else {
+                            intent = new Intent(AuthorDetailActivity.this, ArticleDetailActivity.class);
+                            intent.putExtra("essayId", id);
+                            intent.putExtra("imgUrl", imgUrl);
+                        }
+                        startActivity(intent);
+                        break;
+
+                    case HomeRecommendAdapter.IMG:
+                        intent = new Intent(AuthorDetailActivity.this, ArticleDetailActivity.class);
+                        intent.putExtra("essayId", id);
+                        intent.putExtra("imgUrl", imgUrl);
+                        startActivity(intent);
+                        break;
+
+                    case HomeRecommendAdapter.VIDEO:
+                        intent = new Intent(AuthorDetailActivity.this, ArticleDetailActivity.class);
+                        intent.putExtra("essayId", id);
+                        intent.putExtra("imgUrl", imgUrl);
+                        intent.putExtra("isVideo", true);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
         expandableTextView.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
             @Override
             public void onExpandStateChanged(TextView textView, boolean isExpanded) {
+            }
+        });
+
+        rl_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isFollow){
+                    follow(rl_follow,tv_follow,iv_follow);
+                } else {
+                    unfollow(rl_follow,tv_follow,iv_follow);
+                }
+            }
+        });
+        tv_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(AuthorDetailActivity.this,MoreMagnumOpusActivity.class);
+                intent.putExtra("authorId",authorId);
+                intent.putExtra("author",author);
+                startActivity(intent);
             }
         });
 
@@ -129,7 +198,65 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
         getWorksData();
     }
 
+    public void follow(final RelativeLayout rl_follow, final TextView tv_follow, final ImageView iv_follow){
+        JSONObject params = new JSONObject();
+        try {
+            params.put("type","2");
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("albumId",authorId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(this).requestAsyn(HttpUrlPre.HTTP_URL_ + "/album/subscribe", OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                FollowBean followBean = GsonUtil.GsonToBean(result.toString(),FollowBean.class);
+                if (followBean.getStatus() == 600){//已经关注过
+//                    rl_follow.setSelected(true);
+//                    iv_follow.setVisibility(View.GONE);
+//                    tv_follow.setText("已关注");
+//                    mData.get(position).setFollow(true);
+                    Toast.makeText(AuthorDetailActivity.this,followBean.getMsg(),Toast.LENGTH_SHORT).show();
+                } else if (followBean.getStatus() == 200){
+                    isFollow = true;
+                    rl_follow.setSelected(true);
+                    iv_follow.setVisibility(View.GONE);
+                    tv_follow.setText("已关注");
+                }
+            }
 
+            @Override
+            public void onReqFailed(String errorMsg) {
+            }
+        });
+    }
+
+    public void unfollow(final RelativeLayout rl_follow, final TextView tv_follow, final ImageView iv_follow){
+        JSONObject params = new JSONObject();
+        try {
+            params.put("type","2");
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("albumId",authorId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(this).requestAsyn(HttpUrlPre.HTTP_URL_ + "/album/unsubscribe", OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                FollowBean followBean = GsonUtil.GsonToBean(result.toString(),FollowBean.class);
+                if (followBean.getStatus() == 200){
+                    isFollow = false;
+                    rl_follow.setSelected(false);
+                    iv_follow.setVisibility(View.VISIBLE);
+                    tv_follow.setText("关注");
+                }
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+            }
+        });
+    }
 
     private void getData() {
         JSONObject params = new JSONObject();
@@ -145,6 +272,12 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onReqSuccess(Object result) {
                 AuthorDetailBean authorDetailBean = GsonUtil.GsonToBean(result.toString(),AuthorDetailBean.class);
+                isFollow = authorDetailBean.getData().getIsFollow() == 0 ? false : true;
+                if (isFollow){
+                    rl_follow.setSelected(true);
+                    iv_follow.setVisibility(View.GONE);
+                    tv_follow.setText("已关注");
+                }
                 audioUrl = authorDetailBean.getData().getFemaleAudio();
                 String text = authorDetailBean.getData().getContent();
                 String textTest = text.replaceAll("\n","\n\n");

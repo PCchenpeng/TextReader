@@ -112,7 +112,7 @@ public class UserHorizontalListAdapter extends RecyclerView.Adapter<RecyclerView
         if (viewHolder instanceof ViewHolder) {
             UserBean userBean = mList.get(i);
             GlideUtils.loadUserImage(mContext,
-                    HttpUrlPre.FILE_URL + userBean.getUserImage(),
+                     userBean.getUserImage(),
                     ((ViewHolder) viewHolder).iv_user);
             ((ViewHolder) viewHolder).tv_user.setText(userBean.getUsername());
             String number = userBean.getCompositionNum() + "篇作文";

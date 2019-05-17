@@ -42,11 +42,11 @@ public class LineWrapLayout extends ViewGroup {
     /**
      * 水平方向间距
      */
-    private int horizontalSpace = 40;
+    private int horizontalSpace = 50;
     /**
      * 行间距
      */
-    private int verticalSpace = 40;
+    private int verticalSpace = 50;
 
 
     private List<Integer> listX;

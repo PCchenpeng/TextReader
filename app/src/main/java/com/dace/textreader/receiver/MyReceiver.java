@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.dace.textreader.activity.CompositionDetailActivity;
 import com.dace.textreader.activity.EventsActivity;
@@ -13,10 +14,12 @@ import com.dace.textreader.activity.MicroLessonActivity;
 import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewDailySentenceActivity;
 import com.dace.textreader.activity.StartupPageActivity;
+import com.dace.textreader.bean.FollowBean;
+import com.dace.textreader.bean.JPushMessageBean;
 import com.dace.textreader.util.ActivityUtils;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
@@ -92,9 +95,11 @@ public class MyReceiver extends BroadcastReceiver {
         if (message == null) {
             return;
         }
-
-        if (message.contains("version")) {
+        JPushMessageBean followBean = GsonUtil.GsonToBean(message,JPushMessageBean.class);
+        if (followBean.getMessageType() == 1) {
             broadcastUpdate(context, HttpUrlPre.ACTION_BROADCAST_SYSTEM_UPGRADE);
+        } else if (followBean.getMessageType() == 2){
+            //应用商城评价弹窗
         }
     }
 

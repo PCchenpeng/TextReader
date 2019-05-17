@@ -38,6 +38,7 @@
 
             <TextView
                 android:id="@+id/tv_date_after_reading_detail"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

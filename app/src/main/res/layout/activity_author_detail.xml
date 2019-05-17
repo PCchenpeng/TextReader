@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
-                    android:padding="5dp">
+                    android:padding="15dp">
                     <ImageView
                         android:id="@+id/iv_author"
                         android:layout_width="50dp"
@@ -95,20 +95,38 @@
                         android:src="@drawable/icon_speaker_blue"
                         android:layout_centerVertical="true"/>
 
-                    <TextView
-                        android:id="@+id/tv_follow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="5dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text=" +  关注"
-                        android:textSize="15sp"
-                        android:textColor="@color/colorWhite"
-                        android:background="@drawable/shape_4d72ff_bg"
+                    <RelativeLayout
+                        android:id="@+id/rl_follow"
+                        android:layout_width="67dp"
+                        android:layout_height="29dp"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/selector_author_follow_bg">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/iv_follow"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:src="@drawable/icon_concern_add" />
+
+                            <TextView
+                                android:id="@+id/tv_follow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:text="关注"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
                 </RelativeLayout>
                 <com.dace.textreader.view.weight.pullrecycler.ExpandableTextView
                     android:id="@+id/expand_text_view"
@@ -152,7 +170,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:background="#F7F7F9"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <TextView
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="代表作"
@@ -160,9 +182,21 @@
                     android:textSize="20sp"
                     android:textColor="#333333"
                     android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_more"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="更多"
+                    android:layout_marginRight="15dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/color_4D72FF"/>
+                </RelativeLayout>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rcl_author_works"
                     android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </android.support.v7.widget.RecyclerView>

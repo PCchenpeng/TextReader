@@ -22,6 +22,17 @@ public class Classes {
     private String author;
     private String imagePath;
 
+//            "title": "春夏秋冬",
+//            "authorId": null,
+//            "articleAlbumSeq": 1,
+//            "author": null,
+//            "image": "http://web.pythe.cn/image/kewen/112/0.1.jpg?imageView2/1/w/300/h/200",
+//            "id": 10346045,
+//            "flag": 0,
+//            "score": null,
+//            "subContent": null,
+//            "sequence": null
+
     public Classes() {
     }
 

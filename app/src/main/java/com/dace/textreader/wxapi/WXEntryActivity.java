@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.dace.textreader.App;
@@ -16,6 +17,7 @@ import com.dace.textreader.activity.BaseActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.activity.WXBindNumberActivity;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.VersionInfoUtil;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -213,10 +215,11 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 try {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
-                            .url(checkUrl + openid + "&unionid=" + unionid)
+                            .url(checkUrl + openid + "&unionid=" + unionid + "&appVersion=" + VersionInfoUtil.getVersionName(getApplicationContext()) + "&platform=" + "android")
                             .build();
                     Response response = client.newCall(request).execute();
                     String body = response.body().string();
+                    Log.d("111","body " + body);
                     JSONObject jsonObject = new JSONObject(body);
                     int status = jsonObject.getInt("status");
                     if (status == 200) {

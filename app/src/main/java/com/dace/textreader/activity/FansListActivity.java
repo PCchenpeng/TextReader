@@ -21,6 +21,7 @@ import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.StatusBarUtil;
+import com.dace.textreader.util.VersionInfoUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -501,6 +502,8 @@ public class FansListActivity extends BaseActivity {
                 object.put("pageNum", strings[2]);
                 object.put("pageSize", 10);
                 object.put("viewerId", strings[3]);
+                object.put("appVersion",VersionInfoUtil.getVersionName(activity));
+                object.put("platform","android");
                 RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(strings[0])
@@ -545,6 +548,8 @@ public class FansListActivity extends BaseActivity {
                 object.put("studentId", strings[1]);
                 object.put("pageNum", strings[2]);
                 object.put("pageSize", 10);
+                object.put("appVersion",VersionInfoUtil.getVersionName(activity));
+                object.put("platform","android");
                 RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(strings[0])

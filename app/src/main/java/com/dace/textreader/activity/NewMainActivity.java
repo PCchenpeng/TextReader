@@ -209,10 +209,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_main);
 
-        //修改状态栏的文字颜色为黑色
-//        int flag = StatusBarUtil.StatusBarLightMode(this);
-//        StatusBarUtil.StatusBarLightMode(this, flag);
-
         mContext = this;
 
         fm = getSupportFragmentManager();
@@ -496,6 +492,14 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                         0);
             }
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(NewMainActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 111);
+            }
+        }
     }
 
     @Override
@@ -543,7 +547,6 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                         OkHttpClient client = new OkHttpClient();
                         JSONObject json = new JSONObject();
                         json.put("token", TOKEN);
-                        Log.d("111","android.os.Build.BRAND " + android.os.Build.BRAND);
                         json.put("phoneModel", android.os.Build.BRAND);
                         json.put("studentId", NewMainActivity.STUDENT_ID);
                         json.put("platform", "android");

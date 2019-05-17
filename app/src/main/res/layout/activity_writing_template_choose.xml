@@ -22,10 +22,10 @@
                 android:layout_height="48dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/icon_back"/>
+                    android:src="@drawable/ic_back_white"/>
 
             </RelativeLayout>
 
@@ -38,7 +38,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="保存"
-                android:textColor="@color/color_4D72FF"
+                android:textColor="@color/colorWhite"
                 android:textSize="16sp"/>
 
             <View
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorOrange"
+            android:background="@color/color_4D72FF"
             android:gravity="center"
             android:text="添加模板"
             android:textColor="@color/colorWhite"/>

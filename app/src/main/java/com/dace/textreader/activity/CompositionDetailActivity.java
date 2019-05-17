@@ -66,6 +66,7 @@ import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.ShareUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.Utils;
+import com.dace.textreader.util.VersionInfoUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
@@ -793,18 +794,18 @@ public class CompositionDetailActivity extends BaseActivity {
      * 改变内容样式
      */
     private void changeWebStyle() {
-        try {
-            JSONObject object = new JSONObject();
-            object.put("fontSize", textShowSize[textSizePosition]);
-            object.put("lineHeight", textLineSpace[textLineSpacePosition]);
-            object.put("bgColor", background[backgroundPosition]);
-            if (webView != null) {
-                webView.loadUrl("javascript:changeTxtDetail(" + object.toString() + ")");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            initCompositionData();
-        }
+//        try {
+//            JSONObject object = new JSONObject();
+//            object.put("fontSize", textShowSize[textSizePosition]);
+//            object.put("lineHeight", textLineSpace[textLineSpacePosition]);
+//            object.put("bgColor", background[backgroundPosition]);
+//            if (webView != null) {
+//                webView.loadUrl("javascript:changeTxtDetail(" + object.toString() + ")");
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            initCompositionData();
+//        }
     }
 
     /**
@@ -1838,7 +1839,9 @@ public class CompositionDetailActivity extends BaseActivity {
         if (isDestroyed()) {
             return;
         }
-        GlideUtils.loadUserImage(mContext, HttpUrlPre.FILE_URL + userImage, iv_user);
+        GlideUtils.loadUserImage(mContext,
+//                HttpUrlPre.FILE_URL +
+                        userImage, iv_user);
         tv_user_name.setText(userName);
         tv_user_grade.setText(userGrade);
         if (userDescription.equals("") || userDescription.equals("null")) {
@@ -1914,9 +1917,9 @@ public class CompositionDetailActivity extends BaseActivity {
 
         if (compositionArea == 0) {
             if (isCollected) {
-                iv_collection.setImageResource(R.drawable.bottom_collection_selected);
+                iv_collection.setImageResource(R.drawable.nav_icon_collect_select);
             } else {
-                iv_collection.setImageResource(R.drawable.bottom_collection_unselected);
+                iv_collection.setImageResource(R.drawable.nav_icon_collect_default);
             }
         }
 
@@ -2505,6 +2508,8 @@ public class CompositionDetailActivity extends BaseActivity {
                 json.put("id", strings[2]);
                 json.put("area", strings[3]);
                 json.put("isNew", 1);
+                json.put("appVersion",VersionInfoUtil.getVersionName(activity));
+                json.put("platform","android");
                 RequestBody requestBody = RequestBody.create(DataUtil.JSON, json.toString());
                 Request request = new Request.Builder()
                         .url(strings[0])

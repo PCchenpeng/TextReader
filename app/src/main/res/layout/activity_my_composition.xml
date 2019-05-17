@@ -11,7 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/top_back_title_layout"/>
+        <include
+            layout="@layout/top_back_title_layout"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp" />
 
         <RelativeLayout
             android:id="@+id/rl_write_my_composition"
@@ -60,7 +63,7 @@
         app:stl_defaultTabTextSize="15sp"
         app:stl_dividerColor="@color/colorTransparent"
         app:stl_dividerThickness="0dp"
-        app:stl_indicatorColor="@color/colorOrange"
+        app:stl_indicatorColor="@color/color_4D72FF"
         app:stl_indicatorCornerRadius="2dp"
         app:stl_indicatorThickness="4dp"
         app:stl_indicatorWidth="20dp"

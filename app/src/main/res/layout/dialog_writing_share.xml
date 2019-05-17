@@ -88,6 +88,7 @@
 
                     <TextView
                         android:id="@+id/tv_date_writing_share_dialog"
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTextNormal"

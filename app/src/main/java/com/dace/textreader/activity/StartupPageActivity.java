@@ -58,6 +58,7 @@ public class StartupPageActivity extends AppCompatActivity {
     private static final String url = HttpUrlPre.HTTP_URL + "/select/ad";
 
     private ImageView iv_start;
+    private ImageView iv_cover;
     private RelativeLayout rl_skip;
     private TextView tv_skip;
 
@@ -93,11 +94,17 @@ public class StartupPageActivity extends AppCompatActivity {
         isFirstStart = sharedPreferences.getBoolean("main", true);
 
         iv_start = findViewById(R.id.iv_guide_start_up);
+        iv_cover = findViewById(R.id.iv_cover);
         rl_skip = findViewById(R.id.rl_skip_start_up);
         tv_skip = findViewById(R.id.tv_skip_start_up);
         tv_skip.setText("跳过 3");
 
-        GlideUtils.loadImageWithNoOptions(mContext, R.drawable.image_startup, iv_start);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv_cover.getLayoutParams();
+        layoutParams.width = DensityUtil.dip2px(this,getPingMuSize(this)[0]);
+        layoutParams.height = DensityUtil.dip2px(this,getPingMuSize(this)[1]);
+        iv_cover.setLayoutParams(layoutParams);
+
+//        GlideUtils.loadImageWithNoOptions(mContext, R.drawable.image_startup, iv_start);
         setImmerseLayout();
 
         iv_start.setOnClickListener(new View.OnClickListener() {
@@ -389,6 +396,7 @@ public class StartupPageActivity extends AppCompatActivity {
                             } else {
                                 bitmap = resource;
                                 isAdsReady = true;
+                                iv_cover.setVisibility(View.GONE);
                             }
                         }
                     });
@@ -422,5 +430,24 @@ public class StartupPageActivity extends AppCompatActivity {
         }
 
         super.onDestroy();
+    }
+
+    /**
+     * @ 获取当前手机屏幕的尺寸(单位:像素)
+     */
+    public static float[] getPingMuSize(Context mContext) {
+        int densityDpi = mContext.getResources().getDisplayMetrics().densityDpi;
+        float scaledDensity = mContext.getResources().getDisplayMetrics().scaledDensity;
+        float density = mContext.getResources().getDisplayMetrics().density;
+        float xdpi = mContext.getResources().getDisplayMetrics().xdpi;
+        float ydpi = mContext.getResources().getDisplayMetrics().ydpi;
+        int width = mContext.getResources().getDisplayMetrics().widthPixels;
+        int height = mContext.getResources().getDisplayMetrics().heightPixels;
+
+        // 这样可以计算屏幕的物理尺寸
+        float width2 = (width / xdpi)*(width / xdpi);
+        float height2 = (height / ydpi)*(width / xdpi);
+
+        return new float[]{width2,height2};
     }
 }

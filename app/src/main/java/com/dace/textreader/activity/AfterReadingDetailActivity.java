@@ -242,7 +242,9 @@ public class AfterReadingDetailActivity extends BaseActivity {
                 essayId = object.optLong("essayid", -1);
                 id = object.getString("id");
                 studentId = object.optInt("studentid", -1);
-                imagePath = HttpUrlPre.FILE_URL + object.getString("userimg");
+                imagePath =
+//                        HttpUrlPre.FILE_URL +
+                                object.getString("userimg");
                 username = object.getString("username");
                 if (object.getString("feelingTime").equals("")
                         || object.getString("feelingTime").equals("null")) {

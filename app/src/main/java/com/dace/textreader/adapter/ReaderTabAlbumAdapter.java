@@ -30,8 +30,8 @@ public class ReaderTabAlbumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<ReaderTabAlbumTopBean.DataBean> topData ;
     private List<ReaderTabAlbumItemBean.DataBean> itemData;
 
-    private final int TYPE_TOP = 10001;
-    private final int TYPE_ITEM = 10002;
+    private final int TYPE_TOP = 1;
+    private final int TYPE_ITEM = 2;
 
     private int currentindex = 0;
 

@@ -58,7 +58,7 @@ public class WritingCollectionRecyclerViewAdapter extends RecyclerView.Adapter<R
             ((ViewHolder) holder).iv_select.setImageResource(R.drawable.icon_edit_unselected);
         }
         ((ViewHolder) holder).tv_title.setText(writingBean.getTitle());
-        GlideUtils.loadUserImage(mContext, HttpUrlPre.FILE_URL + writingBean.getUserImg(),
+        GlideUtils.loadUserImage(mContext,  writingBean.getUserImg(),
                 ((ViewHolder) holder).iv_user);
         String userInfo = writingBean.getUsername() + "·" + writingBean.getUserGrade();
         ((ViewHolder) holder).tv_username.setText(userInfo);
@@ -76,7 +76,7 @@ public class WritingCollectionRecyclerViewAdapter extends RecyclerView.Adapter<R
             ((ViewHolder) holder).tv_content.setVisibility(View.VISIBLE);
             ((ViewHolder) holder).tv_score.setVisibility(View.VISIBLE);
             ((ViewHolder) holder).iv_score.setVisibility(View.VISIBLE);
-            ((ViewHolder) holder).tv_views.setVisibility(View.VISIBLE);
+//            ((ViewHolder) holder).tv_views.setVisibility(View.VISIBLE);
             ((ViewHolder) holder).tv_comment.setVisibility(View.VISIBLE);
             ((ViewHolder) holder).ll_task.setVisibility(View.VISIBLE);
 

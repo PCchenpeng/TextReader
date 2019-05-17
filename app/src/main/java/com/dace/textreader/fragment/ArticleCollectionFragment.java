@@ -15,15 +15,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewCollectionActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ArticleCollectionRecyclerViewAdapter;
 import com.dace.textreader.bean.Article;
+import com.dace.textreader.bean.CollectArticleBean;
+import com.dace.textreader.bean.FollowBean;
 import com.dace.textreader.listen.OnCollectionEditorListen;
 import com.dace.textreader.listen.OnListDataOperateListen;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.WeakAsyncTask;
@@ -38,7 +42,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +64,7 @@ import okhttp3.Response;
 
 public class ArticleCollectionFragment extends Fragment {
 
-    private final String url = HttpUrlPre.HTTP_URL + "/me/collectEssays?studentId=";
+    private final String url = HttpUrlPre.HTTP_URL_ + "/select/essay/collect";
     private final String deleteUrl = HttpUrlPre.HTTP_URL + "/essays/collect/delete";
 
     private View view;
@@ -73,8 +76,8 @@ public class ArticleCollectionFragment extends Fragment {
 
     private LinearLayoutManager mLayoutManager;
 
-    private List<Article> mList = new ArrayList<>();
-    private List<Article> mSelectedList = new ArrayList<>();
+    private List<CollectArticleBean.DataBean> mList = new ArrayList<>();
+    private List<CollectArticleBean.DataBean> mSelectedList = new ArrayList<>();
     private int selectedNum = 0;  //选中的item数量
 
     private ArticleCollectionRecyclerViewAdapter adapter;
@@ -242,12 +245,11 @@ public class ArticleCollectionFragment extends Fragment {
      */
     private void turnToArticleDetail(int pos) {
         this.position = pos;
-        Article article = mList.get(pos);
-        long essayId = article.getId();
-        int type = article.getType();
-        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
-        intent.putExtra("id", essayId);
-        intent.putExtra("type", type);
+        CollectArticleBean.DataBean article = mList.get(pos);
+        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+        intent.putExtra("essayId", article.getId() + "");
+        intent.putExtra("imgUrl", article.getImage());
+//        intent.putExtra("type", type);
         startActivityForResult(intent, 0);
     }
 
@@ -260,8 +262,8 @@ public class ArticleCollectionFragment extends Fragment {
                     int likeNum = mList.get(position).getLikeNum();
                     mList.get(position).setLikeNum(likeNum + 1);
                 }
-                int views = mList.get(position).getViews();
-                mList.get(position).setViews(views + 1);
+                int views = mList.get(position).getPv();
+                mList.get(position).setPv(views + 1);
                 adapter.notifyItemChanged(position);
                 position = -1;
             }
@@ -274,7 +276,7 @@ public class ArticleCollectionFragment extends Fragment {
      * @param pos
      */
     private void selectedOrNot(int pos) {
-        Article article = mList.get(pos);
+        CollectArticleBean.DataBean article = mList.get(pos);
         if (article.isSelected()) {
             unchecked(pos);
         } else {
@@ -365,9 +367,7 @@ public class ArticleCollectionFragment extends Fragment {
         pageNum++;
         refreshing = true;
         new GetData(this)
-                .execute(url + NewMainActivity.STUDENT_ID +
-                        "&type=" + 0 +
-                        "&pageNum=" + pageNum);
+                .execute(url,NewMainActivity.STUDENT_ID + "",pageNum + "","750","420");
     }
 
     /**
@@ -392,9 +392,7 @@ public class ArticleCollectionFragment extends Fragment {
             mList.clear();
             adapter.notifyDataSetChanged();
             new GetData(this)
-                    .execute(url + NewMainActivity.STUDENT_ID +
-                            "&type=" + 0 +
-                            "&pageNum=" + pageNum);
+                    .execute(url,NewMainActivity.STUDENT_ID + "",pageNum + "","750","420");
         }
     }
 
@@ -426,21 +424,23 @@ public class ArticleCollectionFragment extends Fragment {
                 if (jsonArray.length() == 0) {
                     emptyData();
                 } else {
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject essay = jsonArray.getJSONObject(i);
-                        Article article = new Article();
-                        article.setId(essay.optLong("id", -1));
-                        article.setType(essay.optInt("type", -1));
-                        article.setTitle(essay.getString("title"));
-                        article.setContent(essay.getString("content"));
-                        article.setGrade(essay.optInt("grade", 110));
-                        article.setPyScore(essay.getString("score"));
-                        article.setViews(essay.optInt("pv", 0));
-                        article.setImagePath(essay.getString("image"));
-                        article.setEditor(isEditor);
-                        article.setSelected(false);
-                        mList.add(article);
-                    }
+                    CollectArticleBean collectArticleBean = GsonUtil.GsonToBean(s,CollectArticleBean.class);
+                    mList.addAll(collectArticleBean.getData());
+//                    for (int i = 0; i < jsonArray.length(); i++) {
+//                        JSONObject essay = jsonArray.getJSONObject(i);
+//                        Article article = new Article();
+//                        article.setId(essay.optLong("id", -1));
+//                        article.setType(essay.optInt("type", -1));
+//                        article.setTitle(essay.getString("title"));
+//                        article.setContent(essay.getString("content"));
+//                        article.setGrade(essay.optInt("grade", 110));
+//                        article.setPyScore(essay.getString("score"));
+//                        article.setViews(essay.optInt("pv", 0));
+//                        article.setImagePath(essay.getString("image"));
+//                        article.setEditor(isEditor);
+//                        article.setSelected(false);
+//                        mList.add(article);
+//                    }
                     adapter.notifyDataSetChanged();
                     if (mListen != null) {
                         mListen.onLoadResult(true);
@@ -543,12 +543,19 @@ public class ArticleCollectionFragment extends Fragment {
         protected String doInBackground(ArticleCollectionFragment fragment, String[] params) {
             try {
                 OkHttpClient client = new OkHttpClient();
+                JSONObject object = new JSONObject();
+                object.put("studentId", params[1]);
+                object.put("pageNum", params[2]);
+                object.put("width", params[3]);
+                object.put("height", params[4]);
+                RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(params[0])
+                        .post(body)
                         .build();
                 Response response = client.newCall(request).execute();
                 return response.body().string();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
