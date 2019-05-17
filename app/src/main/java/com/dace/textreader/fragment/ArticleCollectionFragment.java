@@ -15,15 +15,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewCollectionActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.ArticleCollectionRecyclerViewAdapter;
 import com.dace.textreader.bean.Article;
+import com.dace.textreader.bean.CollectArticleBean;
+import com.dace.textreader.bean.FollowBean;
 import com.dace.textreader.listen.OnCollectionEditorListen;
 import com.dace.textreader.listen.OnListDataOperateListen;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.WeakAsyncTask;
@@ -38,7 +42,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -198,7 +201,11 @@ public class ArticleCollectionFragment extends Fragment {
                 if (isEditor) {
                     selectedOrNot(pos);
                 } else {
-                    turnToArticleDetail(pos);
+                    if (mList.get(pos).getFlag() == 0) {
+                        turnToArticleDetail(pos);
+                    } else if (mList.get(pos).getFlag() == 1){
+                        turnToHomeAudioDetail(pos);
+                    }
                 }
             }
         });
@@ -248,6 +255,21 @@ public class ArticleCollectionFragment extends Fragment {
         intent.putExtra("imgUrl", article.getImage());
 //        intent.putExtra("type", type);
         startActivityForResult(intent, 0);
+    }
+
+        //跳转绘本
+    /**
+     * 查看文章详细内容
+     *
+     * @param pos
+     */
+    private void turnToHomeAudioDetail(int pos) {
+        int py = mList.get(pos).getScore();
+        int id = mList.get(pos).getId();
+        Intent intent = new Intent(getContext(), HomeAudioDetailActivity.class);
+        intent.putExtra("id", id + "");
+        intent.putExtra("py", py);
+        getContext().startActivity(intent);
     }
 
     @Override
@@ -421,21 +443,23 @@ public class ArticleCollectionFragment extends Fragment {
                 if (jsonArray.length() == 0) {
                     emptyData();
                 } else {
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject essay = jsonArray.getJSONObject(i);
-                        Article article = new Article();
-                        article.setId(essay.optLong("id", -1));
-                        article.setType(essay.optInt("type", -1));
-                        article.setTitle(essay.getString("title"));
-                        article.setContent(essay.getString("content"));
-                        article.setGrade(essay.optInt("grade", 110));
-                        article.setPyScore(essay.getString("score"));
-                        article.setViews(essay.optInt("pv", 0));
-                        article.setImagePath(essay.getString("image"));
-                        article.setEditor(isEditor);
-                        article.setSelected(false);
-                        mList.add(article);
-                    }
+                    CollectArticleBean collectArticleBean = GsonUtil.GsonToBean(s,CollectArticleBean.class);
+                    mList.addAll(collectArticleBean.getData());
+//                    for (int i = 0; i < jsonArray.length(); i++) {
+//                        JSONObject essay = jsonArray.getJSONObject(i);
+//                        Article article = new Article();
+//                        article.setId(essay.optLong("id", -1));
+//                        article.setType(essay.optInt("type", -1));
+//                        article.setTitle(essay.getString("title"));
+//                        article.setContent(essay.getString("content"));
+//                        article.setGrade(essay.optInt("grade", 110));
+//                        article.setPyScore(essay.getString("score"));
+//                        article.setViews(essay.optInt("pv", 0));
+//                        article.setImagePath(essay.getString("image"));
+//                        article.setEditor(isEditor);
+//                        article.setSelected(false);
+//                        mList.add(article);
+//                    }
                     adapter.notifyDataSetChanged();
                     if (mListen != null) {
                         mListen.onLoadResult(true);
@@ -538,12 +562,19 @@ public class ArticleCollectionFragment extends Fragment {
         protected String doInBackground(ArticleCollectionFragment fragment, String[] params) {
             try {
                 OkHttpClient client = new OkHttpClient();
+                JSONObject object = new JSONObject();
+                object.put("studentId", params[1]);
+                object.put("pageNum", params[2]);
+                object.put("width", params[3]);
+                object.put("height", params[4]);
+                RequestBody body = RequestBody.create(DataUtil.JSON, object.toString());
                 Request request = new Request.Builder()
                         .url(params[0])
+                        .post(body)
                         .build();
                 Response response = client.newCall(request).execute();
                 return response.body().string();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
