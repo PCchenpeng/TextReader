@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
+import com.dace.textreader.activity.HomeAudioDetailActivity;
 import com.dace.textreader.activity.NewArticleDetailActivity;
 import com.dace.textreader.activity.NewCollectionActivity;
 import com.dace.textreader.activity.NewMainActivity;
@@ -201,7 +202,11 @@ public class ArticleCollectionFragment extends Fragment {
                 if (isEditor) {
                     selectedOrNot(pos);
                 } else {
-                    turnToArticleDetail(pos);
+                    if (mList.get(pos).getFlag() == 0) {
+                        turnToArticleDetail(pos);
+                    } else if (mList.get(pos).getFlag() == 1){
+                        turnToHomeAudioDetail(pos);
+                    }
                 }
             }
         });
@@ -251,6 +256,21 @@ public class ArticleCollectionFragment extends Fragment {
         intent.putExtra("imgUrl", article.getImage());
 //        intent.putExtra("type", type);
         startActivityForResult(intent, 0);
+    }
+
+        //跳转绘本
+    /**
+     * 查看文章详细内容
+     *
+     * @param pos
+     */
+    private void turnToHomeAudioDetail(int pos) {
+        int py = mList.get(pos).getScore();
+        int id = mList.get(pos).getId();
+        Intent intent = new Intent(getContext(), HomeAudioDetailActivity.class);
+        intent.putExtra("id", id + "");
+        intent.putExtra("py", py);
+        getContext().startActivity(intent);
     }
 
     @Override
