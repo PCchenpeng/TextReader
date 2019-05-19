@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/picbook_bg_vertical"
+    android:id="@+id/rl_picture_book"
     tools:ignore="MissingDefaultResource">
     <RelativeLayout
         android:id="@+id/rl_top"
@@ -54,9 +55,55 @@
     </RelativeLayout>
 
 
+
     <RelativeLayout
-        android:visibility="gone"
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="87dp"
+        android:layout_alignParentBottom="true">
+        <ImageView
+            android:id="@+id/iv_collect"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/picbook_icon_collect"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"/>
+
+        <ImageView
+            android:id="@+id/iv_playpause"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/picbook_btn_play"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/iv_fullscreen"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/picbook_icon_fullscreen"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"/>
+    </RelativeLayout>
+
+    <View
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </View>
+        <com.dace.textreader.view.weight.pullrecycler.album.AlbumView
+            android:id="@+id/album_view"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <!--android:layout_below="@id/rl_top"-->
+            <!--android:layout_above="@id/rl_bottom">-->
+        </com.dace.textreader.view.weight.pullrecycler.album.AlbumView>
+    <RelativeLayout
         android:id="@+id/rl_top_land"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -110,47 +157,6 @@
         </RelativeLayout>
     </RelativeLayout>
 
-
-    <RelativeLayout
-        android:id="@+id/rl_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="87dp"
-        android:layout_alignParentBottom="true">
-        <ImageView
-            android:id="@+id/iv_collect"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/picbook_icon_collect"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"/>
-
-        <ImageView
-            android:id="@+id/iv_playpause"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/picbook_btn_play"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"/>
-
-        <ImageView
-            android:id="@+id/iv_fullscreen"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/picbook_icon_fullscreen"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"/>
-    </RelativeLayout>
-
-    <com.dace.textreader.view.weight.pullrecycler.album.AlbumView
-        android:id="@+id/album_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
-        <!--android:layout_below="@id/rl_top"-->
-        <!--android:layout_above="@id/rl_bottom">-->
-    </com.dace.textreader.view.weight.pullrecycler.album.AlbumView>
-
     <RelativeLayout
         android:visibility="gone"
         android:id="@+id/rl_bottom_land"
@@ -191,6 +197,7 @@
 
         <ImageView
             android:id="@+id/iv_fullscreen_land"
+            android:visibility="invisible"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginRight="10dp"

@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -103,6 +104,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private boolean hasRender = false;
 
+//    private boolean isPortrait = true;
     private boolean isPortrait = true;
 
     private Thread musicThread;
@@ -130,11 +132,11 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private ImageView iv_playpause_land,iv_fullscreen_land;
     private TextView tv_currNum_land,tv_totalNum_land;
-    private RelativeLayout rl_bottom,rl_bottom_land,rl_top_land,rl_top;
+    private RelativeLayout rl_bottom,rl_bottom_land,rl_top_land,rl_top,rl_picture_book;
     private SeekBar seekBar;
 
     private long seconds;
-
+    private long oldClickTimeStamp;
 
 
     @Override
@@ -187,7 +189,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private void initView() {
         album_view = findViewById(R.id.album_view);
         if(isPortrait){
-            album_view.setZOrderOnTop(true);
+//            album_view.setZOrderOnTop(true);
+            album_view.setZOrderOnTop(false);
         }else {
             album_view.setZOrderOnTop(true);
             album_view.setZOrderMediaOverlay(true);
@@ -201,6 +204,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         tv_totalNum = findViewById(R.id.tv_totalNum);
         rl_bottom = findViewById(R.id.rl_bottom);
         rl_top = findViewById(R.id.rl_top);
+        rl_picture_book = findViewById(R.id.rl_picture_book);
 
         iv_back.setOnClickListener(this);
         iv_share.setOnClickListener(this);
@@ -261,13 +265,13 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_back:
-                if(isPortrait){
+//                if(isPortrait){
                     this.finish();
-                }else {
-                    currentIndex = album_view.getCurrentIndex();
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    isPortrait = true;
-                }
+//                }else {
+//                    currentIndex = album_view.getCurrentIndex();
+//                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                    isPortrait = true;
+//                }
 
                 break;
             case R.id.iv_share:
@@ -293,6 +297,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 if(isPortrait){
                     if(islandspaceBitmap){
                         int width = DensityUtil.getScreenWidth(this);
+                        Log.d("111","width " + width);
                         int height = (int)((float)bitmipHeight/bitmipWidth * width);
                         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) album_view.getLayoutParams();
                         layoutParams.width = width;
@@ -309,6 +314,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
                 }else {
                     int width = DensityUtil.getScreenWidth(this);
+                    Log.d("111","width111 " + width);
                     int height = (int)((float)bitmipHeight/bitmipWidth * width);
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) album_view.getLayoutParams();
                     layoutParams.width = width;
@@ -630,6 +636,40 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                     }
                 }
             });
+            album_view.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()){
+                        case MotionEvent.ACTION_DOWN:
+                            oldClickTimeStamp = System.currentTimeMillis();
+                            break;
+                        case MotionEvent.ACTION_UP:
+//                            if (System.currentTimeMillis() - oldClickTimeStamp < 500){//点击
+                            Log.d("111","System.currentTimeMillis() - oldClickTimeStamp " + (System.currentTimeMillis() - oldClickTimeStamp));
+//                                seconds = 0;
+//                                if(isPortrait){
+//                                    if(rl_bottom_land.getVisibility() == View.VISIBLE){
+//                                        rl_bottom_land.setVisibility(View.GONE);
+//                                        rl_top_land.setVisibility(View.GONE);
+//                                    }else {
+//                                        rl_bottom_land.setVisibility(View.VISIBLE);
+//                                        rl_top_land.setVisibility(View.VISIBLE);
+//                                    }
+//                                }else {
+//                                    if(rl_bottom.getVisibility() == View.VISIBLE){
+//                                        rl_top.setVisibility(View.GONE);
+//                                        rl_bottom.setVisibility(View.GONE);
+//                                    }else {
+//                                        rl_top.setVisibility(View.VISIBLE);
+//                                        rl_bottom.setVisibility(View.VISIBLE);
+//                                    }
+//                                }
+//                            }
+                            break;
+                    }
+                    return false;
+                }
+            });
 
             if (lastIndex != -1 && lastIndex != 0) {
                 album_view.setCurrentIndex(lastIndex);
@@ -685,6 +725,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                     islandspaceBitmap = true;
                 }else {
                     islandspaceBitmap = false;
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    isPortrait = false;
                 }
                 int width = DensityUtil.getScreenWidth(HomeAudioDetailActivity.this);
                 int height = (int)((float)bitmipHeight/bitmipWidth * width);
@@ -692,6 +734,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 layoutParams.width = width;
                 layoutParams.height = height;
                 album_view.setLayoutParams(layoutParams);
+                album_view.setVisibility(View.VISIBLE);
 
                 Log.d("bitmapsize", "width: " + bitmipWidth); //400px
                 Log.d("bitmapsize", "height: " + bitmipHeight); //400px

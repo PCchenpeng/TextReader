@@ -14,9 +14,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
+import com.dace.textreader.activity.AuthorDetailActivity;
+import com.dace.textreader.activity.CompositionDetailActivity;
+import com.dace.textreader.activity.HomeAudioDetailActivity;
 import com.dace.textreader.bean.SearchResultBean;
 import com.dace.textreader.bean.SubListBean;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.TurnToActivityUtil;
 
 import java.util.List;
 
@@ -64,7 +68,8 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((ItemHolder) viewHolder).iv_user);
 
         final String category = mData.get(itemPosition).getCategory();
-        int flag = mData.get(itemPosition).getFlag();
+        final int flag = mData.get(itemPosition).getFlag();
+        final int py = mData.get(itemPosition).getScore_py();
         final String id = mData.get(itemPosition).getIndex_id();
 
         ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +77,7 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
             public void onClick(View v) {
                 Intent intent;
                 if(category .equals("创作")){
-                    intent = new Intent(mContext, ArticleDetailActivity.class);
+                    intent = new Intent(mContext, CompositionDetailActivity.class);
                     intent.putExtra("writingId", id);
                     intent.putExtra("orderNum", "");
                     intent.putExtra("area", 0);
@@ -81,14 +86,13 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                    intent.putExtra("essayId", id);
 //                    intent.putExtra("imgUrl", imgUrl);
 //                    intent.putExtra("isVideo",true);
+
+                    mContext.startActivity(intent);
                 }else {
-                    intent = new Intent(mContext, ArticleDetailActivity.class);
-                    intent.putExtra("essayId", id);
-                    intent.putExtra("imgUrl", imgUrl);
+                    TurnToActivityUtil.turnToDetail(mContext,flag,id,py,imgUrl);
 //                    intent.putExtra("isVideo",true);
                 }
 
-                mContext.startActivity(intent);
             }
         });
 

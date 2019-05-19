@@ -2089,6 +2089,13 @@ public class CompositionDetailActivity extends BaseActivity {
                 }
             } else if (400 == jsonObject.optInt("status", -1)) {
                 emptyCommentData();
+                if (adapter.getmList().size() == 0){
+                    ll_comment.setVisibility(View.GONE);
+                    recyclerView_comment.setVisibility(View.GONE);
+                } else {
+                    ll_comment.setVisibility(View.VISIBLE);
+                    recyclerView_comment.setVisibility(View.VISIBLE);
+                }
             } else {
                 errorCommentConnect();
             }

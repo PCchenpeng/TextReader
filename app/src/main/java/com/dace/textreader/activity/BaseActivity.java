@@ -133,7 +133,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        StatusBarUtil.transparencyBar(this);
         if (application == null) {
             application = (App) getApplication();
         }

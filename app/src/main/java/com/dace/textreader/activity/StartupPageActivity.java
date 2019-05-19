@@ -85,10 +85,6 @@ public class StartupPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup_page);
-        Bitmap blurBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image_startup);
-        blurBitmap = blurBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        blurBitmap.setWidth(20);
-//        getWindow().getDecorView().setBackground(new BitmapDrawable(blurBitmap));
 
         mContext = this;
 

@@ -90,6 +90,8 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
         toolbar = findViewById(R.id.toolbar);
         toolbar1 = findViewById(R.id.toolbar1);
 
+        tv_title.setText(typeName);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -177,10 +179,8 @@ public class ReaderTabActivity extends BaseActivity implements View.OnClickListe
 
         if(i < -DensityUtil.dip2px(this,123)){
             toolbar1.setVisibility(View.VISIBLE);
-            tv_title.setText(typeName);
             toolbar.setVisibility(View.VISIBLE);
         }else {
-            tv_title.setText("");
             toolbar1.setVisibility(View.GONE);
             toolbar.setVisibility(View.GONE);
         }
