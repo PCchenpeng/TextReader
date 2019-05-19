@@ -103,7 +103,7 @@ public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         ((ViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onItemClick(excerptBean);
+                mOnItemClickListener.onItemClick(v,excerptBean);
             }
         });
     }
@@ -174,7 +174,7 @@ public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 //    }
 
     public interface OnExcerptItemClick {
-        void onItemClick(ExcerptBean itemData);
+        void onItemClick(View v,ExcerptBean itemData);
     }
 
     private OnExcerptItemClick mOnItemClickListener;

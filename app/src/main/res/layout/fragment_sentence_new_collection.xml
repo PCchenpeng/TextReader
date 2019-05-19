@@ -59,6 +59,13 @@
         android:layout_marginRight="20dp"
         android:src="@drawable/icon_practice"
         android:visibility="gone"/>
+    <include
+        android:id="@+id/rl_editor_excerpt_fragment"
+        layout="@layout/bottom_new_collection_editor_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
 
     <FrameLayout
         android:id="@+id/frame_sentence_new_collection"

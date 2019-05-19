@@ -63,7 +63,7 @@ import okhttp3.Response;
 public class ExcerptFragment extends Fragment {
 
     private final String url = HttpUrlPre.HTTP_URL_ + "/select/article/note/list";
-    private final String deleteUrl = HttpUrlPre.HTTP_URL + "/personal/sumary/delete";
+    private final String deleteUrl = HttpUrlPre.HTTP_URL_ + "/delete/article/note";
 
     private View view;
 
@@ -235,13 +235,39 @@ public class ExcerptFragment extends Fragment {
 
         adapter.setOnItemClickListener(new ExcerptRecyclerViewAdapter.OnExcerptItemClick() {
             @Override
-            public void onItemClick(ExcerptBean itemData) {
-                if(type == 1)
-                    return;
-                Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
-                intent.putExtra("essayId", String.valueOf(itemData.getEssayId()));
-                intent.putExtra("imgUrl","");
-                startActivity(intent);
+            public void onItemClick(View view,ExcerptBean itemData) {
+
+                if (!refreshing) {
+                    int pos = recyclerView.getChildAdapterPosition(view);
+                    if (isEditor) {
+                        itemSelected(pos);
+                    } else if (isChoose) {
+                        if (mSelectedPosition == -1) {
+                            mList.get(pos).setSelected(true);
+                            adapter.notifyItemChanged(pos);
+                            mSelectedPosition = pos;
+                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+                        } else if (pos == mSelectedPosition) {
+                            mList.get(pos).setSelected(false);
+                            adapter.notifyItemChanged(pos);
+                            mSelectedPosition = -1;
+                            tv_sure.setBackgroundColor(Color.parseColor("#dddddd"));
+                        } else {
+                            mList.get(mSelectedPosition).setSelected(false);
+                            mList.get(pos).setSelected(true);
+                            adapter.notifyDataSetChanged();
+                            mSelectedPosition = pos;
+                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+                        }
+                    }else {
+                        if(type == 1)
+                            return;
+                        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+                        intent.putExtra("essayId", String.valueOf(itemData.getEssayId()));
+                        intent.putExtra("imgUrl","");
+                        startActivity(intent);
+                    }
+                }
             }
         });
         tv_sure.setOnClickListener(new View.OnClickListener() {
@@ -299,6 +325,10 @@ public class ExcerptFragment extends Fragment {
                 editorMode();
             }
         }
+    }
+
+    public boolean getEditor(){
+        return isEditor;
     }
 
     private void initData() {
@@ -495,6 +525,8 @@ public class ExcerptFragment extends Fragment {
                         excerptBean.setEssayTitle(object.getString("essayTitle"));
                         excerptBean.setExcerpt(object.getString("content"));
                         excerptBean.setSourceType(object.optInt("category", -1));
+                        if(isEditor)
+                            excerptBean.setEditor(true);
                         mList.add(excerptBean);
                     }
                     adapter.notifyDataSetChanged();
@@ -643,8 +675,7 @@ public class ExcerptFragment extends Fragment {
                 OkHttpClient client = new OkHttpClient();
                 JSONObject json = new JSONObject();
                 json.put("studentId", NewMainActivity.STUDENT_ID);
-                json.put("status", 0);
-                json.put("summaries", params[1]);
+                json.put("noteIds", params[1]);
                 RequestBody requestBody = RequestBody.create(DataUtil.JSON, json.toString());
                 Request request = new Request.Builder()
                         .url(params[0])

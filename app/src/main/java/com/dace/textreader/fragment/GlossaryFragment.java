@@ -137,9 +137,17 @@ public class GlossaryFragment extends Fragment {
     /**
      * 编辑与否
      */
-    public void setEditor(boolean editor) {
-        this.isEditor = editor;
+    public void setEditor() {
+        if(isEditor){
+            isEditor = false;
+        }else {
+            isEditor = true;
+        }
         adapter.setEditor(isEditor);
+    }
+
+    public boolean getEditor(){
+        return isEditor;
     }
 
     private void initEvents() {

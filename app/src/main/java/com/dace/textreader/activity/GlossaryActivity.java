@@ -93,11 +93,11 @@ public class GlossaryActivity extends BaseActivity {
             public void onClick(View v) {
                 if (isEditor) {
                     isEditor = false;
-                    mFragment.setEditor(isEditor);
+//                    mFragment.setEditor(isEditor);
                     tv_editor.setText("编辑");
                 } else {
                     isEditor = true;
-                    mFragment.setEditor(isEditor);
+//                    mFragment.setEditor(isEditor);
                     tv_editor.setText("完成");
                 }
             }

@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
@@ -70,6 +72,10 @@ public class SentenceCollectionFragment extends Fragment {
     private FrameLayout frameLayout;
     private SmartRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
+    private RelativeLayout rl_editor;
+    private LinearLayout ll_select_all;
+    private ImageView iv_select_all;
+    private TextView tv_delete;
 
     private TextView tv_one;
     private TextView tv_two;
@@ -95,6 +101,8 @@ public class SentenceCollectionFragment extends Fragment {
     private Context mContext;
 
     private boolean hidden = true;
+
+    private boolean isSelectAll = false;  //是否是全选
 
     private boolean showPractice = false;
     private boolean isChoose = false;
@@ -133,14 +141,14 @@ public class SentenceCollectionFragment extends Fragment {
                     @Override
                     public void OnEditorOpen(String tag) {
                         if (tag.equals("sentence")) {
-                            editorOrCancel(true);
+                            editorOrCancel();
                         }
                     }
 
                     @Override
                     public void OnEditorCancel(String tag) {
                         if (tag.equals("sentence")) {
-                            editorOrCancel(false);
+                            editorOrCancel();
                         }
                     }
 
@@ -177,19 +185,42 @@ public class SentenceCollectionFragment extends Fragment {
                 }
             }
         });
+
+        ll_select_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSelectAll) {
+                    iv_select_all.setImageResource(R.drawable.icon_edit_unselected);
+                    selectAllItem(false);
+                } else {
+                    iv_select_all.setImageResource(R.drawable.icon_edit_selected);
+                    selectAllItem(true);
+                }
+            }
+        });
+        tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasSelected) {
+                    deleteSentence();
+                }
+            }
+        });
+
+
         if (mContext instanceof NewCollectionActivity) {
             ((NewCollectionActivity) mContext).setOnEditorClickListen(new OnCollectionEditorListen() {
                 @Override
                 public void OnEditorOpen(String tag) {
                     if (tag.equals("sentence")) {
-                        editorOrCancel(true);
+                        editorOrCancel();
                     }
                 }
 
                 @Override
                 public void OnEditorCancel(String tag) {
                     if (tag.equals("sentence")) {
-                        editorOrCancel(false);
+                        editorOrCancel();
                     }
                 }
 
@@ -231,9 +262,13 @@ public class SentenceCollectionFragment extends Fragment {
         adapter.setOnSentenceCollectionItemClick(new SentenceCollectionAdapter.OnSentenceCollectionItemClick() {
             @Override
             public void onItemClick(View view) {
+
                 if (!refreshing) {
-                    if (isChoose) {
-                        int pos = recyclerView.getChildAdapterPosition(view);
+                    int pos = recyclerView.getChildAdapterPosition(view);
+                    if (isEditor) {
+//                        itemSelected(pos);
+                        selectedOrNot(pos);
+                    }else if (isChoose) {
                         if (mSelectedPosition == -1) {
                             mList.get(pos).setSelected(true);
                             adapter.notifyItemChanged(pos);
@@ -252,12 +287,7 @@ public class SentenceCollectionFragment extends Fragment {
                             tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
                         }
                     } else {
-                        int pos = recyclerView.getChildAdapterPosition(view);
-                        if (isEditor) {
-                            selectedOrNot(pos);
-                        } else {
-                            turnToArticleDetail(pos);
-                        }
+                        turnToArticleDetail(pos);
                     }
                 }
             }
@@ -276,6 +306,21 @@ public class SentenceCollectionFragment extends Fragment {
 
             }
         });
+    }
+
+    /**
+     * 编辑状态下选中Item
+     *
+     * @param position
+     */
+    private void itemSelected(int position) {
+        if (mList.get(position).isSelected()) {
+            mList.get(position).setSelected(false);
+        } else {
+            mList.get(position).setSelected(true);
+        }
+        adapter.notifyDataSetChanged();
+        updateDeleteButtonBg();
     }
 
     /**
@@ -298,7 +343,7 @@ public class SentenceCollectionFragment extends Fragment {
     private void editorOrNot(boolean editor) {
         isChoose = editor;
         if (editor) {
-            tv_sure.setVisibility(View.VISIBLE);
+            rl_editor.setVisibility(View.VISIBLE);
             iv_practice.setImageResource(R.drawable.icon_practice_cancle);
             for (int i = 0; i < mList.size(); i++) {
                 mList.get(i).setSelected(false);
@@ -306,7 +351,7 @@ public class SentenceCollectionFragment extends Fragment {
             }
         } else {
             iv_practice.setImageResource(R.drawable.icon_practice);
-            tv_sure.setVisibility(View.GONE);
+            rl_editor.setVisibility(View.GONE);
             for (int i = 0; i < mList.size(); i++) {
                 mList.get(i).setEditor(false);
                 mList.get(i).setSelected(false);
@@ -391,8 +436,12 @@ public class SentenceCollectionFragment extends Fragment {
                 break;
             }
         }
-        if (mHasSentenceItemSelected != null) {
-            mHasSentenceItemSelected.hasSelected(hasSelected);
+        if (hasSelected) {
+            tv_delete.setBackgroundResource(R.drawable.shape_text_orange);
+        } else {
+            tv_delete.setBackgroundResource(R.drawable.shape_text_gray);
+            iv_select_all.setImageResource(R.drawable.icon_edit_unselected);
+            isSelectAll = false;
         }
     }
 
@@ -418,7 +467,7 @@ public class SentenceCollectionFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
-        editorOrCancel(false);
+        editorOrCancel();
     }
 
     /**
@@ -434,15 +483,24 @@ public class SentenceCollectionFragment extends Fragment {
     /**
      * 点击了编辑按钮
      *
-     * @param isEditor
+     * @param
      */
-    private void editorOrCancel(boolean isEditor) {
-        this.isEditor = isEditor;
-        for (int i = 0; i < mList.size(); i++) {
-            mList.get(i).setEditor(isEditor);
-            mList.get(i).setSelected(false);
-        }
-        adapter.notifyDataSetChanged();
+    public void editorOrCancel() {
+        if(isEditor)
+            isEditor = false;
+        else
+            isEditor = true;
+//        for (int i = 0; i < mList.size(); i++) {
+//            mList.get(i).setEditor(isEditor);
+//            mList.get(i).setSelected(false);
+//        }
+
+        editorOrNot(isEditor);
+//        adapter.notifyDataSetChanged();
+    }
+
+    public boolean getEditor(){
+        return isEditor;
     }
 
     private void initData() {
@@ -469,6 +527,11 @@ public class SentenceCollectionFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new SentenceCollectionAdapter(getContext(), mList);
         recyclerView.setAdapter(adapter);
+
+        rl_editor = view.findViewById(R.id.rl_editor_excerpt_fragment);
+        ll_select_all = view.findViewById(R.id.ll_select_all_new_collection_bottom);
+        iv_select_all = view.findViewById(R.id.iv_select_all_new_collection_bottom);
+        tv_delete = view.findViewById(R.id.tv_delete_new_collection_bottom);
 
         tv_one = view.findViewById(R.id.tv_one_tips_note);
         tv_two = view.findViewById(R.id.tv_two_tips_note);
@@ -679,5 +742,17 @@ public class SentenceCollectionFragment extends Fragment {
 
     public void setHasSentenceItemSelectedListen(HasSentenceItemSelected hasSentenceItemSelectedListen) {
         this.mHasSentenceItemSelected = hasSentenceItemSelectedListen;
+    }
+
+    /**
+     * 全选
+     */
+    private void selectAllItem(boolean selectAll) {
+        isSelectAll = selectAll;
+        for (int i = 0; i < mList.size(); i++) {
+            mList.get(i).setSelected(selectAll);
+        }
+        adapter.notifyDataSetChanged();
+        updateDeleteButtonBg();
     }
 }

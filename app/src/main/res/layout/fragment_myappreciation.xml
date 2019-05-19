@@ -13,6 +13,15 @@
             android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include
+        android:id="@+id/rl_editor_excerpt_fragment"
+        layout="@layout/bottom_new_collection_editor_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
+
     <FrameLayout
         android:visibility="gone"
         android:layout_below="@id/statusView_top"

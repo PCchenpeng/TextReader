@@ -91,6 +91,8 @@ public class AppreciationBean {
             private String essay_title;
             private String content;
             private String username;
+            private boolean isSelected;
+            private boolean isEditor;
 
             public String getNote() {
                 return note;
@@ -186,6 +188,22 @@ public class AppreciationBean {
 
             public void setUsername(String username) {
                 this.username = username;
+            }
+
+            public boolean isSelected() {
+                return isSelected;
+            }
+
+            public void setSelected(boolean selected) {
+                isSelected = selected;
+            }
+
+            public boolean isEditor() {
+                return isEditor;
+            }
+
+            public void setEditor(boolean editor) {
+                isEditor = editor;
             }
         }
     }

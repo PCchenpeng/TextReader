@@ -37,6 +37,17 @@ public class AppreciationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
+        if (mData.get(i).isEditor()) {
+            ((ItemHolder) viewHolder).iv_select.setVisibility(View.VISIBLE);
+        } else {
+            ((ItemHolder) viewHolder).iv_select.setVisibility(View.GONE);
+        }
+        if (mData.get(i).isSelected()) {
+            ((ItemHolder) viewHolder).iv_select.setImageResource(R.drawable.icon_edit_selected);
+        } else {
+            ((ItemHolder) viewHolder).iv_select.setImageResource(R.drawable.icon_edit_unselected);
+        }
+
         ((ItemHolder)viewHolder).tv_user.setText(mData.get(i).getUsername());
         ((ItemHolder)viewHolder).expTv1.setText(mData.get(i).getNote());
         ((ItemHolder)viewHolder).tv_time.setText(DateUtil.timedate(String.valueOf(mData.get(i).getTime())));
@@ -46,7 +57,7 @@ public class AppreciationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onClick(View v) {
                 if(onItemClick != null)
-                    onItemClick.onClick(myselfBean);
+                    onItemClick.onClick(v,myselfBean);
             }
         });
 
@@ -71,7 +82,7 @@ public class AppreciationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private class ItemHolder extends RecyclerView.ViewHolder {
         TextView tv_user,tv_time;
-        ImageView iv_user;
+        ImageView iv_user,iv_select;
         private ExpandableTextView expTv1;
 
         public ItemHolder(View view) {
@@ -79,12 +90,13 @@ public class AppreciationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tv_user = view.findViewById(R.id.tv_user);
             tv_time = view.findViewById(R.id.tv_time);
             iv_user = view.findViewById(R.id.iv_user);
+            iv_select = view.findViewById(R.id.iv_select);
             expTv1 = view.findViewById(R.id.expand_text_view);
         }
     }
 
     public interface OnItemClick{
-        void onClick(AppreciationBean.DataBean.MyselfBean myselfBean);
+        void onClick(View view,AppreciationBean.DataBean.MyselfBean myselfBean);
     }
 
     public void setOnItemClick(OnItemClick onItemClick){

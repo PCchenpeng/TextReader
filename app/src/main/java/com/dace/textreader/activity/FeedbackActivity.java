@@ -13,6 +13,7 @@ import com.dace.textreader.R;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.StatusBarUtil;
 
 import org.json.JSONObject;
@@ -35,6 +36,7 @@ public class FeedbackActivity extends BaseActivity {
     private Button bt_feedback;
     private String type;
     private String word;
+    private String studentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class FeedbackActivity extends BaseActivity {
         setContentView(R.layout.activity_feedback);
         type = getIntent().getExtras().getString("type");
         word = getIntent().getExtras().getString("word");
+        studentId = PreferencesUtil.getData(this,"studentId","-1").toString();
 
         initView();
         initEvents();

@@ -40,7 +40,7 @@ import okhttp3.Response;
 
 public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final String deleteUrl = HttpUrlPre.HTTP_URL + "/personal/word/delete/new";
+    private final String deleteUrl = HttpUrlPre.HTTP_URL_ + "/delete/raw/words";
 
     private Context mContext;
     private List<GlossaryBean> mList;
@@ -251,9 +251,6 @@ public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 JSONObject json = new JSONObject();
                 json.put("studentId", NewMainActivity.STUDENT_ID);
                 json.put("words", params[1]);
-                json.put("essayId", params[2]);
-                json.put("status", 0);
-                json.put("sourceType", params[3]);
                 json.put("wId", params[4]);
                 RequestBody requestBody = RequestBody.create(DataUtil.JSON, json.toString());
                 Request request = new Request.Builder()

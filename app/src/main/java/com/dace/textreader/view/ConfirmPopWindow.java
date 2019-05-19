@@ -93,7 +93,7 @@ public class ConfirmPopWindow extends PopupWindow implements View.OnClickListene
                     return;
                 }
                 Intent intent1 = new Intent(context,FeedbackActivity.class);
-                intent1.putExtra("type","使用反馈");
+                intent1.putExtra("type","词语反馈");
                 intent1.putExtra("word",word);
                 context.startActivity(intent1);
                 break;

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
@@ -26,6 +27,7 @@ import com.dace.textreader.util.okhttp.OkHttpManager;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,12 +38,21 @@ public class NewAppreciationFragment extends BaseFragment implements View.OnClic
     private ImageView iv_edit;
     private String essayId;
     private String url = HttpUrlPre.HTTP_URL_+"/select/article/appreciation/list";
+    private String deleteUrl = HttpUrlPre.HTTP_URL_+"/delete/article/note";
     private String studentId;
     private LinearLayout ll_content;
     private FrameLayout fly_exception;
     private String title;
     private String content;
     private String noteId;
+    private boolean isEditor = false;  //是否处于编辑状态
+    private boolean isSelectAll = false;  //是否是全选
+    private boolean hasSelected = false;  //是否有item被选中
+    private RelativeLayout rl_editor;
+    private LinearLayout ll_select_all,ll_item;
+    private ImageView iv_select_all;
+    private TextView tv_delete;
+    private ImageView iv_select;
 
     public static NewAppreciationFragment newInstance(String essayId) {
 
@@ -97,8 +108,45 @@ public class NewAppreciationFragment extends BaseFragment implements View.OnClic
         iv_edit = view.findViewById(R.id.iv_edit);
         ll_content = view.findViewById(R.id.ll_content);
         fly_exception = view.findViewById(R.id.fly_exception);
+        iv_select = view.findViewById(R.id.iv_select);
+        ll_item = view.findViewById(R.id.ll_item);
+
+        rl_editor = view.findViewById(R.id.rl_editor_excerpt_fragment);
+        ll_select_all = view.findViewById(R.id.ll_select_all_new_collection_bottom);
+        iv_select_all = view.findViewById(R.id.iv_select_all_new_collection_bottom);
+        tv_delete = view.findViewById(R.id.tv_delete_new_collection_bottom);
 
         iv_edit.setOnClickListener(this);
+
+        iv_edit.setOnClickListener(this);
+        ll_item.setOnClickListener(this);
+
+        ll_select_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSelectAll) {
+                    iv_select.setImageResource(R.drawable.icon_edit_unselected);
+                    iv_select_all.setImageResource(R.drawable.icon_edit_unselected);
+                    tv_delete.setBackgroundResource(R.drawable.shape_text_gray);
+                    isSelectAll = false;
+                    hasSelected = false;
+                } else {
+                    iv_select_all.setImageResource(R.drawable.icon_edit_selected);
+                    iv_select.setImageResource(R.drawable.icon_edit_selected);
+                    tv_delete.setBackgroundResource(R.drawable.shape_text_orange);
+                    isSelectAll = true;
+                    hasSelected = true;
+                }
+            }
+        });
+        tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasSelected) {
+                    deleteItems();
+                }
+            }
+        });
     }
 
     private void getData() {
@@ -134,6 +182,31 @@ public class NewAppreciationFragment extends BaseFragment implements View.OnClic
         });
     }
 
+    private void deleteItems() {
+        rl_editor.setVisibility(View.GONE);
+        JSONObject params = new JSONObject();
+        try {
+            JSONArray array = new JSONArray();
+            array.put(noteId);
+            params.put("studentId",studentId);
+            params.put("noteIds",array.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(getContext()).requestAsyn(deleteUrl,OkHttpManager.TYPE_POST_JSON,params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                cancelEditorMode();
+                getData();
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -145,6 +218,57 @@ public class NewAppreciationFragment extends BaseFragment implements View.OnClic
                 intent.putExtra("noteId",noteId);
                 startActivity(intent);
                 break;
+            case R.id.ll_item:
+                if(isEditor){
+                    if(isSelectAll){
+                        isSelectAll = false;
+                        hasSelected = false;
+                        iv_select.setImageResource(R.drawable.icon_edit_unselected);
+                        iv_select_all.setImageResource(R.drawable.icon_edit_unselected);
+                        tv_delete.setBackgroundResource(R.drawable.shape_text_gray);
+                    }else {
+                        isSelectAll = true;
+                        hasSelected = true;
+                        iv_select_all.setImageResource(R.drawable.icon_edit_selected);
+                        iv_select.setImageResource(R.drawable.icon_edit_selected);
+                        tv_delete.setBackgroundResource(R.drawable.shape_text_orange);
+
+                    }
+                    editorMode();
+                }
+                break;
         }
     }
+
+    public void editorOpenOrClose() {
+        if (isEditor) {
+            cancelEditorMode();
+        } else {
+            editorMode();
+        }
+    }
+
+    public boolean getEditor(){
+        return isEditor;
+    }
+
+    /**
+     * 编辑模式
+     */
+    private void editorMode() {
+        rl_editor.setVisibility(View.VISIBLE);
+        iv_select.setVisibility(View.VISIBLE);
+        isEditor = true;
+    }
+
+    /**
+     * 取消编辑模式
+     */
+    private void cancelEditorMode() {
+        rl_editor.setVisibility(View.GONE);
+        iv_select.setVisibility(View.GONE);
+        isEditor = false;
+    }
+
+
 }

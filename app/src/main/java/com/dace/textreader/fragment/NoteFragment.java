@@ -75,7 +75,7 @@ public class NoteFragment extends Fragment {
 
     private static final String url = HttpUrlPre.HTTP_URL_ + "/select/article/note/list";
 //    private static final String allUrl = HttpUrlPre.HTTP_URL + "/personal/note/select?";
-    private static final String deleteUrl = HttpUrlPre.HTTP_URL + "/personal/note/essay/delete";
+    private static final String deleteUrl = HttpUrlPre.HTTP_URL_ + "/delete/article/note";
     private static final String allDeleteUrl = HttpUrlPre.HTTP_URL + "/personal/note/all/delete";
     private static final String shareUrl = HttpUrlPre.HTTP_URL + "/get/note/url";
 
@@ -103,7 +103,7 @@ public class NoteFragment extends Fragment {
     private List<Notes> mList = new ArrayList<>();
     private List<Notes> mSelectedList = new ArrayList<>();
 
-    private boolean isAllNotes = true;//是否是所有笔记
+    private boolean isAllNotes = false;//是否是所有笔记
     private String title = "";
     private String content = "";
 
@@ -264,13 +264,39 @@ public class NoteFragment extends Fragment {
 
         adapter.setOnItemClickListener(new NotesRecyclerViewAdapter.OnNotesItemClick() {
             @Override
-            public void onItemClick(Notes notes) {
-                if(type == 1)
-                    return;
-                Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
-                intent.putExtra("essayId", String.valueOf(notes.getEssayId()));
-                intent.putExtra("imgUrl","");
-                startActivity(intent);
+            public void onItemClick(View view,Notes notes) {
+
+                if (!refreshing) {
+                    int pos = recyclerView.getChildAdapterPosition(view);
+                    if (isEditor) {
+                        itemSelected(pos);
+                    } else if (isChoose) {
+                        if (mSelectedPosition == -1) {
+                            mList.get(pos).setSelected(true);
+                            adapter.notifyItemChanged(pos);
+                            mSelectedPosition = pos;
+                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+                        } else if (pos == mSelectedPosition) {
+                            mList.get(pos).setSelected(false);
+                            adapter.notifyItemChanged(pos);
+                            mSelectedPosition = -1;
+                            tv_sure.setBackgroundColor(Color.parseColor("#dddddd"));
+                        } else {
+                            mList.get(mSelectedPosition).setSelected(false);
+                            mList.get(pos).setSelected(true);
+                            adapter.notifyDataSetChanged();
+                            mSelectedPosition = pos;
+                            tv_sure.setBackgroundColor(Color.parseColor("#ff9933"));
+                        }
+                    }else {
+                        if(type == 1)
+                            return;
+                        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
+                        intent.putExtra("essayId", String.valueOf(notes.getEssayId()));
+                        intent.putExtra("imgUrl","");
+                        startActivity(intent);
+                    }
+                }
             }
         });
         adapter.setOnItemShareClickListener(new NotesRecyclerViewAdapter.OnNotesShareItemClick() {
@@ -352,6 +378,10 @@ public class NoteFragment extends Fragment {
                 editorMode(true);
             }
         }
+    }
+
+    public boolean getEditor(){
+        return isEditor;
     }
 
     private void initData() {
@@ -652,7 +682,7 @@ public class NoteFragment extends Fragment {
         for (int i = 0; i < mList.size(); i++) {
             mList.get(i).setSelected(selectedAll);
         }
-        isSelectedAll = selectedAll;
+        isSelectedAll = false;
         adapter.notifyDataSetChanged();
         updateDeleteButtonBg();
     }
@@ -930,8 +960,7 @@ public class NoteFragment extends Fragment {
                     json.put("status", 1);
                     json.put("notes", "");
                 } else {
-                    json.put("status", 0);
-                    json.put("notes", params[1]);
+                    json.put("noteIds", params[1]);
                 }
                 RequestBody requestBody = RequestBody.create(DataUtil.JSON, json.toString());
                 Request request = new Request.Builder()

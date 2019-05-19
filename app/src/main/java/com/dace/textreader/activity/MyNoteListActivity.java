@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.fragment.ExcerptFragment;
@@ -32,6 +33,8 @@ public class MyNoteListActivity extends BaseActivity implements View.OnClickList
     private ViewPagerAdapter adapter;
     private RelativeLayout rl_back;
     private String essayId;
+    private TextView tv_edit;
+    private int currentIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,17 +74,78 @@ public class MyNoteListActivity extends BaseActivity implements View.OnClickList
     private void initView() {
         tabLayout = findViewById(R.id.tab_layout_new_reader_fragment);
         viewPager = findViewById(R.id.view_pager_new_reader_fragment);
+        tv_edit = findViewById(R.id.tv_edit);
         rl_back = findViewById(R.id.rl_back);
+        tv_edit.setText("删除");
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(5);
         tabLayout.setChangeTextSize(false);
         tabLayout.setViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+                currentIndex = i;
+                switch (currentIndex){
+                    case 0:
+                        GlossaryFragment glossaryFragment = (GlossaryFragment) mList_fragment.get(0);
+                        if(glossaryFragment.getEditor()){
+                            tv_edit.setText("完成");
+                        }else {
+                            tv_edit.setText("删除");
+                        }
+                        break;
+                    case 1:
+                        ExcerptFragment excerptFragment = (ExcerptFragment) mList_fragment.get(1);
+                        if(excerptFragment.getEditor()){
+                            tv_edit.setText("完成");
+                        }else {
+                            tv_edit.setText("删除");
+                        }
+                        break;
+                    case 2:
+                        SentenceCollectionFragment sentenceCollectionFragment = (SentenceCollectionFragment) mList_fragment.get(2);
+                        if(sentenceCollectionFragment.getEditor()){
+                            tv_edit.setText("完成");
+                        }else {
+                            tv_edit.setText("删除");
+                        }
+                        break;
+                    case 3:
+                        NoteFragment noteFragment = (NoteFragment) mList_fragment.get(3);
+                        if(noteFragment.getEditor()){
+                            tv_edit.setText("完成");
+                        }else {
+                            tv_edit.setText("删除");
+                        }
+                        break;
+                    case 4:
+                        MyAppreciationFragment myAppreciationFragment = (MyAppreciationFragment) mList_fragment.get(4);
+                        if(myAppreciationFragment.getEditor()){
+                            tv_edit.setText("完成");
+                        }else {
+                            tv_edit.setText("删除");
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     private void initEvents() {
         rl_back.setOnClickListener(this);
+        tv_edit.setOnClickListener(this);
     }
 
     @Override
@@ -90,6 +154,55 @@ public class MyNoteListActivity extends BaseActivity implements View.OnClickList
             case R.id.rl_back:
             finish();
             break;
+            case R.id.tv_edit:
+                switch (currentIndex){
+                    case 0:
+                        GlossaryFragment glossaryFragment = (GlossaryFragment) mList_fragment.get(0);
+                        if(glossaryFragment.getEditor()){
+                            tv_edit.setText("删除");
+                        }else {
+                            tv_edit.setText("完成");
+                        }
+                        glossaryFragment.setEditor();
+                        break;
+                    case 1:
+                        ExcerptFragment excerptFragment = (ExcerptFragment) mList_fragment.get(1);
+                        if(excerptFragment.getEditor()){
+                            tv_edit.setText("删除");
+                        }else {
+                            tv_edit.setText("完成");
+                        }
+                        excerptFragment.editorOpenOrClose();
+                        break;
+                    case 2:
+                        SentenceCollectionFragment sentenceCollectionFragment = (SentenceCollectionFragment) mList_fragment.get(2);
+                        if(sentenceCollectionFragment.getEditor()){
+                            tv_edit.setText("删除");
+                        }else {
+                            tv_edit.setText("完成");
+                        }
+                        sentenceCollectionFragment.editorOrCancel();
+                        break;
+                    case 3:
+                        NoteFragment noteFragment = (NoteFragment) mList_fragment.get(3);
+                        if(noteFragment.getEditor()){
+                            tv_edit.setText("删除");
+                        }else {
+                            tv_edit.setText("完成");
+                        }
+                        noteFragment.editorOpenOrClose();
+                        break;
+                    case 4:
+                        MyAppreciationFragment myAppreciationFragment = (MyAppreciationFragment) mList_fragment.get(4);
+                        if(myAppreciationFragment.getEditor()){
+                            tv_edit.setText("删除");
+                        }else {
+                            tv_edit.setText("完成");
+                        }
+                        myAppreciationFragment.editorOpenOrClose();
+                        break;
+                }
+                break;
         }
     }
 
