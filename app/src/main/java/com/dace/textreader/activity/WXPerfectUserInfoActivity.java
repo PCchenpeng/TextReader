@@ -25,6 +25,7 @@ import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 
@@ -226,6 +227,11 @@ public class WXPerfectUserInfoActivity extends BaseActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
                             editor.putString("token", token);
                             editor.apply();
+
+                            PreferencesUtil.saveData(WXPerfectUserInfoActivity.this,"studentId",String.valueOf(json.getInt("studentid")));
+                            PreferencesUtil.saveData(WXPerfectUserInfoActivity.this,"gradeId",String.valueOf(json.getInt("gradeid")) );
+                            PreferencesUtil.saveData(WXPerfectUserInfoActivity.this,"token",token);
+                            PreferencesUtil.saveData(WXPerfectUserInfoActivity.this,"phoneNum",json.getString("phonenum"));
                             if (imagePath.equals("")) {
                                 status_image = 1;
                                 new GetImagePath(WXPerfectUserInfoActivity.this).execute(imageUrl + "name=register_prize_image");

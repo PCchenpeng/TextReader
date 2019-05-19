@@ -22,9 +22,11 @@ import com.dace.textreader.R;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.view.VerifyCodeView;
+import com.dace.textreader.wxapi.WXEntryActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -251,6 +253,11 @@ public class WXBindNumberActivity extends BaseActivity implements View.OnClickLi
                 editor.putString("token", token);
                 editor.putString("phoneNum", phoneNum);
                 editor.apply();
+
+                PreferencesUtil.saveData(WXBindNumberActivity.this,"studentId",String.valueOf(json.getInt("studentid")));
+                PreferencesUtil.saveData(WXBindNumberActivity.this,"gradeId",String.valueOf(json.getInt("gradeid")) );
+                PreferencesUtil.saveData(WXBindNumberActivity.this,"token",token);
+                PreferencesUtil.saveData(WXBindNumberActivity.this,"phoneNum",json.getString("phonenum"));
 
                 showTips("绑定成功");
 

@@ -117,9 +117,9 @@ public class ReaderTabSelectFragment extends Fragment implements PullListener {
                 LinearLayoutManager.VERTICAL, false);
         readerTabSelectAdapter = new ReaderTabSelectAdapter(getContext(),topData,itemata);
         recyclerView
-//                .setHeadRefreshView(new SimpleRefreshHeadView(getContext()))
+                .setHeadRefreshView(new SimpleRefreshHeadView(getContext()))
                 .setUseLoadMore(true)
-//                .setUseRefresh(true)
+                .setUseRefresh(false)
                 .setPullLayoutManager(layoutManager_recommend)
                 .setPullListener(this)
                 .setPullItemAnimator(null)

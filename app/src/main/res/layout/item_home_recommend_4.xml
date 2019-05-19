@@ -25,7 +25,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_search"
             android:layout_marginLeft="10dp"
-            android:hint="请输入字、词、文章、作者"
+            android:hint=""
             android:textSize="14sp"/>
 
     </RelativeLayout>

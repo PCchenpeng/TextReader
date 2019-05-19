@@ -293,7 +293,6 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 if(isPortrait){
                     if(islandspaceBitmap){
                         int width = DensityUtil.getScreenWidth(this);
-
                         int height = (int)((float)bitmipHeight/bitmipWidth * width);
                         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) album_view.getLayoutParams();
                         layoutParams.width = width;
@@ -309,6 +308,12 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                     }
 
                 }else {
+                    int width = DensityUtil.getScreenWidth(this);
+                    int height = (int)((float)bitmipHeight/bitmipWidth * width);
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) album_view.getLayoutParams();
+                    layoutParams.width = width;
+                    layoutParams.height = height;
+                    album_view.setLayoutParams(layoutParams);
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     isPortrait = true;
                 }
@@ -681,6 +686,13 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 }else {
                     islandspaceBitmap = false;
                 }
+                int width = DensityUtil.getScreenWidth(HomeAudioDetailActivity.this);
+                int height = (int)((float)bitmipHeight/bitmipWidth * width);
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) album_view.getLayoutParams();
+                layoutParams.width = width;
+                layoutParams.height = height;
+                album_view.setLayoutParams(layoutParams);
+
                 Log.d("bitmapsize", "width: " + bitmipWidth); //400px
                 Log.d("bitmapsize", "height: " + bitmipHeight); //400px
                 initAlbumView(0);

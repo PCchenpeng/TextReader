@@ -138,7 +138,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(s)){
+                if (!TextUtils.isEmpty(s)){
                     iv_cancle.setVisibility(View.VISIBLE);
                 } else {
                     iv_cancle.setVisibility(View.GONE);

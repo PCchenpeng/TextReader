@@ -21,10 +21,12 @@ import com.dace.textreader.activity.NewSearchActivity;
 import com.dace.textreader.adapter.HomeRecommendAdapter;
 import com.dace.textreader.bean.MessageEvent;
 import com.dace.textreader.bean.RecommendBean;
+import com.dace.textreader.bean.SearchTipsBean;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.weight.pullrecycler.PullListener;
 import com.dace.textreader.view.weight.pullrecycler.PullRecyclerView;
 import com.dace.textreader.view.weight.pullrecycler.SimpleRefreshHeadView;
@@ -53,9 +55,13 @@ public class RecommendFragment extends BaseFragment implements PullListener {
 
     private String url = HttpUrlPre.HTTP_URL_+"/select/index/recommend/list";
 
+    //获取搜索提示语
+    private String searchTipsUrl = HttpUrlPre.SEARCHE_URL+"/search/select/index/search/word";
+
     private List<RecommendBean.DataBean.ArticleListBean> data = new ArrayList<>();
 
     private boolean isRefresh = false;
+    private String tips = "";
 
     @Nullable
     @Override
@@ -153,6 +159,7 @@ public class RecommendFragment extends BaseFragment implements PullListener {
 
                     case HomeRecommendAdapter.TOP:
                          intent = new Intent(getContext(), NewSearchActivity.class);
+                         intent.putExtra("tips",tips);
                         startActivity(intent);
                         break;
                     case HomeRecommendAdapter.TOP_SUB:
@@ -183,6 +190,7 @@ public class RecommendFragment extends BaseFragment implements PullListener {
         });
         setOnScrollListener(mRecycleView);
         loadData();
+        getSearchTips();
     }
 
     private void loadData(){
@@ -191,6 +199,27 @@ public class RecommendFragment extends BaseFragment implements PullListener {
         }
         new GetRecommendData(RecommendFragment.this).execute(url,String.valueOf(NewMainActivity.STUDENT_ID),
                 String.valueOf(NewMainActivity.GRADE_ID), String.valueOf(pageNum));
+    }
+
+    private void getSearchTips() {
+        JSONObject params = new JSONObject();
+        OkHttpManager.getInstance(getContext()).requestAsyn(searchTipsUrl, OkHttpManager.TYPE_GET, params,
+                new OkHttpManager.ReqCallBack<Object>() {
+                    @Override
+                    public void onReqSuccess(Object result) {
+                        SearchTipsBean searchTipsBean = GsonUtil.GsonToBean(result.toString(),SearchTipsBean.class);
+                        if(searchTipsBean != null && searchTipsBean.getData() != null && searchTipsBean.getData().size() != 0){
+                            tips = searchTipsBean.getData().get(0).getTip();
+                            mHomeRecommendAdapter.setTips(tips);
+                        }
+
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+
+                    }
+                });
     }
 
     /**

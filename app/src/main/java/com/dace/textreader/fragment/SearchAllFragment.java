@@ -246,7 +246,7 @@ public class SearchAllFragment extends Fragment implements View.OnClickListener 
 //                                WordDetailActivity
                                 Intent intent = new Intent(getActivity(),WordDetailActivity.class);
                                 intent.putExtra("url",url);
-                                intent.putExtra("essayId",-1);
+                                intent.putExtra("essayId","-1");
                                 intent.putExtra("sourceType","2");
                                 intent.putExtra("title",hotWord);
                                 intent.putExtra("word",hotWord);

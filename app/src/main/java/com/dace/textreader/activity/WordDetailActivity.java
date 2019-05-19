@@ -1,41 +1,50 @@
 package com.dace.textreader.activity;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.dace.textreader.R;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.ConfirmPopWindow;
-import com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview;
-import com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeHandler;
-import com.dace.textreader.view.weight.pullrecycler.mywebview.CallBackFunction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WordDetailActivity extends BaseActivity implements View.OnClickListener {
 
-    private BridgeCustomWebview mWebview;
+    /** 视频全屏参数 */
+    protected static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+    private WebView mWebview;
     private RelativeLayout rl_back;
     private ImageView iv_add;
     private ImageView iv_more;
     private String url;
     private String addWordUrl = HttpUrlPre.HTTP_URL_ + "/insert/raw/word";
-    private int essayId;
+    private String essayId;
     private String title;
     private String word;
     private String sourceType;
+    private View customView;
+    private WebChromeClient.CustomViewCallback customViewCallback;
+    private FullscreenHolder fullscreenContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +61,9 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
 
     private void initData() {
         url = getIntent().getStringExtra("url");
+//        url = "https://mp.weixin.qq.com/s/n1pfcfdYQlLX4xZsJYGCpQ";
         sourceType = getIntent().getStringExtra("sourceType");
-        essayId = getIntent().getIntExtra("essayId",-1);
+        essayId = getIntent().getStringExtra("essayId");
         title = getIntent().getStringExtra("title");
         word = getIntent().getStringExtra("word");
     }
@@ -71,23 +81,6 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
         rl_back.setOnClickListener(this);
         iv_add.setOnClickListener(this);
         iv_more.setOnClickListener(this);
-
-        mWebview.registerHandler("linkToEssayDetail", new BridgeHandler() {
-            @Override
-            public void handler(String data, CallBackFunction function) {
-                Log.e("linkToEssayDetail", "指定Handler接收来自web的数据：" + data);
-                function.onCallBack("123");
-            }
-        });
-
-        mWebview.registerHandler("collectWord", new BridgeHandler() {
-            @Override
-            public void handler(String data, CallBackFunction function) {
-                Log.e("collectWord", "指定Handler接收来自web的数据：" + data);
-                word = data;
-                function.onCallBack("123");
-            }
-        });
     }
 
     private void initWebSettings() {
@@ -122,6 +115,129 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
         webSettings.setAppCacheEnabled(true);
         mWebview.requestFocus();
 
+        mWebview.setWebChromeClient(new WebChromeClient() {
+
+            /*** 视频播放相关的方法 **/
+
+            @Override
+            public View getVideoLoadingProgressView() {
+                FrameLayout frameLayout = new FrameLayout(WordDetailActivity.this);
+                frameLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                return frameLayout;
+            }
+
+            @Override
+            public void onShowCustomView(View view, CustomViewCallback callback) {
+                showCustomView(view, callback);
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+
+            @Override
+            public void onHideCustomView() {
+                hideCustomView();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        });
+
+    }
+
+    /** 视频播放全屏 **/
+    private void showCustomView(View view, WebChromeClient.CustomViewCallback callback) {
+        // if a view already exists then immediately terminate the new one
+        if (customView != null) {
+            callback.onCustomViewHidden();
+            return;
+        }
+
+        WordDetailActivity.this.getWindow().getDecorView();
+
+        FrameLayout decor = (FrameLayout) getWindow().getDecorView();
+        fullscreenContainer = new FullscreenHolder(WordDetailActivity.this);
+        fullscreenContainer.addView(view, COVER_SCREEN_PARAMS);
+        decor.addView(fullscreenContainer, COVER_SCREEN_PARAMS);
+        customView = view;
+        setStatusBarVisibility(false);
+        customViewCallback = callback;
+    }
+
+    /** 隐藏视频全屏 */
+    private void hideCustomView() {
+        if (customView == null) {
+            return;
+        }
+
+        setStatusBarVisibility(true);
+        FrameLayout decor = (FrameLayout) getWindow().getDecorView();
+        decor.removeView(fullscreenContainer);
+        fullscreenContainer = null;
+        customView = null;
+        customViewCallback.onCustomViewHidden();
+        mWebview.setVisibility(View.VISIBLE);
+    }
+
+    /** 全屏容器界面 */
+    static class FullscreenHolder extends FrameLayout {
+
+        public FullscreenHolder(Context ctx) {
+            super(ctx);
+            setBackgroundColor(ctx.getResources().getColor(android.R.color.black));
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent evt) {
+            return true;
+        }
+    }
+
+    private void setStatusBarVisibility(boolean visible) {
+        int flag = visible ? 0 : WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().setFlags(flag, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                /** 回退键 事件处理 优先级:视频播放全屏-网页回退-关闭页面 */
+                if (customView != null) {
+                    hideCustomView();
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else if (mWebview.canGoBack()) {
+                    mWebview.goBack();
+                } else {
+                    finish();
+                }
+                return true;
+            default:
+                return super.onKeyUp(keyCode, event);
+        }
+    }
+
+    @Override
+    public void setRequestedOrientation(int requestedOrientation)
+    {
+        // TODO Auto-generated method stub
+
+        /* 判断要更改的方向，以Toast提示 */
+        switch (requestedOrientation)
+        {
+            /* 更改为LANDSCAPE */
+            case (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE):
+                break;
+            /* 更改为PORTRAIT */
+            case (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT):
+                break;
+        }
+        super.setRequestedOrientation(requestedOrientation);
+    }
+
+    @Override
+    public int getRequestedOrientation()
+    {
+        // TODO Auto-generated method stub
+
+        /* 此重写getRequestedOrientation方法，可取得当下屏幕的方向 */
+        return super.getRequestedOrientation();
     }
 
 

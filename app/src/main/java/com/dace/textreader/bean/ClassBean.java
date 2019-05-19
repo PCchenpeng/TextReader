@@ -59,7 +59,7 @@ public class ClassBean {
         private String image;
         private int id;
         private int flag;
-        private Object score;
+        private int score;
         private Object subContent;
         private Object sequence;
 
@@ -119,11 +119,11 @@ public class ClassBean {
             this.flag = flag;
         }
 
-        public Object getScore() {
+        public int getScore() {
             return score;
         }
 
-        public void setScore(Object score) {
+        public void setScore(int score) {
             this.score = score;
         }
 

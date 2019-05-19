@@ -135,7 +135,7 @@ public class ReaderRecommendationBean {
              * subContent : 献给玛丽亚您的肖像是本书最美的点缀；但愿您的芳名在这里是经过祝福的黄杨枝，虽不知摘自哪一棵树，但一定已被宗教圣化
              */
 
-            private Object score;
+            private int score;
             private String image;
             private int flag;
             private String articleId;
@@ -145,11 +145,11 @@ public class ReaderRecommendationBean {
             private String title;
             private String subContent;
 
-            public Object getScore() {
+            public int getScore() {
                 return score;
             }
 
-            public void setScore(Object score) {
+            public void setScore(int score) {
                 this.score = score;
             }
 

@@ -246,7 +246,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         GlideApp.with(this)
                 .load(imgUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
+//                .centerCrop()
                 .into(iv_topimg);
 
 //        mWebview.setWebChromeClient(new WebChromeClient() {
@@ -621,8 +621,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     showNoteDialog(s1,selectStart,selectStart);
 
                 }else if (s.equals("搜索")){
-                    Intent intent = new Intent(ArticleDetailActivity.this,NewSearchActivity.class);
-                    intent.putExtra("word",s1);
+                    Intent intent = new Intent(ArticleDetailActivity.this,SearchResultActivity.class);
+                    intent.putExtra("searchWord",s1);
                     startActivity(intent);
                 }else if(s.equals("复制")){
                     ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -1006,7 +1006,12 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         iv_audio.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                play(wordDetailBean.getData().getAudio().get(0).getUrl());
+                                if (!mPlayer.isPlaying()) {
+                                    play(wordDetailBean.getData().getAudio().get(0).getUrl());
+                                } else {
+                                    mPlayer.pause();
+                                }
+
                             }
                         });
 

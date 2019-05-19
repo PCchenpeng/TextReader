@@ -34,6 +34,7 @@ import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.PreferencesUtil;
+import com.dace.textreader.util.TurnToActivityUtil;
 import com.dace.textreader.util.VersionInfoUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.util.okhttp.OkHttpManager;
@@ -215,16 +216,12 @@ public class HomeTextBookFragment extends BaseFragment{
      * @param position 文章
      */
     private void turnToArticleDetail(int position) {
-        long essayId = mList.get(position).getId();
+
+        String id = mList.get(position).getId() + "";
         String imgUrl = mList.get(position).getImage();
-//        int type = mList.get(position).getType();
-        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
-//        Intent intent = new Intent(getContext(), NewArticleDetailActivity.class);
-//        intent.putExtra("id", essayId);
-        intent.putExtra("essayId", essayId + "");
-        intent.putExtra("imgUrl", imgUrl);
-//        intent.putExtra("type", type);
-        startActivity(intent);
+        int flag = mList.get(position).getFlag();
+        int py = mList.get(position).getScore();
+        TurnToActivityUtil.turnToDetail(getActivity(),flag,id,py,imgUrl);
     }
 
     private void initKnowledgeData() {
@@ -260,7 +257,7 @@ public class HomeTextBookFragment extends BaseFragment{
         mList_grade.add("高二上册");
         mList_grade.add("高二下册");
         mList_grade.add("高三上册");
-        mList_grade.add("高三下册");
+//        mList_grade.add("高三下册");
         adapter_grade.notifyDataSetChanged();
 
         initData();
@@ -333,7 +330,7 @@ public class HomeTextBookFragment extends BaseFragment{
         JSONObject params = new JSONObject();
         try {
             params.put("studentId",PreferencesUtil.getData(getContext(),"studentId","-1"));
-            params.put("gradeId",PreferencesUtil.getData(getContext(),"gradeId","-1"));
+            params.put("gradeId",gradeId);
             params.put("appVersion",VersionInfoUtil.getVersionName(getActivity()));
             params.put("platform","android");
             params.put("py",NewMainActivity.PY_SCORE);

@@ -93,7 +93,7 @@ public class BaseActivity extends AppCompatActivity {
     public static String TOKEN_URL = HttpUrlPre.HTTP_URL + "/tokenLogin";
     //查询最新的应用版本
     private final String versionUrl = HttpUrlPre.HTTP_URL +
-            "/manager/application/select/new?apikey=8a801df7917547a5ad91aff6ab133f15";
+            "/is/not/update/version?platform=android";
     //查询学生
     private static final String studentUrl = HttpUrlPre.HTTP_URL + "/select/is/not/invite";
     //查询老师编码
@@ -1081,7 +1081,7 @@ public class BaseActivity extends AppCompatActivity {
             isNeedCheckVersion = true;
             return;
         }
-
+        Log.d("111","status1 " + status);
 
         if (status!=200){
             String[] appContentString = appUpdateContent.split("\n");
@@ -1111,10 +1111,9 @@ public class BaseActivity extends AppCompatActivity {
      * 显示App更新提示
      */
     private void showAppUpdateDialog(final boolean hasForce) {
-        if (SystemClock.currentThreadTimeMillis() - (long)PreferencesUtil.getData(getApplicationContext(),"lastCloseDialogTime",0) < 24 * 60 * 60 * 1000){
+        if (System.currentTimeMillis() - (long)PreferencesUtil.getData(getApplicationContext(),"lastCloseDialogTime",0L) < 24 * 60 * 60 * 1000){
             return;
         }
-
         if (isShowAppUpdateDialog) {
             return;
         }

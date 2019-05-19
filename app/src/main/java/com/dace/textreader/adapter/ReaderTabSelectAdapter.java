@@ -204,6 +204,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public int getItemViewType(int position){
         if(position == 0){
+
             return TYPE_TOP;
         }else {
             return TYPE_ITEM;

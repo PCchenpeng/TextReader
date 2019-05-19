@@ -27,6 +27,7 @@ import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.PreferencesUtil;
+import com.dace.textreader.util.TurnToActivityUtil;
 import com.github.rubensousa.gravitysnaphelper.GravityPagerSnapHelper;
 
 import java.util.List;
@@ -237,12 +238,12 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((ItemHolder) viewHolder).ll_item_1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        String id = itemList.get(i-2).getArticleList().get(0).getArticleId();
+                        String imgUrl = itemList.get(i-2).getArticleList().get(0).getImage();
+                        int flag = itemList.get(i-2).getArticleList().get(0).getFlag();
+                        int py = itemList.get(i-2).getArticleList().get(0).getScore();
+                        TurnToActivityUtil.turnToDetail(context,flag,id,py,imgUrl);
 
-
-                        Intent intent = new Intent(context,ArticleDetailActivity.class);
-                        intent.putExtra("essayId", itemList.get(i-2).getArticleList().get(0).getArticleId());
-                        intent.putExtra("imgUrl", itemList.get(i-2).getArticleList().get(0).getImage());
-                        context.startActivity(intent);
                     }
                 });
 
@@ -251,10 +252,11 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
 //                        if(onItemClickListener != null)
 //                            onItemClickListener.onClick(1,"","",itemList.get(i-2).getArticleList().get(1).getImage());
-                        Intent intent = new Intent(context,ArticleDetailActivity.class);
-                        intent.putExtra("essayId", itemList.get(i-2).getArticleList().get(1).getArticleId());
-                        intent.putExtra("imgUrl", itemList.get(i-2).getArticleList().get(1).getImage());
-                        context.startActivity(intent);
+                        String id = itemList.get(i-2).getArticleList().get(1).getArticleId();
+                        String imgUrl = itemList.get(i-2).getArticleList().get(1).getImage();
+                        int flag = itemList.get(i-2).getArticleList().get(1).getFlag();
+                        int py = itemList.get(i-2).getArticleList().get(1).getScore();
+                        TurnToActivityUtil.turnToDetail(context,flag,id,py,imgUrl);
                     }
                 });
 

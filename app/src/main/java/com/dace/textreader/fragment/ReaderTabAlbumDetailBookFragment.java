@@ -15,6 +15,7 @@ import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.adapter.BookAdapter;
 import com.dace.textreader.bean.ReadTabAlbumDetailBean;
+import com.dace.textreader.util.TurnToActivityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,10 +92,11 @@ public class ReaderTabAlbumDetailBookFragment extends BaseFragment {
             return;
         }
         String id = mData.get(position).getArticleList().get(childPosition).getArticleId();
-        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
-        intent.putExtra("essayId", id);
-        intent.putExtra("imgUrl", imgUrl);
-        startActivity(intent);
+        int flag = mData.get(position).getArticleList().get(childPosition).getFlag();
+        int py = mData.get(position).getArticleList().get(childPosition).getScore();
+        TurnToActivityUtil.turnToDetail(getContext(),flag,id,py,imgUrl);
+
+
     }
 
     public void setImgUrl(String imgUrl) {

@@ -103,6 +103,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         initData();
         initEvents();
 
+        et_search.setText(getIntent().getStringExtra("tips"));
         et_search.setFocusable(true);
         et_search.setFocusableInTouchMode(true);
         et_search.findFocus();
@@ -196,7 +197,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(s)){
+                if (!TextUtils.isEmpty(s)){
                     iv_cancle.setVisibility(View.VISIBLE);
                 } else {
                     iv_cancle.setVisibility(View.GONE);
@@ -206,6 +207,14 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initData() {
+//        String word = getIntent().getStringExtra("word");
+//        if (!TextUtils.isEmpty(word)){
+//            et_search.setText(word);
+//            Intent intent = new Intent(NewSearchActivity.this,SearchResultActivity.class);
+//            intent.putExtra("searchWord",hotWord);
+//            startActivity(intent);
+//        }
+
         getTestData();
         getHotData();
         resh.handler.postDelayed(resh.runnable, 5000);
@@ -213,6 +222,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 
     @SuppressLint("ClickableViewAccessibility")
     private void initEvents() {
+        iv_cancle.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         iv_close.setOnClickListener(this);
 //        iv_playpause.setOnClickListener(this);
@@ -483,6 +493,9 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                     ll_search.setVisibility(View.GONE);
                     ll_search.setAnimation(AnimationUtil.moveToViewBottom());
                 }
+                break;
+            case R.id.iv_cancle:
+                et_search.setText("");
                 break;
             case R.id.iv_playpause:
                 break;

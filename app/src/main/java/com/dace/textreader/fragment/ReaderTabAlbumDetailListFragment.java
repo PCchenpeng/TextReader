@@ -16,6 +16,8 @@ import android.widget.FrameLayout;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
+import com.dace.textreader.activity.AuthorDetailActivity;
+import com.dace.textreader.activity.HomeAudioDetailActivity;
 import com.dace.textreader.adapter.BookAdapter;
 import com.dace.textreader.adapter.ReaderTabAlbumDetailListAdapter;
 import com.dace.textreader.bean.ReadTabAlbumDetailBean;
@@ -23,6 +25,7 @@ import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.JsonParser;
+import com.dace.textreader.util.TurnToActivityUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.huawei.updatesdk.sdk.service.storekit.bean.JsonBean;
 
@@ -138,11 +141,12 @@ public class ReaderTabAlbumDetailListFragment extends BaseFragment {
         if (position == -1 || position > mData.size()) {
             return;
         }
+
         String id = mData.get(position).getArticleId();
-        Intent intent = new Intent(getContext(), ArticleDetailActivity.class);
-        intent.putExtra("essayId", id);
-        intent.putExtra("imgUrl", mData.get(position).getImage());
-        startActivity(intent);
+        String imgUrl = mData.get(position).getImage();
+        int flag = mData.get(position).getFlag();
+        int py = mData.get(position).getScore();
+        TurnToActivityUtil.turnToDetail(getContext(),flag,id,py,imgUrl);
     }
 
 }

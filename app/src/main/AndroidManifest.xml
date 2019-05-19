@@ -28,6 +28,7 @@
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher"
+        android:resizeableActivity="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -247,7 +248,7 @@
             android:name=".activity.NewMainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/NewMainTheme">
+            android:theme="@style/NewMainActivityTheme">
         </activity>
         <activity
             android:name=".activity.NewSettingsActivity"
@@ -751,6 +752,7 @@
             android:theme="@style/NewMainTheme"/>
         <activity android:name=".activity.WordDetailActivity"
             android:launchMode="singleTop"
+            android:configChanges="screenSize|keyboardHidden|orientation"
             android:theme="@style/NewMainTheme"/>
         <activity android:name=".activity.TranslatePageActivity"
             android:launchMode="singleTop"

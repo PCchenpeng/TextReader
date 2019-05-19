@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -83,6 +85,10 @@ public class StartupPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup_page);
+        Bitmap blurBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image_startup);
+        blurBitmap = blurBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        blurBitmap.setWidth(20);
+//        getWindow().getDecorView().setBackground(new BitmapDrawable(blurBitmap));
 
         mContext = this;
 
@@ -98,11 +104,6 @@ public class StartupPageActivity extends AppCompatActivity {
         rl_skip = findViewById(R.id.rl_skip_start_up);
         tv_skip = findViewById(R.id.tv_skip_start_up);
         tv_skip.setText("跳过 3");
-
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv_cover.getLayoutParams();
-        layoutParams.width = DensityUtil.dip2px(this,getPingMuSize(this)[0]);
-        layoutParams.height = DensityUtil.dip2px(this,getPingMuSize(this)[1]);
-        iv_cover.setLayoutParams(layoutParams);
 
 //        GlideUtils.loadImageWithNoOptions(mContext, R.drawable.image_startup, iv_start);
         setImmerseLayout();

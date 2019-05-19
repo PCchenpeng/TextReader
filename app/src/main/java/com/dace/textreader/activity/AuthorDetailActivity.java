@@ -3,6 +3,7 @@ package com.dace.textreader.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.NestedScrollView;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.dace.textreader.view.StatusBarHeightView;
 import com.dace.textreader.view.weight.pullrecycler.ExpandableTextView;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
@@ -46,7 +49,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
     private String author;
     private ExpandableTextView expandableTextView;
     private ImageView iv_topimg ,iv_playvideo;
-    private RelativeLayout rl_back_copy,rl_follow;
+    private RelativeLayout rl_back_copy,rl_follow,rl_back;
     private ImageView iv_author,iv_audio,iv_follow;
     private TextView tv_author,tv_follow,tv_more;
     private RecyclerView rcl_author_detail,rcl_author_works;
@@ -59,6 +62,8 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
     private CustomController controller;
     private NestedScrollView scroll_view;
     private MediaPlayer mPlayer;
+    private FrameLayout framelayout;
+    private StatusBarHeightView statusView_top;
     private String audioUrl;
 
 
@@ -81,6 +86,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
         iv_topimg = findViewById(R.id.iv_topimg);
         iv_topimg = findViewById(R.id.iv_topimg);
         iv_playvideo = findViewById(R.id.iv_playvideo);
+        rl_back = findViewById(R.id.rl_back);
         rl_back_copy = findViewById(R.id.rl_back_copy);
         rl_follow = findViewById(R.id.rl_follow);
         tv_more = findViewById(R.id.tv_more);
@@ -89,6 +95,8 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
         iv_audio = findViewById(R.id.iv_audio);
         tv_author = findViewById(R.id.tv_author);
         tv_follow = findViewById(R.id.tv_follow);
+        framelayout = findViewById(R.id.framelayout);
+        statusView_top = findViewById(R.id.statusView_top);
         rcl_author_detail = findViewById(R.id.rcl_author_detail);
         rcl_author_works = findViewById(R.id.rcl_author_works);
 
@@ -196,6 +204,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
 
         getData();
         getWorksData();
+        showLoadingView(framelayout);
     }
 
     public void follow(final RelativeLayout rl_follow, final TextView tv_follow, final ImageView iv_follow){
@@ -290,23 +299,36 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
                 tv_author.setText(authorDetailBean.getData().getAuthor());
                 if (authorDetailBean.getData().getVideo()!= null){
                     videoPlayer.setVisibility(View.VISIBLE);
-                    GlideApp.with(AuthorDetailActivity.this)
-                            .load(authorDetailBean.getData().getVideo().getImg())
-                            .placeholder(R.drawable.img_default)
-                            .into(controller.imageView());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && AuthorDetailActivity.this.isDestroyed()) {
+                        return;
+                    } else {
+                        GlideApp.with(AuthorDetailActivity.this)
+                                .load(authorDetailBean.getData().getVideo().getImg())
+                                .placeholder(R.drawable.img_default)
+                                .into(controller.imageView());
+                    }
                     controller.setTitle(authorDetailBean.getData().getVideo().getTitle());
                         String videoUrl = authorDetailBean.getData().getVideo().getLink();
                         videoUrl = videoUrl.replaceAll("https","http");
                         videoPlayer.setUp(videoUrl, null);
                         videoPlayer.setController(controller);
 
+                } else {
+                    statusView_top.setVisibility(View.VISIBLE);
+                    rl_back_copy.setVisibility(View.GONE);
                 }
 //                    GlideUtils.loadHomeImage(AuthorDetailActivity.this,authorDetailBean.getData().getVideo().getImg(),iv_topimg);
+                framelayout.setVisibility(View.GONE);
             }
 
             @Override
             public void onReqFailed(String errorMsg) {
-
+                showNetFailView(framelayout, new OnButtonClick() {
+                    @Override
+                    public void onButtonClick() {
+                        getData();
+                    }
+                });
             }
         });
     }
@@ -339,6 +361,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
 
     private void initEvents() {
         rl_back_copy.setOnClickListener(this);
+        rl_back.setOnClickListener(this);
         iv_audio.setOnClickListener(this);
         tv_author.setOnClickListener(this);
     }
@@ -347,10 +370,15 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rl_back_copy:
+            case R.id.rl_back:
                 finish();
                 break;
             case R.id.iv_audio:
-                play(audioUrl);
+                if (!mPlayer.isPlaying()) {
+                    play(audioUrl);
+                } else {
+                    mPlayer.pause();
+                }
                 break;
         }
     }

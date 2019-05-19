@@ -101,9 +101,9 @@ public class ReaderTabAlbumFragment extends Fragment implements PullListener {
                 LinearLayoutManager.VERTICAL, false);
         readerTabAlbumAdapter = new ReaderTabAlbumAdapter(getContext(),topData,itemata);
         recyclerView
-//                .setHeadRefreshView(new SimpleRefreshHeadView(getContext()))
+                .setHeadRefreshView(new SimpleRefreshHeadView(getContext()))
                 .setUseLoadMore(true)
-//                .setUseRefresh(true)
+                .setUseRefresh(false)
                 .setPullLayoutManager(layoutManager_recommend)
                 .setPullListener(this)
                 .setPullItemAnimator(null)

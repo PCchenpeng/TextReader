@@ -88,6 +88,12 @@ public class SentenceExplainationActivity extends BaseActivity {
         tv_author_sentence.setText(getIntent().getStringExtra("source"));
         tv_explaination.setText(getIntent().getStringExtra("annotation"));
 
+        rl_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

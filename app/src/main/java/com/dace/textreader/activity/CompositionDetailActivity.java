@@ -287,7 +287,7 @@ public class CompositionDetailActivity extends BaseActivity {
         textSizePosition = sharedPreferences.getInt("textSize", 1);
         textLineSpacePosition = sharedPreferences.getInt("textLineSpace", 1);
         screenLight = sharedPreferences.getInt("screenLight", -1);
-        backgroundPosition = sharedPreferences.getInt("background", 1);
+//        backgroundPosition = sharedPreferences.getInt("background", 1);
 
         if (screenLight == -1) {
             screenLight = Utils.getSystemBrightness(mContext);
@@ -794,18 +794,18 @@ public class CompositionDetailActivity extends BaseActivity {
      * 改变内容样式
      */
     private void changeWebStyle() {
-//        try {
-//            JSONObject object = new JSONObject();
-//            object.put("fontSize", textShowSize[textSizePosition]);
-//            object.put("lineHeight", textLineSpace[textLineSpacePosition]);
-//            object.put("bgColor", background[backgroundPosition]);
-//            if (webView != null) {
-//                webView.loadUrl("javascript:changeTxtDetail(" + object.toString() + ")");
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            initCompositionData();
-//        }
+        try {
+            JSONObject object = new JSONObject();
+            object.put("fontSize", textShowSize[textSizePosition]);
+            object.put("lineHeight", textLineSpace[textLineSpacePosition]);
+            object.put("bgColor", background[backgroundPosition]);
+            if (webView != null) {
+                webView.loadUrl("javascript:changeTxtDetail(" + object.toString() + ")");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            initCompositionData();
+        }
     }
 
     /**

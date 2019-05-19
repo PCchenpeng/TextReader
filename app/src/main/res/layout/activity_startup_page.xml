@@ -30,7 +30,8 @@
     </RelativeLayout>
     <ImageView
         android:id="@+id/iv_cover"
+        android:src="@drawable/image_startup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitXY"/>
 </RelativeLayout>

@@ -46,6 +46,7 @@ import com.dace.textreader.bean.AutoSaveWritingBean;
 import com.dace.textreader.bean.HtmlLinkBean;
 import com.dace.textreader.bean.LessonBean;
 import com.dace.textreader.bean.ReaderTabBean;
+import com.dace.textreader.bean.SearchTipsBean;
 import com.dace.textreader.fragment.HomeFragment;
 import com.dace.textreader.fragment.NewHomeFragment;
 import com.dace.textreader.fragment.NewLessonFragment;
@@ -106,6 +107,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     private static final String jiguangUrl = HttpUrlPre.HTTP_URL + "/info/record/jiguang";
     //阅读四个tab
     private String readerTabUrl = HttpUrlPre.HTTP_URL_+"/select/category/detail";
+
 
     private static final String HOME_FRAGMENT_TAG = "home";
     private static final String READER_FRAGMENT_TAG = "reader";

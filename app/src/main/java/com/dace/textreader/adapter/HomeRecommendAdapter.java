@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     public final static int TOP_SUB = 10008;
     private List<ArticleListBean> itemList = new ArrayList<>();
     private Context mContext;
+    private String tips;
 
     public HomeRecommendAdapter(List<ArticleListBean> data, Context context) {
         this.mContext = context;
@@ -150,6 +152,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                     }
                 });
+                ((TopHolder) viewHolder).et_search.setText(tips);
                 break;
             case TYPE_TOP_SUB:
                 ((TopSubHolder) viewHolder).iv_type.setOnClickListener(new View.OnClickListener() {
@@ -366,8 +369,10 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     class TopHolder extends RecyclerView.ViewHolder{
         ImageView iv_gif;
+        TextView et_search;
         public TopHolder(@NonNull View itemView) {
             super(itemView);
+            et_search =  itemView.findViewById(R.id.et_search);
             iv_gif =  itemView.findViewById(R.id.iv_gif);
             iv_gif.setImageResource(R.drawable.anim_home_gif);
             AnimationDrawable animationDrawable = (AnimationDrawable) iv_gif.getDrawable();
@@ -394,5 +399,10 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public List<ArticleListBean> getItemList() {
         return itemList;
+    }
+
+    public void setTips(String tips) {
+        this.tips = tips;
+        notifyItemChanged(0);
     }
 }

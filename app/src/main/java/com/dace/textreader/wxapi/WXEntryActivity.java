@@ -14,9 +14,12 @@ import android.widget.Toast;
 import com.dace.textreader.App;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.BaseActivity;
+import com.dace.textreader.activity.LoginActivity;
 import com.dace.textreader.activity.NewMainActivity;
+import com.dace.textreader.activity.PasswordLoginActivity;
 import com.dace.textreader.activity.WXBindNumberActivity;
 import com.dace.textreader.util.HttpUrlPre;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.VersionInfoUtil;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -241,6 +244,11 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         editor.putString("token", token);
                         editor.putString("phoneNum", NewMainActivity.PHONENUMBER);
                         editor.apply();
+
+                        PreferencesUtil.saveData(WXEntryActivity.this,"studentId",String.valueOf(json.getInt("studentid")));
+                        PreferencesUtil.saveData(WXEntryActivity.this,"gradeId",String.valueOf(json.getInt("gradeid")) );
+                        PreferencesUtil.saveData(WXEntryActivity.this,"token",token);
+                        PreferencesUtil.saveData(WXEntryActivity.this,"phoneNum",json.getString("phonenum"));
 
                         Message msg = Message.obtain();
                         msg.what = 2;

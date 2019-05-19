@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_view"
+        android:layout_below="@+id/statusView_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
@@ -226,7 +227,7 @@
             android:layout_height="48dp">
             <RelativeLayout
                 android:id="@+id/rl_back"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="5dp">
@@ -235,8 +236,28 @@
                     android:layout_height="20dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/icon_white_back"/>
+
+                <TextView
+                    android:id="@+id/tv_page_title_top_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="作者介绍"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="64dp"
+                    android:layout_marginRight="64dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp"/>
             </RelativeLayout>
         </RelativeLayout>
     </com.dace.textreader.view.StatusBarHeightView>
-
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+    </FrameLayout>
 </RelativeLayout>

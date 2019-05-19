@@ -95,6 +95,7 @@ public class MyReceiver extends BroadcastReceiver {
             return;
         }
         JPushMessageBean followBean = GsonUtil.GsonToBean(message,JPushMessageBean.class);
+        Log.d("111","followBean.getMessageType() " + followBean.getMessageType());
         if (followBean.getMessageType() == 1) {
             broadcastUpdate(context, HttpUrlPre.ACTION_BROADCAST_SYSTEM_UPGRADE);
         } else if (followBean.getMessageType() == 2){
