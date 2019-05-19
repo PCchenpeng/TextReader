@@ -33,11 +33,15 @@ public class FeedbackActivity extends BaseActivity {
     private TextView tv_title;
     private EditText et_feedback;
     private Button bt_feedback;
+    private String type;
+    private String word;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
+        type = getIntent().getExtras().getString("type");
+        word = getIntent().getExtras().getString("word");
 
         initView();
         initEvents();
@@ -69,6 +73,8 @@ public class FeedbackActivity extends BaseActivity {
                     JSONObject json = new JSONObject();
                     json.put("feedbackUserId", NewMainActivity.STUDENT_ID);
                     json.put("content", et_feedback.getText().toString());
+                    json.put("type",type);
+                    json.put("word",word);
                     RequestBody requestBody = RequestBody.create(DataUtil.JSON, json.toString());
                     Request request = new Request.Builder()
                             .url(url)

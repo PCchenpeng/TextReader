@@ -252,8 +252,7 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
                 addWord(word);
                 break;
             case R.id.iv_more:
-                new ConfirmPopWindow(this).showAtBottom(iv_more);
-
+                new ConfirmPopWindow(this,word).showAtBottom(iv_more);
                 break;
         }
 

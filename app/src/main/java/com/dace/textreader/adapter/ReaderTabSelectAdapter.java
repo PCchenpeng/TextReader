@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        Log.e("ReaderTabSelectAdapter","viewType = "+String.valueOf(i));
         View view;
         switch (i){
             case TYPE_TOP:
@@ -67,6 +69,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         int viewType = getItemViewType(i);
+        Log.e("ReaderTabSelectAdapter","position = "+String.valueOf(i));
         switch (viewType){
             case TYPE_TOP:
                 LinearLayoutManager layoutManager = new LinearLayoutManager(context,
@@ -203,6 +206,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position){
+        Log.e("ReaderTabSelectAdapter","getItemViewType = "+String.valueOf(position));
         if(position == 0){
 
             return TYPE_TOP;

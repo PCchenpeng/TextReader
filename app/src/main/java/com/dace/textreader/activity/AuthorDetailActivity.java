@@ -304,7 +304,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
                     } else {
                         GlideApp.with(AuthorDetailActivity.this)
                                 .load(authorDetailBean.getData().getVideo().getImg())
-                                .placeholder(R.drawable.img_default)
+//                                .placeholder(R.drawable.img_default)
                                 .into(controller.imageView());
                     }
                     controller.setTitle(authorDetailBean.getData().getVideo().getTitle());
@@ -361,7 +361,6 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
 
     private void initEvents() {
         rl_back_copy.setOnClickListener(this);
-        rl_back.setOnClickListener(this);
         iv_audio.setOnClickListener(this);
         tv_author.setOnClickListener(this);
     }

@@ -61,7 +61,7 @@ public class ExcerptRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         final int sourceType = excerptBean.getSourceType();
         String title = excerptBean.getEssayTitle();
         if (sourceType == 0 || sourceType == 1) {
-            title = "《" + title + "》";
+//            title = "《" + title + "》";
         } else if (sourceType == 2) {
             title = "词堆：" + title;
         } else if (sourceType == 3) {

@@ -307,7 +307,10 @@ public class NewSettingsActivity extends BaseActivity implements View.OnClickLis
      * 前往意见反馈页面
      */
     private void turnToFeedBackView() {
-        startActivity(new Intent(mContext, FeedbackActivity.class));
+        Intent intent = new Intent(mContext, FeedbackActivity.class);
+        intent.putExtra("type","使用反馈");
+        intent.putExtra("word","");
+        startActivity(intent);
     }
 
     /**

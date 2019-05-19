@@ -2,6 +2,7 @@ package com.dace.textreader.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -12,14 +13,19 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.dace.textreader.R;
+import com.dace.textreader.activity.FeedbackActivity;
+import com.dace.textreader.activity.LoginActivity;
+import com.dace.textreader.activity.MyNoteListActivity;
+import com.dace.textreader.util.PreferencesUtil;
 
 public class ConfirmPopWindow extends PopupWindow implements View.OnClickListener {
     private Context context;
     private View ll_chat, ll_friend;
-
-    public ConfirmPopWindow(Context context) {
+    private String word;
+    public ConfirmPopWindow(Context context,String word) {
         super(context);
         this.context = context;
+        this.word = word;
         initalize();
     }
 
@@ -72,14 +78,38 @@ public class ConfirmPopWindow extends PopupWindow implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_note:
-                Toast.makeText(context, "发起群聊", Toast.LENGTH_SHORT).show();
+                if(!isLogin()){
+                    Intent loginIntent = new Intent(context,LoginActivity.class);
+                    context.startActivity(loginIntent);
+                    return;
+                }
+                Intent intent = new Intent(context,MyNoteListActivity.class);
+                context.startActivity(intent);
                 break;
             case R.id.ll_advice:
-                Toast.makeText(context, "添加好友", Toast.LENGTH_SHORT).show();
+                if(!isLogin()){
+                    Intent loginIntent = new Intent(context,LoginActivity.class);
+                    context.startActivity(loginIntent);
+                    return;
+                }
+                Intent intent1 = new Intent(context,FeedbackActivity.class);
+                intent1.putExtra("type","使用反馈");
+                intent1.putExtra("word",word);
+                context.startActivity(intent1);
                 break;
             default:
                 break;
         }
+    }
+
+
+    private boolean isLogin(){
+        Object studeenObj = PreferencesUtil.getData(context,"studentId","-1");
+        if(studeenObj == null)
+            return false;
+        String studentId = studeenObj.toString();
+
+        return !studentId.equals("-1");
     }
 
 }

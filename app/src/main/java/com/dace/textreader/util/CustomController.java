@@ -94,46 +94,46 @@ public class CustomController  extends NiceVideoPlayerController
     }
 
     private void init() {
-        LayoutInflater.from(mContext).inflate(com.xiao.nicevideoplayer.R.layout.tx_video_palyer_controller, this, true);
+        LayoutInflater.from(mContext).inflate(R.layout.tx_video_palyer_controller, this, true);
 
-        mCenterStart = (ImageView) findViewById(com.xiao.nicevideoplayer.R.id.center_start);
-        mImage = (ImageView) findViewById(com.xiao.nicevideoplayer.R.id.image);
+        mCenterStart = (ImageView) findViewById(R.id.center_start);
+        mImage = (ImageView) findViewById(R.id.image);
 
-        mTop = (LinearLayout) findViewById(com.xiao.nicevideoplayer.R.id.top);
-        mBack = (ImageView) findViewById(com.xiao.nicevideoplayer.R.id.back);
-        mTitle = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.title);
-        mBatteryTime = (LinearLayout) findViewById(com.xiao.nicevideoplayer.R.id.battery_time);
-        mBattery = (ImageView) findViewById(com.xiao.nicevideoplayer.R.id.battery);
-        mTime = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.time);
+        mTop = (LinearLayout) findViewById(R.id.top);
+        mBack = (ImageView) findViewById(R.id.back);
+        mTitle = (TextView) findViewById(R.id.title);
+        mBatteryTime = (LinearLayout) findViewById(R.id.battery_time);
+        mBattery = (ImageView) findViewById(R.id.battery);
+        mTime = (TextView) findViewById(R.id.time);
 
-        mBottom = (LinearLayout) findViewById(com.xiao.nicevideoplayer.R.id.bottom);
-        mRestartPause = (ImageView) findViewById(com.xiao.nicevideoplayer.R.id.restart_or_pause);
-        mPosition = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.position);
-        mDuration = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.duration);
-        mSeek = (SeekBar) findViewById(com.xiao.nicevideoplayer.R.id.seek);
-        mFullScreen = (ImageView) findViewById(com.xiao.nicevideoplayer.R.id.full_screen);
-        mClarity = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.clarity);
-        mLength = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.length);
+        mBottom = (LinearLayout) findViewById(R.id.bottom);
+        mRestartPause = (ImageView) findViewById(R.id.restart_or_pause);
+        mPosition = (TextView) findViewById(R.id.position);
+        mDuration = (TextView) findViewById(R.id.duration);
+        mSeek = (SeekBar) findViewById(R.id.seek);
+        mFullScreen = (ImageView) findViewById(R.id.full_screen);
+        mClarity = (TextView) findViewById(R.id.clarity);
+        mLength = (TextView) findViewById(R.id.length);
 
-        mLoading = (LinearLayout) findViewById(com.xiao.nicevideoplayer.R.id.loading);
-        mLoadText = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.load_text);
+        mLoading = (LinearLayout) findViewById(R.id.loading);
+        mLoadText = (TextView) findViewById(R.id.load_text);
 
-        mChangePositon = (LinearLayout) findViewById(com.xiao.nicevideoplayer.R.id.change_position);
-        mChangePositionCurrent = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.change_position_current);
-        mChangePositionProgress = (ProgressBar) findViewById(com.xiao.nicevideoplayer.R.id.change_position_progress);
+        mChangePositon = (LinearLayout) findViewById(R.id.change_position);
+        mChangePositionCurrent = (TextView) findViewById(R.id.change_position_current);
+        mChangePositionProgress = (ProgressBar) findViewById(R.id.change_position_progress);
 
-        mChangeBrightness = (LinearLayout) findViewById(com.xiao.nicevideoplayer.R.id.change_brightness);
-        mChangeBrightnessProgress = (ProgressBar) findViewById(com.xiao.nicevideoplayer.R.id.change_brightness_progress);
+        mChangeBrightness = (LinearLayout) findViewById(R.id.change_brightness);
+        mChangeBrightnessProgress = (ProgressBar) findViewById(R.id.change_brightness_progress);
 
-        mChangeVolume = (LinearLayout) findViewById(com.xiao.nicevideoplayer.R.id.change_volume);
-        mChangeVolumeProgress = (ProgressBar) findViewById(com.xiao.nicevideoplayer.R.id.change_volume_progress);
+        mChangeVolume = (LinearLayout) findViewById(R.id.change_volume);
+        mChangeVolumeProgress = (ProgressBar) findViewById(R.id.change_volume_progress);
 
-        mError = (LinearLayout) findViewById(com.xiao.nicevideoplayer.R.id.error);
-        mRetry = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.retry);
+        mError = (LinearLayout) findViewById(R.id.error);
+        mRetry = (TextView) findViewById(R.id.retry);
 
-        mCompleted = (LinearLayout) findViewById(com.xiao.nicevideoplayer.R.id.completed);
-        mReplay = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.replay);
-        mShare = (TextView) findViewById(com.xiao.nicevideoplayer.R.id.share);
+        mCompleted = (LinearLayout) findViewById(R.id.completed);
+        mReplay = (TextView) findViewById(R.id.replay);
+        mShare = (TextView) findViewById(R.id.share);
         mShare.setVisibility(GONE);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mCenterStart.getLayoutParams();
         params.height = DensityUtil.dip2px(getContext(),50);

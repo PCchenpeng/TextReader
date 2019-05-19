@@ -152,7 +152,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private WbShareHandler shareHandler;
 
     private OnListDataOperateListen mListen;
-    private String content = "哈哈哈哈哈";
+    private String shareContent = "";
     private NiceVideoPlayer videoPlayer;
     private CustomController controller;
 
@@ -240,7 +240,6 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         });
         GlideApp.with(this)
                 .load(imgUrl)
-                .placeholder(R.drawable.img_default)
                 .into(controller.imageView());
 
         GlideApp.with(this)
@@ -428,6 +427,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
 
                 shareImgUrl = h5DataBean.getShareList().getWx().getImage();
                 prepareBitmap(shareImgUrl);
+                shareContent = h5DataBean.getSubContent();
 
                 controller.setTitle(title);
                 if(h5DataBean.getVideo() != null){
@@ -1788,7 +1788,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
      * 分享到QQ空间
      */
     private void shareToQZone(String url) {
-        ShareUtil.shareToQZone(this, url, title, content, shareImgUrl);
+        ShareUtil.shareToQZone(this, url, title, shareContent, shareImgUrl);
     }
 
     /**
@@ -1802,7 +1802,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         if(thumb == null)
             thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
-        ShareUtil.shareToWx(this, url, title, content,
+        ShareUtil.shareToWx(this, url, title, shareContent,
                 ImageUtils.bmpToByteArrayCopy(thumb, false), friend);
     }
 
@@ -1810,7 +1810,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
      * 分享到QQ好友
      */
     private void shareToQQ(String url) {
-        ShareUtil.shareToQQ(this, url, title, content, shareImgUrl);
+        ShareUtil.shareToQQ(this, url, title, shareContent, shareImgUrl);
     }
 
     /**
