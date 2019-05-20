@@ -25,6 +25,7 @@
         android:id="@+id/tv_title"
         android:layout_marginTop="10dp"
         android:text="你好"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -33,10 +34,11 @@
         android:id="@+id/tv_subContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好"
         android:lineSpacingMultiplier="1.2"
         android:layout_marginTop="5dp"
         android:textSize="15sp"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textColor="#999999"/>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,12 +50,11 @@
             android:layout_height="20dp" />
         <TextView
             android:id="@+id/tv_source"
-            android:text="你好你好你好你好你好你好"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_source"
             android:layout_marginLeft="5dp"
-            android:textColor="#999999"
+            android:textColor="#333333"
             android:textSize="12sp"/>
 
         <TextView
@@ -71,7 +72,7 @@
         android:layout_height="0.5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         />
 </LinearLayout>

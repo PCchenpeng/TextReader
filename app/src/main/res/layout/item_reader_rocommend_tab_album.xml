@@ -3,11 +3,28 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
-    <ImageView
-        android:id="@+id/iv_img"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="15dp"
-        android:layout_height="194dp" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_height="194dp" />
+        <TextView
+            android:id="@+id/tv_py"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123PY"
+            android:textColor="#ffffff"
+            android:textSize="11sp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorBlack"/>
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
@@ -33,7 +50,7 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:textSize="16sp"
-        android:textColor="#333333"/>
+        android:textColor="#999999"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"

@@ -82,7 +82,7 @@ public class HomeLevelFragment extends BaseFragment implements PullListener {
             params.put("grade",grade);
             params.put("pageNum",String.valueOf(pageNum));
             params.put("width",DensityUtil.getScreenWidth(getContext()));
-            params.put("height",DensityUtil.getScreenWidth(getContext())*194/345);
+            params.put("height",DensityUtil.getScreenWidth(getContext())*2/3);
         } catch (JSONException e) {
             e.printStackTrace();
         }

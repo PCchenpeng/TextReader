@@ -21,7 +21,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -217,6 +219,15 @@ public class PlayService extends Service {
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         mMusicView.setLayoutParams(layoutParams);
         mMusicView.setImageResource(R.drawable.icon_audio_default);
+        RotateAnimation rotateAnimation = new RotateAnimation(0,360,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        rotateAnimation.setDuration(5000);
+        rotateAnimation.setFillAfter(true);
+        rotateAnimation.setRepeatMode(Animation.RESTART);
+        //让旋转动画一直转，不停顿的重点
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setRepeatCount(-1);
+
+        mMusicView.setAnimation(rotateAnimation);
         mFloatView.addView(mMusicView);
         mFloatView.setVisibility(View.GONE);
         mWindowManager.addView(mFloatView, mLayoutParams);

@@ -498,6 +498,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         audioUrl = mData.getData().getEssay().getAudio();
         title = mData.getData().getEssay().getTitle();
         isCollected = mData.getData().getCollectOrNot() == 1;
+        shareContent = mData.getData().getEssay().getSubContent();
         if(isCollected){
             iv_collect.setImageResource(R.drawable.picbook_icon_collect_selected);
             if(isPortrait){

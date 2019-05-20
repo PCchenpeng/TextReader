@@ -9,28 +9,27 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.webkit.JsResult;
-import android.webkit.WebChromeClient;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -38,7 +37,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -49,7 +47,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
-import com.dace.textreader.bean.AudioArticleBean;
 import com.dace.textreader.bean.H5DataBean;
 import com.dace.textreader.bean.WordDetailBean;
 import com.dace.textreader.bean.WordListBean;
@@ -115,7 +112,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private StatusBarHeightView statusView_top,statusView_top_copy;
     private RelativeLayout rl_back,rl_back_copy;
     private ImageView iv_collect,iv_collect_copy,iv_share,iv_share_copy,iv_day_night,iv_playvideo;
-    private RelativeLayout rl_font,rl_night,rl_note,rl_appreciation,rl_day_night,rl_dialog_think,rl_top;
+    private RelativeLayout rl_font,rl_night,rl_note,rl_appreciation,rl_day_night,rl_top;
+    private LinearLayout rl_dialog_think;
     private TextView tv_cancle,tv_keep;
     private EditText et_think;
     private String[] textSize = new String[]{"1.0rem", "1.1rem", "1.4rem", "1.6rem", "1.8rem"};  //字体大小
@@ -168,6 +166,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private String noteId;
 
     private String authorId;
+//    private ImageView juhua_loading;
 
 
 
@@ -214,6 +213,16 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         rl_top = findViewById(R.id.rl_top);
         videoPlayer = findViewById(R.id.videoplayer);
         fm_exception = findViewById(R.id.fm_exception);
+//        juhua_loading = findViewById(R.id.juhua_loading);
+
+        RotateAnimation rotateAnimation = new RotateAnimation(0,360,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        rotateAnimation.setDuration(500);
+        rotateAnimation.setFillAfter(true);
+        rotateAnimation.setRepeatMode(Animation.RESTART);
+        //让旋转动画一直转，不停顿的重点
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setRepeatCount(-1);
+//        juhua_loading.setAnimation(rotateAnimation);
 
         controller = new CustomController(this);
         controller.setOnScreenChangeListener(new CustomController.OnScreenChangeListener() {
@@ -369,6 +378,32 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 }
             }
         });
+
+        et_think.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
+
+            //当键盘弹出隐藏的时候会 调用此方法。
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                //获取当前界面可视部分
+                ArticleDetailActivity.this.getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
+                //获取屏幕的高度
+                int screenHeight =  ArticleDetailActivity.this.getWindow().getDecorView().getRootView().getHeight();
+                //此处就是用来获取键盘的高度的， 在键盘没有弹出的时候 此高度为0 键盘弹出的时候为一个正数
+                screenHeight -= DensityUtil.getNavigationBarHeight(ArticleDetailActivity.this);
+                int heightDifference = screenHeight - r.bottom;
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rl_dialog_think.getLayoutParams();
+                layoutParams.bottomMargin = heightDifference;
+                rl_dialog_think.setLayoutParams(layoutParams);
+
+            }
+
+        });
+
+
+
+
+
 
         JSONObject params = new JSONObject();
         try {
@@ -661,8 +696,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                 mWebview.callHandler("deleteReadNote", params.toString(), new CallBackFunction() {
                                     @Override
                                     public void onCallBack(String data) {
-
-//                Lo
+                                        dialog.dismiss();
                                         Log.e("deleteReadNote",data);
 
                                     }
@@ -680,7 +714,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                 dialog.dismiss();
                                 keepNoteType = 2;
                                 rl_dialog_think.setVisibility(View.VISIBLE);
-                                KeyboardUtils.showKeyboard(et_think);
+                                KeyboardUtils.showKeyboard(rl_dialog_think);
                                 et_think.setText(note);
                             }
                         });
@@ -729,7 +763,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                 dialog.dismiss();
                                 keepNoteType = 1;
                                 rl_dialog_think.setVisibility(View.VISIBLE);
-                                KeyboardUtils.showKeyboard(et_think);
+                                KeyboardUtils.showKeyboard(rl_dialog_think);
                                 et_think.setText("");
                             }
                         });
@@ -892,6 +926,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                             child.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+//                                    juhua_loading.setVisibility(View.VISIBLE);
                                     getWordDetail(word);
                                 }
                             });
@@ -906,17 +941,17 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                     for (int i = 0;i < wordListBean.getData().getBase().size();i++){
                                         View child = View.inflate(ArticleDetailActivity.this,R.layout.item_dialog_word,null);
                                         TextView textView = child.findViewById(R.id.tv_num);
+                                        TextView textView1 = child.findViewById(R.id.tv_copy);
                                         final String word = wordListBean.getData().getBase().get(i).getWord();
                                         textView.setText(word);
+                                        textView1.setText(word);
                                         lwy_word.addView(child);
 
-                                        final int finalI = i;
                                         child.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                Toast.makeText(ArticleDetailActivity.this, word,Toast.LENGTH_SHORT).show();
+//                                                juhua_loading.setVisibility(View.VISIBLE);
                                                 getWordDetail(word);
-
                                             }
                                         });
                                     }
@@ -926,15 +961,16 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                     for (int i = 0;i < wordListBean.getData().getMix().size();i++){
                                         View child = View.inflate(ArticleDetailActivity.this,R.layout.item_dialog_word,null);
                                         TextView textView = child.findViewById(R.id.tv_num);
+                                        TextView textView1 = child.findViewById(R.id.tv_copy);
                                         final String word = wordListBean.getData().getMix().get(i).getWord();
                                         textView.setText(word);
+                                        textView1.setText(word);
                                         lwy_word.addView(child);
 
-                                        final int finalI = i;
                                         child.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-//                                                Toast.makeText(ArticleDetailActivity.this, word,Toast.LENGTH_SHORT).show();
+//                                                juhua_loading.setVisibility(View.VISIBLE);
                                                 getWordDetail(word);
                                             }
                                         });
@@ -964,6 +1000,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
             public void onReqSuccess(Object result) {
                 WordDetailBean wordDetailBean = GsonUtil.GsonToBean(result.toString(),WordDetailBean.class);
                 if(wordDetailBean != null && wordDetailBean.getData() != null){
+//                    juhua_loading.setVisibility(View.GONE);
                     showWordDetailDialog(wordDetailBean);
                 }
             }
@@ -1825,8 +1862,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     R.mipmap.ic_launcher);
         }
 
-        ShareUtil.shareToWeibo(shareHandler, url, NewMainActivity.lessonTitle,
-                NewMainActivity.lessonContent, shareBitmap);
+        ShareUtil.shareToWeibo(shareHandler, url, title,
+                shareContent, shareBitmap);
 
     }
 

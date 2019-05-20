@@ -27,6 +27,7 @@ import com.dace.textreader.fragment.ReaderTabAlbumDetailListFragment;
 import com.dace.textreader.fragment.ReaderTabAlbumDetailSentenceFragment;
 import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.DataUtil;
+import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.ImageUtils;
@@ -77,7 +78,6 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
     private ReaderTabAlbumDetailListFragment readerTabAlbumDetailListFragment;
     private RelativeLayout rl_back,rl_share;
 
-    private String content = "";
     private String title;
     private Bitmap shareBitmap;
     private String shareImgUrl;
@@ -152,8 +152,8 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
             params.put("isShare","0");
 //            params.put("sign",sign);
             params.put("albumId",DataEncryption.encode(albumId));
-            params.put("width","750");
-            params.put("height","420");
+            params.put("width",DensityUtil.getScreenWidth(this));
+            params.put("height",DensityUtil.getScreenWidth(this)*2/3);
 
             Log.d("111","sign " + sign);
         } catch (JSONException e) {
@@ -173,10 +173,14 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                                 shareWBUrl = shareListBean.getWeibo().getLink();
                                 shareImgUrl = shareListBean.getWx().getImage();
                                 title = readTabAlbumDetailBean.getData().getTitle();
+                                shareContent = readTabAlbumDetailBean.getData().getIntroduction();
                                 prepareBitmap(shareImgUrl);
                                 isDataComplete = true;
                             }
-
+                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) iv_img.getLayoutParams();
+                            params.width = DensityUtil.getScreenWidth(ReaderTabAlbumDetailActivity.this);
+                            params.height = DensityUtil.getScreenWidth(ReaderTabAlbumDetailActivity.this)*2/3;
+                            iv_img.setLayoutParams(params);
                             GlideApp.with(ReaderTabAlbumDetailActivity.this)
                                     .load(readTabAlbumDetailBean.getData().getCover())
                                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -398,7 +402,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
      * 分享到QQ空间
      */
     private void shareToQZone(String url) {
-        ShareUtil.shareToQZone(this, url, title, content, shareImgUrl);
+        ShareUtil.shareToQZone(this, url, title, shareContent, shareImgUrl);
     }
 
     /**
@@ -412,7 +416,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
         if(thumb == null)
             thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
-        ShareUtil.shareToWx(this, url, title, content,
+        ShareUtil.shareToWx(this, url, title, shareContent,
                 ImageUtils.bmpToByteArrayCopy(thumb, false), friend);
     }
 
@@ -420,7 +424,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
      * 分享到QQ好友
      */
     private void shareToQQ(String url) {
-        ShareUtil.shareToQQ(this, url, title, content, shareImgUrl);
+        ShareUtil.shareToQQ(this, url, title, shareContent, shareImgUrl);
     }
 
     /**
@@ -435,8 +439,8 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                     R.mipmap.ic_launcher);
         }
 
-        ShareUtil.shareToWeibo(shareHandler, url, NewMainActivity.lessonTitle,
-                NewMainActivity.lessonContent, shareBitmap);
+        ShareUtil.shareToWeibo(shareHandler, url, title,
+                shareContent, shareBitmap);
 
     }
 

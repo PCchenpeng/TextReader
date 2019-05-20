@@ -7,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.bean.ReadTabAlbumDetailBean;
+import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
 
 import java.util.List;
@@ -37,10 +40,12 @@ public class ReaderTabAlbumDetailListAdapter extends RecyclerView.Adapter<Recycl
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         ((ItemHolder)viewHolder).tv_title.setText(itemData.get(i).getTitle());
         ((ItemHolder)viewHolder).tv_sub.setText(itemData.get(i).getSubContent());
+        ((ItemHolder)viewHolder).tv_py.setText(itemData.get(i).getScore()+"PY");
 
-//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
-//                params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
-//                ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
+        params.width = DensityUtil.getScreenWidth(context);
+        params.height = DensityUtil.getScreenWidth(context)*2/3;
+        ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
         GlideUtils.loadHomeImage(context, itemData.get(i).getImage(),
                 ((ItemHolder) viewHolder).iv_img);
     }
@@ -66,13 +71,14 @@ public class ReaderTabAlbumDetailListAdapter extends RecyclerView.Adapter<Recycl
 
     class ItemHolder extends RecyclerView.ViewHolder {
         ImageView iv_img;
-        TextView tv_title,tv_sub;
+        TextView tv_title,tv_sub,tv_py;
 
         ItemHolder(@NonNull View itemView) {
             super(itemView);
             iv_img =  itemView.findViewById(R.id.iv_img);
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_sub = itemView.findViewById(R.id.tv_sub);
+            tv_py = itemView.findViewById(R.id.tv_py);
         }
     }
 
