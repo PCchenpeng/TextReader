@@ -398,11 +398,14 @@ public class GlossaryFragment extends Fragment {
                         JSONArray jsonArray = object.getJSONArray("wordList");
                         if (jsonArray.length() != 0) {
                             List<String> list = new ArrayList<>();
+                            List<String> urlList = new ArrayList<>();
                             for (int j = 0; j < jsonArray.length(); j++) {
                                 JSONObject wordJS = new JSONObject(jsonArray.getString(j));
                                 list.add(wordJS.getString("word"));
+                                urlList.add(wordJS.getString("url"));
                             }
                             glossaryBean.setList(list);
+                            glossaryBean.setUrlList(urlList);
                             glossaryBean.setEditor(false);
                             mList.add(glossaryBean);
                         }

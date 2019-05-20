@@ -15,6 +15,7 @@ import com.dace.textreader.activity.AuthorActivity;
 import com.dace.textreader.activity.CompositionDetailActivity;
 import com.dace.textreader.activity.GlossaryWordExplainActivity;
 import com.dace.textreader.activity.NewMainActivity;
+import com.dace.textreader.activity.WordDetailActivity;
 import com.dace.textreader.bean.GlossaryBean;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.HttpUrlPre;
@@ -90,7 +91,10 @@ public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             public void onClick(View view) {
                 int pos = ((ViewHolder) holder).recyclerView.getChildAdapterPosition(view);
                 String word = glossaryBean.getList().get(pos);
+                String url = glossaryBean.getUrlList().get(pos);
                 long essayId = glossaryBean.getEssayId();
+                String title = glossaryBean.getTitle();
+                int sourceType = glossaryBean.getSourceType();
                 if (editor) {
                     JSONArray jsonArray = new JSONArray();
                     jsonArray.put(word);
@@ -104,7 +108,7 @@ public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                         notifyDataSetChanged();
                     }
                 } else {
-                    turnToWordExplain(essayId, word);
+                    turnToWordExplain(essayId,url, word,title,sourceType);
                 }
             }
         });
@@ -173,13 +177,21 @@ public class GlossaryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     /**
      * 跳转到词语解释
      */
-    private void turnToWordExplain(long essayId, String words) {
-        Intent intent = new Intent(mContext, GlossaryWordExplainActivity.class);
-        intent.putExtra("glossaryId", essayId);
-        intent.putExtra("words", words);
-        intent.putExtra("essayTitle", "");
-        intent.putExtra("glossaryTitle", words);
+    private void turnToWordExplain(long essayId,String url,String words,String title,int sourceType) {
+        Intent intent = new Intent(mContext, WordDetailActivity.class);
+        intent.putExtra("url",url);
+        intent.putExtra("essayId",essayId);
+        intent.putExtra("sourceType",sourceType);
+        intent.putExtra("title",title);
+        intent.putExtra("word",words);
         mContext.startActivity(intent);
+
+
+//        intent.putExtra("glossaryId", essayId);
+//        intent.putExtra("words", words);
+//        intent.putExtra("essayTitle", "");
+//        intent.putExtra("glossaryTitle", words);
+//        mContext.startActivity(intent);
     }
 
     /**

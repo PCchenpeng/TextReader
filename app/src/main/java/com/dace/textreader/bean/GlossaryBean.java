@@ -19,6 +19,7 @@ public class GlossaryBean {
     private boolean isEditor;  //是否是编辑状态
     private boolean isChoose;
     private boolean isSelected;
+    private List<String> urlList;
 
     public GlossaryBean() {
     }
@@ -101,5 +102,13 @@ public class GlossaryBean {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public List<String> getUrlList() {
+        return urlList;
+    }
+
+    public void setUrlList(List<String> urlList) {
+        this.urlList = urlList;
     }
 }

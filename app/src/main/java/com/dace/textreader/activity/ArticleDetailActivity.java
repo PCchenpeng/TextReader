@@ -404,7 +404,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                     videoPlayer.setVisibility(View.GONE);
                 }
 
-                if(imgUrl.equals("")){
+                if(imgUrl == null || imgUrl.equals("")){
                     imgUrl = h5DataBean.getImage();
                     GlideApp.with(ArticleDetailActivity.this)
                             .load(imgUrl)

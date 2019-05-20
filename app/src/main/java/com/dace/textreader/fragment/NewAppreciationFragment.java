@@ -128,6 +128,12 @@ public class NewAppreciationFragment extends BaseFragment implements View.OnClic
                     iv_select.setImageResource(R.drawable.icon_edit_unselected);
                     iv_select_all.setImageResource(R.drawable.icon_edit_unselected);
                     tv_delete.setBackgroundResource(R.drawable.shape_text_gray);
+
+
+
+
+
+
                     isSelectAll = false;
                     hasSelected = false;
                 } else {

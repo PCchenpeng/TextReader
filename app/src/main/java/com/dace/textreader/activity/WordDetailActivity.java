@@ -1,15 +1,18 @@
 package com.dace.textreader.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -23,6 +26,9 @@ import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.ConfirmPopWindow;
+import com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview;
+import com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeHandler;
+import com.dace.textreader.view.weight.pullrecycler.mywebview.CallBackFunction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +38,7 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
     /** 视频全屏参数 */
     protected static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-    private WebView mWebview;
+    private BridgeCustomWebview mWebview;
     private RelativeLayout rl_back;
     private ImageView iv_add;
     private ImageView iv_more;
@@ -81,6 +87,30 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
         rl_back.setOnClickListener(this);
         iv_add.setOnClickListener(this);
         iv_more.setOnClickListener(this);
+
+        mWebview.registerHandler("linkToEssayDetail", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                Log.e("linkToEssayDetail", "指定Handler接收来自web的数据：" + data);
+                if(data == null || data.equals(""))
+                    return;
+                Intent intent = new Intent(WordDetailActivity.this, ArticleDetailActivity.class);
+                intent.putExtra("essayId", data);
+                intent.putExtra("imgUrl","");
+                startActivity(intent);
+
+                function.onCallBack("123");
+            }
+        });
+
+        mWebview.registerHandler("collectWord", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                Log.e("collectWord", "指定Handler接收来自web的数据：" + data);
+                word = data;
+                function.onCallBack("123");
+            }
+        });
     }
 
     private void initWebSettings() {
@@ -137,6 +167,14 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
                 hideCustomView();
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
+
+//            @Override
+//            public boolean onJsAlert(WebView view, String url, String message,
+//                                     JsResult result) {
+//                // TODO Auto-generated method stub
+//                return super.onJsAlert(view, url, message, result);
+//            }
+
         });
 
     }
@@ -263,7 +301,7 @@ public class WordDetailActivity extends BaseActivity implements View.OnClickList
         try {
             params.put("word",word);
             params.put("essayId",essayId);
-            params.put("sourceType","1");
+            params.put("sourceType",sourceType);
             params.put("studentId",NewMainActivity.STUDENT_ID);
             params.put("title",title);
         } catch (JSONException e) {
