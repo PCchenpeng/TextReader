@@ -198,4 +198,8 @@ public class CompositionCommentAdapter extends RecyclerView.Adapter<RecyclerView
             tv_reply_name = itemView.findViewById(R.id.tv_reply_info_reply_comment_item);
         }
     }
+
+    public List<WritingCommentBean> getmList() {
+        return mList;
+    }
 }

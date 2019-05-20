@@ -103,7 +103,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         initData();
         initEvents();
 
-        et_search.setText(getIntent().getStringExtra("tips"));
+        et_search.setHint(getIntent().getStringExtra("tips"));
         et_search.setFocusable(true);
         et_search.setFocusableInTouchMode(true);
         et_search.findFocus();
@@ -168,7 +168,12 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                     ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).
                             hideSoftInputFromWindow(NewSearchActivity.this.getCurrentFocus()
                                     .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    String searchContext = et_search.getText().toString().trim();
+                    String searchContext;
+                    if (!TextUtils.isEmpty(et_search.getText().toString().trim())) {
+                        searchContext =et_search.getText().toString().trim();
+                    } else {
+                        searchContext =et_search.getHint().toString().trim();
+                    }
                     if (TextUtils.isEmpty(searchContext)) {
                         showTips("请输入想要搜索的内容");
                     } else {
