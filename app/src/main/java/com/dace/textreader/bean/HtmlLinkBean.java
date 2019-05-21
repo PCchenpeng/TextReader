@@ -4,6 +4,7 @@ import java.util.List;
 
 public class HtmlLinkBean {
 
+
     /**
      * status : 200
      * msg : OK

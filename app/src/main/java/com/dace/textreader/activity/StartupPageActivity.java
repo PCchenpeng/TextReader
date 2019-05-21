@@ -14,6 +14,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,6 +33,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.dace.textreader.GlideApp;
 import com.dace.textreader.R;
+import com.dace.textreader.bean.HtmlLinkBean;
 import com.dace.textreader.bean.ReaderTabBean;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
@@ -41,11 +43,13 @@ import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.StatusBarUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -142,9 +146,32 @@ public class StartupPageActivity extends AppCompatActivity {
 
         mThread.start();
 
+        getHtmlLink();
+
 
     }
 
+    private void getHtmlLink() {
+        String url = HttpUrlPre.HTTP_URL_ + "/select/all/html/link";
+        JSONObject params = new JSONObject();
+        OkHttpManager.getInstance(this).requestAsyn(url, OkHttpManager.TYPE_GET, params,
+                new OkHttpManager.ReqCallBack<Object>() {
+                    @Override
+                    public void onReqSuccess(Object result) {
+                        HtmlLinkBean htmlLinkBean = GsonUtil.GsonToBean(result.toString(),HtmlLinkBean.class);
+                        List<HtmlLinkBean.DataBean> data = htmlLinkBean.getData();
+                        for(int i= 0;i<data.size();i++){
+                            if(data.get(i).getName()!=null && data.get(i).getName().equals("articleDetail"))
+                                PreferencesUtil.saveData(StartupPageActivity.this,"article_detail_url",data.get(i).getUrl());
+                        }
+                    }
+
+                    @Override
+                    public void onReqFailed(String errorMsg) {
+
+                    }
+                });
+    }
 
 
     // view为标题栏

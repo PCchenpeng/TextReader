@@ -25,6 +25,12 @@ public class HttpUrlPre {
 //    public static final String FILE_URL = "https://check.pythe.cn:446";
     public static final String FILE_URL = "https://app.pythe.cn:446";
 
+
+    //默认文章详情
+    public static final String ARTICLE_DETAIL = "https://app.pythe.cn/1readingModule/pyReadDetail0.html";
+//    public static final String ARTICLE_DETAIL = "https://check.pythe.cn/1readingModule/pyReadDetail0.html";
+
+
     //公司地址
     public static final String COMPANY_URL = "https://pythe.cn";
 
@@ -48,5 +54,7 @@ public class HttpUrlPre {
 
     //极光注册
     public static final String ACTION_BROADCAST_JIGUANG_LOGIN = "com.dace.textreader.jiguang.login";
+
+
 
 }

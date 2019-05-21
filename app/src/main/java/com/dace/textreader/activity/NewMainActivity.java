@@ -257,33 +257,12 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         //绑定音频播放服务
         bindService();
 
-        loadhtmlLinkData();
+//        loadhtmlLinkData();
 
     }
 
     private void loadhtmlLinkData() {
         JSONObject params = new JSONObject();
-        OkHttpManager.getInstance(this).requestAsyn(htmlLinkUrl, OkHttpManager.TYPE_GET, params,
-                new OkHttpManager.ReqCallBack<Object>() {
-                    @Override
-                    public void onReqSuccess(Object result) {
-                        HtmlLinkBean htmlLinkBean = GsonUtil.GsonToBean(result.toString(),HtmlLinkBean.class);
-                        List<HtmlLinkBean.DataBean> data = htmlLinkBean.getData();
-                        if(htmlLinkBeanList != null) {
-                            htmlLinkBeanList.addAll(data);
-                            if (htmlLinkBeanList.size() > 0) {
-                                for (int i = 0;i < htmlLinkBeanList.size();i++) {
-                                    Log.d("111", "getName " + htmlLinkBeanList.get(i).getName() + "getName " + htmlLinkBeanList.get(i).getUrl());
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onReqFailed(String errorMsg) {
-
-                    }
-                });
     }
 
 

@@ -226,20 +226,16 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
         progressBarView = findViewById(R.id.progressBarView);
 //        juhua_loading = findViewById(R.id.juhua_loading);
 
-
-
-
-
-
-
-        RotateAnimation rotateAnimation = new RotateAnimation(0,360,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-        rotateAnimation.setDuration(500);
-        rotateAnimation.setFillAfter(true);
-        rotateAnimation.setRepeatMode(Animation.RESTART);
-        //让旋转动画一直转，不停顿的重点
-        rotateAnimation.setInterpolator(new LinearInterpolator());
-        rotateAnimation.setRepeatCount(-1);
+//        RotateAnimation rotateAnimation = new RotateAnimation(0,360,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+//        rotateAnimation.setDuration(500);
+//        rotateAnimation.setFillAfter(true);
+//        rotateAnimation.setRepeatMode(Animation.RESTART);
+//        //让旋转动画一直转，不停顿的重点
+//        rotateAnimation.setInterpolator(new LinearInterpolator());
+//        rotateAnimation.setRepeatCount(-1);
 //        juhua_loading.setAnimation(rotateAnimation);
+
+        String articleUlr = PreferencesUtil.getData(this,"article_detail_url",HttpUrlPre.ARTICLE_DETAIL).toString();
 
         controller = new CustomController(this);
         controller.setOnScreenChangeListener(new CustomController.OnScreenChangeListener() {
@@ -335,8 +331,10 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
 
         rl_bottom = findViewById(R.id.rl_bottom);
 //        essayId = "10032979";
-        url = "https://check.pythe.cn/1readingModule/pyReadDetail0.html?platForm=android&fontSize=18px&readModule=1&py=1&studentId="+
+        url = articleUlr+"?platForm=android&fontSize=18px&readModule=1&py=1&studentId="+
                 NewMainActivity.STUDENT_ID+"&gradeId="+NewMainActivity.GRADE_ID+"&lineHeight=2.4&isShare=0&version=3.2.6&backgroundColor=FFFFFF&essayId="+DataEncryption.encode(essayId);
+
+       Log.e("mWebviewurl",url);
         mWebview.loadUrl(url);
 
     }
