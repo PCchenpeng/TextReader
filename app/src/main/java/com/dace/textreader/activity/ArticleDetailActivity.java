@@ -215,6 +215,12 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         fm_exception = findViewById(R.id.fm_exception);
 //        juhua_loading = findViewById(R.id.juhua_loading);
 
+
+
+
+
+
+
         RotateAnimation rotateAnimation = new RotateAnimation(0,360,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
         rotateAnimation.setDuration(500);
         rotateAnimation.setFillAfter(true);
@@ -1809,8 +1815,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         holder.setOnClickListener(R.id.share_to_link, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                DataUtil.copyContent(ArticleDetailActivity.this, h5DataBean.getShareList().getWx().getLink());
                                 MyToastUtil.showToast(ArticleDetailActivity.this,"复制成功");
+                                DataUtil.copyContent(ArticleDetailActivity.this, h5DataBean.getShareList().getWx().getLink());
                                 dialog.dismiss();
                             }
                         });

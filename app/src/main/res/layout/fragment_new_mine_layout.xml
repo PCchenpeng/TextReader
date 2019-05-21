@@ -281,12 +281,23 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp"/>
                 <ImageView
+                    android:id="@+id/iv_wallet_arrow"
                     android:layout_width="8dp"
                     android:layout_height="13dp"
                     android:src="@drawable/ic_new_right"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"/>
+                <TextView
+                    android:id="@+id/tv_paidou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/iv_wallet_arrow"
+                    android:layout_marginRight="10dp"
+                    android:textSize="16sp"
+                    android:textColor="#999999"
+                    android:text=""/>
             </RelativeLayout>
 
             <View

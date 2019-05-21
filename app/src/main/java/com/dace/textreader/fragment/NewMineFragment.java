@@ -44,11 +44,14 @@ import com.dace.textreader.activity.NotesActivity;
 import com.dace.textreader.activity.UserHomepageActivity;
 import com.dace.textreader.activity.WalletActivity;
 import com.dace.textreader.activity.WritingWorkActivity;
+import com.dace.textreader.bean.WalletDataBean;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.WeakAsyncTask;
+import com.dace.textreader.util.okhttp.OkHttpManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -109,6 +112,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout rl_teacher;
     private RelativeLayout rl_invite_code;
     private LinearLayout ll_settings;
+    private TextView tv_paidou;
 
     private String memberCardId = "";
 
@@ -140,6 +144,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
     private void initData() {
         updateUi();
         getMessageCount();
+        getWalletData();
         new GetEventsData(this).execute(eventsUrl);
         new GetMemberData(this).execute(memberUrl, String.valueOf(NewMainActivity.STUDENT_ID));
     }
@@ -230,6 +235,7 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
         rl_invite_code = view.findViewById(R.id.rl_invite_code);
         ll_settings = view.findViewById(R.id.ll_new_settings_new_mine);
         rl_contact = view.findViewById(R.id.rl_contact);
+        tv_paidou = view.findViewById(R.id.tv_paidou);
 
         if (getContext() == null) {
             return;
@@ -749,6 +755,33 @@ public class NewMineFragment extends Fragment implements View.OnClickListener {
                         rl_member_centre.setVisibility(View.VISIBLE);
                     }
                 });
+    }
+
+
+    private void getWalletData() {
+        String url = HttpUrlPre.HTTP_URL_ + "/select/my/wallet";
+        JSONObject params = new JSONObject();
+        try {
+            params.put("studentId",NewMainActivity.STUDENT_ID);
+            params.put("width","750");
+            params.put("height","420");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(getContext()).requestAsyn(url, OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                WalletDataBean walletDataBean = GsonUtil.GsonToBean(result.toString(),WalletDataBean.class);
+                if(walletDataBean != null && walletDataBean.getData() != null){
+                    tv_paidou.setText(walletDataBean.getData().getWallet().getAmount()+"派豆");
+                }
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+
+            }
+        });
     }
 
 }

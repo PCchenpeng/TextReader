@@ -25,9 +25,11 @@ import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.adapter.NotesRecyclerViewAdapter;
 import com.dace.textreader.bean.Notes;
+import com.dace.textreader.bean.NotesBean;
 import com.dace.textreader.listen.OnListDataOperateListen;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DateUtil;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.ImageUtils;
 import com.dace.textreader.util.MyToastUtil;
@@ -100,12 +102,15 @@ public class NoteFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
 
     private NotesRecyclerViewAdapter adapter;
-    private List<Notes> mList = new ArrayList<>();
-    private List<Notes> mSelectedList = new ArrayList<>();
+    private List<NotesBean> mList = new ArrayList<>();
+    private List<NotesBean> mSelectedList = new ArrayList<>();
 
     private boolean isAllNotes = false;//是否是所有笔记
     private String title = "";
     private String content = "";
+    private String shareQQUrl;
+    private String shareWXUrl;
+    private String shareWBUrl;
 
     //是否为编辑模式
     private boolean isEditor = false;
@@ -264,7 +269,7 @@ public class NoteFragment extends Fragment {
 
         adapter.setOnItemClickListener(new NotesRecyclerViewAdapter.OnNotesItemClick() {
             @Override
-            public void onItemClick(View view,Notes notes) {
+            public void onItemClick(View view,NotesBean notes) {
 
                 if (!refreshing) {
                     int pos = recyclerView.getChildAdapterPosition(view);
@@ -304,8 +309,11 @@ public class NoteFragment extends Fragment {
             public void onItemClick(int position) {
                 if (!isEditor && !refreshing) {
                     shareNote(mList.get(position).getId());
-                    title = mList.get(position).getTitle();
+                    title = mList.get(position).getEssayTitle();
                     content = mList.get(position).getContent();
+                    shareQQUrl = mList.get(position).getShareList().getQq().getLink();
+                    shareWBUrl = mList.get(position).getShareList().getWeibo().getLink();
+                    shareWXUrl = mList.get(position).getShareList().getWx().getLink();
                 }
             }
         });
@@ -520,7 +528,7 @@ public class NoteFragment extends Fragment {
      * 分享到QQ空间
      */
     private void shareToQZone(String url) {
-        ShareUtil.shareToQZone(getActivity(), url, title, content, HttpUrlPre.SHARE_APP_ICON);
+        ShareUtil.shareToQZone(getActivity(), shareQQUrl, title, content, HttpUrlPre.SHARE_APP_ICON);
     }
 
     /**
@@ -531,7 +539,7 @@ public class NoteFragment extends Fragment {
     private void shareArticleToWX(boolean friend, String url) {
         Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
-        ShareUtil.shareToWx(mContext, url, title, content,
+        ShareUtil.shareToWx(mContext, shareWXUrl, title, content,
                 ImageUtils.bmpToByteArray(thumb, true), friend);
     }
 
@@ -539,7 +547,7 @@ public class NoteFragment extends Fragment {
      * 分享到QQ好友
      */
     private void shareToQQ(String url) {
-        ShareUtil.shareToQQ(getActivity(), url, title, content, HttpUrlPre.SHARE_APP_ICON);
+        ShareUtil.shareToQQ(getActivity(), shareQQUrl, title, content, HttpUrlPre.SHARE_APP_ICON);
     }
 
     /**
@@ -775,11 +783,11 @@ public class NoteFragment extends Fragment {
                 } else {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        Notes notes = new Notes();
+                        NotesBean notes = new NotesBean();
                         notes.setId(object.getString("id"));
                         notes.setEssayId(object.optLong("essayId", -1L));
-                        notes.setEssayType(object.optInt("essayTitle", -1));
-                        notes.setTitle(object.getString("essayTitle"));
+//                        notes.setEssayType(object.optInt("essayTitle", -1));
+                        notes.setEssayTitle(object.getString("essayTitle"));
                         if (object.getString("time").equals("")
                                 || object.getString("time").equals("null")) {
                             notes.setTime("2018-01-01 00:00");
@@ -788,6 +796,13 @@ public class NoteFragment extends Fragment {
                         }
                         notes.setNote(object.getString("note"));
                         notes.setContent(object.getString("content"));
+                        NotesBean.ShareListBean shareListBean = new NotesBean.ShareListBean();
+                        shareListBean = GsonUtil.GsonToBean(object.getString("shareList"),NotesBean.ShareListBean.class);
+//                        NotesBean.ShareListBean.QqBean qqBean= new NotesBean.ShareListBean.QqBean();
+//                        NotesBean.ShareListBean.WeiboBean weiboBean = new NotesBean.ShareListBean.WeiboBean();
+//                        NotesBean.ShareListBean.WxBean wxBean = new NotesBean.ShareListBean.WxBean();
+//                        qqBean.setLink(object.optString());
+                        notes.setShareList(shareListBean);
                         notes.setSelected(false);
                         notes.setEditor(false);
                         mList.add(notes);
@@ -915,7 +930,7 @@ public class NoteFragment extends Fragment {
 
         Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
-        ShareUtil.shareToWeibo(shareHandler, url, title, content, thumb);
+        ShareUtil.shareToWeibo(shareHandler, shareWBUrl, title, content, thumb);
 
     }
 

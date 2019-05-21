@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.bean.Notes;
+import com.dace.textreader.bean.NotesBean;
 
 import java.util.List;
 
@@ -23,10 +24,10 @@ import java.util.List;
 public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<Notes> mList;
+    private List<NotesBean> mList;
     private boolean showTitle;
 
-    public NotesRecyclerViewAdapter(Context context, List<Notes> list, boolean isShowTitle) {
+    public NotesRecyclerViewAdapter(Context context, List<NotesBean> list, boolean isShowTitle) {
         this.mContext = context;
         this.mList = list;
         this.showTitle = isShowTitle;
@@ -44,8 +45,8 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        final Notes notes = mList.get(position);
-        ((ViewHolder) holder).tv_title.setText(notes.getTitle());
+        final NotesBean notes = mList.get(position);
+        ((ViewHolder) holder).tv_title.setText(notes.getEssayTitle());
         if (showTitle) {
             ((ViewHolder) holder).tv_title.setVisibility(View.VISIBLE);
         } else {
@@ -69,7 +70,7 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             public void onClick(View v) {
                 int pos = holder.getAdapterPosition();
                 if (showTitle) {
-                    turnToArticle(mList.get(pos).getEssayId(), mList.get(pos).getEssayType());
+//                    turnToArticle(mList.get(pos).getEssayId(), mList.get(pos).getEssayType());
                 }
             }
         });
@@ -125,7 +126,7 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 //    }
 
     public interface OnNotesItemClick {
-        void onItemClick(View view,Notes notes);
+        void onItemClick(View view,NotesBean notes);
     }
 
     private OnNotesItemClick mOnItemClickListener;
