@@ -3,8 +3,9 @@ package com.dace.textreader.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,9 +28,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.dace.textreader.App;
 import com.dace.textreader.R;
-import com.dace.textreader.adapter.SearchAuthorAdapter;
 import com.dace.textreader.bean.SearchResultBean;
 
 import com.dace.textreader.bean.SubListBean;
@@ -44,6 +45,7 @@ import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.JsonParser;
 import com.dace.textreader.util.SpeechRecognizerUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
+import com.dace.textreader.view.WaveView;
 import com.dace.textreader.view.tab.SmartTabLayout;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
@@ -56,6 +58,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jaygoo.widget.wlv.WaveLineView;
 
 //精准搜索
 public class SearchResultActivity extends BaseActivity implements View.OnClickListener {
@@ -86,8 +90,11 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     private SearchArticleFragment searchArticleFragment_accure;
     private FragmentManager fragmentManager;
 
-    private LinearLayout ll_talk_small;
+    private RelativeLayout rl_talk_small;
+    private WaveView waveView_simple;
     private ImageView iv_playpause_small;
+
+    private WaveLineView waveLineView;
 
     // 语音听写对象
     private SpeechRecognizerUtil speechRecognizerUtil;
@@ -119,11 +126,19 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
         ll_accurate = findViewById(R.id.ll_accurate);
         ll_vague = findViewById(R.id.ll_vague);
         tabLayout = findViewById(R.id.tab_search_result);
-        ll_talk_small = findViewById(R.id.ll_talk_small);
+        rl_talk_small = findViewById(R.id.rl_talk_small);
         iv_playpause_small = findViewById(R.id.iv_playpause_small);
+        waveLineView = findViewById(R.id.waveLineView);
         tabLayout.setChangeTextSize(false);
         viewPager = findViewById(R.id.viewpager_search_result);
         fragmentManager = getSupportFragmentManager();
+
+//        waveView_simple.setStyle(Paint.Style.FILL);
+//        waveView_simple.setColor(Color.parseColor("#4D72FF"));
+
+        waveLineView.setLineColor(Color.parseColor("#4D72FF"));
+        waveLineView.setZOrderOnTop(false);
+
 
         et_search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -156,6 +171,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
         searchWord = getIntent().getStringExtra("searchWord");
         et_search.setText(searchWord);
+        et_search.setHint(App.tips);
         searchResult(searchWord);
     }
 
@@ -297,9 +313,9 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
                 int heightDifference = screenHeight - r.bottom;
 
                 if(heightDifference == 0){
-                    ll_talk_small.setVisibility(View.GONE);
+                    rl_talk_small.setVisibility(View.GONE);
                 }else {
-                    ll_talk_small.setVisibility(View.VISIBLE);
+                    rl_talk_small.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -383,6 +399,10 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     private void startSpeech() {
         isSpeeching = true;
         speechRecognizerUtil.setParams("1");
+        waveLineView.startAnim();
+//        waveView_simple.start();
+
+        iv_playpause_small.setVisibility(View.INVISIBLE);
 
         int ret = speechRecognizerUtil.startVoice(mRecognizerListener);
         if (ret != ErrorCode.SUCCESS) {
@@ -397,7 +417,9 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
      */
     private void stopSpeech() {
         speechRecognizerUtil.stopVoice();
-
+//        waveView_simple.stop();
+        waveLineView.stopAnim();
+        iv_playpause_small.setVisibility(View.VISIBLE);
         isSpeeching = false;
     }
 

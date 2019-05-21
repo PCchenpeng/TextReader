@@ -345,7 +345,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         @Override
         public void onFinish() {
             tv_countdown.setText("发送验证码");
-            tv_countdown.setTextColor(Color.parseColor("#ff9933"));
+            tv_countdown.setTextColor(Color.parseColor("#4D72FF"));
         }
     };
 

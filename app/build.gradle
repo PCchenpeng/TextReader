@@ -121,5 +121,6 @@ dependencies {
 
     implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
 
+    implementation 'com.github.Jay-Goo:WaveLineView:v1.0.3'
     
 }

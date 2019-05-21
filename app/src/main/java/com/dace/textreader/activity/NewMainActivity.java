@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -94,7 +95,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
     //TOKEN登录接口
     public static String TOKEN_URL = HttpUrlPre.HTTP_URL + "/tokenLogin";
     //统计用户流量
-    private final String statisticsUrl = HttpUrlPre.HTTP_URL + "/statistics/flow";
+//    private final String statisticsUrl = HttpUrlPre.HTTP_URL + "/statistics/flow";
     //所有的HTML链接
     private final String htmlLinkUrl = HttpUrlPre.HTTP_URL_ + "/select/all/html/link";
     //更新音频的播放次数
@@ -247,7 +248,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
 
         getReaderTabData();
 
-        startStatistics();
+//        startStatistics();
 
         startAccountDetection();
 
@@ -856,36 +857,36 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
         }.start();
     }
 
-    /**
-     * 统计用户流量
-     */
-    private void startStatistics() {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    sleep(300000);
-                    if (STUDENT_ID != -1) {
-                        OkHttpClient client = new OkHttpClient();
-                        JSONObject json = new JSONObject();
-                        json.put("studentId", STUDENT_ID);
-                        json.put("annotation", "android");
-                        json.put("phoneModel", phoneModel);
-                        RequestBody requestBody = RequestBody.create(DataUtil.JSON, json.toString());
-                        Request request = new Request.Builder()
-                                .url(statisticsUrl)
-                                .post(requestBody)
-                                .build();
-                        client.newCall(request).execute();
-                    }
-                    mHandler.sendEmptyMessage(STATISTICS_HANDLER_WHAT);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
+//    /**
+//     * 统计用户流量
+//     */
+//    private void startStatistics() {
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                super.run();
+//                try {
+//                    sleep(300000);
+//                    if (STUDENT_ID != -1) {
+//                        OkHttpClient client = new OkHttpClient();
+//                        JSONObject json = new JSONObject();
+//                        json.put("studentId", STUDENT_ID);
+//                        json.put("annotation", "android");
+//                        json.put("phoneModel", phoneModel);
+//                        RequestBody requestBody = RequestBody.create(DataUtil.JSON, json.toString());
+//                        Request request = new Request.Builder()
+//                                .url(statisticsUrl)
+//                                .post(requestBody)
+//                                .build();
+//                        client.newCall(request).execute();
+//                    }
+//                    mHandler.sendEmptyMessage(STATISTICS_HANDLER_WHAT);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
+//    }
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -898,7 +899,7 @@ public class NewMainActivity extends BaseActivity implements View.OnClickListene
                     analyzeData(data);
                     break;
                 case STATISTICS_HANDLER_WHAT:
-                    startStatistics();
+//                    startStatistics();
                     break;
                 case TOKEN_HANDLER_WHAT:
                     String s = (String) msg.obj;

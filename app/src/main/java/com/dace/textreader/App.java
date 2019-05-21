@@ -38,6 +38,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class App extends Application {
 
+    public static String tips = "请输入字、词、文章、作者";
     private List<Activity> mList;
 
     //接入微信的APP_ID

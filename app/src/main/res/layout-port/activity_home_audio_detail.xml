@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/picbook_bg_vertical"
     android:id="@+id/rl_picture_book"
     tools:ignore="MissingDefaultResource">
+    <!--android:background="@drawable/picbook_bg_vertical"-->
     <RelativeLayout
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
@@ -158,8 +158,8 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rl_bottom_land"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#80000000"
@@ -169,6 +169,7 @@
             android:id="@+id/iv_playpause_land"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
@@ -185,26 +186,29 @@
             android:text="1"
             android:textColor="#ffffff"
             android:textSize="13sp"/>
+
         <TextView
             android:id="@+id/tv_totalNum_land"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
             android:layout_toLeftOf="@id/iv_fullscreen_land"
+            android:text="111"
             android:textColor="#ffffff"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/iv_fullscreen_land"
-            android:visibility="invisible"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:layout_alignParentRight="true"
-            android:src="@drawable/picbook_icon_fullscreen_lan"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/picbook_icon_fullscreen_lan"
+            android:visibility="gone" />
 
         <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/seek_bar"
@@ -216,5 +220,4 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.dace.textreader.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -214,6 +217,8 @@ public class MicroLessonActivity extends BaseActivity implements View.OnClickLis
             isFromPlayService = getIntent().getBooleanExtra("isFromPlayService", false);
         }
     }
+
+
 
     // view为标题栏
     protected void setImmerseLayout(View view) {
@@ -406,10 +411,12 @@ public class MicroLessonActivity extends BaseActivity implements View.OnClickLis
         //禁用放缩
         webSettings.setDisplayZoomControls(false);
         webSettings.setBuiltInZoomControls(false);
+        webSettings.setSupportZoom(true);
         //禁用文字缩放
         webSettings.setTextZoom(100);
         //自动加载图片
         webSettings.setLoadsImagesAutomatically(true);
+
     }
 
     /**

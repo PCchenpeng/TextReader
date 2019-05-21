@@ -16,7 +16,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,8 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.dace.textreader.App;
 import com.dace.textreader.R;
 import com.dace.textreader.adapter.SearchTestAdapter;
 import com.dace.textreader.bean.HotSearchBean;
@@ -41,7 +40,6 @@ import com.dace.textreader.util.AnimationUtil;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.JsonParser;
-import com.dace.textreader.util.MyToastUtil;
 import com.dace.textreader.util.SoftKeyboardUtils;
 import com.dace.textreader.util.SpeechRecognizerUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
@@ -59,16 +57,20 @@ import org.json.JSONObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import jaygoo.widget.wlv.WaveLineView;
+
 public class NewSearchActivity extends BaseActivity implements View.OnClickListener{
     private ImageView iv_talk,iv_anim,iv_close,iv_playpause,iv_back,iv_playpause_small,iv_cancle;
     private TextView tv_test;
     private LineWrapLayout lineWrapLayout;
-    private LinearLayout ll_search_default,ll_talk_small;
+    private LinearLayout ll_search_default;
+    private RelativeLayout rl_talk_small;
     private RelativeLayout search_bottom;
     private RelativeLayout ll_search,rl_root;
     private ListView lv_test;
     private EditText et_search;
     private WaveView waveView_simple;
+    private WaveLineView waveLineView;
     // 语音听写对象
     private SpeechRecognizerUtil speechRecognizerUtil;
     private final static int REQUEST_RECORD_AUDIO_PERMISSION_CODE = 1;
@@ -103,7 +105,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         initData();
         initEvents();
 
-        et_search.setHint(getIntent().getStringExtra("tips"));
+        et_search.setHint(App.tips);
         et_search.setFocusable(true);
         et_search.setFocusableInTouchMode(true);
         et_search.findFocus();
@@ -132,15 +134,19 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         iv_playpause_small = findViewById(R.id.iv_playpause_small);
         lineWrapLayout = findViewById(R.id.lineWrapLayout);
         ll_search = findViewById(R.id.ll_search);
-        ll_talk_small = findViewById(R.id.ll_talk_small);
+        rl_talk_small = findViewById(R.id.rl_talk_small);
         iv_back = findViewById(R.id.iv_back);
         lv_test = findViewById(R.id.lv_test);
         search_bottom = findViewById(R.id.search_bottom);
         waveView_simple = findViewById(R.id.wave_view_input_writing);
+        waveLineView = findViewById(R.id.waveLineView);
         et_search = findViewById(R.id.et_search);
 
         waveView_simple.setStyle(Paint.Style.FILL);
         waveView_simple.setColor(Color.parseColor("#4D72FF"));
+
+        waveLineView.setLineColor(Color.parseColor("#4D72FF"));
+        waveLineView.setZOrderOnTop(false);
 
         setAnimationEnter(lineWrapLayout);
 
@@ -358,12 +364,12 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 
     private void showOperate() {
         search_bottom.setVisibility(View.GONE);
-        ll_talk_small.setVisibility(View.VISIBLE);
+        rl_talk_small.setVisibility(View.VISIBLE);
 
     }
 
     private void hideOperate() {
-        ll_talk_small.setVisibility(View.GONE);
+        rl_talk_small.setVisibility(View.GONE);
         search_bottom.setVisibility(View.VISIBLE);
     }
 
@@ -529,6 +535,8 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     private void startSpeech() {
         isSpeeching = true;
         waveView_simple.start();
+        waveLineView.startAnim();
+        iv_playpause_small.setVisibility(View.INVISIBLE);
         speechRecognizerUtil.setParams("1");
 
         int ret = speechRecognizerUtil.startVoice(mRecognizerListener);
@@ -544,9 +552,9 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
      */
     private void stopSpeech() {
         speechRecognizerUtil.stopVoice();
-
         waveView_simple.stop();
-
+        waveLineView.stopAnim();
+        iv_playpause_small.setVisibility(View.VISIBLE);
         isSpeeching = false;
     }
 

@@ -308,7 +308,8 @@ public class GlossaryFragment extends Fragment {
         tv_two = view.findViewById(R.id.tv_two_tips_note);
         tv_three = view.findViewById(R.id.tv_three_tips_note);
         tv_one.setText("在阅读时");
-        tv_two.setText("可双击段落／长按选择文字炸词");
+//        tv_two.setText("可双击段落／长按选择文字炸词");
+        tv_two.setText("长按选择文本炸词");
         tv_three.setText("查看/添加生词");
 
         tv_sure = view.findViewById(R.id.tv_sure_glossary_fragment);
@@ -441,7 +442,7 @@ public class GlossaryFragment extends Fragment {
             TextView tv_two = errorView.findViewById(R.id.tv_two_tips_note);
             TextView tv_three = errorView.findViewById(R.id.tv_three_tips_note);
             tv_one.setText("在阅读时");
-            tv_two.setText("可双击段落／长按选择文字炸词");
+            tv_two.setText("长按选择文本炸词");
             tv_three.setText("查看/添加生词");
             frameLayout.removeAllViews();
             frameLayout.addView(errorView);

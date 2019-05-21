@@ -111,6 +111,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         TabImgAndType tabImgAndType = tabImgUrl(readerTabBean,"国学");
                         intent.putExtra("type", tabImgAndType.type);
                         intent.putExtra("imgurl", tabImgAndType.imgUrl);
+                        intent.putExtra("typename", "国学");
                         context.startActivity(intent);
                     }
                 });
@@ -123,6 +124,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         TabImgAndType tabImgAndType = tabImgUrl(readerTabBean,"故事");
                         intent.putExtra("type", tabImgAndType.type);
                         intent.putExtra("imgurl", tabImgAndType.imgUrl);
+                        intent.putExtra("typename", "故事");
                         context.startActivity(intent);
                     }
                 });
@@ -135,6 +137,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         TabImgAndType tabImgAndType = tabImgUrl(readerTabBean,"科普");
                         intent.putExtra("type", tabImgAndType.type);
                         intent.putExtra("imgurl", tabImgAndType.imgUrl);
+                        intent.putExtra("typename", "科普");
                         context.startActivity(intent);
                     }
                 });
@@ -147,6 +150,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         TabImgAndType tabImgAndType = tabImgUrl(readerTabBean,"美文");
                         intent.putExtra("type", tabImgAndType.type);
                         intent.putExtra("imgurl", tabImgAndType.imgUrl);
+                        intent.putExtra("typename", "美文");
                         context.startActivity(intent);
                     }
                 });
@@ -212,7 +216,8 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 GlideUtils.loadHomeUserImage(context, itemList.get(i-2).getArticleList().get(0).getSourceImage(),
                         ((ItemHolder) viewHolder).iv_source_1);
                 ((ItemHolder)viewHolder).tv_source_1.setText(itemList.get(i-2).getArticleList().get(0).getSource());
-                ((ItemHolder)viewHolder).tv_type_1.setText(itemList.get(i-2).getArticleList().get(0).getSource());
+                ((ItemHolder)viewHolder).tv_score_1.setText(itemList.get(i-2).getArticleList().get(0).getScore() + "PY");
+                ((ItemHolder)viewHolder).tv_type_1.setText("#" + itemList.get(i-2).getArticleList().get(0).getFenlei() + "#");
 
 
                 if(itemList.get(i-2).getArticleList().size() ==1){
@@ -232,7 +237,8 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     GlideUtils.loadHomeUserImage(context, itemList.get(i-2).getArticleList().get(1).getSourceImage(),
                             ((ItemHolder) viewHolder).iv_source_2);
                     ((ItemHolder)viewHolder).tv_source_2.setText(itemList.get(i-2).getArticleList().get(1).getSource());
-                    ((ItemHolder)viewHolder).tv_type_2.setText(itemList.get(i-2).getArticleList().get(1).getSource());
+                    ((ItemHolder)viewHolder).tv_score_2.setText(itemList.get(i-2).getArticleList().get(1).getScore() + "PY");
+                    ((ItemHolder)viewHolder).tv_type_2.setText("#" + itemList.get(i-2).getArticleList().get(1).getFenlei() + "#");
                 }
 
                 ((ItemHolder) viewHolder).ll_item_1.setOnClickListener(new View.OnClickListener() {
@@ -306,7 +312,7 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class ItemHolder extends RecyclerView.ViewHolder{
-        TextView tv_big_title,tv_title_1,tv_des_1,tv_source_1,tv_type_1,tv_title_2,tv_des_2,tv_source_2,tv_type_2;
+        TextView tv_big_title,tv_title_1,tv_des_1,tv_source_1,tv_score_1,tv_type_1,tv_title_2,tv_des_2,tv_source_2,tv_score_2,tv_type_2;
         ImageView iv_big_1,iv_small_1,iv_small_2,iv_source_1,iv_source_2;
         LinearLayout ll_item_1;
         LinearLayout ll_item_2;
@@ -317,9 +323,11 @@ public class HomeHotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
              tv_des_1 =  itemView.findViewById(R.id.tv_des_1);
              tv_source_1 =  itemView.findViewById(R.id.tv_source_1);
              tv_type_1 =  itemView.findViewById(R.id.tv_type_1);
+             tv_score_1 =  itemView.findViewById(R.id.tv_score_1);
              tv_title_2 =  itemView.findViewById(R.id.tv_title_2);
              tv_des_2 =  itemView.findViewById(R.id.tv_des_2);
              tv_source_2 =  itemView.findViewById(R.id.tv_source_2);
+             tv_score_2 =  itemView.findViewById(R.id.tv_score_2);
              tv_type_2 =  itemView.findViewById(R.id.tv_type_2);
              iv_big_1 =  itemView.findViewById(R.id.iv_big_1);
              iv_small_1 =  itemView.findViewById(R.id.iv_small_1);

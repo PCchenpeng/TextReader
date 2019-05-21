@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_source"
             android:layout_marginLeft="5dp"
-            android:textColor="#999999"
+            android:textColor="#333333"
             android:textSize="12sp"/>
 
         <TextView

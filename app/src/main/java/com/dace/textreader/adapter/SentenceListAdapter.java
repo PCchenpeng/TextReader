@@ -63,7 +63,7 @@ public class SentenceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         SentenceListBean.DataBean dataBean = mList.get(position);
         ((ViewHolder) holder).tv_content_sentence_collection_item.setText(dataBean.getContent());
-        ((ViewHolder) holder).tv_author_sentence_collection_item.setText(dataBean.getSource());
+        ((ViewHolder) holder).tv_author_sentence_collection_item.setText(dataBean.getSource().contains("《") ? dataBean.getSource() : "《" + dataBean.getSource() + "》");
     }
 
     @Override

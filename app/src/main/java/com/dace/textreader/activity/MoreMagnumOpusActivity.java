@@ -151,6 +151,7 @@ public class MoreMagnumOpusActivity extends BaseActivity  implements PullListene
                 if(dataBeans != null)
                     worksList.addAll(dataBeans);
                     moreAuthorWorksAdapter.notifyDataSetChanged();
+                    mRecyclerView.onPullComplete();
             }
 
             @Override

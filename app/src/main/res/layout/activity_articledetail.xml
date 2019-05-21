@@ -41,7 +41,10 @@
 
                 </com.xiao.nicevideoplayer.NiceVideoPlayer>
             </RelativeLayout>
-
+            <ProgressBar
+                android:layout_above="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
             <com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview
                 android:id="@+id/webview"
                 android:layout_below="@id/rl_top"

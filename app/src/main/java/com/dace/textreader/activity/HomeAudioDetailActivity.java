@@ -23,12 +23,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.dace.textreader.R;
 import com.dace.textreader.audioUtils.AudioFocusManager;
 import com.dace.textreader.bean.AudioArticleBean;
+import com.dace.textreader.util.BitmapCompressUtils;
 import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DensityUtil;
@@ -105,7 +107,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private boolean hasRender = false;
 
 //    private boolean isPortrait = true;
-    private boolean isPortrait = true;
+    private boolean isPortrait = false;
 
     private Thread musicThread;
 
@@ -137,6 +139,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private long seconds;
     private long oldClickTimeStamp;
+    private int imageArrayLength;
 
 
     @Override
@@ -183,6 +186,27 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             }
         }
 
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+
+        }else{
+            //目前加载一次
+            isPortrait = true;
+            iv_playpause_land = findViewById(R.id.iv_playpause_land);
+            iv_fullscreen_land = findViewById(R.id.iv_fullscreen_land);
+            rl_bottom_land = findViewById(R.id.rl_bottom_land);
+            tv_currNum_land = findViewById(R.id.tv_currNum_land);
+            tv_totalNum_land = findViewById(R.id.tv_totalNum_land);
+            rl_top_land = findViewById(R.id.rl_top_land);
+            seekBar = findViewById(R.id.seek_bar);
+            iv_playpause_land.setOnClickListener(this);
+            iv_fullscreen_land.setOnClickListener(this);
+            seekBar.getThumb().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);//设置滑块颜色、样式
+
+            seekBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);//设置进度条颜色、样式
+
+            iv_playpause_land.setImageResource(R.drawable.video_icon_pause);
+        }
+
     }
 
 
@@ -215,18 +239,18 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             lastIndex = (Integer) getLastCustomNonConfigurationInstance();
         }
         if(isPortrait){
-            iv_playpause_land = findViewById(R.id.iv_playpause_land);
-            iv_fullscreen_land = findViewById(R.id.iv_fullscreen_land);
-            rl_bottom_land = findViewById(R.id.rl_bottom_land);
-            tv_currNum_land = findViewById(R.id.tv_currNum_land);
-            tv_totalNum_land = findViewById(R.id.tv_totalNum_land);
-            rl_top_land = findViewById(R.id.rl_top_land);
-            seekBar = findViewById(R.id.seek_bar);
-            iv_playpause_land.setOnClickListener(this);
-            iv_fullscreen_land.setOnClickListener(this);
-            seekBar.getThumb().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);//设置滑块颜色、样式
-
-            seekBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);//设置进度条颜色、样式
+//            iv_playpause_land = findViewById(R.id.iv_playpause_land);
+//            iv_fullscreen_land = findViewById(R.id.iv_fullscreen_land);
+//            rl_bottom_land = findViewById(R.id.rl_bottom_land);
+//            tv_currNum_land = findViewById(R.id.tv_currNum_land);
+//            tv_totalNum_land = findViewById(R.id.tv_totalNum_land);
+//            rl_top_land = findViewById(R.id.rl_top_land);
+//            seekBar = findViewById(R.id.seek_bar);
+//            iv_playpause_land.setOnClickListener(this);
+//            iv_fullscreen_land.setOnClickListener(this);
+//            seekBar.getThumb().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);//设置滑块颜色、样式
+//
+//            seekBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);//设置进度条颜色、样式
 
         }
     }
@@ -473,6 +497,9 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         @Override
         public void updatePage(CurlPage page, int width, int height, int index) {
             isOnPageScroll = true;
+            if (splitBitmap.size() == 0){
+                return;
+            }
             Bitmap front = splitBitmap.get(index*2 +1);
             Bitmap back = splitBitmap.get(index*2+2);
             switch (index) {
@@ -542,14 +569,26 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private void initAlbumView(int currentIndex) {
         splitBitmap = new ArrayList<>();
-
-        for (int i = 0;i < imageArray.length;i++){
-            if(imageArray[i] == null){
-                List<Bitmap>   splitPages = split(BitmapFactory.decodeResource(getResources(), R.drawable.picbook_placeholder),2,1);
+//        imageArrayLength = imageArray.length;
+//        int firstLoadNum;
+//        if(imageArray.length < 2) {
+//            firstLoadNum = imageArray.length;
+//        } else {
+//            firstLoadNum = 2;
+//        }
+        for (int i = 0; i < imageArray.length; i++) {
+            if (imageArray[i] == null) {
+                List<Bitmap> splitPages = split(BitmapFactory.decodeResource(getResources(), R.drawable.picbook_placeholder), 2, 1);
+                if (splitPages.size() == 0){
+                    return;
+                }
                 splitBitmap.add(splitPages.get(0));
                 splitBitmap.add(splitPages.get(1));
-            }else {
-                List<Bitmap>   splitPages = split(imageArray[i],2,1);
+            } else {
+                List<Bitmap> splitPages = split(imageArray[i], 2, 1);
+                if (splitPages.size() == 0){
+                    return;
+                }
                 splitBitmap.add(splitPages.get(0));
                 splitBitmap.add(splitPages.get(1));
             }
@@ -637,40 +676,6 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                     }
                 }
             });
-            album_view.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()){
-                        case MotionEvent.ACTION_DOWN:
-                            oldClickTimeStamp = System.currentTimeMillis();
-                            break;
-                        case MotionEvent.ACTION_UP:
-//                            if (System.currentTimeMillis() - oldClickTimeStamp < 500){//点击
-                            Log.d("111","System.currentTimeMillis() - oldClickTimeStamp " + (System.currentTimeMillis() - oldClickTimeStamp));
-//                                seconds = 0;
-//                                if(isPortrait){
-//                                    if(rl_bottom_land.getVisibility() == View.VISIBLE){
-//                                        rl_bottom_land.setVisibility(View.GONE);
-//                                        rl_top_land.setVisibility(View.GONE);
-//                                    }else {
-//                                        rl_bottom_land.setVisibility(View.VISIBLE);
-//                                        rl_top_land.setVisibility(View.VISIBLE);
-//                                    }
-//                                }else {
-//                                    if(rl_bottom.getVisibility() == View.VISIBLE){
-//                                        rl_top.setVisibility(View.GONE);
-//                                        rl_bottom.setVisibility(View.GONE);
-//                                    }else {
-//                                        rl_top.setVisibility(View.VISIBLE);
-//                                        rl_bottom.setVisibility(View.VISIBLE);
-//                                    }
-//                                }
-//                            }
-                            break;
-                    }
-                    return false;
-                }
-            });
 
             if (lastIndex != -1 && lastIndex != 0) {
                 album_view.setCurrentIndex(lastIndex);
@@ -713,7 +718,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             super.onPostExecute(imageBean);
 //            imageList.add(bitmap);
 //            imageList.add(imageBean.index,imageBean.bitmap);
-            imageArray[imageBean.index] = imageBean.bitmap;
+            imageArray[imageBean.index] = BitmapCompressUtils.compressMatrix(imageBean.bitmap);
 
 //            if(imageList.size() == imageBean.size && imageList.get(0)!= null){
 //                initAlbumView(imageList);
@@ -724,17 +729,17 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 bitmipHeight = imageArray[imageBean.size -1].getHeight();
                 if(bitmipHeight > bitmipWidth){
                     islandspaceBitmap = true;
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }else {
                     islandspaceBitmap = false;
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     isPortrait = false;
                 }
-                int width = DensityUtil.getScreenWidth(HomeAudioDetailActivity.this);
-                int height = (int)((float)bitmipHeight/bitmipWidth * width);
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) album_view.getLayoutParams();
-                layoutParams.width = width;
-                layoutParams.height = height;
-                album_view.setLayoutParams(layoutParams);
+//                int width = DensityUtil.getScreenWidth(HomeAudioDetailActivity.this);
+//                int height = (int)((float)bitmipHeight/bitmipWidth * width);
+//                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) album_view.getLayoutParams();
+//                layoutParams.width = width;
+//                layoutParams.height = height;
+//                album_view.setLayoutParams(layoutParams);
                 album_view.setVisibility(View.VISIBLE);
 
                 Log.d("bitmapsize", "width: " + bitmipWidth); //400px
@@ -745,9 +750,13 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     }
 
 
-    public static List<Bitmap> split(Bitmap bitmap, int xPiece, int yPiece) {
 
+    public static List<Bitmap> split(Bitmap bitmap, int xPiece, int yPiece) {
         List<Bitmap> pieces = new ArrayList<>(xPiece * yPiece);
+        Log.d("111","BitmapCompressUtils.getBitmapSize(bit); " + BitmapCompressUtils.getBitmapSize(bitmap));
+        if (BitmapCompressUtils.getBitmapSize(bitmap) > 5000000){////可能有一些图片没有压缩成功,内存超过这个数值，不加载
+            return pieces;
+        }
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         int pieceWidth = width / xPiece;
@@ -873,8 +882,12 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 }
                 seconds = seconds + 100;
                 //发出的信息
-                if(mPlayer != null)
-                handler.sendEmptyMessage(mPlayer.getCurrentPosition());
+                if(mPlayer != null) {
+                    Message msg = handler.obtainMessage();
+                    msg.what = 2;
+                    msg.obj = mPlayer.getCurrentPosition();
+                    handler.sendMessage(msg);
+                }
             }
 
         }
@@ -887,42 +900,46 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            if (msg.what == 1) {
 
-            if(seconds > 3000 && seconds % 3000 == 0){
-                if(isPortrait){
-                    if(islandspaceBitmap){
-                        rl_top_land.setVisibility(View.GONE);
-                        rl_bottom_land.setVisibility(View.GONE);
-                    }
-                }else {
-                    rl_bottom.setVisibility(View.GONE);
-                    rl_top.setVisibility(View.GONE);
-                }
             }
-
-
-            for(int i=0;i<mData.getData().getEssay().getContentList().size()-1;i++){
-                if(msg.what/100 == mData.getData().getEssay().getContentList().get(i).getSecond()*10){
-
-                    if((i+1) == album_view.getCurrentIndex()){
-                        return;
-                    }else {
-                        Log.e("HomeAudioDetailActivity","i="+String.valueOf(i));
-                        Log.e("HomeAudioDetailActivity","currentindex="+String.valueOf(album_view.getCurrentIndex()));
-                        album_view.setCurrentIndex(i+1);
-                        tv_currNum.setText(String.valueOf(i+2));
-                        if (isPortrait){
-                            seekBar.setProgress(i+1);
+            if (msg.what == 2) {
+                if (seconds > 3000 && seconds % 3000 == 0) {
+                    if (isPortrait) {
+                        if (islandspaceBitmap) {
+                            rl_top_land.setVisibility(View.GONE);
+                            rl_bottom_land.setVisibility(View.GONE);
                         }
+                    } else {
+                        rl_bottom.setVisibility(View.GONE);
+                        rl_top.setVisibility(View.GONE);
                     }
-
-
                 }
-            }
-            // 将SeekBar位置设置到当前播放位置
+
+
+                for (int i = 0; i < mData.getData().getEssay().getContentList().size() - 1; i++) {
+                    if ((int)msg.obj / 100 == mData.getData().getEssay().getContentList().get(i).getSecond() * 10) {
+
+                        if ((i + 1) == album_view.getCurrentIndex()) {
+                            return;
+                        } else {
+                            Log.e("HomeAudioDetailActivity", "i=" + String.valueOf(i));
+                            Log.e("HomeAudioDetailActivity", "currentindex=" + String.valueOf(album_view.getCurrentIndex()));
+                            album_view.setCurrentIndex(i + 1);
+                            tv_currNum.setText(String.valueOf(i + 2));
+                            if (isPortrait) {
+                                seekBar.setProgress(i + 1);
+                            }
+                        }
+
+
+                    }
+                }
+                // 将SeekBar位置设置到当前播放位置
 //            seekBar.setProgress(msg.what);
-            //获得音乐的当前播放时间
+                //获得音乐的当前播放时间
 //            currentime.setText(formatime(msg.what));
+            }
         }
     };
 

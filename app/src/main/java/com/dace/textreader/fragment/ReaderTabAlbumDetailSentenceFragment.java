@@ -83,7 +83,7 @@ public class ReaderTabAlbumDetailSentenceFragment extends Fragment {
         Intent intent = new Intent(getContext(), SentenceExplainationActivity.class);
         intent.putExtra("articleId", sentenceBean.getArticleId());
         intent.putExtra("content", sentenceBean.getContent());
-        intent.putExtra("source", sentenceBean.getSource());
+        intent.putExtra("source", sentenceBean.getSource().contains("《") ? sentenceBean.getSource() : "《" + sentenceBean.getSource() + "》");
         intent.putExtra("annotation", sentenceBean.getAnnotation());
         intent.putExtra("imgUrl", imgUrl);
         startActivity(intent);

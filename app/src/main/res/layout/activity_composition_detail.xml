@@ -89,6 +89,7 @@
             android:id="@+id/nested_scroll_view_composition_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="48dp"
             android:descendantFocusability="blocksDescendants"
             android:focusable="true"
             android:focusableInTouchMode="true">

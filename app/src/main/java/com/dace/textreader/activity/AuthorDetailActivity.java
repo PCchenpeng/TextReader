@@ -49,7 +49,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
     private String author;
     private ExpandableTextView expandableTextView;
     private ImageView iv_topimg ,iv_playvideo;
-    private RelativeLayout rl_back_copy,rl_follow,rl_back;
+    private RelativeLayout rl_back_copy,rl_follow,rl_back,rl_magnumopus;
     private ImageView iv_author,iv_audio,iv_follow;
     private TextView tv_author,tv_follow,tv_more;
     private RecyclerView rcl_author_detail,rcl_author_works;
@@ -86,6 +86,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
         iv_topimg = findViewById(R.id.iv_topimg);
         iv_topimg = findViewById(R.id.iv_topimg);
         iv_playvideo = findViewById(R.id.iv_playvideo);
+        rl_magnumopus = findViewById(R.id.rl_magnumopus);
         rl_back = findViewById(R.id.rl_back);
         rl_back_copy = findViewById(R.id.rl_back_copy);
         rl_follow = findViewById(R.id.rl_follow);
@@ -350,6 +351,9 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
                 if(dataBeans != null)
                 worksList.addAll(dataBeans);
                 authorWorksAdapter.notifyDataSetChanged();
+                if (dataBeans.size() == 0){
+                    rl_magnumopus.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -361,6 +365,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
 
     private void initEvents() {
         rl_back_copy.setOnClickListener(this);
+        rl_back.setOnClickListener(this);
         iv_audio.setOnClickListener(this);
         tv_author.setOnClickListener(this);
     }

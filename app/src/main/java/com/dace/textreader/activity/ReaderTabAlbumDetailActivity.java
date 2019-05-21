@@ -200,11 +200,12 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                                 readerTabAlbumDetailSentenceFragment.setImgUrl(readTabAlbumDetailBean.getData().getCover());
                             }
                         }
+                        smartRefreshLayout.finishRefresh();
                     }
 
                     @Override
                     public void onReqFailed(String errorMsg) {
-//                        mRecycleView.onPullComplete();
+                        smartRefreshLayout.finishRefresh();
                     }
                 });
     }
@@ -234,6 +235,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
 
         smartRefreshLayout.setRefreshHeader(new MyRefreshHeader(this));
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(this));
+        smartRefreshLayout.setEnableRefresh(false);
         smartRefreshLayout.setEnableLoadMore(false);
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewpager);

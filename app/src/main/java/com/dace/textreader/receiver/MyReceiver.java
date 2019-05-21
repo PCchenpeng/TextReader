@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.CompositionDetailActivity;
 import com.dace.textreader.activity.EventsActivity;
 import com.dace.textreader.activity.MicroLessonActivity;
@@ -122,15 +123,17 @@ public class MyReceiver extends BroadcastReceiver {
                     String id = jsonObject.getString("productId");
                     int area = jsonObject.optInt("area", 0);
                     Intent intent = new Intent(context, CompositionDetailActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("writingId", id);
                     intent.putExtra("orderNum", "");
                     intent.putExtra("area", area);
                     context.startActivity(intent);
                     break;
                 case 1:
-                    long essayId = jsonObject.optLong("productId", -1L);
-                    int essayType = jsonObject.optInt("areaType", -1);
+//                    long essayId = jsonObject.optLong("productId", -1L);
+//                    int essayType = jsonObject.optInt("areaType", -1);
 //                    Intent intent_essay = new Intent(context, NewArticleDetailActivity.class);
+//                    intent_essay.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    intent_essay.putExtra("id", essayId);
 //                    intent_essay.putExtra("type", essayType);
 //                    context.startActivity(intent_essay);
@@ -138,20 +141,31 @@ public class MyReceiver extends BroadcastReceiver {
                 case 2:
                     long lessonId = Long.valueOf(jsonObject.getString("productId"));
                     Intent intent_lesson = new Intent(context, MicroLessonActivity.class);
+                    intent_lesson.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent_lesson.putExtra("id", lessonId);
                     context.startActivity(intent_lesson);
                     break;
                 case 3:
                     String name = jsonObject.getString("productId");
                     Intent intent_events = new Intent(context, EventsActivity.class);
+                    intent_events.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent_events.putExtra("pageName", name);
                     context.startActivity(intent_events);
                     break;
                 case 4:
                     long sentenceId = Long.valueOf(jsonObject.getString("productId"));
                     Intent intent_sentence = new Intent(context, NewDailySentenceActivity.class);
+                    intent_sentence.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent_sentence.putExtra("sentenceId", sentenceId);
                     context.startActivity(intent_sentence);
+                    break;
+                case 5:
+                    String essayId = jsonObject.getString("productId");
+                    Intent intent_essay = new Intent(context, ArticleDetailActivity.class);
+                    intent_essay.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent_essay.putExtra("essayId", essayId);
+                    intent_essay.putExtra("imgUrl", "");
+                    context.startActivity(intent_essay);
                     break;
                 default:
                     startApp(context);

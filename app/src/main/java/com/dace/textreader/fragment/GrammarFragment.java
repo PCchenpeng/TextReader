@@ -242,8 +242,8 @@ public class GrammarFragment extends Fragment {
         tv_two = view.findViewById(R.id.tv_two_tips_note);
         tv_three = view.findViewById(R.id.tv_three_tips_note);
         tv_one.setText("在阅读时");
-        tv_two.setText("可进入精读模式长按选择文本");
-        tv_three.setText("添加语法");
+        tv_two.setText("可长按选择文本");
+        tv_three.setText("");
 
         tv_sure = view.findViewById(R.id.tv_sure_grammar_fragment);
         iv_practice = view.findViewById(R.id.iv_practice_grammar_fragment);
@@ -303,8 +303,8 @@ public class GrammarFragment extends Fragment {
             TextView tv_two = errorView.findViewById(R.id.tv_two_tips_note);
             TextView tv_three = errorView.findViewById(R.id.tv_three_tips_note);
             tv_one.setText("在阅读时");
-            tv_two.setText("可进入精读模式长按选择文本");
-            tv_three.setText("添加语法");
+            tv_two.setText("可长按选择文本");
+            tv_three.setText("");
             frameLayout.removeAllViews();
             frameLayout.addView(errorView);
             frameLayout.setVisibility(View.VISIBLE);

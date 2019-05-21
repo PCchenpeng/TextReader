@@ -144,6 +144,7 @@ public class ReaderRecommendationBean {
             private String sourceImage;
             private String title;
             private String subContent;
+            private String fenlei;
 
             public int getScore() {
                 return score;
@@ -191,6 +192,14 @@ public class ReaderRecommendationBean {
 
             public void setSource(String source) {
                 this.source = source;
+            }
+
+            public String getFenlei() {
+                return fenlei;
+            }
+
+            public void setFenlei(String fenlei) {
+                this.fenlei = fenlei;
             }
 
             public String getSourceImage() {

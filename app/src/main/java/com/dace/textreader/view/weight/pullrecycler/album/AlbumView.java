@@ -125,6 +125,7 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
     private OnFlipedLastPageListener onFlipedLastPageListener;
 
     private VelocityTracker mVelocityTracker = null;
+    private long oldClickTimeStamp;
 
     /**
      * Default constructor.
@@ -397,10 +398,7 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
 
         switch (me.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-
-                if(onClickListener != null){
-                    onClickListener.onClick();
-                }
+                oldClickTimeStamp = System.currentTimeMillis();
 
                 // Once we receive pointer down eventits position is mapped to
                 // right or left edge of page and that'll be the position from where
@@ -487,6 +485,15 @@ public class AlbumView extends GLSurfaceView implements View.OnTouchListener,
             }
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP: {
+                if (System.currentTimeMillis() - oldClickTimeStamp < 100){//点击
+                    Log.d("111","System.currentTimeMillis() - oldClickTimeStamp " + (System.currentTimeMillis() - oldClickTimeStamp));
+                        if(onClickListener != null){
+                            onClickListener.onClick();
+                        }
+                    }
+
+
+
 //                if (isFirstFlipping) {
 //                    float a = (float) (Math.acos(mPointerPos.mPos.x
 //                            / rightRect.width()) * 180 / Math.PI);

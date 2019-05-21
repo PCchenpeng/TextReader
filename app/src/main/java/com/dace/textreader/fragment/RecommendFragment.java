@@ -6,11 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.dace.textreader.App;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.ArticleDetailActivity;
 import com.dace.textreader.activity.HomeAudioDetailActivity;
@@ -61,7 +63,6 @@ public class RecommendFragment extends BaseFragment implements PullListener {
     private List<RecommendBean.DataBean.ArticleListBean> data = new ArrayList<>();
 
     private boolean isRefresh = false;
-    private String tips = "";
 
     @Nullable
     @Override
@@ -159,7 +160,6 @@ public class RecommendFragment extends BaseFragment implements PullListener {
 
                     case HomeRecommendAdapter.TOP:
                          intent = new Intent(getContext(), NewSearchActivity.class);
-                         intent.putExtra("tips",tips);
                         startActivity(intent);
                         break;
                     case HomeRecommendAdapter.TOP_SUB:
@@ -209,8 +209,8 @@ public class RecommendFragment extends BaseFragment implements PullListener {
                     public void onReqSuccess(Object result) {
                         SearchTipsBean searchTipsBean = GsonUtil.GsonToBean(result.toString(),SearchTipsBean.class);
                         if(searchTipsBean != null && searchTipsBean.getData() != null && searchTipsBean.getData().size() != 0){
-                            tips = searchTipsBean.getData().get(0).getTip();
-                            mHomeRecommendAdapter.setTips(tips);
+                            App.tips = searchTipsBean.getData().get(0).getTip();
+                            mHomeRecommendAdapter.setTips(App.tips);
                         }
 
                     }
