@@ -176,6 +176,7 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
     private String authorId;
     private WebProgressBarView progressBarView;
     boolean isContinue;
+    private boolean isWordClicked;
 //    private ImageView juhua_loading;
 
 
@@ -975,7 +976,13 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
                                 @Override
                                 public void onClick(View v) {
 //                                    juhua_loading.setVisibility(View.VISIBLE);
-                                    getWordDetail(word);
+                                    if(!isWordClicked){
+                                        getWordDetail(word);
+                                        isWordClicked = true;
+                                    }else {
+                                        MyToastUtil.showToast(ArticleDetailActivity.this,"太快了，小派反应不过来~");
+                                    }
+
                                 }
                             });
                         }
@@ -999,7 +1006,12 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
                                             @Override
                                             public void onClick(View v) {
 //                                                juhua_loading.setVisibility(View.VISIBLE);
-                                                getWordDetail(word);
+                                                if(!isWordClicked){
+                                                    getWordDetail(word);
+                                                    isWordClicked = true;
+                                                }else {
+                                                    MyToastUtil.showToast(ArticleDetailActivity.this,"太快了，小派反应不过来~");
+                                                }
                                             }
                                         });
                                     }
@@ -1019,7 +1031,12 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
                                             @Override
                                             public void onClick(View v) {
 //                                                juhua_loading.setVisibility(View.VISIBLE);
-                                                getWordDetail(word);
+                                                if(!isWordClicked){
+                                                    getWordDetail(word);
+                                                    isWordClicked = true;
+                                                }else {
+                                                    MyToastUtil.showToast(ArticleDetailActivity.this,"太快了，小派反应不过来~");
+                                                }
                                             }
                                         });
                                     }
@@ -1050,6 +1067,7 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
                 if(wordDetailBean != null && wordDetailBean.getData() != null){
 //                    juhua_loading.setVisibility(View.GONE);
                     showWordDetailDialog(wordDetailBean);
+                    isWordClicked = false;
                 }
             }
 
