@@ -1815,7 +1815,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                         holder.setOnClickListener(R.id.share_to_link, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                MyToastUtil.showToast(ArticleDetailActivity.this,"复制成功");
+//                                MyToastUtil.showToast(ArticleDetailActivity.this,"该词已在生词本中");
+//                                showTips("复制成功");
                                 DataUtil.copyContent(ArticleDetailActivity.this, h5DataBean.getShareList().getWx().getLink());
                                 dialog.dismiss();
                             }
