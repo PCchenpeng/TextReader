@@ -116,6 +116,7 @@ public class ReaderTabAlbumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case TYPE_ITEM:
                 ((ItemHolder)viewHolder).tv_title.setText(itemData.get(i-1).getTitle());
                 ((ItemHolder)viewHolder).tv_sub.setText(itemData.get(i-1).getSubIntroduction());
+                ((ItemHolder)viewHolder).tv_py.setVisibility(View.GONE);
 
 //                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
 //                params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
@@ -186,13 +187,14 @@ public class ReaderTabAlbumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     class ItemHolder extends RecyclerView.ViewHolder {
         ImageView iv_img;
-        TextView tv_title,tv_sub;
+        TextView tv_title,tv_sub,tv_py;
 
         ItemHolder(@NonNull View itemView) {
             super(itemView);
             iv_img =  itemView.findViewById(R.id.iv_img);
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_sub = itemView.findViewById(R.id.tv_sub);
+            tv_py = itemView.findViewById(R.id.tv_py);
         }
     }
 
@@ -243,12 +245,13 @@ public class ReaderTabAlbumAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         class ItemHolder extends RecyclerView.ViewHolder {
             ImageView iv_img;
-            TextView tv_title;
+            TextView tv_title,tv_py;
 
             ItemHolder(@NonNull View itemView) {
                 super(itemView);
                 iv_img =  itemView.findViewById(R.id.iv_img);
                 tv_title = itemView.findViewById(R.id.tv_title);
+
             }
         }
     }

@@ -9,9 +9,9 @@
         <ImageView
             android:id="@+id/iv_img"
             android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
             android:layout_height="194dp" />
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_py"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,6 +33,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textStyle="bold"
+        android:gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:textSize="20sp"
@@ -50,7 +51,7 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:textSize="16sp"
-        android:textColor="#999999"/>
+        android:textColor="#333333"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"

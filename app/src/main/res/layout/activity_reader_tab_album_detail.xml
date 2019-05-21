@@ -148,6 +148,10 @@
                 app:stl_underlineColor="@color/colorTransparent"
                 app:stl_distributeEvenly="true"
                 app:stl_underlineThickness="0dp"/>
+            <View
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
         </LinearLayout>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>

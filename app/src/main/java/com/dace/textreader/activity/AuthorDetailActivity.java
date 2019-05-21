@@ -307,7 +307,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
 //                                .placeholder(R.drawable.img_default)
                                 .into(controller.imageView());
                     }
-                    controller.setTitle(authorDetailBean.getData().getVideo().getTitle());
+                    controller.setTitle("");
                         String videoUrl = authorDetailBean.getData().getVideo().getLink();
                         videoUrl = videoUrl.replaceAll("https","http");
                         videoPlayer.setUp(videoUrl, null);

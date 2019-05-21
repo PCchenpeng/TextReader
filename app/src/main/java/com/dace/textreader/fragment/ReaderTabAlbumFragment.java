@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.NewMainActivity;
@@ -35,7 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReaderTabAlbumFragment extends Fragment implements PullListener {
+public class ReaderTabAlbumFragment extends BaseFragment implements PullListener {
 
     private View view;
     private PullRecyclerView recyclerView;
@@ -52,6 +53,9 @@ public class ReaderTabAlbumFragment extends Fragment implements PullListener {
     private List<ReaderTabAlbumTopBean.DataBean> topData = new ArrayList<>();
     private List<ReaderTabAlbumItemBean.DataBean> itemata = new ArrayList<>();
     private ReaderTabActivity readerTabActivity;
+    private FrameLayout fly_exception;
+    private boolean hasTop;
+    private boolean hasItem;
 
     public static ReaderTabAlbumFragment newInstance(String type) {
 
@@ -92,6 +96,7 @@ public class ReaderTabAlbumFragment extends Fragment implements PullListener {
 
     private void initView() {
         recyclerView = view.findViewById(R.id.rcv_tab);
+        fly_exception = view.findViewById(R.id.fly_exception);
 
 //        recyclerView.setNestedScrollingEnabled(true);
 
@@ -152,7 +157,12 @@ public class ReaderTabAlbumFragment extends Fragment implements PullListener {
                     @Override
                     public void onReqSuccess(Object result) {
                         ReaderTabAlbumTopBean readerTabAlbumTopBean = GsonUtil.GsonToBean(result.toString(),ReaderTabAlbumTopBean.class);
+
                         topData = readerTabAlbumTopBean.getData();
+                        if(topData != null && topData.size() >0)
+                            hasTop = true;
+                        if(!hasTop && !hasItem)
+                            showEmptyView(fly_exception);
                         readerTabAlbumAdapter.setTopData(topData);
                     }
 
@@ -185,8 +195,14 @@ public class ReaderTabAlbumFragment extends Fragment implements PullListener {
 
                         if(isRefresh){
 //                            Toast.makeText(getContext(),"hahhaha",Toast.LENGTH_SHORT).show();
-                            if(itemata != null)
+                            if(itemata != null && topData.size() >0){
                                 readerTabAlbumAdapter.refreshData(itemata);
+                                    hasTop = true;
+                            }else {
+                                hasItem = false;
+                            }
+                            if(!hasTop && !hasItem)
+                                showEmptyView(fly_exception);
 //                            recyclerView.onPullComplete();
                         } else{
                             if(itemata != null){

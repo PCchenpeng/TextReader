@@ -117,9 +117,11 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
     private TextView tv_cancle,tv_keep;
     private EditText et_think;
     private String[] textSize = new String[]{"1.0rem", "1.1rem", "1.4rem", "1.6rem", "1.8rem"};  //字体大小
-    private String[] textShowSize = new String[]{"15", "16", "18", "20", "22"};
-    private int textSizePosition = 1;
-    private String[] textLineSpace = new String[]{"2.4", "2.2", "2.0"};  //行间距
+//    private String[] textShowSize = new String[]{"15", "16", "18", "20", "22"};
+    private String[] textShowSize = new String[]{"15", "16", "17", "18", "19", "20"};
+        private int textSizePosition = 2;
+//    private String[] textLineSpace = new String[]{"2.4", "2.2", "2.0"};  //行间距
+private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
     private int textLineSpacePosition = 1;
     private String[] background = new String[]{"#FFFFFF", "#FFFBE9", "#EDEDF8", "#DCEBCE"};  //背景色
     private int backgroundPosition = 1;
@@ -340,8 +342,8 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         essayId = getIntent().getStringExtra("essayId");
 //        isVideo = getIntent().getBooleanExtra("isVideo",false);
 
-        textLineSpacePosition = (int) PreferencesUtil.getData(this,"textLineSpacePosition",0);
-        textSizePosition = (int) PreferencesUtil.getData(this,"textSizePosition",0);
+        textLineSpacePosition = (int) PreferencesUtil.getData(this,"textLineSpacePosition",1);
+        textSizePosition = (int) PreferencesUtil.getData(this,"textSizePosition",2);
         backgroundPosition = (int) PreferencesUtil.getData(this,"backgroundPosition",0);
         readModule =  PreferencesUtil.getData(this,"readModule","1").toString();
     }
@@ -367,11 +369,11 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
         scroll_view.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if(scrollY > oldScrollY && ((scrollY - oldScrollY) > 30)){
+                if(scrollY > oldScrollY && ((scrollY - oldScrollY) > 50)){
 //                    Log.e("ScrollType","上划");
                     statusView_top.setVisibility(View.GONE);
                     rl_bottom.setVisibility(View.GONE);
-                }else if(oldScrollY > scrollY && (oldScrollY - scrollY) > 30){
+                }else if(oldScrollY > scrollY && (oldScrollY - scrollY) > 50){
 //                    Log.e("ScrollType","下滑");
                     if(scrollY>statusView_top_copy.getHeight()){
                         statusView_top.setVisibility(View.VISIBLE);
@@ -702,11 +704,13 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                                 mWebview.callHandler("deleteReadNote", params.toString(), new CallBackFunction() {
                                     @Override
                                     public void onCallBack(String data) {
-                                        dialog.dismiss();
                                         Log.e("deleteReadNote",data);
 
                                     }
                                 });
+                                dialog.dismiss();
+                                MyToastUtil.showToast(ArticleDetailActivity.this,"删除成功");
+
                             }
                         });
 

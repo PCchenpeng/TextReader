@@ -239,9 +239,10 @@
         android:visibility="gone"
         android:id="@+id/rl_dialog_think"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:background="#333333"
         android:orientation="vertical"
+        android:paddingBottom="20dp"
         android:layout_alignParentBottom="true">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -277,7 +278,10 @@
             android:gravity="top"
             android:textColor="#ffffff"
             android:textSize="16sp"
+            android:lineSpacingMultiplier="0.5"
+            android:lineSpacingExtra="15dp"
             android:layout_margin="10dp"
+            android:lines="4"
             android:textCursorDrawable="@drawable/my_cursor"
             android:background="#333333" />
     </LinearLayout>
