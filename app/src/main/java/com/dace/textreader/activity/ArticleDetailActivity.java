@@ -470,7 +470,7 @@ public class ArticleDetailActivity extends BaseActivity implements View.OnClickL
                 prepareBitmap(shareImgUrl);
                 shareContent = h5DataBean.getSubContent();
 
-                controller.setTitle(title);
+                controller.setTitle("");
                 if(h5DataBean.getVideo() != null){
                     String videoUrl = h5DataBean.getVideo();
                     videoUrl = videoUrl.replaceAll("https","http");
