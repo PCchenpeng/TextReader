@@ -49,7 +49,17 @@
                 android:layout_height="wrap_content">
 
             </com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview>
+            <com.dace.textreader.view.WebProgressBarView
+                android:id="@+id/progressBarView"
+                android:layout_below="@id/rl_top"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                app:progress = "100"
+                app:progressColor = "@color/colorBlueStyle"
+                app:progressHeight = "8"
+                android:visibility="visible" />
             <FrameLayout
+                android:visibility="gone"
                 android:id="@+id/fm_exception"
                 android:layout_below="@id/rl_top"
                 android:layout_width="match_parent"

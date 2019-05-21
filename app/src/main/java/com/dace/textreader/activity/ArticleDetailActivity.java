@@ -26,10 +26,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -65,6 +70,7 @@ import com.dace.textreader.util.ShareUtil;
 import com.dace.textreader.util.okhttp.OkHttpManager;
 import com.dace.textreader.view.LineWrapLayout;
 import com.dace.textreader.view.StatusBarHeightView;
+import com.dace.textreader.view.WebProgressBarView;
 import com.dace.textreader.view.dialog.BaseNiceDialog;
 import com.dace.textreader.view.dialog.NiceDialog;
 import com.dace.textreader.view.dialog.ReadSpeedDialog;
@@ -168,6 +174,8 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
     private String noteId;
 
     private String authorId;
+    private WebProgressBarView progressBarView;
+    boolean isContinue;
 //    private ImageView juhua_loading;
 
 
@@ -184,7 +192,7 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
         initData();
         initView();
         initEvents();
-        showLoading(fm_exception);
+//        showLoading(fm_exception);
 
     }
 
@@ -215,6 +223,7 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
         rl_top = findViewById(R.id.rl_top);
         videoPlayer = findViewById(R.id.videoplayer);
         fm_exception = findViewById(R.id.fm_exception);
+        progressBarView = findViewById(R.id.progressBarView);
 //        juhua_loading = findViewById(R.id.juhua_loading);
 
 
@@ -265,15 +274,46 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
 //                .centerCrop()
                 .into(iv_topimg);
 
-//        mWebview.setWebChromeClient(new WebChromeClient() {
-//            //            @Override
+        mWebview.setWebChromeClient(new WebChromeClient() {
+            //            @Override
 //            public boolean onJsAlert(WebView view, String url, String message,
 //                                     JsResult result) {
 //                // TODO Auto-generated method stub
 //                return super.onJsAlert(view, url, message, result);
 //            }
-//
-//        });
+
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+
+                Log.e("onProgressChanged","onProgressChanged="+newProgress);
+                //如果进度条隐藏则让它显示
+                if (View.GONE == progressBarView.getVisibility()) {
+                    progressBarView.setVisibility(View.VISIBLE);
+                }
+
+                if (newProgress >= 80) {
+                    if (isContinue) {
+                        return;
+                    }
+                    isContinue = true;
+                    progressBarView.setCurProgress(1000, new WebProgressBarView.EventEndListener() {
+                        @Override
+                        public void onEndEvent() {
+                            isContinue = false;
+                            if (progressBarView.getVisibility() == View.VISIBLE) {
+                                hideProgress();
+                            }
+                        }
+                    });
+                } else {
+                    progressBarView.setNormalProgress(newProgress);
+                }
+            }
+        });
+
+
 
         mWebview.setOnPageFinished(new BridgeCustomWebview.OnPageFinished() {
             @Override
@@ -1892,6 +1932,33 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
                 }
             }
         }.start();
+    }
+
+    private void hideProgress() {
+        AnimationSet animation = getDismissAnim(this);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                progressBarView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        progressBarView.startAnimation(animation);
+    }
+
+    private AnimationSet getDismissAnim(Context context) {
+        AnimationSet dismiss = new AnimationSet(context, null);
+        AlphaAnimation alpha = new AlphaAnimation(1.0f, 0.0f);
+        alpha.setDuration(1000);
+        dismiss.addAnimation(alpha);
+        return dismiss;
     }
 
 

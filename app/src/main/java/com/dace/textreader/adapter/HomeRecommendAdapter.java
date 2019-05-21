@@ -31,6 +31,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final int TYPE_NOIMG = 3;
     private final int TYPE_TOP = 4;
     private final int TYPE_TOP_SUB = 5;
+    private final int TYPE_NOMORE = 6;
     public final static int AUDIO_PIC = 10001;
     public final static int AUDIO_NOPIC = 10002;
     public final static int VIDEO = 10003;
@@ -42,6 +43,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
     private List<ArticleListBean> itemList = new ArrayList<>();
     private Context mContext;
     private String tips;
+    public boolean noMoreData;
 
     public HomeRecommendAdapter(List<ArticleListBean> data, Context context) {
         this.mContext = context;
@@ -100,6 +102,10 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
                 View view5 = LayoutInflater.from(mContext).inflate(
                         R.layout.item_home_recommend_5, viewGroup, false);
                 return new TopSubHolder(view5);
+            case TYPE_NOMORE:
+                View view6 = LayoutInflater.from(mContext).inflate(
+                        R.layout.item_home_recommend_6, viewGroup, false);
+                return new NoMoreHolder(view6);
             default:
                return null;
         }
@@ -107,12 +113,18 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemViewType(int position){
+        Log.e("getItemViewType", "mlist: "+itemList.size());
+        Log.e("getItemViewType", "getItemViewType: "+position);
         if(position == 0){
             return TYPE_TOP;
         }
 
         if(position == 1){
             return TYPE_TOP_SUB;
+        }
+
+        if(position == itemList.size()+2){
+            return TYPE_NOMORE;
         }
 
         if(itemList.get(position-2).getCategory() == 0){
@@ -308,6 +320,13 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 break;
 
+            case TYPE_NOMORE:
+                if(noMoreData)
+                ((NoMoreHolder)viewHolder).itemView.setVisibility(View.VISIBLE);
+                else
+                    ((NoMoreHolder)viewHolder).itemView.setVisibility(View.GONE);
+                break;
+
             default:
                 break;
         }
@@ -317,7 +336,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return itemList == null ? 1 : itemList.size()+1;
+        return itemList == null ? 1 : itemList.size()+3;
     }
 
 
@@ -384,6 +403,12 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
         public TopSubHolder(@NonNull View itemView) {
             super(itemView);
             iv_type =  itemView.findViewById(R.id.iv_type);
+        }
+    }
+
+    class NoMoreHolder extends RecyclerView.ViewHolder{
+        public NoMoreHolder(@NonNull View itemView) {
+            super(itemView);
         }
     }
 

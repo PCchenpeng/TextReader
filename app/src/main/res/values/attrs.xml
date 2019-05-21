@@ -103,4 +103,12 @@
         <attr name="mask_color" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="appProgress">
+
+        <attr name="progress" format="integer" />
+        <attr name="progressHeight" format="integer" />
+        <attr name="progressColor" format="color" />
+
+    </declare-styleable>
+
 </resources>

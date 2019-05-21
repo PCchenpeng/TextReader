@@ -344,6 +344,7 @@ public class RecommendFragment extends BaseFragment implements PullListener {
             e.printStackTrace();
         }
         if (recommendBean.getStatus() == 200) {
+            mHomeRecommendAdapter.noMoreData = false;
             if (recommendBean != null && recommendBean.getData() != null) {
                 data = recommendBean.getData().getArticleList();
 
@@ -358,8 +359,13 @@ public class RecommendFragment extends BaseFragment implements PullListener {
             } else {
                 mHomeRecommendAdapter.addData(data);
             }
-        } else if (recommendBean.getStatus() == 400 && mHomeRecommendAdapter.getItemList().size() == 0) {
+        } else if (recommendBean.getStatus() == 400) {
+            if(mHomeRecommendAdapter.getItemList().size() == 0)
             showDefaultView(framelayout, R.drawable.image_state_empty, "暂无内容～", false, false, "", null);
+            else {
+                mHomeRecommendAdapter.noMoreData = true;
+                mHomeRecommendAdapter.notifyDataSetChanged();
+            }
         } else {
             if (isRefresh) {//如果是第一页
                 showNetFailView(framelayout, new OnButtonClick() {
