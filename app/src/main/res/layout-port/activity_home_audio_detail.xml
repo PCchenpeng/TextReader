@@ -94,7 +94,7 @@
     </View>
         <com.dace.textreader.view.weight.pullrecycler.album.AlbumView
             android:id="@+id/album_view"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">

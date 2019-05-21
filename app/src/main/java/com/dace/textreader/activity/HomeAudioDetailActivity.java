@@ -138,8 +138,6 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private SeekBar seekBar;
 
     private long seconds;
-    private long oldClickTimeStamp;
-    private int imageArrayLength;
 
 
     @Override

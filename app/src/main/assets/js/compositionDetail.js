@@ -1,4 +1,5 @@
-var publicURL='https://check.pythe.cn';
+var publicURL='https://app.pythe.cn';//线上
+//var publicURL='https://check.pythe.cn';//测试
 var publicImgUrl='https://app.pythe.cn:446';
 var publicImgUrl2='https://app.pythe.cn:446';
 var pytheInfoObj={

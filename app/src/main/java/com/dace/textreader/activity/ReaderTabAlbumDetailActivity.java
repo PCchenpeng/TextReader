@@ -186,7 +186,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
                                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                                     .into(iv_img);
                             tv_title.setText(readTabAlbumDetailBean.getData().getTitle());
-                            expTv1.setText(readTabAlbumDetailBean.getData().getIntroduction());
+                            expTv1.setText(readTabAlbumDetailBean.getData().getIntroduction().replace("\n","\n\n"));
 
                             if (readerTabAlbumDetailListFragment != null) {
                                 readerTabAlbumDetailListFragment.setmData(readTabAlbumDetailBean.getData().getBook().get(0).getArticleList());

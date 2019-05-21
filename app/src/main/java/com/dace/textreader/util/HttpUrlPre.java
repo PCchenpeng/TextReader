@@ -8,22 +8,22 @@ package com.dace.textreader.util;
 public class HttpUrlPre {
 
     //请求数据
-    public static final String HTTP_URL_ = "https://teacher.pythe.cn/pythe-temp/rest";
-//    public static final String HTTP_URL_ = "https://app.pythe.cn/pythe-rest/rest";
+//    public static final String HTTP_URL_ = "https://teacher.pythe.cn/pythe-temp/rest";
+    public static final String HTTP_URL_ = "https://china.pythe.cn/pythe-temp/rest";
 
-    public static final String SEARCHE_URL = "https://query.pythe.cn/pythe-search";
-   // public static final String SEARCHE_URL = "https://search.pythe.cn/pythe-search";
+//    public static final String SEARCHE_URL = "https://query.pythe.cn/pythe-search";
+    public static final String SEARCHE_URL = "https://search.pythe.cn/pythe-search";
 
-    public static final String HTTP_URL = "https://check.pythe.cn/pythe-rest/rest";
-//    public static final String HTTP_URL = "https://app.pythe.cn/pythe-rest/rest";
+//    public static final String HTTP_URL = "https://check.pythe.cn/pythe-rest/rest";
+    public static final String HTTP_URL = "https://app.pythe.cn/pythe-rest/rest";
 
     //文件上传
-    public static final String UPLOAD_URL = "https://check.pythe.cn:444/pythe-rest/rest";
-//    public static final String UPLOAD_URL = "https://app.pythe.cn:448/pythe-rest/rest";
+//    public static final String UPLOAD_URL = "https://check.pythe.cn:444/pythe-rest/rest";
+    public static final String UPLOAD_URL = "https://app.pythe.cn:448/pythe-rest/rest";
 
     //文件访问
-    public static final String FILE_URL = "https://check.pythe.cn:446";
-//    public static final String FILE_URL = "https://app.pythe.cn:446";
+//    public static final String FILE_URL = "https://check.pythe.cn:446";
+    public static final String FILE_URL = "https://app.pythe.cn:446";
 
     //公司地址
     public static final String COMPANY_URL = "https://pythe.cn";

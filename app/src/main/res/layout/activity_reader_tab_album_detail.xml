@@ -72,6 +72,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:text=""
+                android:textStyle="bold"
                 android:textColor="#333333"
                 android:textSize="20sp"/>
             <com.ms.square.android.expandabletextview.ExpandableTextView

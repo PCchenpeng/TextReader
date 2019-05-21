@@ -46,16 +46,16 @@ public class SearchTipsBean {
          * status : 2
          */
 
-        private int id;
+        private String id;
         private String tip;
-        private long time;
-        private int status;
+        private String time;
+        private String status;
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
@@ -67,19 +67,19 @@ public class SearchTipsBean {
             this.tip = tip;
         }
 
-        public long getTime() {
+        public String getTime() {
             return time;
         }
 
-        public void setTime(long time) {
+        public void setTime(String time) {
             this.time = time;
         }
 
-        public int getStatus() {
+        public String getStatus() {
             return status;
         }
 
-        public void setStatus(int status) {
+        public void setStatus(String status) {
             this.status = status;
         }
     }

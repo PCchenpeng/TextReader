@@ -28,8 +28,8 @@ android {
 
         manifestPlaceholders = [
                 JPUSH_PKGNAME: "com.dace.textreader",
-//                JPUSH_APPKEY : "05fe84d33992b8c9506371b8", //JPush 上注册的包名对应的 Appkey.
-                JPUSH_APPKEY : "add4f8ba17f87d412b64f2a3",  //JPush测试用AppKey
+                JPUSH_APPKEY : "05fe84d33992b8c9506371b8", //JPush 上注册的包名对应的 Appkey.
+//                JPUSH_APPKEY : "add4f8ba17f87d412b64f2a3",  //JPush测试用AppKey
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
                 HUAWEI_APPID : "100072301", //华为推送
                 XIAOMI_APPKEY: "MI-5851760820325", // 小米平台注册的appkey
