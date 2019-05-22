@@ -104,9 +104,15 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((ItemHolder)viewHolder).tv_subContent.setText(itemData.get(i-1).getSubContent());
                 ((ItemHolder)viewHolder).tv_source.setText(itemData.get(i-1).getSource());
                 ((ItemHolder)viewHolder).tv_type.setText("#"+ itemData.get(i-1).getType()+"#");
+                if(itemData.get(i-1).getScore() == 0)
+                    ((ItemHolder)viewHolder).tv_py.setVisibility(View.GONE);
+                else
+                    ((ItemHolder)viewHolder).tv_py.setVisibility(View.VISIBLE);
+                ((ItemHolder)viewHolder).tv_py.setText(itemData.get(i-1).getScore()+"PY");
 
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ((ItemHolder) viewHolder).iv_img.getLayoutParams();
-                params.width = DensityUtil.getScreenWidth(context) - DensityUtil.dip2px(context, 25f);
+                params.width = DensityUtil.getScreenWidth(context);
+                params.height = DensityUtil.getScreenWidth(context)*2/3;
                 ((ItemHolder) viewHolder).iv_img.setLayoutParams(params);
 
                 final String imgUrl = itemData.get(i-1).getImage();
@@ -114,7 +120,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         .load(imgUrl)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .preload();
-                GlideUtils.loadImage(context, imgUrl,
+                GlideUtils.loadHomeImage(context, imgUrl,
                         ((ItemHolder) viewHolder).iv_img);
                 GlideUtils.loadHomeUserImage(context, itemData.get(i-1).getSourceImage(),
                         ((ItemHolder) viewHolder).iv_source);
@@ -257,7 +263,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     class ItemHolder extends RecyclerView.ViewHolder {
         ImageView iv_img,iv_source,iv_type;
-        TextView tv_title,tv_subContent,tv_source,tv_type;
+        TextView tv_title,tv_subContent,tv_source,tv_type,tv_py;
 
         ItemHolder(@NonNull View itemView) {
             super(itemView);
@@ -268,6 +274,7 @@ public class ReaderTabSelectAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             tv_subContent = itemView.findViewById(R.id.tv_subContent);
             tv_source = itemView.findViewById(R.id.tv_source);
             tv_type = itemView.findViewById(R.id.tv_type);
+            tv_py = itemView.findViewById(R.id.tv_py);
         }
     }
 

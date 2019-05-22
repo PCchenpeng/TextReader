@@ -3,14 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:padding="10dp">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
     <TextView
         android:id="@+id/tv_big_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="每日灵感"
-        android:textSize="22sp"
+        android:textSize="24sp"
         android:textColor="#333333"
         android:textStyle="bold"/>
     <ImageView
@@ -41,7 +41,8 @@
                 android:layout_toLeftOf="@id/iv_small_1"
                 android:layout_marginRight="10dp"
                 android:textColor="#333333"
-                android:textSize="19sp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:maxLines="2"
                 android:ellipsize="end"/>
 
@@ -62,7 +63,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -103,7 +104,7 @@
     </LinearLayout>
    <LinearLayout
        android:id="@+id/ll_item_2"
-       android:layout_marginTop="5dp"
+       android:layout_marginTop="10dp"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="vertical">
@@ -123,7 +124,8 @@
                android:layout_toLeftOf="@id/iv_small_2"
                android:layout_marginRight="10dp"
                android:textColor="#333333"
-               android:textSize="19sp"
+               android:textSize="20sp"
+               android:textStyle="bold"
                android:maxLines="2"
                android:ellipsize="end"/>
 
@@ -146,7 +148,7 @@
        <RelativeLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginTop="10dp">
+           android:layout_marginTop="20dp">
            <ImageView
                android:id="@+id/iv_source_2"
                android:layout_width="20dp"
@@ -176,4 +178,13 @@
                android:textSize="12sp"/>
        </RelativeLayout>
    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#f5f5f5"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
 </LinearLayout>
