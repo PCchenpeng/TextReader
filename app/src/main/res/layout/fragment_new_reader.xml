@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"//这个属性只有在布局是CoordinatorLayout 时才有，是让让控件在AppBarLayout之下的-->
-    
+
     <!--<ImageView-->
         <!--android:id="@+id/iv_search"-->
         <!--android:layout_width="40dp"-->
@@ -75,5 +75,7 @@
         <!--android:layout_marginRight="20dp"-->
         <!--android:visibility="gone"-->
         <!--android:src="@drawable/home_search_whale"/>-->
+
+
 
 </android.support.design.widget.CoordinatorLayout>

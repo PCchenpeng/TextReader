@@ -1,5 +1,6 @@
 package com.dace.textreader.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
@@ -23,6 +25,7 @@ import com.dace.textreader.util.PreferencesUtil;
 
 public class BaseFragment extends Fragment {
     protected void showDefaultView(FrameLayout frameLayout, int imageResource, String tipsText, boolean isGif, boolean isButton, String buttonText, final OnButtonClick onButtonClick){
+        @SuppressLint("InflateParams")
         View view = LayoutInflater.from(getContext())
                 .inflate(R.layout.list_default_layout, null);
 
@@ -57,7 +60,7 @@ public class BaseFragment extends Fragment {
             }
 
             frameLayout.removeAllViews();
-            frameLayout.addView(view);
+            frameLayout.addView(view,new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
             frameLayout.setVisibility(View.VISIBLE);
             frameLayout.setOnTouchListener(new View.OnTouchListener() {
                 @Override
