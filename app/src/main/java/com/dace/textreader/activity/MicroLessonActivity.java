@@ -49,10 +49,12 @@ import com.dace.textreader.R;
 import com.dace.textreader.adapter.MicroLessonRecyclerViewAdapter;
 import com.dace.textreader.audioUtils.OnPlayerEventListener;
 import com.dace.textreader.bean.LessonBean;
+import com.dace.textreader.bean.NewLessonBean;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DensityUtil;
 import com.dace.textreader.util.GlideCircleTransform;
 import com.dace.textreader.util.GlideUtils;
+import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.ImageUtils;
 import com.dace.textreader.util.MIUI;
@@ -149,6 +151,11 @@ public class MicroLessonActivity extends BaseActivity implements View.OnClickLis
     private final int TYPE_SHARE_QZone = 4;  //qq空间
     private final int TYPE_SHARE_LINK = 5;  //复制链接
     private final int TYPE_SHARE_Weibo = 6;
+    private String shareQQUrl;
+    private String shareWXUrl;
+    private String shareWBUrl;
+    private String shareContent;
+
     private int type_share = -1;  //分享类型
     private Bitmap lessonBitmap;
     private String urlForShare = "";
@@ -784,6 +791,11 @@ public class MicroLessonActivity extends BaseActivity implements View.OnClickLis
         try {
             JSONObject jsonObject = new JSONObject(s);
             if (200 == jsonObject.optInt("status", -1)) {
+                NewLessonBean newLessonBean = GsonUtil.GsonToBean(s,NewLessonBean.class);
+                shareQQUrl = newLessonBean.getData().getShareList().getQq().getLink();
+                shareWXUrl = newLessonBean.getData().getShareList().getWx().getLink();
+                shareWBUrl = newLessonBean.getData().getShareList().getWeibo().getLink();
+
                 JSONObject data = jsonObject.getJSONObject("data");
 
                 isBuy = data.getBoolean("bought");
@@ -1019,22 +1031,22 @@ public class MicroLessonActivity extends BaseActivity implements View.OnClickLis
     private void share(String url) {
         switch (type_share) {
             case TYPE_SHARE_WX_FRIEND:
-                shareArticleToWX(true, url);
+                shareArticleToWX(true, shareWXUrl);
                 break;
             case TYPE_SHARE_WX_FRIENDS:
-                shareArticleToWX(false, url);
+                shareArticleToWX(false, shareWXUrl);
                 break;
             case TYPE_SHARE_Weibo:
-                shareToWeibo(url);
+                shareToWeibo(shareWBUrl);
                 break;
             case TYPE_SHARE_QQ:
-                shareToQQ(url);
+                shareToQQ(shareQQUrl);
                 break;
             case TYPE_SHARE_QZone:
-                shareToQZone(url);
+                shareToQZone(shareQQUrl);
                 break;
             case TYPE_SHARE_LINK:
-                DataUtil.copyContent(mContext, url);
+                DataUtil.copyContent(mContext, shareQQUrl);
                 break;
         }
     }
