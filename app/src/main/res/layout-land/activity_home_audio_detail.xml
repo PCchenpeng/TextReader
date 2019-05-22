@@ -128,5 +128,9 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/picbook_icon_fullscreen_lan"/>
     </RelativeLayout>
-
+    <FrameLayout
+        android:id="@+id/frame_layout_home_audio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"/>
 </RelativeLayout>

@@ -71,7 +71,7 @@ public class BitmapCompressUtils {
      */
     public static Bitmap compressMatrix(Bitmap bitmap) {
         Matrix matrix = new Matrix();
-        matrix.setScale(0.7f, 0.7f);
+        matrix.setScale(0.4f, 0.4f);
         Bitmap mSrcBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         bitmap = null;
         return mSrcBitmap;

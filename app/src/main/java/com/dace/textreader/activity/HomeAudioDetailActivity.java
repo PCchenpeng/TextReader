@@ -17,8 +17,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -34,6 +36,7 @@ import com.dace.textreader.util.BitmapCompressUtils;
 import com.dace.textreader.util.DataEncryption;
 import com.dace.textreader.util.DataUtil;
 import com.dace.textreader.util.DensityUtil;
+import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.GsonUtil;
 import com.dace.textreader.util.HttpUrlPre;
 import com.dace.textreader.util.ImageUtils;
@@ -89,6 +92,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private AlbumView album_view;
     private ImageView iv_back,iv_share,iv_playpause,iv_collect,iv_fullscreen;
     private TextView tv_currNum,tv_totalNum;
+    private FrameLayout frameLayout;
     private int lastIndex = -1;
     private int currentIndex = 0;
     Bitmap shadowLine;
@@ -149,6 +153,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         pyNum = getIntent().getIntExtra("py",-1);
 
         initView();
+        showLoadingView(frameLayout);
 //        album_view.setZOrderMediaOverlay(true);
         mPlayer = new MediaPlayer();
 
@@ -224,6 +229,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         iv_fullscreen = findViewById(R.id.iv_fullscreen);
         tv_currNum = findViewById(R.id.tv_currNum);
         tv_totalNum = findViewById(R.id.tv_totalNum);
+        frameLayout = findViewById(R.id.frame_layout_home_audio);
         rl_bottom = findViewById(R.id.rl_bottom);
         rl_top = findViewById(R.id.rl_top);
         rl_picture_book = findViewById(R.id.rl_picture_book);
@@ -535,7 +541,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             }
         }
 
-        play(audioUrl);
+//        play(audioUrl);
         SpliterImg(mData);
         AudioArticleBean.DataBean.ShareListBean shareListBean =  mData.getData().getShareList();
         if(shareListBean != null){
@@ -589,6 +595,10 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 }
                 splitBitmap.add(splitPages.get(0));
                 splitBitmap.add(splitPages.get(1));
+            }
+            if (i == imageArray.length - 1){//加载完成
+                frameLayout.setVisibility(View.GONE);
+                play(audioUrl);
             }
         }
 
@@ -752,7 +762,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     public static List<Bitmap> split(Bitmap bitmap, int xPiece, int yPiece) {
         List<Bitmap> pieces = new ArrayList<>(xPiece * yPiece);
         Log.d("111","BitmapCompressUtils.getBitmapSize(bit); " + BitmapCompressUtils.getBitmapSize(bitmap));
-        if (BitmapCompressUtils.getBitmapSize(bitmap) > 5000000){////可能有一些图片没有压缩成功,内存超过这个数值，不加载
+        if (BitmapCompressUtils.getBitmapSize(bitmap) > 3000000){////可能有一些图片没有压缩成功,内存超过这个数值，不加载
             return pieces;
         }
         int width = bitmap.getWidth();
@@ -1151,5 +1161,24 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         }.start();
     }
 
+    /**
+     * 显示加载等待视图
+     */
+    private void showLoadingView(boolean show) {
+        if (isDestroyed()) {
+            return;
+        }
+        if (show) {
+            View view = LayoutInflater.from(this).inflate(R.layout.loading_h5_layout, null);
+            ImageView iv_loading = view.findViewById(R.id.iv_h5_loading);
+            GlideUtils.loadImageWithNoOptions(this, R.drawable.image_placeholder_h5, iv_loading);
+            frameLayout.removeAllViews();
+            frameLayout.addView(view);
+            frameLayout.setVisibility(View.VISIBLE);
+        } else {
+            frameLayout.setVisibility(View.GONE);
+            frameLayout.removeAllViews();
+        }
+    }
 
 }

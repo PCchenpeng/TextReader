@@ -42,6 +42,10 @@
     <style name="NewMainTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+    <style name="HomeAudioTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
     <style name="NewMainActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/image_startup</item>
         <item name="android:windowTranslucentStatus">true</item>

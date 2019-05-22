@@ -612,7 +612,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/NewMainTheme">
+            android:theme="@style/HomeAudioTheme">
         </activity>
         <activity
             android:name=".activity.UserHomepageActivity"
