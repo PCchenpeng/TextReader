@@ -593,6 +593,7 @@ public class NewHomeRecommendationFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
         setOnScrollListener(nestedScrollView);
+        showLoadingView(frameLayout);
     }
 
     /**
@@ -818,6 +819,7 @@ public class NewHomeRecommendationFragment extends BaseFragment {
                     }
                     initUserData();
                 }
+                frameLayout.setVisibility(View.GONE);
             } else {
                 errorBannerData();
             }

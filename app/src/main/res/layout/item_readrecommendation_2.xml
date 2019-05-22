@@ -24,7 +24,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#f5f5f5"
+        android:background="#E5E5E5"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"

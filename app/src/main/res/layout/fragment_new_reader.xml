@@ -76,6 +76,4 @@
         <!--android:visibility="gone"-->
         <!--android:src="@drawable/home_search_whale"/>-->
 
-
-
 </android.support.design.widget.CoordinatorLayout>

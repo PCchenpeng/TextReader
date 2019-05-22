@@ -30,7 +30,7 @@ import java.util.List;
  * History:
  * ==============================================================================
  */
-public class NewReaderFragment extends Fragment {
+public class NewReaderFragment extends BaseFragment {
 
     private View view;
     private SmartTabLayout tabLayout;
@@ -90,6 +90,7 @@ public class NewReaderFragment extends Fragment {
         viewPager = view.findViewById(R.id.view_pager_new_reader_fragment);
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setViewPager(viewPager);
     }
 
