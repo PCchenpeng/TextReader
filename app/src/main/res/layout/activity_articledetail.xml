@@ -56,7 +56,7 @@
                 android:visibility="gone"
                 android:id="@+id/web_bg"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="1000dp"
                 android:layout_below="@id/rl_top"
                 android:background="#1f2430">
             </RelativeLayout>
