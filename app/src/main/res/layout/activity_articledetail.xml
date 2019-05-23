@@ -52,6 +52,14 @@
                 android:layout_height="wrap_content">
 
             </com.dace.textreader.view.weight.pullrecycler.mywebview.BridgeCustomWebview>
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/web_bg"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_below="@id/rl_top"
+                android:background="#1f2430">
+            </RelativeLayout>
             <com.dace.textreader.view.WebProgressBarView
                 android:id="@+id/progressBarView"
                 android:layout_below="@id/rl_top"

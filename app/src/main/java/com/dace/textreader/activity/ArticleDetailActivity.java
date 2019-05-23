@@ -177,6 +177,7 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
     private WebProgressBarView progressBarView;
     boolean isContinue;
     private boolean isWordClicked;
+    private RelativeLayout web_bg;
 //    private ImageView juhua_loading;
 
 
@@ -225,6 +226,10 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
         videoPlayer = findViewById(R.id.videoplayer);
         fm_exception = findViewById(R.id.fm_exception);
         progressBarView = findViewById(R.id.progressBarView);
+        web_bg = findViewById(R.id.web_bg);
+        if(readModule.equals("0")){
+            web_bg.setVisibility(View.VISIBLE);
+        }
 //        juhua_loading = findViewById(R.id.juhua_loading);
 
 //        RotateAnimation rotateAnimation = new RotateAnimation(0,360,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
@@ -301,6 +306,7 @@ private String[] textLineSpace = new String[]{"2.0", "1.8", "1.6"};  //行间距
                             isContinue = false;
                             if (progressBarView.getVisibility() == View.VISIBLE) {
                                 hideProgress();
+                                web_bg.setVisibility(View.GONE);
                             }
                         }
                     });
