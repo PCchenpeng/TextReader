@@ -13,6 +13,7 @@
         android:textColor="#ffffff"/>
 
     <ImageView
+        android:id="@+id/iv_open"
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_marginLeft="5dp"

@@ -132,5 +132,12 @@
             android:src="@drawable/search_try_talk_play"/>
 
     </RelativeLayout>
-
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_below="@id/view_status"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+    </FrameLayout>
 </com.dace.textreader.view.CustomInsetLayout>

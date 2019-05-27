@@ -34,6 +34,7 @@ import com.dace.textreader.view.LineWrapLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.listener.CoordinatorLayoutListener;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import org.json.JSONException;
@@ -60,6 +61,7 @@ public class SearchAllFragment extends Fragment implements View.OnClickListener 
     private List<SubListBean> authorListBeans = new ArrayList<>();
     private List<SubListBean> albumListBeans = new ArrayList<>();
     private List<SubListBean> articleListBeans = new ArrayList<>();
+    private List<LinearLayout> typeLayouts = new ArrayList<>();
 //    private SearchResultActivity searchResultActivity;
     private boolean isAuthor;
     private int pageNo = 1;
@@ -147,6 +149,11 @@ public class SearchAllFragment extends Fragment implements View.OnClickListener 
         refreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableLoadMore(false);
+
+        typeLayouts.add(ll_words);
+        typeLayouts.add(ll_author);
+        typeLayouts.add(ll_album);
+        typeLayouts.add(ll_article);
 
         searchAuthorAdapter = new SearchAuthorAdapter(authorListBeans,mContext,false);
         LinearLayoutManager layoutManager_user = new LinearLayoutManager(mContext,
@@ -266,6 +273,13 @@ public class SearchAllFragment extends Fragment implements View.OnClickListener 
             }else if(type == 5){
                 ll_article.setVisibility(View.VISIBLE);
                 searchArticleAdapter.refreshData(mData.getData().getRet_array().get(i).getSubList());
+            }
+        }
+        for (int i = 1;i < typeLayouts.size();i++){
+            if (typeLayouts.get(i - 1).getVisibility() == View.GONE){
+                LinearLayout.LayoutParams layoutParams = ((LinearLayout.LayoutParams)typeLayouts.get(i).getLayoutParams());
+                layoutParams.topMargin  = 0;
+                typeLayouts.get(i).setLayoutParams(layoutParams);
             }
         }
     }

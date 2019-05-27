@@ -11,7 +11,9 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -34,6 +36,7 @@ import com.dace.textreader.App;
 import com.dace.textreader.R;
 import com.dace.textreader.adapter.SearchTestAdapter;
 import com.dace.textreader.bean.HotSearchBean;
+import com.dace.textreader.bean.PayResult;
 import com.dace.textreader.bean.SearchResultBean;
 import com.dace.textreader.bean.TestSearchBean;
 import com.dace.textreader.util.AnimationUtil;
@@ -54,6 +57,7 @@ import com.iflytek.cloud.SpeechError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -97,9 +101,6 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         speechRecognizerUtil = SpeechRecognizerUtil.getInstance();
         speechRecognizerUtil.init(this, mInitListener);
 
-        checkUserPermission();
-
-
 
         initView();
         initData();
@@ -120,7 +121,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
             }
         },300);//设置300毫秒的时长
-
+        mHandler.sendEmptyMessageDelayed(1,1000);
     }
 
     private void initView() {
@@ -289,6 +290,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (ContextCompat.checkSelfPermission(NewSearchActivity.this, Manifest.permission.RECORD_AUDIO)
                                     != PackageManager.PERMISSION_GRANTED) {
+                                hideKeyBoard();
                                 requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
                                         REQUEST_RECORD_AUDIO_PERMISSION_CODE);
                             } else {
@@ -314,6 +316,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (ContextCompat.checkSelfPermission(NewSearchActivity.this, Manifest.permission.RECORD_AUDIO)
                                     != PackageManager.PERMISSION_GRANTED) {
+                                hideKeyBoard();
                                 requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
                                         REQUEST_RECORD_AUDIO_PERMISSION_CODE);
                             } else {
@@ -344,12 +347,17 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                     != PackageManager.PERMISSION_GRANTED) {
+                hideKeyBoard();
                 requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
                         REQUEST_RECORD_AUDIO_PERMISSION_CODE);
             }
         }
     }
 
+    private void hideKeyBoard(){
+        InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputmanger.hideSoftInputFromWindow(et_search.getWindowToken(),0);
+    }
 
     /**
      * 显示或隐藏软键盘操作栏
@@ -720,5 +728,18 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
          super.onDestroy();
          resh.handler.removeCallbacks(resh.runnable);
      }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    checkUserPermission();
+                    break;
+            }
+        }
+    };
 
 }

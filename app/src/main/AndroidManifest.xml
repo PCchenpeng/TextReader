@@ -612,7 +612,7 @@
             android:name=".activity.HomeAudioDetailActivity"
             android:hardwareAccelerated="false"
             android:launchMode="singleTop"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensorPortrait"
             android:configChanges="orientation|screenSize"
             android:theme="@style/HomeAudioTheme">
         </activity>

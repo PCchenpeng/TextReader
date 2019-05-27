@@ -8,9 +8,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         >
+
         <ImageView
             android:id="@+id/iv_author"
             android:layout_width="50dp"

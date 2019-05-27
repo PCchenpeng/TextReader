@@ -1385,6 +1385,7 @@ public class BaseActivity extends AppCompatActivity {
 
         ImageView imageView = view.findViewById(R.id.iv_state);
         if (isGif) {
+            view.setPadding(0,0,0,0);//暂时兼容绘本
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
             layoutParams.width = DensityUtil.dip2px(this,110);
             layoutParams.height = DensityUtil.dip2px(this,110);

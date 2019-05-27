@@ -176,8 +176,8 @@ public class MemberCentreActivity extends BaseActivity {
         mContext = this;
 
         //修改状态栏的文字颜色为黑色
-        int flag = StatusBarUtil.StatusBarLightMode(mContext);
-        StatusBarUtil.StatusBarLightMode(mContext, flag);
+//        int flag = StatusBarUtil.StatusBarLightMode(mContext);
+//        StatusBarUtil.StatusBarLightMode(mContext, flag);
 
         cardId = getIntent().getStringExtra("id");
         oldCardId = getIntent().getStringExtra("id");

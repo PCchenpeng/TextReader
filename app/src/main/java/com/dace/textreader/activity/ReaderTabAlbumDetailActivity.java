@@ -146,7 +146,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
     private void loadDetailData() {
         JSONObject params = new JSONObject();
         try {
-            String sign = DataEncryption.encode(System.currentTimeMillis() + "","Z25pYW5l");
+//            String sign = DataEncryption.encode(System.currentTimeMillis() + "","Z25pYW5l");
             params.put("studentId",PreferencesUtil.getData(this,"studentId","-1"));
             params.put("gradeId",PreferencesUtil.getData(this,"gradeId","-1"));
             params.put("isShare","0");
@@ -155,7 +155,7 @@ public class ReaderTabAlbumDetailActivity extends BaseActivity implements View.O
             params.put("width",DensityUtil.getScreenWidth(this));
             params.put("height",DensityUtil.getScreenWidth(this)*2/3);
 
-            Log.d("111","sign " + sign);
+//            Log.d("111","sign " + sign);
         } catch (JSONException e) {
             e.printStackTrace();
         }

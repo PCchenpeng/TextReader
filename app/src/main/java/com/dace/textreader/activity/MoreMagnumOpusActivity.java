@@ -65,7 +65,7 @@ public class MoreMagnumOpusActivity extends BaseActivity  implements PullListene
     private void initEvents() {
         authorId = getIntent().getStringExtra("authorId");
         author = getIntent().getStringExtra("author");
-        tv_title.setText(author);
+        tv_title.setText("作者作品");
         moreAuthorWorksAdapter = new MoreAuthorWorksAdapter(this, worksList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);

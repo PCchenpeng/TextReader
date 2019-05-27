@@ -92,7 +92,7 @@ public class HomeLevelFragment extends BaseFragment implements PullListener {
                     @Override
                     public void onReqSuccess(Object result) {
                         framelayout.setVisibility(View.GONE);
-
+                        Log.d("111","result.toString() " + result.toString());
                         ReaderLevelBean readerLevelBean = GsonUtil.GsonToBean(result.toString(),ReaderLevelBean.class);
                         if (readerLevelBean.getStatus() == 200) {
                             List<ReaderLevelBean.DataBean.ArticleListBean> data = readerLevelBean.getData().getArticleList();
@@ -130,7 +130,6 @@ public class HomeLevelFragment extends BaseFragment implements PullListener {
 
                     @Override
                     public void onReqFailed(String errorMsg) {
-                        framelayout.setVisibility(View.GONE);
                         showNetFailView(framelayout, new OnButtonClick() {
                             @Override
                             public void onButtonClick() {
@@ -222,6 +221,13 @@ public class HomeLevelFragment extends BaseFragment implements PullListener {
 
                     @Override
                     public void onReqFailed(String errorMsg) {
+                        showNetFailView(framelayout, new OnButtonClick() {
+                            @Override
+                            public void onButtonClick() {
+                                framelayout.setVisibility(View.GONE);
+                                mRecycleView.onRefresh();
+                            }
+                        });
                         mRecycleView.onPullComplete();
                     }
                 });

@@ -205,7 +205,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:paddingTop="20dp"
-                        android:textColor="@color/colorTextImportant"
+                        android:textColor="@color/color_4D72FF"
                         android:textSize="17sp"
                         android:textStyle="bold"/>
 

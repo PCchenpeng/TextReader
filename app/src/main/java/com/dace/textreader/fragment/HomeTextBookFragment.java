@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.dace.textreader.R;
@@ -99,6 +100,9 @@ public class HomeTextBookFragment extends BaseFragment{
 
     private boolean refreshing = false;
     private boolean isEnd = false;
+    private GridLayoutManager layoutManager;
+
+    private FrameLayout framelayout;
 
     @Nullable
     @Override
@@ -299,6 +303,7 @@ public class HomeTextBookFragment extends BaseFragment{
 
     private void initView() {
         scrollView = view.findViewById(R.id.nested_scroll_read_text_book_fragment);
+        framelayout = view.findViewById(R.id.framelayout);
 //        ll_search = view.findViewById(R.id.ll_search_read_text_book_fragment);
         ll_knowledge = view.findViewById(R.id.ll_knowledge_read_text_book_fragment);
         recyclerView_knowledge = view.findViewById(R.id.rv_knowledge_read_text_book_fragment);
@@ -317,7 +322,7 @@ public class HomeTextBookFragment extends BaseFragment{
 
         recyclerView = view.findViewById(R.id.rv_read_text_book_fragment);
         recyclerView.setNestedScrollingEnabled(false);
-        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
+        layoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ClassesArticleAdapter(mContext, mList);
         recyclerView.setAdapter(adapter);
@@ -351,6 +356,7 @@ public class HomeTextBookFragment extends BaseFragment{
                             List<ClassBean.DataBean> data = classBean.getData();
                             mList.addAll(data);
                             adapter.notifyDataSetChanged();
+                            layoutManager.scrollToPositionWithOffset(0,0);
                             refreshing = false;
                         }
 
@@ -358,7 +364,13 @@ public class HomeTextBookFragment extends BaseFragment{
 
     @Override
     public void onReqFailed(String errorMsg) {
-
+        showNetFailView(framelayout, new OnButtonClick() {
+            @Override
+            public void onButtonClick() {
+                framelayout.setVisibility(View.GONE);
+                loadClassData();
+            }
+        });
     }
 });
         }

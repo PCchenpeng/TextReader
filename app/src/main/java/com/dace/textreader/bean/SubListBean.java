@@ -43,7 +43,7 @@ public class SubListBean implements Parcelable {
         dest.writeString(update_time);
         dest.writeLong(_version_);
         dest.writeString(source_image);
-        dest.writeInt(sort_num);
+        dest.writeString(sort_num);
         dest.writeInt(score_py);
         dest.writeString(id);
         dest.writeString(category);
@@ -68,7 +68,7 @@ public class SubListBean implements Parcelable {
             subListBean.update_time = in.readString();
             subListBean._version_ = in.readLong();
             subListBean.source_image = in.readString();
-            subListBean.sort_num = in.readInt();
+            subListBean.sort_num = in.readString();
             subListBean.score_py = in.readInt();
             subListBean.id = in.readString();
             subListBean.category = in.readString();
@@ -99,7 +99,7 @@ public class SubListBean implements Parcelable {
     private String update_time;
     private long _version_;
     private String source_image;
-    private int sort_num;
+    private String sort_num;
     private int score_py;
     private String id;
     private String category;
@@ -205,11 +205,11 @@ public class SubListBean implements Parcelable {
         this.source_image = source_image;
     }
 
-    public int getSort_num() {
+    public String getSort_num() {
         return sort_num;
     }
 
-    public void setSort_num(int sort_num) {
+    public void setSort_num(String sort_num) {
         this.sort_num = sort_num;
     }
 

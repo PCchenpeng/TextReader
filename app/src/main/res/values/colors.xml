@@ -42,7 +42,7 @@
     <!--新版客户端界面-->
 
     <!--ToolBar背景颜色-->
-    <color name="colorSystemStatusBarBg">#ffffff</color>
+    <color name="colorSystemStatusBarBg">#4D72FF</color>
     <color name="colorToolBarBg">#ffffff</color>
     <color name="colorToolBarTextColor">#330000</color>
 

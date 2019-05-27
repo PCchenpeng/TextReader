@@ -351,7 +351,7 @@ public class AuthorDetailActivity extends BaseActivity implements View.OnClickLi
                 if(dataBeans != null)
                 worksList.addAll(dataBeans);
                 authorWorksAdapter.notifyDataSetChanged();
-                if (dataBeans.size() == 0){
+                if (authorWorksBean.getStatus() == 400){
                     rl_magnumopus.setVisibility(View.GONE);
                 }
             }

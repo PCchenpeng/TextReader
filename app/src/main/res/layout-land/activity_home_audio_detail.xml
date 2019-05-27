@@ -111,7 +111,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
             android:layout_toLeftOf="@id/iv_fullscreen"
             android:text="/30"
             android:textColor="#ffffff"
@@ -127,6 +128,15 @@
             android:layout_marginBottom="5dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/picbook_icon_fullscreen_lan"/>
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/seek_bar"
+            android:layout_toRightOf="@id/iv_playpause"
+            android:layout_toLeftOf="@id/tv_totalNum"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <FrameLayout
         android:id="@+id/frame_layout_home_audio"

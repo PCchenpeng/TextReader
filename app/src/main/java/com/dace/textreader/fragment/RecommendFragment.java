@@ -1,11 +1,15 @@
 package com.dace.textreader.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +26,7 @@ import com.dace.textreader.activity.NewMainActivity;
 import com.dace.textreader.activity.NewSearchActivity;
 import com.dace.textreader.adapter.HomeRecommendAdapter;
 import com.dace.textreader.bean.MessageEvent;
+import com.dace.textreader.bean.PayResult;
 import com.dace.textreader.bean.RecommendBean;
 import com.dace.textreader.bean.SearchTipsBean;
 import com.dace.textreader.util.DataUtil;
@@ -40,6 +45,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -210,6 +216,7 @@ public class RecommendFragment extends BaseFragment implements PullListener {
                         SearchTipsBean searchTipsBean = GsonUtil.GsonToBean(result.toString(),SearchTipsBean.class);
                         if(searchTipsBean != null && searchTipsBean.getData() != null && searchTipsBean.getData().size() != 0){
                             App.tips = searchTipsBean.getData().get(0).getTip();
+                            Log.d("111","App.tips " + App.tips);
                             mHomeRecommendAdapter.setTips(App.tips);
                         }
 
@@ -392,6 +399,5 @@ public class RecommendFragment extends BaseFragment implements PullListener {
 //    public void setOnSearchMissListener(OnSearchMissListener onSearchMissListener){
 //        this.onSearchMissListener = onSearchMissListener;
 //    }
-
 
 }

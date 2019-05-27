@@ -428,6 +428,6 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setTips(String tips) {
         this.tips = tips;
-        notifyItemChanged(0);
+        notifyItemRangeChanged(0,getItemCount());
     }
 }

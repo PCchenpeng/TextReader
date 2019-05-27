@@ -65,7 +65,13 @@ public class MoreAuthorWorksAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             if(video != null){
                 ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
                 ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_video);
-                ((ItemHolder) viewHolder).tv_py.setText(mData.get(i).getScore()+"PY");
+                int score = mData.get(i).getScore();
+                if(score == 0){
+                    ((ItemHolder) viewHolder).tv_py.setVisibility(View.GONE);
+                }else {
+                    ((ItemHolder) viewHolder).tv_py.setVisibility(View.VISIBLE);
+                    ((ItemHolder) viewHolder).tv_py.setText(String.valueOf(score)+"PY");
+                }
 
                 ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -77,8 +83,13 @@ public class MoreAuthorWorksAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }else {
                 ((ItemHolder) viewHolder).iv_type.setVisibility(View.VISIBLE);
                 ((ItemHolder) viewHolder).iv_type.setImageResource(R.drawable.article_icon_music);
-                ((ItemHolder) viewHolder).tv_py.setText(mData.get(i).getScore()+"PY");
-//                        final String py = String.valueOf(mData.get(i).getScore());
+                int score = mData.get(i).getScore();
+                if(score == 0){
+                    ((ItemHolder) viewHolder).tv_py.setVisibility(View.GONE);
+                }else {
+                    ((ItemHolder) viewHolder).tv_py.setVisibility(View.VISIBLE);
+                    ((ItemHolder) viewHolder).tv_py.setText(String.valueOf(score)+"PY");
+                }
 
                 ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -92,7 +103,13 @@ public class MoreAuthorWorksAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         }else {
             ((ItemHolder) viewHolder).iv_type.setVisibility(View.GONE);
-            ((ItemHolder) viewHolder).tv_py.setText(mData.get(i).getScore()+"PY");
+            int score = mData.get(i).getScore();
+            if(score == 0){
+                ((ItemHolder) viewHolder).tv_py.setVisibility(View.GONE);
+            }else {
+                ((ItemHolder) viewHolder).tv_py.setVisibility(View.VISIBLE);
+                ((ItemHolder) viewHolder).tv_py.setText(String.valueOf(score)+"PY");
+            }
             ((ItemHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

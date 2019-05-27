@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -95,6 +96,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     private ImageView iv_playpause_small;
 
     private WaveLineView waveLineView;
+    private FrameLayout framelayout;
 
     // 语音听写对象
     private SpeechRecognizerUtil speechRecognizerUtil;
@@ -131,6 +133,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
         waveLineView = findViewById(R.id.waveLineView);
         tabLayout.setChangeTextSize(false);
         viewPager = findViewById(R.id.viewpager_search_result);
+        framelayout = findViewById(R.id.framelayout);
         fragmentManager = getSupportFragmentManager();
 
 //        waveView_simple.setStyle(Paint.Style.FILL);
@@ -176,6 +179,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void searchResult(final String searchWord) {
+        showLoadingView(framelayout);
         JSONObject params = new JSONObject();
         try {
             params.put("query",searchWord);
@@ -193,6 +197,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
                 SearchResultBean searchResultBean = GsonUtil.GsonToBean(result.toString(),SearchResultBean.class);
                 if(searchResultBean != null){
                     if(searchResultBean.getStatus() == 200){
+                        framelayout.setVisibility(View.GONE);
                         String ret_type = searchResultBean.getData().getRet_type();
                         if(ret_type.equals("vague")){
                             ll_vague.setVisibility(View.VISIBLE);
@@ -261,7 +266,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
                         }
 
                     }else if(searchResultBean.getStatus() == 400){
-
+                        showEmptyView(framelayout);
                     }
                 }
 
@@ -269,7 +274,13 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onReqFailed(String errorMsg) {
-
+                showNetFailView(framelayout, new OnButtonClick() {
+                    @Override
+                    public void onButtonClick() {
+                        framelayout.setVisibility(View.GONE);
+                        searchResult(searchWord);
+                    }
+                });
             }
         });
 

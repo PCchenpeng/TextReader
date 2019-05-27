@@ -11,13 +11,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="145dp">
+        android:layout_height="120dp">
 
         <ImageView
             android:id="@+id/iv_background_classes_article_item"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/shape_white_bg"/>
+            />
 
         <TextView
             android:visibility="gone"
@@ -40,11 +41,12 @@
         android:id="@+id/tv_title_classes_article_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_classes_article_bg"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:ellipsize="end"
-        android:gravity="center"
         android:maxLines="2"
-        android:paddingLeft="2dp"
+        android:paddingLeft="10dp"
         android:paddingRight="2dp"
         android:textColor="@color/colorTextImportant"
         android:textSize="15sp"

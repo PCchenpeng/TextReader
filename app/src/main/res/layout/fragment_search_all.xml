@@ -16,12 +16,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/ll_words"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="25dp"
+                android:paddingBottom="15dp"
                 android:background="@color/colorWhite"
                 android:orientation="vertical">
                 <RelativeLayout
@@ -56,11 +57,14 @@
             </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_author"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="25dp"
+            android:paddingBottom="15dp"
             android:layout_marginTop="10dp"
             android:background="@color/colorWhite"
             android:orientation="vertical">
@@ -88,7 +92,7 @@
             </RelativeLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcl_author"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -100,7 +104,10 @@
                 android:id="@+id/ll_album"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="25dp"
+                android:paddingBottom="15dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorWhite"
                 android:orientation="vertical">
@@ -140,7 +147,10 @@
                 android:id="@+id/ll_article"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="25dp"
+                android:paddingBottom="15dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorWhite"
                 android:orientation="vertical">
@@ -167,7 +177,7 @@
                         android:layout_alignParentRight="true"/>
                 </RelativeLayout>
                 <android.support.v7.widget.RecyclerView
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:id="@+id/rcl_article"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

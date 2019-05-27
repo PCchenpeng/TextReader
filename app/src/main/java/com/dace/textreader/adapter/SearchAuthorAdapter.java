@@ -15,9 +15,8 @@ import android.widget.Toast;
 import com.dace.textreader.R;
 import com.dace.textreader.activity.AuthorDetailActivity;
 import com.dace.textreader.activity.NewMainActivity;
+import com.dace.textreader.activity.UserHomepageActivity;
 import com.dace.textreader.bean.FollowBean;
-import com.dace.textreader.bean.SearchItemBean;
-import com.dace.textreader.bean.SearchResultBean;
 import com.dace.textreader.bean.SubListBean;
 import com.dace.textreader.util.GlideUtils;
 import com.dace.textreader.util.GsonUtil;
@@ -60,24 +59,66 @@ public class SearchAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ((ItemHolder)viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,AuthorDetailActivity.class);
-                intent.putExtra("authorId",authorId);
-                intent.putExtra("author",mData.get(i).getAuthor());
+                Intent intent;
+                if (mData.get(i).getSort_num().equals("2")) {//创作者
+                    intent = new Intent(mContext, UserHomepageActivity.class);
+                    intent.putExtra("userId", Long.parseLong(authorId));
+                } else {
+                    intent = new Intent(mContext, AuthorDetailActivity.class);
+                    intent.putExtra("authorId", authorId);
+                    intent.putExtra("author", mData.get(i).getAuthor());
+                }
                 mContext.startActivity(intent);
             }
         });
         ((ItemHolder)viewHolder).rl_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!mData.get(i).isFollow()){
+
+                if (mData.get(i).getSort_num().equals("2")) {//创作者
+                    followUser(((ItemHolder)viewHolder).rl_follow,((ItemHolder)viewHolder).tv_follow,((ItemHolder)viewHolder).iv_follow,i);
+                } else {
+                    //                if (!mData.get(i).isFollow()){
                     follow(((ItemHolder)viewHolder).rl_follow,((ItemHolder)viewHolder).tv_follow,((ItemHolder)viewHolder).iv_follow,i);
 //                } else {
 //                    unfollow(((ItemHolder)viewHolder).rl_follow,((ItemHolder)viewHolder).tv_follow,((ItemHolder)viewHolder).iv_follow,i);
 //                }
+                }
             }
         });
     }
 
+    public void followUser(final RelativeLayout rl_follow, final TextView tv_follow, final ImageView iv_follow, final int position){
+        JSONObject params = new JSONObject();
+        try {
+            params.put("followingId",String.valueOf(mData.get(position).getIndex_id()));
+            params.put("followerId",NewMainActivity.STUDENT_ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpManager.getInstance(mContext).requestAsyn(HttpUrlPre.HTTP_URL + "/followRelation/setup", OkHttpManager.TYPE_POST_JSON, params, new OkHttpManager.ReqCallBack<Object>() {
+            @Override
+            public void onReqSuccess(Object result) {
+                FollowBean followBean = GsonUtil.GsonToBean(result.toString(),FollowBean.class);
+                if (followBean.getStatus() == 600){//已经关注过
+//                    rl_follow.setSelected(true);
+//                    iv_follow.setVisibility(View.GONE);
+//                    tv_follow.setText("已关注");
+//                    mData.get(position).setFollow(true);
+                    Toast.makeText(mContext,followBean.getMsg(),Toast.LENGTH_SHORT).show();
+                } else if (followBean.getStatus() == 200){
+                    mData.get(position).setFollow(true);
+                    rl_follow.setSelected(true);
+                    iv_follow.setVisibility(View.GONE);
+                    tv_follow.setText("已关注");
+                }
+            }
+
+            @Override
+            public void onReqFailed(String errorMsg) {
+            }
+        });
+    }
 
     public void follow(final RelativeLayout rl_follow, final TextView tv_follow, final ImageView iv_follow, final int position){
         JSONObject params = new JSONObject();

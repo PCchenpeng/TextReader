@@ -90,7 +90,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     private AudioFocusManager mAudioFocusManager;
 
     private AlbumView album_view;
-    private ImageView iv_back,iv_share,iv_playpause,iv_collect,iv_fullscreen;
+    private ImageView iv_back,iv_share,iv_playpause,iv_collect,iv_fullscreen,iv_back_land,iv_share_land,iv_collect_land;
     private TextView tv_currNum,tv_totalNum;
     private FrameLayout frameLayout;
     private int lastIndex = -1;
@@ -110,8 +110,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     private boolean hasRender = false;
 
-//    private boolean isPortrait = true;
-    private boolean isPortrait = false;
+    private boolean isPortrait = true;
+//    private boolean isPortrait = false;
 
     private Thread musicThread;
 
@@ -163,6 +163,13 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         loadData(essayId);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (album_view != null){
+            currentIndex = album_view.getCurrentIndex();
+        }
+    }
 
     @Override
 
@@ -172,42 +179,32 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
         setContentView(R.layout.activity_home_audio_detail);
 
+
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            showLoadingView(frameLayout);
+            isPortrait = false;
+        }else{
+            //目前加载一次
+            isPortrait = true;
+        }
+
         //注意，这里删除了init()，否则又初始化了，状态就丢失
 
         initView();
         hasRender =false;
         tv_currNum.setText(String.valueOf(currentIndex+1));
+        seekBar.setProgress(currentIndex);
+        if (isPortrait){
+            tv_currNum_land.setText(String.valueOf(currentIndex+1));
+        }
         initAlbumView(currentIndex);
 
         if(isCollected){
             if(isPortrait){
-                if(isPortrait){
-                    iv_collect.setImageResource(R.drawable.picbook_icon_collect_selected);
-                }else {
-                    iv_collect.setImageResource(R.drawable.icon_bg_collect_select);
-                }
+                iv_collect.setImageResource(R.drawable.picbook_icon_collect_selected);
+            }else {
+                iv_collect.setImageResource(R.drawable.icon_bg_collect_select);
             }
-        }
-
-        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
-
-        }else{
-            //目前加载一次
-            isPortrait = true;
-            iv_playpause_land = findViewById(R.id.iv_playpause_land);
-            iv_fullscreen_land = findViewById(R.id.iv_fullscreen_land);
-            rl_bottom_land = findViewById(R.id.rl_bottom_land);
-            tv_currNum_land = findViewById(R.id.tv_currNum_land);
-            tv_totalNum_land = findViewById(R.id.tv_totalNum_land);
-            rl_top_land = findViewById(R.id.rl_top_land);
-            seekBar = findViewById(R.id.seek_bar);
-            iv_playpause_land.setOnClickListener(this);
-            iv_fullscreen_land.setOnClickListener(this);
-            seekBar.getThumb().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);//设置滑块颜色、样式
-
-            seekBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);//设置进度条颜色、样式
-
-            iv_playpause_land.setImageResource(R.drawable.video_icon_pause);
         }
 
     }
@@ -233,6 +230,36 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         rl_bottom = findViewById(R.id.rl_bottom);
         rl_top = findViewById(R.id.rl_top);
         rl_picture_book = findViewById(R.id.rl_picture_book);
+        seekBar = findViewById(R.id.seek_bar);
+        seekBar.getThumb().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);//设置滑块颜色、样式
+
+        seekBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);//设置进度条颜色、样式
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    int currentPosition = progress;
+                    Log.d("111", "currentPosition  " + currentPosition);
+                    album_view.setCurrentIndex(currentPosition);
+                    currentIndex = album_view.getCurrentIndex();
+                    tv_currNum.setText(String.valueOf(currentIndex+1));
+                    mPlayer.seekTo(mData.getData().getEssay().getContentList().get(currentIndex).getSecond()*1000);
+                    if (isPortrait){
+                        tv_currNum_land.setText(String.valueOf(currentIndex+1));
+                    }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         iv_back.setOnClickListener(this);
         iv_share.setOnClickListener(this);
@@ -243,18 +270,32 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             lastIndex = (Integer) getLastCustomNonConfigurationInstance();
         }
         if(isPortrait){
-//            iv_playpause_land = findViewById(R.id.iv_playpause_land);
-//            iv_fullscreen_land = findViewById(R.id.iv_fullscreen_land);
-//            rl_bottom_land = findViewById(R.id.rl_bottom_land);
-//            tv_currNum_land = findViewById(R.id.tv_currNum_land);
-//            tv_totalNum_land = findViewById(R.id.tv_totalNum_land);
-//            rl_top_land = findViewById(R.id.rl_top_land);
-//            seekBar = findViewById(R.id.seek_bar);
-//            iv_playpause_land.setOnClickListener(this);
-//            iv_fullscreen_land.setOnClickListener(this);
-//            seekBar.getThumb().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);//设置滑块颜色、样式
-//
-//            seekBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);//设置进度条颜色、样式
+            iv_playpause_land = findViewById(R.id.iv_playpause_land);
+            iv_fullscreen_land = findViewById(R.id.iv_fullscreen_land);
+            rl_bottom_land = findViewById(R.id.rl_bottom_land);
+            tv_currNum_land = findViewById(R.id.tv_currNum_land);
+            tv_totalNum_land = findViewById(R.id.tv_totalNum_land);
+            rl_top_land = findViewById(R.id.rl_top_land);
+            iv_back_land = findViewById(R.id.iv_back_land);
+            iv_share_land = findViewById(R.id.iv_share_land);
+            iv_collect_land = findViewById(R.id.iv_collect_land);
+            iv_back_land.setOnClickListener(this);
+            iv_share_land.setOnClickListener(this);
+            iv_collect_land.setOnClickListener(this);
+            iv_playpause_land.setOnClickListener(this);
+            iv_fullscreen_land.setOnClickListener(this);
+
+
+            iv_playpause_land.setImageResource(R.drawable.video_icon_pause);
+
+            if(isCollected){
+                iv_collect.setImageResource(R.drawable.picbook_icon_collect_selected);
+                if(isPortrait){
+                    iv_collect_land.setImageResource(R.drawable.icon_bg_collect_select);
+                }else {
+                    iv_collect.setImageResource(R.drawable.icon_bg_collect_select);
+                }
+            }
 
         }
     }
@@ -267,10 +308,10 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             params.put("gradeId", NewMainActivity.GRADE_ID);
             params.put("width", 420);
             params.put("height", 750);
-            params.put("essayId",essayId);
+            params.put("essayId",DataEncryption.encode(essayId));
             params.put("isShare",0);
             params.put("py",pyNum);
-            params.put("sign",DataEncryption.encode(String.valueOf(System.currentTimeMillis()),"Z25pYW5l"));
+//            params.put("sign",DataEncryption.encode(String.valueOf(System.currentTimeMillis()),"Z25pYW5l"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -292,6 +333,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.iv_back_land:
             case R.id.iv_back:
 //                if(isPortrait){
                     this.finish();
@@ -302,6 +344,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 //                }
 
                 break;
+            case R.id.iv_share_land:
             case R.id.iv_share:
                 if(isDataComplete){
                     shareNote();
@@ -310,7 +353,12 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 }
 
                 break;
+            case R.id.iv_collect_land:
             case R.id.iv_collect:
+                if(!isLogin()){
+                    toLogin();
+                    return;
+                }
                 if(isDataComplete){
                     if(isCollected)
                         deleteCollect();
@@ -533,11 +581,9 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         if(isCollected){
             iv_collect.setImageResource(R.drawable.picbook_icon_collect_selected);
             if(isPortrait){
-                if(isPortrait){
-
-                }else {
-                    iv_collect.setImageResource(R.drawable.icon_bg_collect_select);
-                }
+                iv_collect_land.setImageResource(R.drawable.icon_bg_collect_select);
+            }else {
+                iv_collect.setImageResource(R.drawable.icon_bg_collect_select);
             }
         }
 
@@ -561,14 +607,14 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 //        imageList = new ArrayList<>();
         String lastUrl = mData.getData().getEssay().getContentList().get(size-1).getPic();
         new DownloadImgTask().execute(lastUrl,String.valueOf(size-1),String.valueOf(size));
-        String firstUrl = mData.getData().getEssay().getContentList().get(0).getPic();
-        new DownloadImgTask().execute(firstUrl,String.valueOf(0),String.valueOf(size));
-        String secondUrl = mData.getData().getEssay().getContentList().get(1).getPic();
-        new DownloadImgTask().execute(secondUrl,String.valueOf(1),String.valueOf(size));
-        for (int i = 2; i < size-1;i++){
-            String url = mData.getData().getEssay().getContentList().get(i).getPic();
-                new DownloadImgTask().execute(url,String.valueOf(i),String.valueOf(size));
-        }
+//        String firstUrl = mData.getData().getEssay().getContentList().get(0).getPic();
+//        new DownloadImgTask().execute(firstUrl,String.valueOf(0),String.valueOf(size));
+//        String secondUrl = mData.getData().getEssay().getContentList().get(1).getPic();
+//        new DownloadImgTask().execute(secondUrl,String.valueOf(1),String.valueOf(size));
+//        for (int i = 2; i < size-1;i++){
+//            String url = mData.getData().getEssay().getContentList().get(i).getPic();
+//                new DownloadImgTask().execute(url,String.valueOf(i),String.valueOf(size));
+//        }
     }
 
     private void initAlbumView(int currentIndex) {
@@ -603,11 +649,10 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         }
 
         albumSize = splitBitmap.size();
-
+        seekBar.setMax(albumSize/2-1);
         if(isPortrait){
             tv_totalNum.setText("/"+String.valueOf(albumSize/2));
             tv_totalNum_land.setText(String.valueOf(albumSize/2));
-            seekBar.setMax(albumSize/2-1);
         }else {
             tv_totalNum.setText(String.valueOf(albumSize/2));
         }
@@ -627,10 +672,11 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             album_view.setOnPageEndListener(new AlbumView.PageEndListener() {
                 @Override
                 public void onPageEnd(int currentIndex) {
+                    currentIndex = album_view.getCurrentIndex();
                     isOnPageScroll = false;
                     tv_currNum.setText(String.valueOf(currentIndex+1));
+                    seekBar.setProgress(currentIndex);
                     if (isPortrait){
-                        seekBar.setProgress(currentIndex);
                         tv_currNum_land.setText(String.valueOf(currentIndex+1));
                     }
                     if(currentIndex == 0){
@@ -727,6 +773,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 //            imageList.add(bitmap);
 //            imageList.add(imageBean.index,imageBean.bitmap);
             imageArray[imageBean.index] = BitmapCompressUtils.compressMatrix(imageBean.bitmap);
+//            imageArray[imageBean.index] = imageBean.bitmap;
 
 //            if(imageList.size() == imageBean.size && imageList.get(0)!= null){
 //                initAlbumView(imageList);
@@ -737,10 +784,11 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 bitmipHeight = imageArray[imageBean.size -1].getHeight();
                 if(bitmipHeight > bitmipWidth){
                     islandspaceBitmap = true;
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }else {
                     islandspaceBitmap = false;
                     isPortrait = false;
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 }
 //                int width = DensityUtil.getScreenWidth(HomeAudioDetailActivity.this);
 //                int height = (int)((float)bitmipHeight/bitmipWidth * width);
@@ -935,6 +983,9 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                             Log.e("HomeAudioDetailActivity", "currentindex=" + String.valueOf(album_view.getCurrentIndex()));
                             album_view.setCurrentIndex(i + 1);
                             tv_currNum.setText(String.valueOf(i + 2));
+                            if (tv_currNum_land != null){
+                                tv_currNum_land.setText(String.valueOf(i + 2));
+                            }
                             if (isPortrait) {
                                 seekBar.setProgress(i + 1);
                             }
@@ -972,6 +1023,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                         isCollected = true;
                         if(isPortrait){
                             iv_collect.setImageResource(R.drawable.picbook_icon_collect_selected);
+                            iv_collect_land.setImageResource(R.drawable.icon_bg_collect_select);
                         }else {
                             iv_collect.setImageResource(R.drawable.icon_bg_collect_select);
                         }
@@ -1011,6 +1063,7 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                         isCollected = false;
                         if(isPortrait){
                             iv_collect.setImageResource(R.drawable.picbook_icon_collect);
+                            iv_collect_land.setImageResource(R.drawable.icon_bg_collect_default);
                         }else {
                             iv_collect.setImageResource(R.drawable.icon_bg_collect_default);
                         }

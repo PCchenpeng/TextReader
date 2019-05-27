@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dace.textreader.R;
 import com.dace.textreader.bean.ClassBean;
 import com.dace.textreader.util.GlideRoundImage;
+import com.dace.textreader.util.GlideRoundedCornersTransform;
 
 import java.util.List;
 
@@ -71,7 +72,8 @@ public class ClassesArticleAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     .placeholder(R.drawable.image_placeholder_square)
                     .error(R.drawable.image_placeholder_square)
                     .centerCrop()
-                    .transform(new GlideRoundImage(mContext, 8));
+                    .transform(new GlideRoundedCornersTransform(mContext,8,
+                            GlideRoundedCornersTransform.CornerType.TOP));
             Glide.with(mContext)
                     .load(url)
                     .apply(options)
