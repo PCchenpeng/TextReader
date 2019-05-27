@@ -69,9 +69,9 @@ public class BitmapCompressUtils {
     /**
      * 放缩法压缩
      */
-    public static Bitmap compressMatrix(Bitmap bitmap) {
+    public static Bitmap compressMatrix(Bitmap bitmap,float sx,float sy) {
         Matrix matrix = new Matrix();
-        matrix.setScale(0.4f, 0.4f);
+        matrix.setScale(sx, sy);
         Bitmap mSrcBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         bitmap = null;
         return mSrcBitmap;

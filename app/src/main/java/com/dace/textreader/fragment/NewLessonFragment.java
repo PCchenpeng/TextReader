@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.dace.textreader.R;
 import com.dace.textreader.activity.MicroLessonActivity;
+import com.dace.textreader.activity.NewMainActivity;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.WeakAsyncTask;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -80,8 +82,11 @@ public class NewLessonFragment extends Fragment {
         });
     }
 
+//    private void initData() {
+//        webView.loadUrl("file:///android_asset/html/microClass.html");
+//    }
     private void initData() {
-        webView.loadUrl("file:///android_asset/html/microClass.html");
+        webView.loadUrl(PreferencesUtil.getData(getContext(),"course_list_url","https://web.pythe.cn/microClasshtml5/microClass.html") + "?studentId=" + NewMainActivity.STUDENT_ID);
     }
 
     private void initView() {

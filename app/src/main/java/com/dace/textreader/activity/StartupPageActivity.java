@@ -161,8 +161,13 @@ public class StartupPageActivity extends AppCompatActivity {
                         HtmlLinkBean htmlLinkBean = GsonUtil.GsonToBean(result.toString(),HtmlLinkBean.class);
                         List<HtmlLinkBean.DataBean> data = htmlLinkBean.getData();
                         for(int i= 0;i<data.size();i++){
-                            if(data.get(i).getName()!=null && data.get(i).getName().equals("articleDetail"))
-                                PreferencesUtil.saveData(StartupPageActivity.this,"article_detail_url",data.get(i).getUrl());
+                            if(data.get(i).getName()!=null && data.get(i).getName().equals("articleDetail")) {
+                                PreferencesUtil.saveData(StartupPageActivity.this, "article_detail_url", data.get(i).getUrl());
+                            } else if (data.get(i).getName()!=null && data.get(i).getName().equals("courseList")){
+                                PreferencesUtil.saveData(StartupPageActivity.this, "course_list_url", data.get(i).getUrl());
+                            } else if (data.get(i).getName()!=null && data.get(i).getName().equals("courseBoughtList")){
+                                PreferencesUtil.saveData(StartupPageActivity.this, "course_bought_url", data.get(i).getUrl());
+                            }
                         }
                     }
 

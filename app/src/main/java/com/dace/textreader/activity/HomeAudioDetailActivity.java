@@ -607,14 +607,14 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 //        imageList = new ArrayList<>();
         String lastUrl = mData.getData().getEssay().getContentList().get(size-1).getPic();
         new DownloadImgTask().execute(lastUrl,String.valueOf(size-1),String.valueOf(size));
-//        String firstUrl = mData.getData().getEssay().getContentList().get(0).getPic();
-//        new DownloadImgTask().execute(firstUrl,String.valueOf(0),String.valueOf(size));
-//        String secondUrl = mData.getData().getEssay().getContentList().get(1).getPic();
-//        new DownloadImgTask().execute(secondUrl,String.valueOf(1),String.valueOf(size));
-//        for (int i = 2; i < size-1;i++){
-//            String url = mData.getData().getEssay().getContentList().get(i).getPic();
-//                new DownloadImgTask().execute(url,String.valueOf(i),String.valueOf(size));
-//        }
+        String firstUrl = mData.getData().getEssay().getContentList().get(0).getPic();
+        new DownloadImgTask().execute(firstUrl,String.valueOf(0),String.valueOf(size));
+        String secondUrl = mData.getData().getEssay().getContentList().get(1).getPic();
+        new DownloadImgTask().execute(secondUrl,String.valueOf(1),String.valueOf(size));
+        for (int i = 2; i < size-1;i++){
+            String url = mData.getData().getEssay().getContentList().get(i).getPic();
+                new DownloadImgTask().execute(url,String.valueOf(i),String.valueOf(size));
+        }
     }
 
     private void initAlbumView(int currentIndex) {
@@ -628,7 +628,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 //        }
         for (int i = 0; i < imageArray.length; i++) {
             if (imageArray[i] == null) {
-                List<Bitmap> splitPages = split(BitmapFactory.decodeResource(getResources(), R.drawable.picbook_placeholder), 2, 1);
+//                Log.d("111","BitmapCompressUtils.getBitmapSize(bit); " + BitmapCompressUtils.getBitmapSize(BitmapFactory.decodeResource(getResources(), R.drawable.picbook_placeholder)));
+                List<Bitmap> splitPages = split(BitmapFactory.decodeResource(getResources(), R.drawable.picbook_placeholder), 2, 1);//放在drawable，加载内存会很大
                 if (splitPages.size() == 0){
                     return;
                 }
@@ -641,10 +642,6 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
                 }
                 splitBitmap.add(splitPages.get(0));
                 splitBitmap.add(splitPages.get(1));
-            }
-            if (i == imageArray.length - 1){//加载完成
-                frameLayout.setVisibility(View.GONE);
-                play(audioUrl);
             }
         }
 
@@ -772,8 +769,19 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
             super.onPostExecute(imageBean);
 //            imageList.add(bitmap);
 //            imageList.add(imageBean.index,imageBean.bitmap);
-            imageArray[imageBean.index] = BitmapCompressUtils.compressMatrix(imageBean.bitmap);
-//            imageArray[imageBean.index] = imageBean.bitmap;
+//            imageArray[imageBean.index] = BitmapCompressUtils.compressMatrix(imageBean.bitmap, 0.6f, 0.6f);//压缩
+            while (BitmapCompressUtils.getBitmapSize(imageBean.bitmap) > 4500000){
+                if (BitmapCompressUtils.getBitmapSize(imageBean.bitmap) > 7500000) {
+                    imageBean.bitmap = BitmapCompressUtils.compressMatrix(imageBean.bitmap, 0.6f, 0.6f);//尽量少压缩次数，是否压缩之后，只要满足条件，走相应的压缩流程
+                } else if (BitmapCompressUtils.getBitmapSize(imageBean.bitmap) > 5500000){
+                    imageBean.bitmap = BitmapCompressUtils.compressMatrix(imageBean.bitmap, 0.8f, 0.8f);
+                } else {
+                    imageBean.bitmap = BitmapCompressUtils.compressMatrix(imageBean.bitmap, 0.9f, 0.9f);
+                }
+//                Log.d("111","BitmapCompressUtils.getBitmapSize(bit); " + BitmapCompressUtils.getBitmapSize(imageBean.bitmap));
+            }
+            imageArray[imageBean.index] = imageBean.bitmap;
+
 
 //            if(imageList.size() == imageBean.size && imageList.get(0)!= null){
 //                initAlbumView(imageList);
@@ -796,11 +804,15 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 //                layoutParams.width = width;
 //                layoutParams.height = height;
 //                album_view.setLayoutParams(layoutParams);
-                album_view.setVisibility(View.VISIBLE);
 
                 Log.d("bitmapsize", "width: " + bitmipWidth); //400px
                 Log.d("bitmapsize", "height: " + bitmipHeight); //400px
                 initAlbumView(0);
+            }
+            Log.d("111","imageBean.index " + imageBean.index + "imageArray.length - 1 " + (imageArray.length - 1));
+            if (imageBean.index == imageArray.length - 2){//最后一页，加载完成
+                handler.sendEmptyMessage(1);
+                play(audioUrl);
             }
         }
     }
@@ -809,8 +821,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
 
     public static List<Bitmap> split(Bitmap bitmap, int xPiece, int yPiece) {
         List<Bitmap> pieces = new ArrayList<>(xPiece * yPiece);
-        Log.d("111","BitmapCompressUtils.getBitmapSize(bit); " + BitmapCompressUtils.getBitmapSize(bitmap));
-        if (BitmapCompressUtils.getBitmapSize(bitmap) > 3000000){////可能有一些图片没有压缩成功,内存超过这个数值，不加载
+//        Log.d("111","BitmapCompressUtils.getBitmapSize(bit); " + BitmapCompressUtils.getBitmapSize(bitmap));
+        if (BitmapCompressUtils.getBitmapSize(bitmap) > 4500000){
             return pieces;
         }
         int width = bitmap.getWidth();
@@ -957,7 +969,8 @@ public class HomeAudioDetailActivity extends BaseActivity implements View.OnClic
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-
+                frameLayout.setVisibility(View.GONE);
+                album_view.setVisibility(View.VISIBLE);
             }
             if (msg.what == 2) {
                 if (seconds > 3000 && seconds % 3000 == 0) {

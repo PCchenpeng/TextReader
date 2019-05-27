@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dace.textreader.R;
+import com.dace.textreader.util.PreferencesUtil;
 import com.dace.textreader.util.StatusBarUtil;
 
 import org.json.JSONException;
@@ -121,20 +122,21 @@ public class BoughtLessonActivity extends BaseActivity {
     }
 
     private void initData() {
-        if (isMemberContent) {
-            if (activated){
-                webView.loadUrl("file:///android_asset/html/studyCardClass.html" +
-                        "?studentId=" + NewMainActivity.STUDENT_ID +
-                        "&cardId=" + cardId);
-            } else {
-                webView.loadUrl("file:///android_asset/html/studyCardClass1.html" +
-                        "?studentId=" + NewMainActivity.STUDENT_ID +
-                        "&cardId=" + cardId);
-            }
-        } else {
-            webView.loadUrl("file:///android_asset/html/boughtPytheMicroClass.html" +
-                    "?studentId=" + NewMainActivity.STUDENT_ID);
-        }
+//        if (isMemberContent) {
+//            if (activated){
+//                webView.loadUrl("file:///android_asset/html/studyCardClass.html" +
+//                        "?studentId=" + NewMainActivity.STUDENT_ID +
+//                        "&cardId=" + cardId);
+//            } else {
+//                webView.loadUrl("file:///android_asset/html/studyCardClass1.html" +
+//                        "?studentId=" + NewMainActivity.STUDENT_ID +
+//                        "&cardId=" + cardId);
+//            }
+//        } else {
+//            webView.loadUrl("file:///android_asset/html/boughtPytheMicroClass.html" +
+//                    "?studentId=" + NewMainActivity.STUDENT_ID);
+//        }
+        webView.loadUrl(PreferencesUtil.getData(BoughtLessonActivity.this,"course_bought_url","https://web.pythe.cn/microClasshtml5/boughtPytheMicroClass.html") + "?studentId=" + NewMainActivity.STUDENT_ID);
     }
 
     private void initWebSettings() {
